@@ -1,0 +1,717 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/Assests/Font/Montserrat-Black.ttf",
+      "sha1": "ad9c434705a52d90ac5a770e591c2325fb48c2dc"
+    },
+    {
+      "path": "src/Assests/Font/Montserrat-BlackItalic.ttf",
+      "sha1": "88f974aa3e6d5e3d1fd563345be9e513809bb143"
+    },
+    {
+      "path": "src/Assests/Font/Montserrat-Bold.ttf",
+      "sha1": "98c66622226025f539568865af96df5175e2979c"
+    },
+    {
+      "path": "src/Assests/Font/Montserrat-BoldItalic.ttf",
+      "sha1": "516e381cb5824e976db5cfb69d630a24f27a9ba6"
+    },
+    {
+      "path": "src/Assests/Font/Montserrat-ExtraBold.ttf",
+      "sha1": "1e3298f51b4766e2810a4a2c09a2c75c323d5e7e"
+    },
+    {
+      "path": "src/Assests/Font/Montserrat-ExtraBoldItalic.ttf",
+      "sha1": "bf0e072950871eeb704e74f49605847db7ff3a02"
+    },
+    {
+      "path": "src/Assests/Font/Montserrat-ExtraLight.ttf",
+      "sha1": "9437f01c62e4f0c1d42b5cf3e244997aafbea70d"
+    },
+    {
+      "path": "src/Assests/Font/Montserrat-ExtraLightItalic.ttf",
+      "sha1": "6dd4c350b2549a902852ed91cbc2ed87e98f60d7"
+    },
+    {
+      "path": "src/Assests/Font/Montserrat-Italic.ttf",
+      "sha1": "9b14c390a8b40d941f62a971cb6d7d152e59154a"
+    },
+    {
+      "path": "src/Assests/Font/Montserrat-Light.ttf",
+      "sha1": "9dfbddad5025d8d224b4939e54c1a4ac8ac6015b"
+    },
+    {
+      "path": "src/Assests/Font/Montserrat-LightItalic.ttf",
+      "sha1": "c7b6a26d9e3e165d3a079c669f374a4a7e01c0a7"
+    },
+    {
+      "path": "src/Assests/Font/Montserrat-Medium.ttf",
+      "sha1": "25c429296b9d6eb242cba92d1ee7fae484b019cb"
+    },
+    {
+      "path": "src/Assests/Font/Montserrat-MediumItalic.ttf",
+      "sha1": "0670c90adbabf7dd8a9e4428dced5e0f2a54e97d"
+    },
+    {
+      "path": "src/Assests/Font/Montserrat-Regular.ttf",
+      "sha1": "bb895d19b8a1fbe1c57fc89cac5da82fdc8fdef4"
+    },
+    {
+      "path": "src/Assests/Font/Montserrat-SemiBold.ttf",
+      "sha1": "0754a3a23d8d68b0f0558df3109e0df86e968f24"
+    },
+    {
+      "path": "src/Assests/Font/Montserrat-SemiBoldItalic.ttf",
+      "sha1": "ca6ae187de8e41e8c82d282202d5ed98173a5176"
+    },
+    {
+      "path": "src/Assests/Font/Montserrat-Thin.ttf",
+      "sha1": "7061ef5f2b5aef62263dbe728114ccd25014aa4e"
+    },
+    {
+      "path": "src/Assests/Font/Montserrat-ThinItalic.ttf",
+      "sha1": "9455ac7542b843c9bf96db3dd59302d7da39fa3c"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt-Black.ttf",
+      "sha1": "b5920e7324121e9dc2a4d65cbedac76a07cc0e82"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt-BlackItalic.ttf",
+      "sha1": "386c6255a3a76d322f98965eaff7c7ffa6493699"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt-Bold.ttf",
+      "sha1": "1a43f6ab652eb0c71cd0d748bd8d4bf360903fe1"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt-BoldItalic.ttf",
+      "sha1": "10b9a1894ae213dd9bf6a744cf91deb035dfe79b"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt-ExtraBold.ttf",
+      "sha1": "3571966fb4ccf35b881822e8a0a9fa024c5c6ace"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt-ExtraBoldItalic.ttf",
+      "sha1": "c4762fd60b8b08779269b7b7efbf2200ba1b954b"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt-ExtraLight.ttf",
+      "sha1": "f78df45b995c53a52192cce9e2e920fcfaf8247a"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt-ExtraLightItalic.ttf",
+      "sha1": "27144eebad7f14d7975bebd1fb0619507a62607b"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt-Italic.ttf",
+      "sha1": "00c1cc40c8dba5d484702ad17f83d525b33955d3"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt-Light.ttf",
+      "sha1": "32f3cecd9b6c0f67c1a6bec6886e2b8f160617f1"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt-LightItalic.ttf",
+      "sha1": "eee5a118a0b65c300be14f18bae8bff89f32679b"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt-Medium.ttf",
+      "sha1": "947e59a8d3586d17a5f8698ae2f371e580411cdb"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt-MediumItalic.ttf",
+      "sha1": "afe10ea2839b540ba3b2bf5ae2426f9c5d9978f2"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt-Regular.ttf",
+      "sha1": "c4bc36919dfa9ee086b71d7b2796fafc22249b97"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt-SemiBold.ttf",
+      "sha1": "0ec94b38226fe45cb85bad4cb5f884512bae6eb7"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt-SemiBoldItalic.ttf",
+      "sha1": "16890643d41d8cb28d9b3df3ae584dacb102e188"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Condensed-Black.ttf",
+      "sha1": "e8af8776b659eefb5f6af99a1c58ab5653de6a1e"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Condensed-BlackItalic.ttf",
+      "sha1": "f0740f32c68bc93129da8d910b4e3923ffa02e98"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Condensed-Bold.ttf",
+      "sha1": "3df97499b1d03c6923e457463dac804c6f44af4f"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Condensed-BoldItalic.ttf",
+      "sha1": "46fe7ad13f68b3ee173a536f0e7ea29b4e2749b0"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Condensed-ExtraBold.ttf",
+      "sha1": "52e68c0670520d4c18564ed6a769e63baab6b2a8"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Condensed-ExtraBoldItalic.ttf",
+      "sha1": "c3ba59c5272b4f680418d52a8a2fea538993fd8d"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Condensed-ExtraLight.ttf",
+      "sha1": "9b84b47763bea95f1e5394fe193cb7d27e8cf947"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Condensed-ExtraLightItalic.ttf",
+      "sha1": "b3c63660ce2a0eab457992cd831858547f80c8bd"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Condensed-Italic.ttf",
+      "sha1": "661c244625dd408868e45733b92c5974269fd490"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Condensed-Light.ttf",
+      "sha1": "e855e4f19c326f0d08e79b96037a0796934e92ba"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Condensed-LightItalic.ttf",
+      "sha1": "215af7741a10c2346f34fde371ed7c35b5124c11"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Condensed-Medium.ttf",
+      "sha1": "0ac9a3abfd7c83bed591f5237cd56b2241d0b931"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Condensed-MediumItalic.ttf",
+      "sha1": "aa14fd053e1f84842e7cbfd92b620614724d5b4b"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Condensed-Regular.ttf",
+      "sha1": "48cf974a26a90c4f911326db634fe2a59271db33"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Condensed-SemiBold.ttf",
+      "sha1": "f5bb2526b0a55f0b66d3be7160fb79b8ea53ea68"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Condensed-SemiBoldItalic.ttf",
+      "sha1": "bbe8be85a6d118cca43452f264c6c13e5c776b92"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Expanded-Black.ttf",
+      "sha1": "b7b61732b16835960b5a0281669c218a185a7e1d"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Expanded-BlackItalic.ttf",
+      "sha1": "8f13e2e0e9404b53d9a82957b68bbb9feb597775"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Expanded-Bold.ttf",
+      "sha1": "e94e34e98baa0aac2ea876dc09075cb726d0063a"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Expanded-BoldItalic.ttf",
+      "sha1": "b2f62658e9ef86f1fc23dcfb9d493505f2240844"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Expanded-ExtraBold.ttf",
+      "sha1": "9c5f5aceed06dddd309a0c58dbcbc3892dd16cae"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Expanded-ExtraBoldItalic.ttf",
+      "sha1": "3a09687cd292189e5b4ea0077d51b6a8d569437f"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Expanded-ExtraLight.ttf",
+      "sha1": "ab46df0ba7bb159359cc004a3f4fb9b0d85b1809"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Expanded-ExtraLightItalic.ttf",
+      "sha1": "15b9626a098e4393934feee4971763c2107de31d"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Expanded-Italic.ttf",
+      "sha1": "18340551e9860320923fd706d1f50228512f9788"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Expanded-Light.ttf",
+      "sha1": "2858351f77228cbf9664a622fb21e6f72e44d764"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Expanded-LightItalic.ttf",
+      "sha1": "87d2cff99f2a310afe7835781c948610bd20399d"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Expanded-Medium.ttf",
+      "sha1": "71ebbc71eb1b8c54602f5e2ca841f1e7f729cd98"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Expanded-MediumItalic.ttf",
+      "sha1": "be8d93f26d01a29cbee72c47d707d4604e13b849"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Expanded-Regular.ttf",
+      "sha1": "74fdfe1b15962c059360e9b2fa9331cf1f1ea5c8"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Expanded-SemiBold.ttf",
+      "sha1": "a70e9a5169be6ebb023b15e5760ac40e3cda5097"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_Expanded-SemiBoldItalic.ttf",
+      "sha1": "c0284dbaeecc578a523524b2d40414e2f4511488"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiCondensed-Black.ttf",
+      "sha1": "e4583b393fb81c34f6a79c190ddc28ccd79c3169"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiCondensed-BlackItalic.ttf",
+      "sha1": "3710d2e613ea1fe9658cafa886d70d46b06090a7"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiCondensed-Bold.ttf",
+      "sha1": "94e4166bafb83d7143af35a1cba92e8e593a765e"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiCondensed-BoldItalic.ttf",
+      "sha1": "35c34f91c93073595a9e56649e9e8b2d09c8bb9b"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiCondensed-ExtraBold.ttf",
+      "sha1": "7a63c35dbea8dbefed62f69e8fabdff961855358"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiCondensed-ExtraBoldItalic.ttf",
+      "sha1": "a943798be6e7bac956bd2e8188a6753cb2d3b231"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiCondensed-ExtraLight.ttf",
+      "sha1": "3523b6643ee12ac73e1b5cc8c35403e82e271f89"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiCondensed-ExtraLightItalic.ttf",
+      "sha1": "09ecd3217f82a0c498e00ece9bb8f56ead48f098"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiCondensed-Italic.ttf",
+      "sha1": "1c3b6e6a49c6935d42896a51ca612bb6fc0dcb6d"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiCondensed-Light.ttf",
+      "sha1": "de91382ef79e6ec5af688e97094d30fa9364de34"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiCondensed-LightItalic.ttf",
+      "sha1": "47aa4a087365e7574fc5c67861d399705a9480d7"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiCondensed-Medium.ttf",
+      "sha1": "f84e80b98c256ebfa60ce39b575319f17fe349f0"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiCondensed-MediumItalic.ttf",
+      "sha1": "77d0801fcb0df62357f44a9c48524534a7c094ab"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiCondensed-Regular.ttf",
+      "sha1": "890664255af815ec9bbccba3928bbc571828ce22"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiCondensed-SemiBold.ttf",
+      "sha1": "ef9605f889038bb47ad57b0712dc5215d6cc868a"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiCondensed-SemiBoldItalic.ttf",
+      "sha1": "6f4d6529ccef439866c306cd780fd1df4850da27"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiExpanded-Black.ttf",
+      "sha1": "73cadca3661f6e45cc8af1b2d116771cdcce7523"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiExpanded-BlackItalic.ttf",
+      "sha1": "ef1ede68bbc48fed8f26d820670f209ca0c837cb"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiExpanded-Bold.ttf",
+      "sha1": "d2639b1db926cc6599d3698fec6398708cfff4b5"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiExpanded-BoldItalic.ttf",
+      "sha1": "52d4b4b01c3d238b5753456ae98bdf395a28a262"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiExpanded-ExtraBold.ttf",
+      "sha1": "4edc6cd8b662972aceeb7e4096be185b9aa62c58"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiExpanded-ExtraBoldItalic.ttf",
+      "sha1": "aab8d3b65f4ea11618d0205f3380ab8981e53efc"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiExpanded-ExtraLight.ttf",
+      "sha1": "66fcb091898514eb127094b6faed869648d14af8"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiExpanded-ExtraLightItalic.ttf",
+      "sha1": "94f7e38f541d4602d01a4b09dc9dab35288dc3b1"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiExpanded-Italic.ttf",
+      "sha1": "b9e2ea34c936f3d9c2ffedc52c01beb3d3627c31"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiExpanded-Light.ttf",
+      "sha1": "39a2b5499d339485cd32d5345c961a608f1f2d21"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiExpanded-LightItalic.ttf",
+      "sha1": "5fe97ea88fada422f1776693dcc73acbddf8b573"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiExpanded-Medium.ttf",
+      "sha1": "d2f107e4da9b402512e709b80e30944b7ea37b9d"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiExpanded-MediumItalic.ttf",
+      "sha1": "20a2865715f701ccf464e626e04ef7023606498d"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiExpanded-Regular.ttf",
+      "sha1": "d54c1d82bf184694f49264acd7790ae21e8a26fb"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiExpanded-SemiBold.ttf",
+      "sha1": "8c362e4a8e952201a8979a56b349ebc126fde67f"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_10pt_SemiExpanded-SemiBoldItalic.ttf",
+      "sha1": "7f6f6df67e2dc5c0113db2718448be312b55d966"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt-Black.ttf",
+      "sha1": "d62a0308bdb9c00754cc6b1265b70465c7f05e25"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt-BlackItalic.ttf",
+      "sha1": "9190d19cb5d24975ebee8120fad36e83d4aeddd3"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt-Bold.ttf",
+      "sha1": "9bac6650ac507968089985e02ba424a84b27ab12"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt-BoldItalic.ttf",
+      "sha1": "dc3b2321fea566be992a9473879ba55ea13c223d"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt-ExtraBold.ttf",
+      "sha1": "99a4d6de5d5bf8e15d9ddcf857a2ad3e2dfde436"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt-ExtraBoldItalic.ttf",
+      "sha1": "9ca37f036b2240537d36a2ad91cf31b8740b8fd0"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt-ExtraLight.ttf",
+      "sha1": "fb6a9c99110dd77d843d96599cf82f33f693afbc"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt-ExtraLightItalic.ttf",
+      "sha1": "9053ad3bdf77ce1ea3f043306c02b7d9fbb1e94f"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt-Italic.ttf",
+      "sha1": "7aa3206c6c381bdb0de21199040c3241b6d6060a"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt-Light.ttf",
+      "sha1": "794c5e24d84a89ac9796eda2a4ba770f865598fc"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt-LightItalic.ttf",
+      "sha1": "8f11588d00566fffbf6475a7cb05c99273dbe078"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt-Medium.ttf",
+      "sha1": "036f3dbc6e6088809d1b2b7bcb0939988ad07bf8"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt-MediumItalic.ttf",
+      "sha1": "5bfa5f3655e69375791a51c22b916df9a3dc4877"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt-Regular.ttf",
+      "sha1": "466635ba024c43f741e320148a159557fd732ec0"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt-SemiBold.ttf",
+      "sha1": "b711d63c786e5a61d89f8918ab36925274bd591b"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt-SemiBoldItalic.ttf",
+      "sha1": "afe5cddac5786e711d4dacfa6044d8467eb489a6"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Condensed-Black.ttf",
+      "sha1": "5ed5211d998e684f9f2d8c7870f714406564eefa"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Condensed-BlackItalic.ttf",
+      "sha1": "a736dac2df1b95622f7cbdc6dd893d9a4bfcae94"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Condensed-Bold.ttf",
+      "sha1": "c2f6910875ae1fdcb81eb002228dab92fdfa1a40"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Condensed-BoldItalic.ttf",
+      "sha1": "1030eb73001716b1e8f690ddc993876b365f6cac"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Condensed-ExtraBold.ttf",
+      "sha1": "c4bc980f2fb81959b471c9733f82a1166917683b"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Condensed-ExtraBoldItalic.ttf",
+      "sha1": "337eb2397f6af18c06d4c0b09b90f83ac74dcbca"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Condensed-ExtraLight.ttf",
+      "sha1": "10dec06c61eef1b8bedd809ddc394a760339a812"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Condensed-ExtraLightItalic.ttf",
+      "sha1": "cbfc0820a039f7d94986fc5344e903e8b893b0e7"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Condensed-Italic.ttf",
+      "sha1": "6ceb10d8616642567981ee6b7bbdb7a36211e16a"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Condensed-Light.ttf",
+      "sha1": "414864def342adfe16e6127f5bfbabf6405f03e0"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Condensed-LightItalic.ttf",
+      "sha1": "0f4c716c6906c1ac53fb106b307b6cb1a8c1cd4e"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Condensed-Medium.ttf",
+      "sha1": "5bb0109f824c8244c18b291cb53b9fd578f8aa2b"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Condensed-MediumItalic.ttf",
+      "sha1": "86163d26df51d9af27f057453ade28212d4ca6c7"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Condensed-Regular.ttf",
+      "sha1": "098d21c9b81962e438cf90d74e510940288c4a5e"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Condensed-SemiBold.ttf",
+      "sha1": "6d4936386eb587fd99df8fc3eddcd23b3ab15bfe"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Condensed-SemiBoldItalic.ttf",
+      "sha1": "a1630747a2313505beb109fa93c73fcd4fc9a411"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Expanded-Black.ttf",
+      "sha1": "63e457f5f83d8a5a8106c202af0067dcd82072a9"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Expanded-BlackItalic.ttf",
+      "sha1": "5df0c50dbaec79fd9f01df97ee494cddda1e10c5"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Expanded-Bold.ttf",
+      "sha1": "aa6b687a3d1e1de7efa73bda446185b342df091e"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Expanded-BoldItalic.ttf",
+      "sha1": "be2af18dca025577cb596e63f4edf1b087f011c2"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Expanded-ExtraBold.ttf",
+      "sha1": "cdef028ce2cfc3e61316e3dadb7e509021f380c9"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Expanded-ExtraBoldItalic.ttf",
+      "sha1": "a08b8e9cd87a2614cfa6dbf7c161c5966b092c30"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Expanded-ExtraLight.ttf",
+      "sha1": "5b2310aca166007c5ba251d142f1d57a63c65660"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Expanded-ExtraLightItalic.ttf",
+      "sha1": "14971d1a5ec17890601bf676623a5e9b441cad27"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Expanded-Italic.ttf",
+      "sha1": "cd939ded8bbff2576c18f2dbc5c18e5b19226ea9"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Expanded-Light.ttf",
+      "sha1": "9bea11d92edb462c7733e827b3599d28d2ca7706"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Expanded-LightItalic.ttf",
+      "sha1": "747a415b8c11d4d27720e6cd0fac39a6713c57a8"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Expanded-Medium.ttf",
+      "sha1": "a358383a21e57112107027c417ca65abd2b2c089"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Expanded-MediumItalic.ttf",
+      "sha1": "9c699512d812ef9a969058c9e2edd6f6b515e741"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Expanded-Regular.ttf",
+      "sha1": "c7032880ddde6cddbf8fb8fef77a0e483ea72d4e"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Expanded-SemiBold.ttf",
+      "sha1": "44cd6758f02952bb5133556776420da1e7b96bf9"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_Expanded-SemiBoldItalic.ttf",
+      "sha1": "93b5e660da4d4a270d439f0b0629d3f2c295b17f"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiCondensed-Black.ttf",
+      "sha1": "49e0ac00fa6509c06127654e1b56ab9d2d9ddcb6"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiCondensed-BlackItalic.ttf",
+      "sha1": "1307f95507798db50f0663c636c75509ad146910"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiCondensed-Bold.ttf",
+      "sha1": "acbf0e9afff6cf469be39de52207d418749c30b5"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiCondensed-BoldItalic.ttf",
+      "sha1": "936522356b2fa82a67fae50218259e4274634068"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiCondensed-ExtraBold.ttf",
+      "sha1": "1a552a091d34b73d757b43e0066f257f599c04c2"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiCondensed-ExtraBoldItalic.ttf",
+      "sha1": "814d1e5006a23da7168e83c668303fcecbc5a836"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiCondensed-ExtraLight.ttf",
+      "sha1": "c8203ef065ced6558c2d661803656dc447362af4"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiCondensed-ExtraLightItalic.ttf",
+      "sha1": "137e24855d9676d4b10db2293c44329968fc18a3"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiCondensed-Italic.ttf",
+      "sha1": "d71ae1c3c89d09cc8adf828e16588e9ea5bcdf7d"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiCondensed-Light.ttf",
+      "sha1": "ae94a5b2828a1ea6695a8690bb7d841c0c77e223"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiCondensed-LightItalic.ttf",
+      "sha1": "ba614cc8c4a905d78d1cccdcd241ef332ce36e00"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiCondensed-Medium.ttf",
+      "sha1": "44bbb3fb266d7fb1892638748d971a02d81229ef"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiCondensed-MediumItalic.ttf",
+      "sha1": "970e9202ff57fc5ad9967eb7015158d461503e57"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiCondensed-Regular.ttf",
+      "sha1": "b590dab5f8f60592b461cb3f8ea32158049e66ba"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiCondensed-SemiBold.ttf",
+      "sha1": "d5a5603aa40efa4caf9c74d53b19a44bfb0dfc3c"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiCondensed-SemiBoldItalic.ttf",
+      "sha1": "ef1b34f10ed0fccd0b1a6e818f8d518357ab6c43"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiExpanded-Black.ttf",
+      "sha1": "caab22674755457b2249c24871c6ac410285a39b"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiExpanded-BlackItalic.ttf",
+      "sha1": "f9135131d01faa7f257d589523aad3881450ca3c"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiExpanded-Bold.ttf",
+      "sha1": "5372fc1872b40d694fd8a54642c33da69ad55158"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiExpanded-BoldItalic.ttf",
+      "sha1": "13fdd04a48c6565f3b7d4a84c1813f6302ba1f80"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiExpanded-ExtraBold.ttf",
+      "sha1": "665a8192ef57388576cd142de143f89df905c3f5"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiExpanded-ExtraBoldItalic.ttf",
+      "sha1": "f586199c8c63ebd06802f32207f86091a2d2f528"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiExpanded-ExtraLight.ttf",
+      "sha1": "ba4c860fcc073c16523dcdf595902de00aca18c8"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiExpanded-ExtraLightItalic.ttf",
+      "sha1": "8df806e9870f580b5899e2bd09a4a6fc9b2eac4e"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiExpanded-Italic.ttf",
+      "sha1": "78263ffd6c5c87e949eb0cf34528d49aa8258ee2"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiExpanded-Light.ttf",
+      "sha1": "b7c857768576540b01e48b1ed3624d26a0d4fa27"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiExpanded-LightItalic.ttf",
+      "sha1": "e989ed3e2da7dd9c8196e90a3a686c7db00bdd79"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiExpanded-Medium.ttf",
+      "sha1": "76ac65aefd39be0ea0e185fe5ce5e5df5240a93b"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiExpanded-MediumItalic.ttf",
+      "sha1": "4e133d66b8689ab9de4a026aae9a8d6b3db51192"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiExpanded-Regular.ttf",
+      "sha1": "71f3152ef34cda2154f566c7c1cd34f0982de470"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiExpanded-SemiBold.ttf",
+      "sha1": "ba942060d2c751be7b970dbb38056373b733e279"
+    },
+    {
+      "path": "src/Assests/Font/NunitoSans_7pt_SemiExpanded-SemiBoldItalic.ttf",
+      "sha1": "afe2c3f297a02842b292716e84ad79736184b0e2"
+    }
+  ]
+}
