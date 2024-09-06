@@ -3,6 +3,7 @@ import {
   FlatList,
   ImageBackground,
   Modal,
+  Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -10,14 +11,55 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import bgImage from '../../Assests/HeaderImage.png'
 import Upload from '../../Assests/svgs/upload'
 import Add from '../../Assests/svgs/add'
 import CrossIcon from '../../Assests/svgs/cuticon';
+import CustomModal from '../../Components/modal';
+import { useNavigation } from '@react-navigation/native';
+const bgImage = require('../../Assests/HeaderImage.png')
 
-export default function showdata({ route }) {
+export default function showdata({ route }: any) {
   const { data } = route.params;
+  const [ind, setInd] = useState<number>()
   const [openmodal, setOpenmodal] = useState(false)
+  const dataText = [{
+    col: false,
+    title: 'Input'
+  },
+  {
+    col: false,
+    title: 'MCQ’s'
+  },
+  {
+    col: false,
+    title: 'Blank Space'
+  },
+  {
+    col: false,
+    title: 'Program'
+  },
+  ]
+
+  const handleCol = (i: number) => {
+    setInd(i);
+  }
+
+  const navigation = useNavigation();
+  const modalData = () => {
+    return (
+      <View style={style.modalcss}>
+        <CrossIcon style={style.crosscut} onPress={() => { setOpenmodal(false) }} />
+        {dataText?.map((ei, i) => {
+          return (
+            <Pressable key={i} onPress={() => { handleCol(i), navigation.navigate("AddQuestion") }} style={[ind === i ? { backgroundColor: '#FF3856' } : '', style.modalbox]}>
+              <Text style={[style.modalText, ind === i ? { color: '#FFFFFF' } : { color: '#FF3856' }]}>{ei.title}</Text>
+            </Pressable>
+          )
+        })}
+
+      </View>
+    )
+  }
 
   return (
     <SafeAreaView>
@@ -26,18 +68,20 @@ export default function showdata({ route }) {
         source={bgImage}
         resizeMode="cover">
         <View style={style.overlay}>
-          <FlatList
-            data={data}
-            renderItem={({ item }) => (
-              <View style={style.flatviewcss}>
-                <Text style={style.FlatListques}>
-                  Q {item.sn}. {item.question}
-                </Text>
-                <Text style={style.FlatListans}>{item.ans}</Text>
-              </View>
-            )}
-            keyExtractor={item => item.sn}
-          />
+          <View style={style.flatviewcss}>
+            <FlatList
+              data={data}
+              renderItem={({ item }) => (
+                <View>
+                  <Text style={style.FlatListques}>
+                    Q {item.sn}. {item.question}
+                  </Text>
+                  <Text style={style.FlatListans}>{item.ans}</Text>
+                </View>
+              )}
+              keyExtractor={item => item.sn}
+            />
+          </View>
           {
             !openmodal && (
               <TouchableOpacity onPress={() => { setOpenmodal(true) }} style={style.addQues}>
@@ -46,29 +90,15 @@ export default function showdata({ route }) {
               </TouchableOpacity>
             )
           }
-
-
           <TouchableOpacity
             activeOpacity={0.8}
             style={style.uploadcss}>
-            <Upload style={style.uploadIcon} />
+            <Upload />
             <Text style={style.uploadText}>Upload</Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>
-      <Modal
-        visible={openmodal}
-        animationType='slide'
-        transparent={true}>
-        <View style={style.modalcss}>
-          <CrossIcon style={style.crosscut} onPress={() => { setOpenmodal(false) }} />
-          <Text style={style.modalText}>Input</Text>
-          <Text style={style.modalText}>MCQ’s</Text>
-          <Text style={style.modalText}>Blank Space</Text>
-          <Text style={style.modalText}>Program</Text>
-        </View>
-
-      </Modal>
+      <CustomModal title='' content={modalData()} visible={openmodal} onClose={() => { setOpenmodal(false); }} />
     </SafeAreaView >
 
 
@@ -77,32 +107,21 @@ export default function showdata({ route }) {
 const style = StyleSheet.create({
   flatviewcss: {
     flex: 1,
-    width: 380,
-    height: 104,
-    top: 5,
-    left: 3,
-    marginBottom: 8,
+    marginTop: 45,
+    marginLeft: 23,
+    marginRight: 23,
   },
   FlatListques: {
     color: '#FFFFFF',
-    width: 366,
-    height: 22,
-    top: 45,
-    left: 23,
-    fontWeight: '600',
+    fontFamily: 'Montserrat-SemiBold',
     fontSize: 17,
-    lineHeight: 22,
-
+    marginBottom: 15,
   },
   FlatListans: {
+    fontFamily: 'Montserrat-SemiBold',
     color: '#06D001',
-    width: 369,
-    height: 66,
-    top: 58,
-    left: 34,
-    fontWeight: '600',
     fontSize: 17,
-    lineHeight: 22
+    marginBottom: 22,
   },
   backgroundImage: {
     height: '100%',
@@ -117,24 +136,17 @@ const style = StyleSheet.create({
     height: 71,
     backgroundColor: '#FF3856',
     borderTopRightRadius: 25,
-    flexDirection: 'row'
-  },
-  uploadIcon: {
-    width: 30,
-    height: 32,
-    top: 18,
-    left: 144,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    columnGap: 12,
   },
   uploadText: {
-    fontWeight: '600',
+    fontFamily: 'Montserrat-SemiBold',
     color: '#FFFFFF',
     fontSize: 20,
     lineHeight: 22,
-    textAlign: 'center',
-    left: 150,
-    top: 24,
-    height: 22,
-    width: 74,
+
   },
   addQues: {
     width: 31,
@@ -153,48 +165,44 @@ const style = StyleSheet.create({
   },
   addQuesText: {
     width: 90,
-    height: 22,
-    top: 45,
+    top: 50,
     color: "#D9D9D9",
-    left: -29,
+    marginLeft: -31,
     fontWeight: '600',
     fontSize: 12,
-    lineHeight: 22,
     textAlign: 'center',
-    transform: [{ rotate: '90deg' }],
+    transform: [{ rotate: '270deg' }],
   },
   modalcss: {
-    width: 430,
-    height: 467,
-    top: 402,
+    marginTop: 402,
     backgroundColor: 'black',
     borderTopLeftRadius: 55,
     borderTopRightRadius: 55,
     borderWidth: 4,
-
   },
-  modalText: {
-    textAlign: 'center',
-    color: '#FF3856',
+  modalbox: {
     borderWidth: 3,
     borderColor: '#FF3856',
+    borderRadius: 15,
     width: 369,
     height: 67,
-    top: 30,
-    left: 30,
-    borderRadius: 15,
-    fontWeight: '600',
-    fontSize: 20,
     marginTop: 15,
     lineHeight: 22,
-    paddingTop: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    paddingTop: 16,
     marginBottom: 15,
   },
+  modalText: {
+    fontFamily: 'Montserrat-SemiBold',
+    textAlign: 'center',
+    fontWeight: '600',
+    fontSize: 20,
+
+  },
   crosscut: {
-    width: 369,
-    height: 20,
-    top: 22,
-    left: 370,
+    marginTop: 22,
+    marginLeft: 370,
     marginBottom: 10
   }
 });

@@ -1,14 +1,19 @@
-import { ImageBackground, StyleSheet, Text, TextInput, View } from "react-native";
+import { ImageBackground, KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import bgImage from '../../Assests/HeaderImage.png'
 import Logo from '../../Assests/svgs/logo'
 import { useState } from "react";
-import Arrow from '../../Assests/svgs/arrow'
+import Arrow from '../../Assests/svgs/arrow';
+import { useNavigation } from "@react-navigation/native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { rh } from "../../Helpers/Responsivedimention";
+const bgImage = require('../../Assests/HeaderImage.png')
+
 
 export default function LoginUserPage() {
     const [UserId, setUserId] = useState("")
     const [name, setName] = useState("")
+    const navigation = useNavigation();
     return (
         <View>
             <StatusBar backgroundColor={'transparent'} translucent={true} />
@@ -17,26 +22,33 @@ export default function LoginUserPage() {
                 source={bgImage}
                 resizeMode="cover">
                 <View style={styles.container}>
-                    <View style={styles.logoCss}>
-                        <Logo />
-                    </View>
+                    <KeyboardAwareScrollView>
+                        <View style={styles.logoCss}>
+                            <Logo />
+                        </View>
+                        <View style={styles.textShowCss}>
+                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>Welcome at</Text>
+                            <Text style={[styles.textShowCss, { color: '#FF3856' }]}>HangingPanda !</Text>
+                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>We believe in your
+                                talent.</Text>
+                        </View>
+                        <Text style={[styles.discriptionText, { color: '#FFFFFF' }]}>Pls Enter your Details here to enter in your interview process</Text>
+                        <View style={styles.viewTextInp}>
+                            <TextInput keyboardType="numeric" onChangeText={setUserId} value={UserId} style={styles.textQues} placeholder="Interview Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
+                            <TextInput onChangeText={setName} value={name} style={styles.textQues} placeholder="Your Name" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
+                            <TouchableOpacity
+                                activeOpacity={0.6}
+                                onPress={
+                                    () => { navigation.navigate('UserHome') }
+                                }>
+                                <Arrow style={styles.arrowCss} />
+                            </TouchableOpacity>
+                        </View>
 
-                    <View style={styles.textShowCss}>
-                        <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>Welcome at</Text>
-                        <Text style={[styles.textShowCss, { color: '#FF3856' }]}>HangingPanda !</Text>
-                        <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>We believe in your
-                            talent.</Text>
-                    </View>
-                    <Text style={[styles.discriptionText, { color: '#FFFFFF' }]}>Pls Enter your Details here to enter in your interview process</Text>
-                    <View style={styles.viewTextInp}>
-                        <TextInput onChangeText={setUserId} value={UserId} style={styles.textQues} placeholder="                 Interview Id" placeholderTextColor="#FF3856"></TextInput>
-                        <TextInput onChangeText={setName} value={name} style={styles.textQues} placeholder="                 Your Name" placeholderTextColor="#FF3856"></TextInput>
-                        <Arrow style={styles.arrowCss} />
-                    </View>
-
+                    </KeyboardAwareScrollView>
                 </View>
-            </ImageBackground>
-        </View>
+            </ImageBackground >
+        </View >
     )
 }
 const styles = StyleSheet.create({
@@ -55,13 +67,13 @@ const styles = StyleSheet.create({
         borderColor: '#FF3856',
         width: '80%',
         margin: 'auto',
-        height: 67,
+        height: rh(7),
         marginTop: 30,
         borderRadius: 15,
         fontSize: 18,
         paddingTop: 20,
         paddingBottom: 20,
-        paddingStart: 13,
+        textAlign: 'center'
     },
     logoCss: {
         justifyContent: 'center',
