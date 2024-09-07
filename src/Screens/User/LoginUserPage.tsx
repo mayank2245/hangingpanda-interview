@@ -6,7 +6,7 @@ import { useState } from "react";
 import Arrow from '../../Assests/svgs/arrow';
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { rh } from "../../Helpers/Responsivedimention";
+import { rf, rh, rw } from "../../Helpers/Responsivedimention";
 const bgImage = require('../../Assests/HeaderImage.png')
 
 
@@ -22,7 +22,10 @@ export default function LoginUserPage() {
                 source={bgImage}
                 resizeMode="cover">
                 <View style={styles.container}>
-                    <KeyboardAwareScrollView>
+                    <KeyboardAwareScrollView
+                        enableOnAndroid={true}
+                        extraScrollHeight={189}
+                    >
                         <View style={styles.logoCss}>
                             <Logo />
                         </View>
@@ -68,24 +71,24 @@ const styles = StyleSheet.create({
         width: '80%',
         margin: 'auto',
         height: rh(7),
-        marginTop: 30,
+        marginTop: rh(2.4),
         borderRadius: 15,
-        fontSize: 18,
-        paddingTop: 20,
-        paddingBottom: 20,
+        fontSize: rf(2.2),
+        paddingTop: rh(1.8),
+        paddingBottom: rh(2.6),
         textAlign: 'center'
     },
     logoCss: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 98,
+        marginTop: rh(10.8),
     },
     textShowCss: {
         fontFamily: 'Montserrat-Bold',
-        fontSize: 32,
-        paddingLeft: 18,
-        lineHeight: 36,
-        paddingTop: 20
+        fontSize: rf(3.5),
+        paddingLeft: rw(4),
+        paddingTop: rh(1.7),
+        lineHeight: rh(3.4)
     },
     viewTextInp: {
 
@@ -93,17 +96,15 @@ const styles = StyleSheet.create({
     arrowCss: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 30,
-        marginLeft: 160,
+        marginTop: rh(4),
+        marginLeft: rh(17.5),
     },
     discriptionText: {
         fontFamily: 'Montserrat-Bold',
-        fontSize: 15,
-        paddingLeft: 38,
-        paddingRight: 39,
-        lineHeight: 22,
-        marginTop: 40,
-        marginBottom: 20
+        fontSize: rf(1.8),
+        paddingHorizontal: rw(8.6),
+        marginTop: rh(6),
+        marginBottom: rh(3)
     }
 
 })

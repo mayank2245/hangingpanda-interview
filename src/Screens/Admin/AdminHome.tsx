@@ -22,6 +22,7 @@ import { csvToJson } from '../../Helpers/csvToJson';
 import { useNavigation } from '@react-navigation/native';
 import CrossIcon from '../../Assests/svgs/cuticon';
 import LogoIcon from '../../Assests/svgs/logo';
+import { rf, rh, rw } from '../../Helpers/Responsivedimention';
 
 const bgImage = require('../../Assests/HeaderImage.png');
 
@@ -80,7 +81,7 @@ function App(): React.JSX.Element {
                       <CrossIcon />
                     </Pressable>
                     <IconCsv
-                      style={styles.uploadPromptIcon}
+                      style={styles.uploadPromptIcon2}
                       name="file-csv"
                       size={36}
                       color="#125B9A"
@@ -108,7 +109,6 @@ function App(): React.JSX.Element {
                 )}
               </View>
             </Pressable>
-
             {parsedData && (
               <TouchableOpacity
                 activeOpacity={0.8}
@@ -117,12 +117,12 @@ function App(): React.JSX.Element {
                   navigation.navigate('ShowData', { data: parsedData });
                 }}>
                 <Text style={styles.nextButtonText}>Next</Text>
-                <IconArrow name="arrowright" size={25} color="white" />
+                <IconArrow name="arrowright" size={24} color="white" />
               </TouchableOpacity>
             )}
 
             <LogoIcon style={styles.logoImage} />
-            <Text style={styles.logoText}>HANGING PANDA PRODUCTS</Text>
+            <Text style={[styles.logoText]}>HANGING PANDA PRODUCTS</Text>
           </ScrollView>
         </View>
       </ImageBackground>
@@ -138,96 +138,95 @@ const styles = StyleSheet.create({
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
     opacity: 0.8,
-    height: 943,
+    height: rh(100),
   },
   filePickerContainer: {
-    margin: 15,
-    top: 98,
+    marginTop: rh(13),
     borderRadius: 19,
-    paddingBottom: 15,
-    height: 200,
-    width: 384,
+    paddingBottom: rh(4),
+    height: rh(21.8),
+    width: "90%",
+    margin: 'auto',
     backgroundColor: '#D9D9D9',
-    opacity: 0.8,
   },
   fileInfoContainer: {
     borderRadius: 19,
     borderWidth: 2.5,
-    height: 200,
-    width: 384,
-
+    height: rh(21.8),
+    width: '100%',
+    margin: 'auto',
     borderStyle: 'dashed',
     borderColor: '#125B9A',
   },
   removeFileButton: {
     position: 'absolute',
-    marginTop: 8,
-    marginLeft: 340
+    marginTop: rh(1.6),
+    marginLeft: rw(81)
   },
   fileNameText: {
+    fontFamily: 'NunitoSans_7pt-SemiBold',
     color: '#125B9A',
-    fontSize: 18,
-    lineHeight: 22,
-    fontWeight: '600',
+    fontSize: rf(2),
     textAlign: 'center',
-    top: 55,
+    marginTop: rh(4),
   },
   uploadPromptIcon: {
-    top: 36,
-    left: 165,
+    marginTop: rh(4),
+    marginLeft: rw(38),
+  },
+  uploadPromptIcon2: {
+    marginTop: rh(4),
+    marginLeft: rw(40),
   },
   uploadPromptTitle: {
-    fontFamily: 'NunitoSans_7pt_Expanded-SemiBold',
-    fontSize: 18,
+    fontFamily: 'NunitoSans_7pt-SemiBold',
+    fontSize: rf(2),
     textAlign: 'center',
     color: '#FF575B',
-    top: 55,
+    marginTop: rh(1),
   },
   uploadPromptTitle2: {
-    fontFamily: 'NunitoSans_7pt_Expanded-SemiBold',
-    fontSize: 16,
-    lineHeight: 22,
+    fontFamily: 'NunitoSans_7pt-SemiBold',
+    fontSize: rf(1.8),
     textAlign: 'center',
     color: '#125B9A',
-    top: 60,
+    marginTop: rh(0.4),
   },
   nextButton: {
-    marginTop: 20,
     backgroundColor: '#FF3856',
     borderRadius: 10,
-    height: 40,
-    width: 140,
-    left: 143,
-    top: 94,
+    height: rh(4.5),
+    width: rw(29),
     justifyContent: 'center',
     gap: 8,
-    paddingTop: 8,
+    paddingHorizontal: rh(3),
+    paddingTop: rh(1),
     flexDirection: 'row',
+    marginTop: rh(4),
+    marginLeft: rw(34)
   },
   nextButtonText: {
-    fontFamily: 'NunitoSans_7pt_Expanded-SemiBold',
+    fontFamily: 'NunitoSans_7pt-SemiBold',
     color: 'white',
-    fontSize: 17,
-    fontWeight: '600',
+    fontSize: rf(2),
   },
   logoImage: {
     position: 'absolute',
-    top: 590,
-    width: 129,
-    height: 129,
-    left: 18,
+    marginTop: rh(63),
+    width: rw(3),
+    height: rh(4),
+    marginLeft: rw(4)
   },
   logoText: {
+    fontFamily: 'NunitoSans_7pt-SemiBold',
     position: 'absolute',
-    fontWeight: '600',
-    opacity: 0.8,
+    opacity: 0.7,
     color: '#D9D9D9',
-    fontSize: 40,
-    lineHeight: 40,
-    width: 243,
-    height: 111,
-    top: 730,
-    left: 18,
+    fontSize: rf(4.4),
+    height: rh(18),
+    width: rw(55),
+    marginTop: rh(78),
+    marginLeft: rw(5),
   },
 });
 

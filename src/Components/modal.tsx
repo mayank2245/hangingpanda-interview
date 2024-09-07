@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Modal, View, Text, StyleSheet } from 'react-native';
+import { rf, rw } from '../Helpers/Responsivedimention';
 
 interface CustomModalProps {
     visible: boolean;
@@ -12,14 +13,14 @@ const CustomModal: React.FC<CustomModalProps> = ({ visible, onClose, content }) 
     return (
         <Modal
             transparent={true}
+            statusBarTranslucent={true}
             visible={visible}
             animationType="slide"
             onRequestClose={onClose}
         >
+
             <View style={styles.modalOverlay}>
-                <View style={styles.modalContainer}>
-                    <Text style={[styles.modalContent,]}>{content}</Text>
-                </View>
+                <View style={{ zIndex: 10, backgroundColor: 'black', borderTopLeftRadius: 32, borderTopRightRadius: 32 }}>{content}</View>
             </View>
         </Modal>
     );
@@ -29,23 +30,17 @@ const styles = StyleSheet.create({
     modalOverlay: {
         flex: 1,
         width: '100%',
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        width: '80%',
-        borderRadius: 10,
-        shadowColor: '#000',
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
+        backgroundColor: 'white',
+        opacity: 0.8,
+        zIndex: 0,
+        justifyContent: 'flex-end'
     },
     modalTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 10,
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: rf(2),
     },
     modalContent: {
-        fontSize: 16,
+        fontSize: rf(2),
     },
 });
 
