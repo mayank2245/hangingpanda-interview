@@ -1,26 +1,23 @@
 import { useState } from "react";
 import { KeyboardAvoidingView, Platform, Pressable, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 export default function Home() {
     const [answer, setAnswer] = useState("")
-    console.log(answer)
     const handlesubmit = () => {
         console.log(answer)
     }
     return (
         <View style={styles.safearea}>
-            <KeyboardAvoidingView style={styles.keybordcss}
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-                keyboardVerticalOffset={0}>
-
-                <StatusBar
-                    backgroundColor="transparent"
-                    translucent={true}
-                />
-                <Text style={styles.quescss}>Q 1. What is a lambda function in Python?</Text>
-                <TextInput multiline style={styles.anscss} value={answer} onChange={(text: string) => setAnswer(text)} placeholder="Please Enter your answer..." placeholderTextColor="#a8acb2" />
+            <StatusBar
+                backgroundColor="transparent"
+                translucent={true}
+            />
+            <Text style={styles.quescss}>Q 1. What is a lambda function in Python?</Text>
+            <KeyboardAwareScrollView style={{ paddingBottom: 120 }}>
+                <TextInput multiline style={styles.anscss} value={answer} onChange={setAnswer} placeholder="Please Enter your answer..." placeholderTextColor="#a8acb2" />
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={styles.touchable}
@@ -28,9 +25,7 @@ export default function Home() {
                 >
                     <Text style={styles.submit}> Submit</Text>
                 </TouchableOpacity>
-
-
-            </KeyboardAvoidingView>
+            </KeyboardAwareScrollView>
         </View>
     )
 }
@@ -40,54 +35,51 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'black',
         height: '100%',
-        width: '100%'
+        width: '100%',
+        paddingBottom: 29,
     },
     quescss: {
-        fontFamily: 'Montserrat',
+        fontFamily: 'Montserrat-SemiBold',
         color: '#FFFFFF',
-        width: 366,
-        height: 22,
-        top: 45,
-        left: 23,
+        width: '90%',
+        marginTop: 58,
+        marginBottom: 20,
         fontSize: 17,
-        lineHeight: 22,
-        textAlign: 'center'
+        marginLeft: 20,
+        marginRight: 20,
     },
     anscss: {
         textAlignVertical: 'top',
+        fontFamily: 'Montserrat-SemiBold',
         paddingTop: 18,
         paddingLeft: 9,
         paddingRight: 12,
         fontSize: 18,
         color: '#FFFFFF',
-        width: 384,
-        height: 691,
-        top: 80,
-        left: 18,
+        width: '90%',
+        height: 659,
         borderRadius: 15,
         borderWidth: 4,
-        borderColor: "#FF3856"
+        borderColor: "#FF3856",
+        marginTop: 18,
+        marginLeft: 19
     },
     keybordcss: {
         flex: 1,
     },
     touchable: {
         backgroundColor: "#FF3856",
-        width: 394,
+        width: 374,
         height: 56,
-        top: 99,
-        left: 8,
+        marginTop: 18,
+        marginLeft: 19,
         borderRadius: 10,
-        borderWidth: 4,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     submit: {
         color: '#FFFFFF',
-        fontWeight: '600',
+        fontFamily: 'Montserrat-SemiBold',
         fontSize: 17,
-        lineHeight: 22,
-        width: 64,
-        height: 22,
-        left: 153,
-        top: 12,
     }
 })

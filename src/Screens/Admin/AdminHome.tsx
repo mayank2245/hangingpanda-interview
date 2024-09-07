@@ -19,10 +19,11 @@ import Icon from 'react-native-vector-icons/Feather';
 import IconCsv from 'react-native-vector-icons/FontAwesome5';
 import IconArrow from 'react-native-vector-icons/AntDesign';
 import { csvToJson } from '../../Helpers/csvToJson';
-import bgImage from '../../Assests/HeaderImage.png';
 import { useNavigation } from '@react-navigation/native';
 import CrossIcon from '../../Assests/svgs/cuticon';
 import LogoIcon from '../../Assests/svgs/logo';
+
+const bgImage = require('../../Assests/HeaderImage.png');
 
 function App(): React.JSX.Element {
   const [selectedFile, setSelectedFile] = useState<any>(null);
@@ -55,7 +56,6 @@ function App(): React.JSX.Element {
       setFileName(name);
     }
   }, [parsedData]);
-
   return (
     <SafeAreaView>
       <StatusBar
@@ -82,7 +82,7 @@ function App(): React.JSX.Element {
                     <IconCsv
                       style={styles.uploadPromptIcon}
                       name="file-csv"
-                      size={35}
+                      size={36}
                       color="#125B9A"
                     />
                     <Text style={styles.uploadPromptTitle}>{fileName}</Text>
@@ -161,10 +161,8 @@ const styles = StyleSheet.create({
   },
   removeFileButton: {
     position: 'absolute',
-    width: 20,
-    height: 20,
-    left: 350,
-    top: 5,
+    marginTop: 8,
+    marginLeft: 340
   },
   fileNameText: {
     color: '#125B9A',
@@ -175,24 +173,23 @@ const styles = StyleSheet.create({
     top: 55,
   },
   uploadPromptIcon: {
-    top: 38,
+    top: 36,
     left: 165,
   },
   uploadPromptTitle: {
+    fontFamily: 'NunitoSans_7pt_Expanded-SemiBold',
     fontSize: 18,
-    lineHeight: 22,
-    fontWeight: '600',
     textAlign: 'center',
     color: '#FF575B',
     top: 55,
   },
   uploadPromptTitle2: {
+    fontFamily: 'NunitoSans_7pt_Expanded-SemiBold',
     fontSize: 16,
     lineHeight: 22,
-    fontWeight: '600',
     textAlign: 'center',
     color: '#125B9A',
-    top: 65,
+    top: 60,
   },
   nextButton: {
     marginTop: 20,
@@ -208,6 +205,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   nextButtonText: {
+    fontFamily: 'NunitoSans_7pt_Expanded-SemiBold',
     color: 'white',
     fontSize: 17,
     fontWeight: '600',
