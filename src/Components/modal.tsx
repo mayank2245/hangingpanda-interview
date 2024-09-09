@@ -18,9 +18,8 @@ const CustomModal: React.FC<CustomModalProps> = ({ visible, onClose, content }) 
             animationType="slide"
             onRequestClose={onClose}
         >
-
             <View style={styles.modalOverlay}>
-                <View style={{ zIndex: 10, backgroundColor: 'black', borderTopLeftRadius: 32, borderTopRightRadius: 32 }}>{content}</View>
+                <View style={styles.contentcss}>{content}</View>
             </View>
         </Modal>
     );
@@ -42,6 +41,12 @@ const styles = StyleSheet.create({
     modalContent: {
         fontSize: rf(2),
     },
+    contentcss: {
+        zIndex: 10,
+        backgroundColor: 'black',
+        borderTopLeftRadius: 32,
+        borderTopRightRadius: 32
+    }
 });
 
 export default CustomModal;

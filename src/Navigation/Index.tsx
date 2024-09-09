@@ -12,8 +12,8 @@ export default function Index(): React.ReactElement {
   return (
     <NavigationContainer>
       <stack.Navigator
-        initialRouteName="LoginUserPage"
-        // initialRouteName="AdminHome"
+        // initialRouteName="LoginUserPage"
+        initialRouteName="AdminHome"
         screenOptions={{ headerShown: false }}>
         <stack.Screen name="AdminHome" component={AdminHome} />
         <stack.Screen name="ShowData" component={showdata} />

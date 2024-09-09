@@ -8,7 +8,6 @@ import { rf, rh, rw } from "../../Helpers/Responsivedimention";
 export default function Home() {
     const [answer, setAnswer] = useState("")
     const [focusText, setFocusText] = useState(false)
-    console.log(focusText)
     const handlesubmit = () => {
         console.log(answer)
     }

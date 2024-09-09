@@ -52,7 +52,7 @@ export default function AddQuestion() {
                 <CrossIcon style={styles.crosscut} onPress={() => { setOpenmodal(false) }} />
                 {dataText?.map((ei, i) => {
                     return (
-                        <Pressable key={i} onPress={() => { handleCol(i), navigation.navigate("AddQuestion") }} style={[ind === i ? { backgroundColor: '#FF3856' } : '', styles.modalbox]}>
+                        <Pressable key={i} onPress={() => { handleCol(i), navigate.navigate("AddQuestion") }} style={[ind === i ? { backgroundColor: '#FF3856' } : '', styles.modalbox]}>
                             <Text style={[styles.modalText, ind === i ? { color: '#FFFFFF' } : { color: '#FF3856' }]}>{ei.title}</Text>
                         </Pressable>
                     )

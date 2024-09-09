@@ -24,7 +24,7 @@ export default function LoginUserPage() {
                 <View style={styles.container}>
                     <KeyboardAwareScrollView
                         enableOnAndroid={true}
-                        extraScrollHeight={189}
+                        extraScrollHeight={169}
                     >
                         <View style={styles.logoCss}>
                             <Logo />
