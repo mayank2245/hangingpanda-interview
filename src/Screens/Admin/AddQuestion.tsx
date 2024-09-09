@@ -8,6 +8,7 @@ import Add from "../../Assests/svgs/add";
 import CustomModal from "../../Components/modal";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { useNavigation } from "@react-navigation/native";
+import { rf, rh, rw } from "../../Helpers/Responsivedimention";
 
 const bgImage = require('../../Assests/HeaderImage.png');
 
@@ -56,7 +57,6 @@ export default function AddQuestion() {
                         </Pressable>
                     )
                 })}
-
             </View>
         )
     }
@@ -127,35 +127,33 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         borderWidth: 3,
         borderColor: '#FF3856',
-        width: '80%',
+        width: '85%',
         margin: 'auto',
-        height: 67,
-        marginTop: 60,
+        height: rh(7.8),
+        marginTop: rh(8),
         borderRadius: 15,
-        fontSize: 18,
-        paddingStart: 13,
-        paddingEnd: 13,
+        fontSize: rf(2.3),
+        paddingHorizontal: rw(3.6),
     },
     addquescss: {
         justifyContent: 'center',
         alignItems: "center",
-        height: 71,
+        height: rh(8),
         backgroundColor: '#FF3856',
         borderTopRightRadius: 25,
     },
     addquesText: {
         fontFamily: 'Montserrat-Bold',
         color: '#FFFFFF',
-        fontSize: 20,
+        fontSize: rf(2.4),
         textAlign: 'center',
     },
     showques: {
         fontFamily: 'Montserrat-Bold',
         color: 'white',
-        marginTop: 58,
-        marginLeft: 30,
-        fontSize: 17,
-        marginRight: 30,
+        marginTop: rh(6),
+        marginHorizontal: rh(3),
+        fontSize: rf(2.3),
     },
     textAns: {
         borderColor: '#06D001',
@@ -164,12 +162,11 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         width: '85%',
         margin: 'auto',
-        height: 67,
-        marginTop: 30,
+        height: rh(7.6),
+        marginTop: rh(3),
         borderRadius: 15,
-        fontSize: 20,
-        paddingStart: 13,
-        paddingEnd: 13
+        fontSize: rf(2.4),
+        paddingHorizontal: rh(2.4),
     },
     viewsubmit: {
         flexDirection: 'row',
@@ -179,67 +176,64 @@ const styles = StyleSheet.create({
     addanscss: {
         justifyContent: 'center',
         alignItems: "center",
-        height: 71,
+        height: rh(7.6),
         backgroundColor: '#FF3856',
         borderTopRightRadius: 25,
         flexDirection: 'row'
     },
     modalcss: {
-        marginTop: 402,
         backgroundColor: 'black',
-        borderTopLeftRadius: 55,
-        borderTopRightRadius: 55,
-        borderWidth: 4,
+        borderTopLeftRadius: 35,
+        borderTopRightRadius: 35,
+        width: rw(100),
+        margin: "auto",
+        zIndex: 20
+
     },
     modalbox: {
         borderWidth: 3,
         borderColor: '#FF3856',
         borderRadius: 15,
-        width: 369,
-        height: 67,
-        marginTop: 15,
-        lineHeight: 22,
-        marginLeft: 20,
-        marginRight: 20,
-        paddingTop: 16,
-        marginBottom: 15,
+        width: rw(90),
+        margin: 'auto',
+        height: rh(8),
+        marginTop: rh(1.5),
+        paddingTop: rh(2),
+        marginBottom: rh(1),
     },
     modalText: {
         fontFamily: 'Montserrat-SemiBold',
         textAlign: 'center',
-        fontWeight: '600',
-        fontSize: 20,
-
+        fontSize: rf(2.7),
     },
     crosscut: {
-        marginTop: 22,
-        marginLeft: 370,
-        marginBottom: 10
+        marginTop: rh(2.3),
+        marginLeft: rh(41),
+        marginBottom: rh(1)
     },
     addQues: {
         position: 'absolute',
-        elevation: 3,
-        height: 124,
+        elevation: 2,
+        height: rh(14.2),
+        width: rw(7),
         top: 350,
-        marginLeft: 383,
+        marginLeft: rh(41.9),
         borderTopLeftRadius: 10,
         borderBottomLeftRadius: 10,
         backgroundColor: "#FF3856",
     },
     addQuesLogo: {
-        marginTop: 9,
-        marginLeft: 8,
+        marginTop: rh(1.2),
+        marginLeft: rh(0.9),
     },
     addQuesText: {
-        fontFamily: "Montserrat-SemiBold",
-        width: 90,
-        marginTop: 40,
+        fontFamily: 'Montserrat-Bold',
+        width: rw(22),
+        marginTop: rh(4.8),
         color: "#D9D9D9",
-        marginLeft: -31,
-        fontSize: 11,
+        marginLeft: rh(-3.4),
+        fontSize: rf(1.4),
         textAlign: 'center',
         transform: [{ rotate: '270deg' }],
     },
-
-
 })
