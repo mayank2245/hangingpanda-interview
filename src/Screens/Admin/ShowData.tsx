@@ -17,6 +17,7 @@ import { useNavigation } from '@react-navigation/native';
 import { rf, rh, rw } from '../../Helpers/Responsivedimention';
 const bgImage = require('../../Assests/HeaderImage.png')
 
+
 export default function Showdata({ route }: any) {
   const { data } = route.params;
   const { data2 } = route.params;
@@ -49,6 +50,7 @@ export default function Showdata({ route }: any) {
 
   const handleCol = (i: number) => {
     setIndex(i);
+    setOpenmodal(false)
     navigation.navigate("AddQuestion", { data: quesData, Id: i })
   }
 
