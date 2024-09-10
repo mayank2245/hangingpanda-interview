@@ -24,12 +24,12 @@ import CrossIcon from '../../Assests/svgs/cuticon';
 import LogoIcon from '../../Assests/svgs/logo';
 import { rf, rh, rw } from '../../Helpers/Responsivedimention';
 
+
 const bgImage = require('../../Assests/HeaderImage.png');
 
 function App(): React.JSX.Element {
   const [selectedFile, setSelectedFile] = useState<any>(null);
   const [parsedData, setParsedData] = useState<any>(null);
-  const [displayData, setDisplayData] = useState('');
   const [fileName, setFileName] = useState('');
   const navigation = useNavigation();
 
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     marginLeft: rw(4)
   },
   logoText: {
-    fontFamily: 'NunitoSans_7pt-SemiBold',
+    fontFamily: 'Montserrat-SemiBold',
     position: 'absolute',
     opacity: 0.7,
     color: '#D9D9D9',

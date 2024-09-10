@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FlatList,
   ImageBackground,
-  Modal,
   Pressable,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -21,8 +19,16 @@ const bgImage = require('../../Assests/HeaderImage.png')
 
 export default function Showdata({ route }: any) {
   const { data } = route.params;
-  const [ind, setInd] = useState<number>()
+  const { data2 } = route.params;
+  const [quesData, setQuesData] = useState(data)
+  const [index, setIndex] = useState<number>()
   const [openmodal, setOpenmodal] = useState(false)
+  useEffect(() => {
+    if (data2 !== undefined) {
+      setQuesData(data2)
+      setIndex(undefined)
+    }
+  })
   const dataText = [{
     col: false,
     title: 'Input'
@@ -42,7 +48,8 @@ export default function Showdata({ route }: any) {
   ]
 
   const handleCol = (i: number) => {
-    setInd(i);
+    setIndex(i);
+    navigation.navigate("AddQuestion", { data: quesData, Id: i })
   }
 
   const navigation = useNavigation();
@@ -52,8 +59,8 @@ export default function Showdata({ route }: any) {
         <CrossIcon style={style.crosscut} onPress={() => { setOpenmodal(false) }} />
         {dataText?.map((ei, i) => {
           return (
-            <Pressable key={i} onPress={() => { handleCol(i), navigation.navigate("AddQuestion") }} style={[ind === i ? { backgroundColor: '#FF3856' } : '', style.modalbox]}>
-              <Text style={[style.modalText, ind === i ? { color: '#FFFFFF' } : { color: '#FF3856' }]}>{ei.title}</Text>
+            <Pressable key={i} onPress={() => handleCol(i)} style={[index === i ? { backgroundColor: '#FF3856' } : '', style.modalbox]}>
+              <Text style={[style.modalText, index === i ? { color: '#FFFFFF' } : { color: '#FF3856' }]}>{ei.title}</Text>
             </Pressable>
           )
         })}
@@ -70,7 +77,7 @@ export default function Showdata({ route }: any) {
         <View style={style.overlay}>
           <View style={style.flatviewcss}>
             <FlatList
-              data={data}
+              data={quesData}
               renderItem={({ item }) => (
                 <View>
                   <Text style={style.FlatListques}>
@@ -81,15 +88,13 @@ export default function Showdata({ route }: any) {
               )}
               keyExtractor={item => item.sn}
             />
+            <TouchableOpacity onPress={() => { setOpenmodal(true) }} style={style.addQues}>
+              <Add style={style.addQuesLogo} />
+              <Text style={[style.addQuesText]}>Add questions</Text>
+            </TouchableOpacity>
           </View>
-          {
-            !openmodal && (
-              <TouchableOpacity onPress={() => { setOpenmodal(true) }} style={style.addQues}>
-                <Add style={style.addQuesLogo} />
-                <Text style={[style.addQuesText]}>Add questions</Text>
-              </TouchableOpacity>
-            )
-          }
+
+
           <TouchableOpacity
             activeOpacity={0.8}
             style={style.uploadcss}>
@@ -106,6 +111,7 @@ export default function Showdata({ route }: any) {
 }
 const style = StyleSheet.create({
   flatviewcss: {
+    zIndex: 0,
     flex: 1,
     marginTop: rh(6),
     marginLeft: rw(5),
@@ -147,10 +153,13 @@ const style = StyleSheet.create({
     fontSize: rf(2.6),
   },
   addQues: {
+    position: 'absolute',
+    elevation: 2,
+    zIndex: 10,
     width: rw(7),
     height: rh(15),
-    top: -300,
-    left: rw(93),
+    marginTop: 320,
+    marginLeft: rw(88),
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
     backgroundColor: "#FF3856",
