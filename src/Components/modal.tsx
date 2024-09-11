@@ -5,12 +5,10 @@ import { rf, rw } from '../Helpers/Responsivedimention';
 interface CustomModalProps {
     visible: boolean;
     onClose: () => void;
-    title: string;
     content: any;
 }
 
 const CustomModal: React.FC<CustomModalProps> = ({ visible, onClose, content }) => {
-    console.log("first")
     return (
         <Modal
             transparent={true}
@@ -30,8 +28,7 @@ const styles = StyleSheet.create({
     modalOverlay: {
         flex: 1,
         width: '100%',
-        backgroundColor: 'white',
-        opacity: 0.8,
+        backgroundColor: '#ffffff20',
         zIndex: 0,
         justifyContent: 'flex-end'
     },
