@@ -183,6 +183,7 @@ const styles = StyleSheet.create({
     fontSize: rf(2),
     textAlign: 'center',
     color: '#FF575B',
+    paddingHorizontal: rw(2),
     marginTop: rh(1),
   },
   uploadPromptTitle2: {

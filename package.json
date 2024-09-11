@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@quidone/react-native-wheel-picker": "^1.0.1",
     "@react-native-picker/picker": "^2.8.0",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.11.0",

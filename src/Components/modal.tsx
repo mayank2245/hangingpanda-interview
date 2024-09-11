@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, View, Text, StyleSheet } from 'react-native';
+import { Modal, View, Text, StyleSheet, ViewStyle } from 'react-native';
 import { rf, rw } from '../Helpers/Responsivedimention';
 
 interface CustomModalProps {
@@ -10,6 +10,7 @@ interface CustomModalProps {
 }
 
 const CustomModal: React.FC<CustomModalProps> = ({ visible, onClose, content }) => {
+    console.log("first")
     return (
         <Modal
             transparent={true}
