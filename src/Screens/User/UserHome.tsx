@@ -8,6 +8,10 @@ import { rf, rh, rw } from "../../Helpers/Responsivedimention";
 export default function Home() {
     const [answer, setAnswer] = useState("")
     const [focusText, setFocusText] = useState(false)
+    const [timebar, setTimebar] = useState(true)
+    const handletimebar = () => {
+        setTimebar(!timebar)
+    }
     const handlesubmit = () => {
         console.log(answer)
     }
@@ -17,6 +21,20 @@ export default function Home() {
                 backgroundColor="transparent"
                 translucent={true}
             />
+            <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={handletimebar}
+                style={styles.touchableCss}>
+                {
+                    timebar ? <View style={styles.timebar}></View> :
+                        <View style={{ marginTop: rh(0.2) }}>
+                            <Text style={{ color: 'white', textAlign: 'center', marginBottom: rh(0.6) }}>Total Time : 30 mins</Text>
+                            <View style={styles.timebar2}>
+                                <Text style={styles.timebar2Text}>Remaining time : 25 mins</Text>
+                            </View>
+                        </View>
+                }
+            </TouchableOpacity>
             <Text style={styles.quescss}>Q 1. What is a lambda function in Python?</Text>
             <KeyboardAwareScrollView style={{ paddingBottom: 120 }}>
                 <TextInput onFocus={() => setFocusText(true)} multiline style={focusText ? styles.anscss2 : styles.anscss} value={answer} onChangeText={setAnswer} onBlur={() => setFocusText(false)} placeholder="Please Enter your answer..." placeholderTextColor="#a8acb2" />
@@ -44,7 +62,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-SemiBold',
         color: '#FFFFFF',
         width: '90%',
-        marginTop: rh(7),
         marginBottom: rh(1),
         fontSize: rf(2),
         marginHorizontal: rw(5)
@@ -57,7 +74,7 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
         color: '#FFFFFF',
         width: '90%',
-        height: rh(74),
+        height: rh(68),
         borderRadius: 15,
         borderWidth: 4,
         borderColor: "#FF3856",
@@ -72,7 +89,7 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
         color: '#FFFFFF',
         width: '90%',
-        height: rh(40),
+        height: rh(34),
         borderRadius: 15,
         borderWidth: 4,
         borderColor: "#FF3856",
@@ -96,5 +113,29 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(2.2),
-    }
+    },
+    touchableCss: {
+        marginVertical: rh(3)
+    },
+    timebar: {
+        marginBottom: rh(1.7),
+        marginTop: rh(4),
+        marginHorizontal: rh(3),
+        borderRadius: 10,
+        backgroundColor: '#06D001',
+        height: rh(1.2)
+    },
+    timebar2: {
+        marginHorizontal: rh(2.5),
+        borderRadius: 100,
+        backgroundColor: '#06D001',
+        height: rh(4),
+        justifyContent: 'center'
+    },
+    timebar2Text: {
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: rf(1.6),
+        textAlign: 'center',
+    },
+
 })

@@ -6,9 +6,14 @@ interface CustomModalProps {
     visible: boolean;
     onClose: () => void;
     content: any;
+    modaloverlaycss: ViewStyle;
+    contentcss: ViewStyle;
+
 }
 
-const CustomModal: React.FC<CustomModalProps> = ({ visible, onClose, content }) => {
+const CustomModal: React.FC<CustomModalProps> = ({ visible, onClose, content, modaloverlaycss, contentcss }) => {
+    console.log(visible)
+    console.log(content)
     return (
         <Modal
             transparent={true}
@@ -17,8 +22,8 @@ const CustomModal: React.FC<CustomModalProps> = ({ visible, onClose, content }) 
             animationType="slide"
             onRequestClose={onClose}
         >
-            <View style={styles.modalOverlay}>
-                <View style={styles.contentcss}>{content}</View>
+            <View style={[styles.modalOverlay, modaloverlaycss]}>
+                <View style={[styles.contentcss, contentcss]}>{content}</View>
             </View>
         </Modal>
     );
