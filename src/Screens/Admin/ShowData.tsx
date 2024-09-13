@@ -20,14 +20,13 @@ const bgImage = require('../../Assests/HeaderImage.png')
 
 export default function Showdata({ route }: any) {
   const { data } = route.params;
-  const { data2 } = route.params;
+  const { data2, selectedmcq } = route.params;
   const [quesData, setQuesData] = useState(data)
   const [index, setIndex] = useState<number>()
   const [openmodal, setOpenmodal] = useState(false)
   useEffect(() => {
     if (data2 !== undefined) {
       setQuesData(data2)
-      setIndex(undefined)
     }
   })
   const dataText = [{
@@ -85,7 +84,15 @@ export default function Showdata({ route }: any) {
                   <Text style={style.FlatListques}>
                     Q {item.sn}. {item.question}
                   </Text>
-                  <Text style={style.FlatListans}>{item.ans}</Text>
+                  {
+                    typeof (item.ans) === "string" ?
+                      <Text style={style.FlatListans}>{item.ans}</Text>
+                      :
+                      item.ans.map((ei: any, i: number) => {
+                        return <Text style={[style.FlatListans, selectedmcq === i ? { color: '#06D001' } : { color: 'white' }, { marginBottom: rh(1), marginHorizontal: rw(2) }]}>{String.fromCharCode(65 + (i))}. {ei}</Text>
+                      })
+
+                  }
                 </View>
               )}
               keyExtractor={item => item.sn}
@@ -105,7 +112,7 @@ export default function Showdata({ route }: any) {
           </TouchableOpacity>
         </View>
       </ImageBackground>
-      <CustomModal title='' content={modalData()} visible={openmodal} onClose={() => { setOpenmodal(false); }} />
+      <CustomModal content={modalData()} visible={openmodal} onClose={() => { setOpenmodal(false); }} />
     </SafeAreaView >
 
 
@@ -115,7 +122,7 @@ const style = StyleSheet.create({
   flatviewcss: {
     zIndex: 0,
     flex: 1,
-    marginTop: rh(6),
+    marginTop: rh(4),
     marginLeft: rw(5),
     marginRight: rh(4),
   },
@@ -124,12 +131,13 @@ const style = StyleSheet.create({
     fontFamily: 'Montserrat-SemiBold',
     fontSize: rf(1.9),
     marginBottom: rh(1.6),
+    marginTop: rh(2.6)
   },
   FlatListans: {
     fontFamily: 'Montserrat-SemiBold',
     color: '#06D001',
     fontSize: rf(1.9),
-    marginBottom: rh(2.6)
+    // marginBottom: rh(2.6)
   },
   backgroundImage: {
     height: '100%',

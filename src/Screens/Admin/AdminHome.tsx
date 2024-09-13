@@ -23,15 +23,21 @@ import { useNavigation } from '@react-navigation/native';
 import CrossIcon from '../../Assests/svgs/cuticon';
 import LogoIcon from '../../Assests/svgs/logo';
 import { rf, rh, rw } from '../../Helpers/Responsivedimention';
+import CustomModal from '../../Components/modal';
+import AddQuestion from './AddQuestion';
+import Addques from '../../Assests/svgs/add'
 
 
 const bgImage = require('../../Assests/HeaderImage.png');
 
-function App(): React.JSX.Element {
+export default function App(): React.JSX.Element {
   const [selectedFile, setSelectedFile] = useState<any>(null);
   const [parsedData, setParsedData] = useState<any>(null);
   const [fileName, setFileName] = useState('');
   const navigation = useNavigation();
+  const [visiblemodal, setVisiblemodal] = useState(false);
+  const [Index, setIndex] = useState<number>()
+  const [showdata, setShowdata] = useState([])
 
   const pickDocument = async () => {
     try {
@@ -50,6 +56,52 @@ function App(): React.JSX.Element {
   const removeFile = () => {
     setParsedData(null);
   };
+
+  const handleaddonebyone = () => {
+    setVisiblemodal(true);
+
+  }
+
+
+  const dataText = [{
+    col: false,
+    title: 'Input'
+  },
+  {
+    col: false,
+    title: 'MCQ’s'
+  },
+  {
+    col: false,
+    title: 'Blank Space'
+  },
+  {
+    col: false,
+    title: 'Program'
+  },
+  ]
+
+
+  const handleCol = (i: number) => {
+    setIndex(i);
+    setVisiblemodal(false)
+    navigation.navigate("AddQuestion", { data: showdata, Id: i })
+  }
+
+  const modalData = () => {
+    return (
+      <View style={styles.modalcss}>
+        <CrossIcon style={styles.crosscut} onPress={() => { setVisiblemodal(false) }} />
+        {dataText?.map((ei, i) => {
+          return (
+            <Pressable key={i} onPress={() => handleCol(i)} style={[Index === i ? { backgroundColor: '#FF3856' } : '', styles.modalbox]}>
+              <Text style={[styles.modalText, Index === i ? { color: '#FFFFFF' } : { color: '#FF3856' }]}>{ei.title}</Text>
+            </Pressable>
+          )
+        })}
+      </View>
+    )
+  }
 
   useEffect(() => {
     if (parsedData && selectedFile) {
@@ -105,6 +157,18 @@ function App(): React.JSX.Element {
                     <Text style={styles.uploadPromptTitle2}>
                       Drag or click to upload
                     </Text>
+
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      style={[styles.addquestion]}
+                      onPress={handleaddonebyone}
+                    >
+                      <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10 }}>
+                        <Addques />
+                        <Text style={styles.addquestiontext}>Add Question Manually</Text>
+                      </View>
+                    </TouchableOpacity>
+                    <CustomModal visible={visiblemodal} onClose={() => setVisiblemodal(false)} content={modalData()} />
                   </>
                 )}
               </View>
@@ -229,6 +293,49 @@ const styles = StyleSheet.create({
     marginTop: rh(78),
     marginLeft: rw(5),
   },
+  modalcss: {
+    backgroundColor: 'black',
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+    width: rw(100),
+    margin: "auto",
+    zIndex: 20
+
+  },
+  modalbox: {
+    borderWidth: 3,
+    borderColor: '#FF3856',
+    borderRadius: 15,
+    width: rw(90),
+    margin: 'auto',
+    height: rh(8),
+    marginTop: rh(1.5),
+    paddingTop: rh(2),
+    marginBottom: rh(1),
+  },
+  modalText: {
+    fontFamily: 'Montserrat-SemiBold',
+    textAlign: 'center',
+    fontSize: rf(2.7),
+  },
+  crosscut: {
+    marginTop: rh(2.3),
+    marginLeft: rh(41),
+    marginBottom: rh(1)
+  },
+  addquestion: {
+    marginTop: rh(12),
+    backgroundColor: '#FF2850',
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: rh(1.3),
+  },
+  addquestiontext: {
+    fontFamily: 'Montserrat-SemiBold',
+    textAlign: 'center',
+    color: 'white',
+    fontSize: rf(1.9),
+  }
 });
 
-export default App;

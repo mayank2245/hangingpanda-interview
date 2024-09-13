@@ -30,19 +30,19 @@ export default function LoginUserPage() {
                             <Logo />
                         </View>
                         <View style={styles.textShowCss}>
-                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>Welcome at</Text>
+                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>At</Text>
                             <Text style={[styles.textShowCss, { color: '#FF3856' }]}>HangingPanda !</Text>
-                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>We believe in your
-                                talent.</Text>
+                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>we truly value your exceptional work,</Text>
+                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>HR.</Text>
                         </View>
                         <Text style={[styles.discriptionText, { color: '#FFFFFF' }]}>Pls Enter your Details here to enter in your interview process</Text>
                         <View style={styles.viewTextInp}>
-                            <TextInput keyboardType="numeric" onChangeText={setUserId} value={UserId} style={styles.textQues} placeholder="Interview Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
+                            <TextInput keyboardType="numeric" onChangeText={setUserId} value={UserId} style={styles.textQues} placeholder="Hr Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
                             <TextInput onChangeText={setName} value={name} style={styles.textQues} placeholder="Email Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
                             <TouchableOpacity
                                 activeOpacity={0.6}
                                 onPress={
-                                    () => { navigation.navigate('Instruction') }
+                                    () => { navigation.navigate('UserHome') }
                                 }>
                                 <Arrow style={styles.arrowCss} />
                             </TouchableOpacity>
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     },
     discriptionText: {
         fontFamily: 'Montserrat-Bold',
-        fontSize: rf(1.8),
+        fontSize: rf(2),
         paddingHorizontal: rw(8.6),
         marginTop: rh(6),
         marginBottom: rh(3)

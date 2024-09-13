@@ -1,16 +1,13 @@
-import { Button, FlatList, ImageBackground, Modal, Pressable, StatusBar, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { ImageBackground, Pressable, StatusBar, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Addques from '../../Assests/svgs/addQues';
 import { useEffect, useState } from "react";
 import CrossIcon from "../../Assests/svgs/cuticon";
 import Add from "../../Assests/svgs/add";
 import CustomModal from "../../Components/modal";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 import { useNavigation } from "@react-navigation/native";
 import { rf, rh, rw } from "../../Helpers/Responsivedimention";
 const bgImage = require('../../Assests/HeaderImage.png');
-import NumberPlease from 'react-native-number-please';
 import WheelPicker from '@quidone/react-native-wheel-picker';
 
 
@@ -25,13 +22,15 @@ export default function AddQuestion({ route }: any) {
     const [index, setIndex] = useState<number>()
     const [openmodal, setOpenmodal] = useState(false)
     const [queswrite, setQueswrite] = useState(true)
-    const [mcqInput, setMcqInput] = useState('')
+    const [mcqInput, setMcqInput] = useState("")
     const [value, setValue] = useState(0);
-    const [inputans, setInputAns] = useState(Array(2).fill(''));
-    const [currentInputIndex, setCurrentInputIndex] = useState(1);
+    const [answer, setAnswer] = useState("")
+    const [inputans, setInputAns] = useState(Array().fill(''));
+    const [currentInputIndex, setCurrentInputIndex] = useState(0);
     const [openmodal2, setOpenmodal2] = useState(true)
     const [openmodal3, setOpenmodal3] = useState(false)
-    const [selected, setSelected] = useState(false)
+    const [selected, setSelected] = useState<number>()
+    const [displayedData, setDisplayedData] = useState<any>([]);
 
     const handleAddques = () => {
         if (ques !== "") {
@@ -44,6 +43,23 @@ export default function AddQuestion({ route }: any) {
     }
 
     const handleSubmit = () => {
+        setQueswrite(true)
+        const sendData = [...data, {
+            sn: data.length + 1,
+            question: ques,
+            ans: answer,
+            date: 123,
+            category: 'pyton',
+        }]
+        setQues("")
+        setAnswer("")
+        navigate.navigate("ShowData", {
+            data2: sendData
+        })
+    }
+    const handleSubmit2 = () => {
+        setCurrentInputIndex(currentInputIndex + 1);
+        setDisplayedData(inputans)
         setOpenmodal3(true)
     }
 
@@ -79,11 +95,20 @@ export default function AddQuestion({ route }: any) {
             ans: inputans,
             data: 123,
             category: 'pyton',
-
         }]
         navigate.navigate("ShowData", {
-            data2: sendData
+            data2: sendData,
+            selectedmcq: selected
         })
+        setQueswrite(true)
+        setQues("")
+        setInputAns(Array().fill(''))
+        setDisplayedData([])
+        setMcqInput("")
+        setCurrentInputIndex(0)
+        setSelected(-1)
+        setOpenmodal3(false)
+
     }
 
     const modalData = () => {
@@ -129,9 +154,10 @@ export default function AddQuestion({ route }: any) {
             </>
         )
     }
-
+    const handleSelectmcq = (i: number) => {
+        setSelected(i)
+    }
     const modalData3 = () => {
-
         return (
             <>
                 <View>
@@ -140,10 +166,9 @@ export default function AddQuestion({ route }: any) {
                 <View style={{ marginBottom: 20 }}>
                     {
                         inputans.map((ei: any, i) => (
-                            <Pressable onPress={() => setSelected(!selected)} key={i} style={{ backgroundColor: selected ? "#06D001" : "white", marginTop: 20, marginHorizontal: 30, height: rh(6), paddingTop: rh(1.4), borderRadius: 15 }}><Text style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2), textAlign: 'center', color: 'black', }}>{ei}</Text></Pressable>
-                            // <Pressable key={i} onPress={() => handleCol(i)} style={[index === i ? { backgroundColor: '#FF3856' } : '', ]}>
-                            //     <Text style={[styles.modalText, index === i ? { color: '#FFFFFF' } : { color: '#FF3856' }]}>{ei}</Text>
-                            // </Pressable>
+                            <Pressable key={i} onPress={() => handleSelectmcq(i)} style={[styles.selectmcq, selected === i ? { backgroundColor: '#06D001' } : { backgroundColor: 'white' }]}>
+                                <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2), textAlign: 'center', color: 'black', }}>{ei}</Text>
+                            </Pressable>
                         )
                         )
                     }
@@ -166,10 +191,9 @@ export default function AddQuestion({ route }: any) {
         const updatedInputs = [...inputans];
         updatedInputs[i] = text;
         setInputAns(updatedInputs);
-
     }
-
-    function handleNext() {
+    const handleNext = () => {
+        setDisplayedData(inputans)
         if (currentInputIndex < value) {
             setCurrentInputIndex(currentInputIndex + 1);
         }
@@ -186,7 +210,7 @@ export default function AddQuestion({ route }: any) {
                     {
                         queswrite === true ?
                             <>
-                                <Text style={styles.enterQues}>Question No. {data.length + 1}</Text>
+                                <Text style={styles.enterQues}>Q. {data.length + 1}</Text>
                                 <TextInput onChangeText={setQues} value={ques} style={styles.textQues} placeholder="Enter your queestion here" placeholderTextColor="#FF3856" cursorColor="#FF3856"></TextInput>
                                 <TouchableOpacity
                                     activeOpacity={0.8}
@@ -204,7 +228,7 @@ export default function AddQuestion({ route }: any) {
                                 {Id === 0 ? (
                                     <>
                                         <Text style={styles.showques}>Q{data.length + 1}. {ques}</Text>
-                                        <TextInput onChangeText={(text) => handleInputChange(text, 1)} value={inputans} style={styles.textAns} placeholder="Enter Answer" placeholderTextColor="#06D001" cursorColor="#06D001"></TextInput>
+                                        <TextInput onChangeText={setAnswer} value={answer} style={styles.textAns} placeholder="Enter Answer" placeholderTextColor="#06D001" cursorColor="#06D001"></TextInput>
                                         <TouchableOpacity
                                             activeOpacity={0.8}
                                             style={styles.addanscss}
@@ -223,16 +247,33 @@ export default function AddQuestion({ route }: any) {
                                             {
                                                 mcqInput === "" ?
                                                     <>
-                                                        <CustomModal title='' content={modalData2()} visible={openmodal2} onClose={() => { setOpenmodal2(false); }} />
+                                                        <CustomModal content={modalData2()} visible={openmodal2} onClose={() => { setOpenmodal2(false); }} />
                                                     </>
                                                     :
                                                     <>
-                                                        <TextInput onChangeText={(text) => handleInputChange(text, currentInputIndex)} value={inputans} style={styles.textAns} placeholder={`Enter Option ${currentInputIndex}`} placeholderTextColor="#06D001" cursorColor="#06D001"></TextInput>
-                                                        {currentInputIndex < value ? <TouchableOpacity
+                                                        {
+                                                            displayedData?.map((ei: any, i: number) => (
+                                                                <Text style={{
+                                                                    fontFamily: 'Montserrat-Bold',
+                                                                    color: '#ffffff',
+                                                                    fontSize: rf(2.3),
+                                                                    marginTop: rh(2),
+                                                                    marginHorizontal: rh(4.5)
+                                                                }} key={i}>{String.fromCharCode(65 + (i))}. {ei}</Text>
+                                                            ))
+                                                        }
+                                                        {
+                                                            currentInputIndex < value ?
+                                                                <TextInput onChangeText={(text) => handleInputChange(text, currentInputIndex)} style={styles.textQues} placeholder={`Enter Option ${currentInputIndex + 1}`} placeholderTextColor="#FF3856" cursorColor="#FF3856"></TextInput>
+                                                                :
+                                                                ""
+                                                        }
+                                                        {currentInputIndex + 1 < value ? <TouchableOpacity
                                                             activeOpacity={0.8}
                                                             style={styles.addanscss}
                                                             onPress={handleNext}
                                                         >
+
                                                             <View style={styles.viewsubmit}>
                                                                 <Addques />
                                                                 <Text style={styles.addquesText}>Next</Text>
@@ -240,21 +281,22 @@ export default function AddQuestion({ route }: any) {
                                                         </TouchableOpacity>
                                                             :
                                                             <>
-                                                                <CustomModal title='' content={modalData3()} visible={openmodal3} onClose={() => { setOpenmodal3(false); }} />
-                                                                <TouchableOpacity
-                                                                    activeOpacity={0.8}
-                                                                    style={styles.addanscss}
-                                                                    onPress={handleSubmit}
-                                                                >
-                                                                    <View style={styles.viewsubmit}>
-                                                                        <Addques />
-                                                                        <Text style={styles.addquesText}>Submit</Text>
-                                                                    </View>
-                                                                </TouchableOpacity>
+                                                                <CustomModal content={modalData3()} visible={openmodal3} onClose={() => { setOpenmodal3(false); }} />
+                                                                <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                                                                    <TouchableOpacity
+                                                                        activeOpacity={0.8}
+                                                                        style={styles.addanscss}
+                                                                        onPress={handleSubmit2}
+                                                                    >
+                                                                        <View style={styles.viewsubmit}>
+                                                                            <Addques />
+                                                                            <Text style={styles.addquesText}>Submit</Text>
+                                                                        </View>
+                                                                    </TouchableOpacity>
+                                                                </View>
+
                                                             </>
                                                         }
-
-
                                                     </>
                                             }
                                         </>
@@ -272,7 +314,7 @@ export default function AddQuestion({ route }: any) {
                             </TouchableOpacity>
                         )
                     }
-                    <CustomModal content={modalData()} visible={openmodal} onClose={() => { setOpenmodal(false) }} title={""} />
+                    <CustomModal content={modalData()} visible={openmodal} onClose={() => setOpenmodal(false)} />
                 </View>
             </ImageBackground >
         </View >
@@ -407,5 +449,12 @@ const styles = StyleSheet.create({
         fontSize: rf(1.4),
         textAlign: 'center',
         transform: [{ rotate: '270deg' }],
+    },
+    selectmcq: {
+        marginTop: 20,
+        marginHorizontal: 30,
+        height: rh(6),
+        paddingTop: rh(1.4),
+        borderRadius: 15
     },
 })

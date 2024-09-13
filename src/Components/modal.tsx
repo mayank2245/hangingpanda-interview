@@ -5,12 +5,15 @@ import { rf, rw } from '../Helpers/Responsivedimention';
 interface CustomModalProps {
     visible: boolean;
     onClose: () => void;
-    title: string;
     content: any;
+    modaloverlaycss: ViewStyle;
+    contentcss: ViewStyle;
+
 }
 
-const CustomModal: React.FC<CustomModalProps> = ({ visible, onClose, content }) => {
-    console.log("first")
+const CustomModal: React.FC<CustomModalProps> = ({ visible, onClose, content, modaloverlaycss, contentcss }) => {
+    console.log(visible)
+    console.log(content)
     return (
         <Modal
             transparent={true}
@@ -19,8 +22,8 @@ const CustomModal: React.FC<CustomModalProps> = ({ visible, onClose, content }) 
             animationType="slide"
             onRequestClose={onClose}
         >
-            <View style={styles.modalOverlay}>
-                <View style={styles.contentcss}>{content}</View>
+            <View style={[styles.modalOverlay, modaloverlaycss]}>
+                <View style={[styles.contentcss, contentcss]}>{content}</View>
             </View>
         </Modal>
     );
@@ -30,8 +33,7 @@ const styles = StyleSheet.create({
     modalOverlay: {
         flex: 1,
         width: '100%',
-        backgroundColor: 'white',
-        opacity: 0.8,
+        backgroundColor: '#ffffff20',
         zIndex: 0,
         justifyContent: 'flex-end'
     },
