@@ -8,6 +8,7 @@ import LoginUserPage from '../Screens/User/LoginUserPage';
 import AddQuestion from '../Screens/Admin/AddQuestion';
 import LoginHr from '../Screens/Hr/LoginHr'
 import Instruction from '../Screens/User/Instruction'
+import QuestionList from '../Screens/User/QuestionList'
 
 export default function Index(): React.ReactElement {
   const stack = createNativeStackNavigator();
@@ -25,6 +26,7 @@ export default function Index(): React.ReactElement {
         <stack.Screen name='AddQuestion' component={AddQuestion} />
         <stack.Screen name='LoginHr' component={LoginHr} />
         <stack.Screen name='Instruction' component={Instruction} />
+        <stack.Screen name='QuestionList' component={QuestionList} />
       </stack.Navigator>
     </NavigationContainer>
   );

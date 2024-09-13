@@ -17,7 +17,7 @@ export default function Instruction() {
     const navigation = useNavigation();
     const handleNextButton = () => {
         setNextButton(nextButton + 1);
-        nextButton === 3 && navigation.navigate("UserHome")
+        nextButton === 3 && navigation.navigate("QuestionList", { ans: "", serial: -1 })
     };
 
     const renderInstructionContent = () => {
@@ -31,7 +31,7 @@ export default function Instruction() {
                             onPress={handletimebar}
                             style={styles.touchableCss}>
                             {
-                                timebar ? <View style={styles.timebar}></View> :
+                                !timebar ? <View style={styles.timebar}></View> :
                                     <View>
                                         <Text style={{ color: 'white', textAlign: 'center', marginTop: rh(1.5) }}>Total Time : 30 mins</Text>
                                         <View style={[styles.timebar2, { marginTop: rh(1) }]}>
@@ -53,9 +53,8 @@ export default function Instruction() {
                             source={require('../../Assests/svgs/alert.json')}
                             style={{ width: "100%", height: "40%", marginTop: rh(2) }}
                             autoPlay
-                            loop
                         />
-                        <Text style={styles.instructionText}>
+                        <Text style={[styles.instructionText, { fontSize: rh(2), width: rw(92), marginLeft: rw(4) }]}>
                             Do not close the app or switch to other applications. If you attempt to exit or switch apps, your exam will be automatically terminated.
                         </Text>
                     </View>
@@ -151,20 +150,20 @@ const styles = StyleSheet.create({
         marginLeft: rh(4.5),
         marginHorizontal: rw(7),
         color: '#FF3856',
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: rf(2),
+        fontFamily: 'NunitoSans-SemiBold',
+        fontSize: rf(2.4),
         textAlign: 'center'
     },
     timebar: {
         marginTop: rh(5),
         marginHorizontal: rh(3),
-        borderRadius: 10,
+        borderRadius: 100,
         backgroundColor: '#06D001',
         height: rh(1.2)
     },
     timebar2: {
         marginHorizontal: rh(1.7),
-        borderRadius: 10,
+        borderRadius: 100,
         backgroundColor: '#06D001',
         height: rh(4),
         justifyContent: 'center'

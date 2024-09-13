@@ -1,20 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, Pressable, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { rf, rh, rw } from "../../Helpers/Responsivedimention";
+import { useNavigation } from "@react-navigation/native";
 
 
-export default function Home() {
+export default function Home({ route }: any) {
+    const { itemes } = route.params;
+    const [data, setdata] = useState(itemes)
+    console.log(data, "DATAAS")
     const [answer, setAnswer] = useState("")
     const [focusText, setFocusText] = useState(false)
     const [timebar, setTimebar] = useState(true)
+    const navigation = useNavigation();
     const handletimebar = () => {
         setTimebar(!timebar)
     }
-    const handlesubmit = () => {
-        console.log(answer)
+
+    const handlesubmit = (data: any) => {
+        data.type === "Text" && (data.answer = answer),
+
+            navigation.navigate("QuestionList", { item: data })
+        setAnswer("")
     }
+
+    const handlepressOption = (item: any, selectedOption: number) => {
+        const correctOption = item?.correctOption
+        const updatedData = { ...item, correctOption: selectedOption }
+        setdata(updatedData)
+    };
+
     return (
         <View style={styles.safearea}>
             <StatusBar
@@ -35,13 +51,35 @@ export default function Home() {
                         </View>
                 }
             </TouchableOpacity>
-            <Text style={styles.quescss}>Q 1. What is a lambda function in Python?</Text>
+            <Text style={styles.quescss}>Q "{data.sn}. {data.ques}"</Text>
             <KeyboardAwareScrollView style={{ paddingBottom: 120 }}>
-                <TextInput onFocus={() => setFocusText(true)} multiline style={focusText ? styles.anscss2 : styles.anscss} value={answer} onChangeText={setAnswer} onBlur={() => setFocusText(false)} placeholder="Please Enter your answer..." placeholderTextColor="#a8acb2" />
+                {data.type === "Text" && <TextInput onFocus={() => setFocusText(true)} multiline style={focusText ? styles.anscss2 : styles.anscss} defaultValue={data.answer} onChangeText={setAnswer} onBlur={() => setFocusText(false)} placeholder="Please Enter your answer..." placeholderTextColor="#a8acb2" />}
+                {data.type === "MCQ" && <View>
+                    <TouchableOpacity onPress={() => handlepressOption(data, 1)}>
+                        <Text style={[styles.textoption, data.correctOption === 1 ? { color: '#06D001' } : { color: '#ffffff' }]}>
+                            A. {data.Option1}
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handlepressOption(data, 2)}>
+                        <Text style={[styles.textoption, data.correctOption === 2 ? { color: '#06D001' } : { color: '#ffffff' }]}>
+                            B. {data.Option2}
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handlepressOption(data, 3)}>
+                        <Text style={[styles.textoption, data.correctOption === 3 ? { color: '#06D001' } : { color: '#ffffff' }]}>
+                            C. {data.Option3}
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handlepressOption(data, 4)}>
+                        <Text style={[styles.textoption, data.correctOption === 4 ? { color: '#06D001' } : { color: '#ffffff' }]}>
+                            D. {data.Option4}
+                        </Text>
+                    </TouchableOpacity>
+                </View>}
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={styles.touchable}
-                    onPress={handlesubmit}
+                    onPress={() => handlesubmit(data)}
                 >
                     <Text style={styles.submit}> Submit</Text>
                 </TouchableOpacity>
@@ -74,7 +112,7 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
         color: '#FFFFFF',
         width: '90%',
-        height: rh(68),
+        height: rh(65),
         borderRadius: 15,
         borderWidth: 4,
         borderColor: "#FF3856",
@@ -89,7 +127,7 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
         color: '#FFFFFF',
         width: '90%',
-        height: rh(34),
+        height: rh(32),
         borderRadius: 15,
         borderWidth: 4,
         borderColor: "#FF3856",
@@ -138,4 +176,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 
+    textoption: {
+        fontFamily: 'Montserrat-SemiBold',
+        color: '#ffffff',
+        fontSize: rf(1.9),
+        marginLeft: rw(6),
+        marginTop: rh(1)
+    }
 })

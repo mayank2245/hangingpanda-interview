@@ -12,8 +12,6 @@ interface CustomModalProps {
 }
 
 const CustomModal: React.FC<CustomModalProps> = ({ visible, onClose, content, modaloverlaycss, contentcss }) => {
-    console.log(visible)
-    console.log(content)
     return (
         <Modal
             transparent={true}
