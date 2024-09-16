@@ -67,7 +67,6 @@ export default function Instruction() {
                             source={require('../../Assests/svgs/checklist.json')}
                             style={{ width: "100%", height: "38%", marginTop: rh(2) }}
                             autoPlay
-                            loop
                         />
                         <Text style={styles.instructionText}>
                             Carefully read and answer each question type as prompted. Your performance is monitored, and any disruptions will end the interview.

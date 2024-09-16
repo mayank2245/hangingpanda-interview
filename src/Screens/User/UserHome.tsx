@@ -1,81 +1,136 @@
 import { useEffect, useState } from "react";
-import { KeyboardAvoidingView, Platform, Pressable, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { rf, rh, rw } from "../../Helpers/Responsivedimention";
 import { useNavigation } from "@react-navigation/native";
-
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 export default function Home({ route }: any) {
     const { itemes } = route.params;
-    const [data, setdata] = useState(itemes)
-    console.log(data, "DATAAS")
-    const [answer, setAnswer] = useState("")
-    const [focusText, setFocusText] = useState(false)
-    const [timebar, setTimebar] = useState(true)
+    const [data, setData] = useState(itemes);
+    const [answer, setAnswer] = useState("");
+    const [focusText, setFocusText] = useState(false);
+
     const navigation = useNavigation();
+    const [timebar, setTimebar] = useState(true);
+
+    const progress = useSharedValue(rw(93));
+    const [time, setTime] = useState<number>(1);
+    const [timeLeft, setTimeLeft] = useState(60 * time);
+
     const handletimebar = () => {
-        setTimebar(!timebar)
-    }
+        setTimebar(!timebar);
+    };
 
-    const handlesubmit = (data: any) => {
-        data.type === "Text" && (data.answer = answer),
+    useEffect(() => {
+        if (!timeLeft) return;
 
-            navigation.navigate("QuestionList", { item: data })
-        setAnswer("")
-    }
+        const intervalId = setInterval(() => {
+            setTimeLeft((prev) => {
+                const newTimeLeft = prev - 1;
+                const percentage = (newTimeLeft / (60 * time)) * rw(93);
+                progress.value = withTiming(percentage, { duration: 1000 });
+                return newTimeLeft;
+            });
+        }, 1000);
+
+        return () => clearInterval(intervalId);
+    }, [timeLeft]);
+
+    const handlesubmit = (item: any) => {
+        if (item.type === "Text") {
+            item.answer = answer;
+        }
+        navigation.navigate("QuestionList", { item });
+        setAnswer("");
+    };
 
     const handlepressOption = (item: any, selectedOption: number) => {
         const correctOption = item?.correctOption
         const updatedData = { ...item, correctOption: selectedOption }
-        setdata(updatedData)
+        setData(updatedData)
     };
+
+    const animatedStyle = useAnimatedStyle(() => {
+        return {
+            width: progress.value,
+        };
+    });
 
     return (
         <View style={styles.safearea}>
-            <StatusBar
-                backgroundColor="transparent"
-                translucent={true}
-            />
+            <StatusBar backgroundColor="transparent" translucent={true} />
             <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={handletimebar}
-                style={styles.touchableCss}>
-                {
-                    timebar ? <View style={styles.timebar}></View> :
-                        <View style={{ marginTop: rh(0.2) }}>
-                            <Text style={{ color: 'white', textAlign: 'center', marginBottom: rh(0.6) }}>Total Time : 30 mins</Text>
-                            <View style={styles.timebar2}>
-                                <Text style={styles.timebar2Text}>Remaining time : 25 mins</Text>
-                            </View>
+                style={styles.touchableCss}
+            >
+                {timebar ? (
+                    <View>
+                        <View style={styles.timebar}>
+                            <Animated.View
+                                style={[
+                                    styles.timebar2,
+                                    animatedStyle,
+                                    { height: rh(2) },
+                                    (timeLeft / (60 * time)) > 0.75 ? { backgroundColor: '#06D001' }
+                                        : (timeLeft / (60 * time)) > 0.5 ? { backgroundColor: "#FBC02D" }
+                                            : (timeLeft / (60 * time)) > 0.25 ? { backgroundColor: "#F57C00" }
+                                                : { backgroundColor: "#D32F2F" },
+                                ]}
+                            ></Animated.View>
                         </View>
-                }
+                    </View>
+                ) : (
+                    <View>
+                        <Text style={styles.timeText}>Total Time: {time} mins</Text>
+                        <View style={styles.timebar1}>
+                            <Animated.View
+                                style={[
+                                    styles.timebar2,
+                                    animatedStyle,
+                                    { height: rh(6) },
+                                    (timeLeft / (60 * time)) > 0.75 ? { backgroundColor: '#06D001' }
+                                        : (timeLeft / (60 * time)) > 0.5 ? { backgroundColor: "#FBC02D" }
+                                            : (timeLeft / (60 * time)) > 0.25 ? { backgroundColor: "#F57C00" }
+                                                : { backgroundColor: "#D32F2F" },
+                                ]}
+                            ></Animated.View>
+                        </View>
+                        <Text style={styles.timebar2Text}>Remaining time: {Math.floor(timeLeft / 60)} mins</Text>
+                    </View>
+                )}
             </TouchableOpacity>
             <Text style={styles.quescss}>Q "{data.sn}. {data.ques}"</Text>
             <KeyboardAwareScrollView style={{ paddingBottom: 120 }}>
-                {data.type === "Text" && <TextInput onFocus={() => setFocusText(true)} multiline style={focusText ? styles.anscss2 : styles.anscss} defaultValue={data.answer} onChangeText={setAnswer} onBlur={() => setFocusText(false)} placeholder="Please Enter your answer..." placeholderTextColor="#a8acb2" />}
-                {data.type === "MCQ" && <View>
-                    <TouchableOpacity onPress={() => handlepressOption(data, 1)}>
-                        <Text style={[styles.textoption, data.correctOption === 1 ? { color: '#06D001' } : { color: '#ffffff' }]}>
-                            A. {data.Option1}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handlepressOption(data, 2)}>
-                        <Text style={[styles.textoption, data.correctOption === 2 ? { color: '#06D001' } : { color: '#ffffff' }]}>
-                            B. {data.Option2}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handlepressOption(data, 3)}>
-                        <Text style={[styles.textoption, data.correctOption === 3 ? { color: '#06D001' } : { color: '#ffffff' }]}>
-                            C. {data.Option3}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handlepressOption(data, 4)}>
-                        <Text style={[styles.textoption, data.correctOption === 4 ? { color: '#06D001' } : { color: '#ffffff' }]}>
-                            D. {data.Option4}
-                        </Text>
-                    </TouchableOpacity>
-                </View>}
+                {data.type === "Text" && (
+                    <TextInput
+                        onFocus={() => setFocusText(true)}
+                        multiline
+                        style={focusText ? styles.anscss2 : styles.anscss}
+                        value={answer}
+                        onChangeText={setAnswer}
+                        onBlur={() => setFocusText(false)}
+                        placeholder="Please Enter your answer..."
+                        placeholderTextColor="#a8acb2"
+                    />
+                )}
+                {data.type === "MCQ" && (
+                    <View>
+                        {["Option1", "Option2", "Option3", "Option4"].map((option, index) => (
+                            <TouchableOpacity key={index} onPress={() => handlepressOption(data, index + 1)}>
+                                <Text
+                                    style={[
+                                        styles.textoption,
+                                        data.correctOption === index + 1 ? { color: '#06D001' } : { color: '#ffffff' },
+                                    ]}
+                                >
+                                    {String.fromCharCode(65 + index)}. {data[option]}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                )}
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={styles.touchable}
@@ -85,7 +140,7 @@ export default function Home({ route }: any) {
                 </TouchableOpacity>
             </KeyboardAwareScrollView>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -102,7 +157,7 @@ const styles = StyleSheet.create({
         width: '90%',
         marginBottom: rh(1),
         fontSize: rf(2),
-        marginHorizontal: rw(5)
+        marginHorizontal: rw(5),
     },
     anscss: {
         textAlignVertical: 'top',
@@ -112,12 +167,12 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
         color: '#FFFFFF',
         width: '90%',
-        height: rh(65),
+        height: rh(67),
         borderRadius: 15,
         borderWidth: 4,
         borderColor: "#FF3856",
         marginTop: rh(2),
-        marginHorizontal: rw(5)
+        marginHorizontal: rw(5),
     },
     anscss2: {
         textAlignVertical: 'top',
@@ -127,15 +182,12 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
         color: '#FFFFFF',
         width: '90%',
-        height: rh(32),
+        height: rh(33),
         borderRadius: 15,
         borderWidth: 4,
         borderColor: "#FF3856",
         marginTop: rh(2),
-        marginHorizontal: rw(5)
-    },
-    keybordcss: {
-        flex: 1,
+        marginHorizontal: rw(5),
     },
     touchable: {
         backgroundColor: "#FF3856",
@@ -145,7 +197,7 @@ const styles = StyleSheet.create({
         marginLeft: rh(2.2),
         borderRadius: 10,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     submit: {
         color: '#FFFFFF',
@@ -153,34 +205,50 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
     },
     touchableCss: {
-        marginVertical: rh(3)
+        marginVertical: rh(2.6),
     },
     timebar: {
-        marginBottom: rh(1.7),
-        marginTop: rh(4),
-        marginHorizontal: rh(3),
-        borderRadius: 10,
-        backgroundColor: '#06D001',
-        height: rh(1.2)
+        marginBottom: rh(2.1),
+        overflow: 'hidden',
+        marginTop: rh(3),
+        marginLeft: rh(1.7),
+        marginRight: rh(1.7),
+        borderRadius: 100,
+        backgroundColor: '#ffffff',
+        height: rh(2),
+        justifyContent: 'center',
+    },
+    timeText: {
+        fontFamily: 'Montserrat-SemiBold',
+        color: 'white',
+        textAlign: 'center',
+        marginBottom: rh(1)
+    },
+    timebar1: {
+        overflow: 'hidden',
+        marginLeft: rh(1.7),
+        marginRight: rh(1.7),
+        borderRadius: 100,
+        backgroundColor: '#ffffff',
+        height: rh(4),
+        justifyContent: 'center',
     },
     timebar2: {
-        marginHorizontal: rh(2.5),
-        borderRadius: 100,
-        backgroundColor: '#06D001',
-        height: rh(4),
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     timebar2Text: {
+        position: 'absolute',
+        marginTop: 35,
+        marginLeft: 105,
         fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(1.6),
         textAlign: 'center',
     },
-
     textoption: {
         fontFamily: 'Montserrat-SemiBold',
         color: '#ffffff',
         fontSize: rf(1.9),
         marginLeft: rw(6),
-        marginTop: rh(1)
-    }
-})
+        marginTop: rh(1),
+    },
+});
