@@ -92,7 +92,7 @@ export default function QuestionList({ route }: any) {
     });
     const modal = () => (
         <View>
-            <Text style={[styles.modalText, { width: rw(70), marginBottom: rh(1), marginLeft: rw(12), color: '#ff3856', lineHeight: 30, fontFamily: 'Montserrat-SemiBold' }]}>
+            <Text style={[styles.modalText, {}]}>
                 Are you sure you want to submit the exam?
             </Text>
             <View>
@@ -112,7 +112,7 @@ export default function QuestionList({ route }: any) {
             <ImageBackground style={styles.backgroundImage} source={bgImage} resizeMode="cover">
                 <View style={styles.overlay}>
                     <View>
-                        <Text style={{ fontFamily: 'Montserrat-SemiBold', color: 'white', textAlign: 'center', marginTop: rh(4.5) }}>
+                        <Text style={styles.timerbar}>
                             Total Time: {time} mins
                         </Text>
                         <View style={styles.timebar1}>
@@ -140,7 +140,15 @@ export default function QuestionList({ route }: any) {
                                     {item.type === "Text" && item.answer !== "" && (
                                         <Text style={styles.textanswer}>{item.answer}</Text>
                                     )}
-                                    {item.type === "MCQ" && (
+                                    {item.type === "MCQ" &&
+                                        // (
+                                        //     data.map((ei, i) => (
+                                        //         // console.log("first")
+                                        //         <Text key={i} style={[styles.textoption, item.correctOption === 1 ? { color: '#06D001' } : { color: '#ffffff' }]}>
+                                        //             A+{i}.
+                                        //         </Text>
+                                        //     ))
+                                        // )
                                         <View>
                                             <Text style={[styles.textoption, item.correctOption === 1 ? { color: '#06D001' } : { color: '#ffffff' }]}>
                                                 A. {item.Option1}
@@ -155,7 +163,7 @@ export default function QuestionList({ route }: any) {
                                                 D. {item.Option4}
                                             </Text>
                                         </View>
-                                    )}
+                                    }
                                 </TouchableOpacity>
                             )}
                         />
@@ -244,6 +252,16 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
         color: '#ffffff',
     },
+    modalText2: {
+        textAlign: 'center',
+        fontSize: rf(2.2),
+        width: rw(70),
+        marginBottom: rh(1),
+        marginLeft: rw(12),
+        color: '#ff3856',
+        lineHeight: 30,
+        fontFamily: 'Montserrat-SemiBold'
+    },
     modaloverlayCss: {
         justifyContent: 'center',
         width: rw(100),
@@ -280,5 +298,11 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         fontSize: rf(1.9),
         marginLeft: rw(2.6)
+    },
+    timerbar: {
+        fontFamily: 'Montserrat-SemiBold',
+        color: 'white',
+        textAlign: 'center',
+        marginTop: rh(4.5)
     }
 });

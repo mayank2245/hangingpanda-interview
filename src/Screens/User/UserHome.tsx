@@ -1,41 +1,23 @@
-import { useEffect, useState } from "react";
-import { StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StatusBar, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { rf, rh, rw } from "../../Helpers/Responsivedimention";
 import { useNavigation } from "@react-navigation/native";
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import { AnimatePresence, MotiView, View, Text } from 'moti'
+import Animated, { StretchInY, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import helper from "csvtojson";
+import { AnimatedView } from "react-native-reanimated/lib/typescript/component/View";
 
 export default function Home({ route }: any) {
     const { itemes } = route.params;
     const [data, setData] = useState(itemes);
     const [answer, setAnswer] = useState("");
     const [focusText, setFocusText] = useState(false);
-
     const navigation = useNavigation();
     const [timebar, setTimebar] = useState(true);
-
     const progress = useSharedValue(rw(93));
     const [time, setTime] = useState<number>(1);
     const [timeLeft, setTimeLeft] = useState(60 * time);
-
-    const handletimebar = () => {
-        setTimebar(!timebar);
-    };
-
-    useEffect(() => {
-        if (!timeLeft) return;
-
-        const intervalId = setInterval(() => {
-            setTimeLeft((prev) => {
-                const newTimeLeft = prev - 1;
-                const percentage = (newTimeLeft / (60 * time)) * rw(93);
-                progress.value = withTiming(percentage, { duration: 1000 });
-                return newTimeLeft;
-            });
-        }, 1000);
-
-        return () => clearInterval(intervalId);
-    }, [timeLeft]);
 
     const handlesubmit = (item: any) => {
         if (item.type === "Text") {
@@ -46,9 +28,9 @@ export default function Home({ route }: any) {
     };
 
     const handlepressOption = (item: any, selectedOption: number) => {
-        const correctOption = item?.correctOption
-        const updatedData = { ...item, correctOption: selectedOption }
-        setData(updatedData)
+        const correctOption = item?.correctOption;
+        const updatedData = { ...item, correctOption: selectedOption };
+        setData(updatedData);
     };
 
     const animatedStyle = useAnimatedStyle(() => {
@@ -56,52 +38,68 @@ export default function Home({ route }: any) {
             width: progress.value,
         };
     });
-
+    const [animate, setAnimate] = useState(true);
+    const handleAnimation = () => {
+        setAnimate(!animate)
+    }
     return (
         <View style={styles.safearea}>
             <StatusBar backgroundColor="transparent" translucent={true} />
             <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={handletimebar}
+                onPress={() => setAnimate(prev => !prev)}
                 style={styles.touchableCss}
             >
-                {timebar ? (
-                    <View>
-                        <View style={styles.timebar}>
-                            <Animated.View
-                                style={[
-                                    styles.timebar2,
-                                    animatedStyle,
-                                    { height: rh(2) },
-                                    (timeLeft / (60 * time)) > 0.75 ? { backgroundColor: '#06D001' }
-                                        : (timeLeft / (60 * time)) > 0.5 ? { backgroundColor: "#FBC02D" }
-                                            : (timeLeft / (60 * time)) > 0.25 ? { backgroundColor: "#F57C00" }
-                                                : { backgroundColor: "#D32F2F" },
-                                ]}
-                            ></Animated.View>
-                        </View>
+                <AnimatePresence onExitComplete={handleAnimation}>
+                    <View style={{ height: rh(7) }}>
+                        <Text
+                            from={{
+                                opacity: 0,
+                                scaleY: 1,
+                            }}
+                            animate={{
+                                opacity: animate ? 0 : 1,
+                                scaleY: animate ? 0.5 : 1,
+                            }}
+                            transition={{
+                                type: 'timing',
+                                duration: 300,
+                            }
+
+                            } style={styles.timeText}>Total Time: {time} mins</Text>
+                        <View from={{
+                            height: rh(2)
+                        }}
+                            animate={{
+                                height: animate ? rh(2) : rh(4),
+                            }}
+                            transition={{
+                                type: 'timing',
+                                duration: 300,
+                            }}
+                            style={styles.timebar1}></View>
+                        <Text
+                            from={{
+                                opacity: 0,
+                                scaleY: 1,
+                            }}
+                            animate={{
+                                opacity: animate ? 0 : 1,
+                                scaleY: animate ? 0.5 : 1,
+                            }}
+                            transition={{
+                                type: 'timing',
+                                duration: 300,
+                            }
+
+                            } style={styles.timebar2Text}>Remaining time: {Math.floor(timeLeft / 60)} mins</Text>
                     </View>
-                ) : (
-                    <View>
-                        <Text style={styles.timeText}>Total Time: {time} mins</Text>
-                        <View style={styles.timebar1}>
-                            <Animated.View
-                                style={[
-                                    styles.timebar2,
-                                    animatedStyle,
-                                    { height: rh(6) },
-                                    (timeLeft / (60 * time)) > 0.75 ? { backgroundColor: '#06D001' }
-                                        : (timeLeft / (60 * time)) > 0.5 ? { backgroundColor: "#FBC02D" }
-                                            : (timeLeft / (60 * time)) > 0.25 ? { backgroundColor: "#F57C00" }
-                                                : { backgroundColor: "#D32F2F" },
-                                ]}
-                            ></Animated.View>
-                        </View>
-                        <Text style={styles.timebar2Text}>Remaining time: {Math.floor(timeLeft / 60)} mins</Text>
-                    </View>
-                )}
+                </AnimatePresence>
             </TouchableOpacity>
-            <Text style={styles.quescss}>Q "{data.sn}. {data.ques}"</Text>
+
+            <Text style={styles.quescss}>
+                Q "{data.sn}. {data.ques}"
+            </Text>
             <KeyboardAwareScrollView style={{ paddingBottom: 120 }}>
                 {data.type === "Text" && (
                     <TextInput
@@ -117,18 +115,25 @@ export default function Home({ route }: any) {
                 )}
                 {data.type === "MCQ" && (
                     <View>
-                        {["Option1", "Option2", "Option3", "Option4"].map((option, index) => (
-                            <TouchableOpacity key={index} onPress={() => handlepressOption(data, index + 1)}>
-                                <Text
-                                    style={[
-                                        styles.textoption,
-                                        data.correctOption === index + 1 ? { color: '#06D001' } : { color: '#ffffff' },
-                                    ]}
+                        {["Option1", "Option2", "Option3", "Option4"].map(
+                            (option, index) => (
+                                <TouchableOpacity
+                                    key={index}
+                                    onPress={() => handlepressOption(data, index + 1)}
                                 >
-                                    {String.fromCharCode(65 + index)}. {data[option]}
-                                </Text>
-                            </TouchableOpacity>
-                        ))}
+                                    <Text
+                                        style={[
+                                            styles.textoption,
+                                            data.correctOption === index + 1
+                                                ? { color: '#06D001' }
+                                                : { color: '#ffffff' },
+                                        ]}
+                                    >
+                                        {String.fromCharCode(65 + index)}. {data[option]}
+                                    </Text>
+                                </TouchableOpacity>
+                            )
+                        )}
                     </View>
                 )}
                 <TouchableOpacity
@@ -136,7 +141,7 @@ export default function Home({ route }: any) {
                     style={styles.touchable}
                     onPress={() => handlesubmit(data)}
                 >
-                    <Text style={styles.submit}> Submit</Text>
+                    <Text style={styles.submit}>Submit</Text>
                 </TouchableOpacity>
             </KeyboardAwareScrollView>
         </View>
@@ -208,29 +213,36 @@ const styles = StyleSheet.create({
         marginVertical: rh(2.6),
     },
     timebar: {
-        marginBottom: rh(2.1),
         overflow: 'hidden',
-        marginTop: rh(3),
+        marginTop: rh(3.3),
         marginLeft: rh(1.7),
         marginRight: rh(1.7),
         borderRadius: 100,
         backgroundColor: '#ffffff',
-        height: rh(2),
+        height: rh(2.5),
         justifyContent: 'center',
     },
     timeText: {
         fontFamily: 'Montserrat-SemiBold',
         color: 'white',
         textAlign: 'center',
-        marginBottom: rh(1)
+        marginBottom: rh(1),
     },
     timebar1: {
         overflow: 'hidden',
         marginLeft: rh(1.7),
         marginRight: rh(1.7),
-        borderRadius: 100,
         backgroundColor: '#ffffff',
-        height: rh(4),
+        justifyContent: 'center',
+        borderRadius: 100,
+    },
+    timebar7: {
+        overflow: 'hidden',
+        marginLeft: rh(1.7),
+        marginRight: rh(1.7),
+        borderRadius: 100,
+        height: rh(2),
+        backgroundColor: '#ffffff',
         justifyContent: 'center',
     },
     timebar2: {
