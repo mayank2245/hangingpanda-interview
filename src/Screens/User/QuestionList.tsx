@@ -1,92 +1,192 @@
 import { FlatList, ImageBackground, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { rf, rh, rw } from '../../Helpers/Responsivedimention'
 import Addques from '../../Assests/svgs/addQues';
 import CustomModal from '../../Components/modal';
+import { useNavigation } from '@react-navigation/native';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+
 const bgImage = require('../../Assests/HeaderImage.png')
 
+export default function QuestionList({ route }: any) {
+    const { item } = route.params;
+    const navigation = useNavigation();
 
-export default function QuestionList() {
-    const data = [{
-        sn: 1,
-        ques: "What is a lambda function in Python ?",
-        type: "Text"
-    },
-    {
-        sn: 2,
-        ques: "What is a lambda function in Python ?",
-        type: "Text"
-    },
-    {
-        sn: 3,
-        ques: "What is a lambda function in Python ?",
-        type: "Text"
-    },
-    {
-        sn: 4,
-        ques: "What is a lambda function in Python ?",
-        type: "MCQ",
-        Option1: "Lorem",
-        Option2: "Ipsum",
-        Option3: "Lorem Ipsum",
-        Option4: "None of the above"
 
-    },
-    {
-        sn: 5,
-        ques: "What is a lambda function in Python ?",
-        type: "MCQ"
-    }
-    ]
+    const datas = [
+        {
+            sn: 1,
+            ques: "What is a lambda function in Python?",
+            type: "Text",
+            answer: ""
+        },
+        {
+            sn: 2,
+            ques: "What is a lambda function in Python?",
+            type: "Text",
+            answer: ""
+        },
+        {
+            sn: 3,
+            ques: "What is a lambda function in Python?",
+            type: "Text",
+            answer: ""
+        },
+        {
+            sn: 4,
+            ques: "What is a lambda function in Python?",
+            type: "MCQ",
+            Option1: "Lorem",
+            Option2: "Ipsum",
+            Option3: "Lorem Ipsum",
+            Option4: "None of the above",
+            correctOption: -1,
+        },
+        {
+            sn: 5,
+            ques: "What is a lambda function in Python?",
+            type: "MCQ",
+            Option1: "Lorem",
+            Option2: "Ipsum",
+            Option3: "Lorem Ipsum",
+            Option4: "None of the above",
+            correctOption: -1,
+        }
+    ];
 
-    const [visibleModal, setVisibleModal] = useState(false)
-    const modal = () => {
-        return <View style={styles.modalcss}>
-            <Text style={[styles.modalText, { color: '#ff3856', marginBottom: rh(1.4), fontFamily: 'Montserrat-SemiBold' }]}>Are you sure you want to submit the exam ?</Text>
+    const [data, setdata] = useState(datas);
+    const [visibleModal, setVisibleModal] = useState(false);
+
+    const updatedData = () => {
+        data[item?.sn - 1] = item;
+    };
+    updatedData();
+
+    const handlepressques = (data: any) => {
+        navigation.navigate("UserHome", { itemes: data });
+    };
+
+    const [time, setTime] = useState<number>(3);
+    const [timeLeft, setTimeLeft] = useState(60 * time);
+    const progress = useSharedValue(rw(93));
+
+    useEffect(() => {
+        if (!timeLeft) return;
+
+        const intervalId = setInterval(() => {
+            setTimeLeft((prev) => {
+                const newTimeLeft = prev - 1;
+                const percentage = (newTimeLeft / (60 * time)) * rw(93);
+                progress.value = withTiming(percentage, { duration: 1000 });
+                return newTimeLeft;
+            });
+        }, 1000);
+
+        return () => clearInterval(intervalId);
+    }, [timeLeft]);
+
+    const animatedStyle = useAnimatedStyle(() => {
+        return {
+            width: progress.value,
+        };
+    });
+    const modal = () => (
+        <View>
+            <Text style={[styles.modalText, {}]}>
+                Are you sure you want to submit the exam?
+            </Text>
             <View>
                 <Pressable style={styles.modalbox}>
                     <Text style={styles.modalText}>Yes</Text>
                 </Pressable>
-                <Pressable style={styles.modalbox}
-                    onPress={() => setVisibleModal(false)}>
+                <Pressable style={styles.modalbox} onPress={() => setVisibleModal(false)}>
                     <Text style={styles.modalText}>No</Text>
                 </Pressable>
             </View>
         </View>
-    }
+    );
+
     return (
         <View>
             <StatusBar backgroundColor={'transparent'} translucent={true} />
-            <ImageBackground
-                style={styles.backgroundImage}
-                source={bgImage}
-                resizeMode="cover">
-
+            <ImageBackground style={styles.backgroundImage} source={bgImage} resizeMode="cover">
                 <View style={styles.overlay}>
+                    <View>
+                        <Text style={styles.timerbar}>
+                            Total Time: {time} mins
+                        </Text>
+                        <View style={styles.timebar1}>
+                            <Animated.View
+                                style={[styles.timebar2, animatedStyle,
+                                (timeLeft / (60 * time)) > 0.75 ? { backgroundColor: '#06D001' }
+                                    : (timeLeft / (60 * time)) > 0.5 ? { backgroundColor: "#FBC02D" }
+                                        : (timeLeft / (60 * time)) > 0.25 ? { backgroundColor: "#F57C00" }
+                                            : { backgroundColor: "#D32F2F" },
+                                { height: rh(4) }]}
+                            />
+                        </View>
+                        <Text style={styles.timebar2Text}>Remaining time: {Math.floor(timeLeft / 60)} mins</Text>
+                    </View>
+
                     <View style={styles.flatviewcss}>
                         <FlatList
                             data={data}
+                            keyExtractor={(item) => item.sn.toString()}
                             renderItem={({ item }) => (
-                                <View>
+                                <TouchableOpacity onPress={() => handlepressques(item)}>
                                     <Text style={styles.FlatListques}>
                                         Q {item.sn}. {item.ques}
                                     </Text>
-                                </View>
+                                    {item.type === "Text" && item.answer !== "" && (
+                                        <Text style={styles.textanswer}>{item.answer}</Text>
+                                    )}
+                                    {item.type === "MCQ" &&
+                                        // (
+                                        //     data.map((ei, i) => (
+                                        //         // console.log("first")
+                                        //         <Text key={i} style={[styles.textoption, item.correctOption === 1 ? { color: '#06D001' } : { color: '#ffffff' }]}>
+                                        //             A+{i}.
+                                        //         </Text>
+                                        //     ))
+                                        // )
+                                        <View>
+                                            <Text style={[styles.textoption, item.correctOption === 1 ? { color: '#06D001' } : { color: '#ffffff' }]}>
+                                                A. {item.Option1}
+                                            </Text>
+                                            <Text style={[styles.textoption, item.correctOption === 2 ? { color: '#06D001' } : { color: '#ffffff' }]}>
+                                                B. {item.Option2}
+                                            </Text>
+                                            <Text style={[styles.textoption, item.correctOption === 3 ? { color: '#06D001' } : { color: '#ffffff' }]}>
+                                                C. {item.Option3}
+                                            </Text>
+                                            <Text style={[styles.textoption, item.correctOption === 4 ? { color: '#06D001' } : { color: '#ffffff' }]}>
+                                                D. {item.Option4}
+                                            </Text>
+                                        </View>
+                                    }
+                                </TouchableOpacity>
                             )}
                         />
                     </View>
-                    <CustomModal visible={visibleModal} onClose={() => setVisibleModal(false)} content={modal()} modaloverlaycss={styles.modaloverlayCss} contentcss={styles.modalcss} />
+                    <CustomModal
+                        visible={visibleModal}
+                        onClose={() => setVisibleModal(false)}
+                        content={modal()}
+                        modaloverlaycss={styles.modaloverlayCss}
+                        contentcss={styles.modalcss}
+                    />
                     <TouchableOpacity
                         activeOpacity={0.8}
                         style={styles.submitcss}
-                        onPress={() => setVisibleModal(true)}>
+                        onPress={() => setVisibleModal(true)}
+                    >
                         <Addques />
                         <Text style={styles.submittext}>Submit</Text>
                     </TouchableOpacity>
                 </View>
             </ImageBackground>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -97,13 +197,13 @@ const styles = StyleSheet.create({
     overlay: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        opacity: 0.9,
-        width: rw(100)
+        opacity: 0.96,
+        width: '100%',
+        overflow: 'hidden'
     },
     flatviewcss: {
         zIndex: 0,
         flex: 1,
-        marginTop: rh(4),
         marginLeft: rw(5),
         marginRight: rh(4),
     },
@@ -129,21 +229,21 @@ const styles = StyleSheet.create({
         fontSize: rf(2.6),
     },
     modalcss: {
-
+        height: rh(25),
         justifyContent: 'center',
-        borderWidth: 2,
         alignItems: 'center',
-        width: rw(60),
-        marginLeft: rw(15),
-        backgroundColor: 'black',
+        width: rw(92),
+        marginLeft: rw(4),
+        backgroundColor: '#000000',
         borderRadius: 25,
     },
     modalbox: {
+        marginHorizontal: rw(28),
         justifyContent: 'center',
         backgroundColor: '#FF3856',
         borderRadius: 10,
-        marginTop: rh(1),
-        width: rw(34),
+        marginTop: rh(1.6),
+        width: rw(40),
         height: rh(5),
     },
     modalText: {
@@ -152,12 +252,57 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
         color: '#ffffff',
     },
+    modalText2: {
+        textAlign: 'center',
+        fontSize: rf(2.2),
+        width: rw(70),
+        marginBottom: rh(1),
+        marginLeft: rw(12),
+        color: '#ff3856',
+        lineHeight: 30,
+        fontFamily: 'Montserrat-SemiBold'
+    },
     modaloverlayCss: {
         justifyContent: 'center',
-        flex: 1,
-        width: '100%',
+        width: rw(100),
         backgroundColor: '#ffffff20',
         zIndex: 0,
+    },
+    timebar1: {
+        overflow: 'hidden',
+        marginTop: rh(1),
+        marginLeft: rh(1.7),
+        marginRight: rh(1.7),
+        borderRadius: 100,
+        backgroundColor: '#ffffff',
+        height: rh(4),
+        justifyContent: 'center',
+    },
+    timebar2: {},
+    timebar2Text: {
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: rf(1.6),
+        textAlign: 'center',
+        position: 'absolute',
+        marginTop: 75,
+        marginLeft: 105
+    },
+    textanswer: {
+        fontFamily: 'Montserrat-SemiBold',
+        color: '#06D001',
+        fontSize: rf(1.9),
+        marginLeft: rw(2.6)
+    },
+    textoption: {
+        fontFamily: 'Montserrat-SemiBold',
+        color: '#ffffff',
+        fontSize: rf(1.9),
+        marginLeft: rw(2.6)
+    },
+    timerbar: {
+        fontFamily: 'Montserrat-SemiBold',
+        color: 'white',
+        textAlign: 'center',
+        marginTop: rh(4.5)
     }
-})
-
+});
