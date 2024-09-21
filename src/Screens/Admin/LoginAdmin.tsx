@@ -1,8 +1,8 @@
-import { ImageBackground, KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, ImageBackground, KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Logo from '../../Assests/svgs/logo'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Arrow from '../../Assests/svgs/arrow';
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -10,21 +10,63 @@ import { rf, rh, rw } from "../../Helpers/Responsivedimention";
 import { useQuery } from "@tanstack/react-query";
 const bgImage = require('../../Assests/HeaderImage.png')
 
+import { ApiService } from '../../API/apiCalls/apiCalls'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Loader } from "../../Components/loader";
+import Toast from "react-native-toast-message";
 
 export default function LoginUserPage() {
-
-    const { isPending, error, data } = useQuery({
-        queryKey: ['candiateData'],
-        queryFn: () =>
-            fetch('http://localhost:5050/api/hr/getInterView?email=test@example.com.com&interviewId=54321').then((res) =>
-                res.json(),
-            ),
-    })
-
-
     const [UserId, setUserId] = useState("")
-    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
     const navigation = useNavigation();
+    const loginhandle = async () => {
+        const payload = {
+            email: email, // hr email 
+            hrID: UserId
+        }
+        const res = await ApiService.login(payload)
+        return res
+    }
+    const { data, isLoading, isSuccess, error, refetch } = useQuery({
+        queryKey: ['querrykey'],
+        queryFn: loginhandle,
+        enabled: false
+    })
+    if (error) {
+        console.log("first")
+        Toast.show({
+            type: 'success',
+            text1: 'Hello',
+            text2: 'This is some something 👋'
+        });
+    }
+
+    if (isSuccess) {
+        AsyncStorage.setItem('MYtoken', data?.data.token);
+        navigation.navigate('AdminHome')
+    }
+
+    const handlepress = () => {
+        if (UserId === "") {
+            Toast.show({
+                type: 'error',
+
+                text1: 'Please fill the User Id',
+            });
+        }
+        else if (email === "") {
+            Toast.show({
+                type: 'error',
+
+                text1: 'Please fill the Email Id',
+            });
+        }
+        else {
+            refetch()
+        }
+
+    }
+
     return (
         <View>
             <StatusBar backgroundColor={'transparent'} translucent={true} />
@@ -41,22 +83,27 @@ export default function LoginUserPage() {
                             <Logo />
                         </View>
                         <View style={styles.textShowCss}>
-                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>Welcome at</Text>
+                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>At</Text>
                             <Text style={[styles.textShowCss, { color: '#FF3856' }]}>HangingPanda !</Text>
-                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>We believe in your
-                                talent.</Text>
+                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>we truly value your exceptional work,</Text>
+                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>Admin.</Text>
                         </View>
                         <Text style={[styles.discriptionText, { color: '#FFFFFF' }]}>Pls Enter your Details here to enter in your interview process</Text>
                         <View style={styles.viewTextInp}>
-                            <TextInput keyboardType="numeric" onChangeText={setUserId} value={UserId} style={styles.textQues} placeholder="Interview Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
-                            <TextInput onChangeText={setName} value={name} style={styles.textQues} placeholder="Email Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
-                            <TouchableOpacity
-                                activeOpacity={0.6}
-                                onPress={
-                                    () => { navigation.navigate('Instruction') }
-                                }>
-                                <Arrow style={styles.arrowCss} />
-                            </TouchableOpacity>
+                            <TextInput keyboardType="numeric" onChangeText={setUserId} value={UserId} style={styles.textQues} placeholder="Admin Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
+                            <TextInput onChangeText={setEmail} value={email} style={styles.textQues} placeholder="Email Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
+                            {
+                                !isLoading ? <TouchableOpacity
+                                    activeOpacity={0.6}
+                                    onPress={handlepress}>
+                                    <Arrow style={styles.arrowCss} />
+                                </TouchableOpacity>
+                                    :
+
+                                    <Loader isLoading={isLoading} />
+                            }
+
+
                         </View>
 
                     </KeyboardAwareScrollView>
@@ -112,7 +159,7 @@ const styles = StyleSheet.create({
     },
     discriptionText: {
         fontFamily: 'Montserrat-Bold',
-        fontSize: rf(1.8),
+        fontSize: rf(2),
         paddingHorizontal: rw(8.6),
         marginTop: rh(6),
         marginBottom: rh(3)

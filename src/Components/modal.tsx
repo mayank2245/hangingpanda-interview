@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#ffffff20',
         zIndex: 0,
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        height: 290
     },
     modalTitle: {
         fontFamily: 'Montserrat-SemiBold',
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
         zIndex: 10,
         backgroundColor: 'black',
         borderTopLeftRadius: 32,
-        borderTopRightRadius: 32
+        borderTopRightRadius: 32,
     }
 });
 

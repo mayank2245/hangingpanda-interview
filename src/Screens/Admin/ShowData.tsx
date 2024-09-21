@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -15,7 +16,15 @@ import CrossIcon from '../../Assests/svgs/cuticon';
 import CustomModal from '../../Components/modal';
 import { useNavigation } from '@react-navigation/native';
 import { rf, rh, rw } from '../../Helpers/Responsivedimention';
+import { Dropdown } from 'react-native-element-dropdown';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Addques from '../../Assests/svgs/addQues';
+import { ApiService } from '../../API/apiCalls/apiCalls';
+import { useQuery } from '@tanstack/react-query';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const bgImage = require('../../Assests/HeaderImage.png')
+
+
 
 
 export default function Showdata({ route }: any) {
@@ -23,12 +32,22 @@ export default function Showdata({ route }: any) {
   const { data2, selectedmcq } = route.params;
   const [quesData, setQuesData] = useState(data)
   const [index, setIndex] = useState<number>()
+  const [openmodal2, setOpenmodal2] = useState(false)
   const [openmodal, setOpenmodal] = useState(false)
+  const [value, setValue] = useState(null);
+  const [timeduration, setTimeduration] = useState<number>()
+  const [papertype, setPapertype] = useState<string>('')
+  const [handleapi, setHandleapi] = useState(false)
   useEffect(() => {
     if (data2 !== undefined) {
       setQuesData(data2)
     }
   })
+  const dataDropdown = [
+    { label: 'JavaScript', value: '1' },
+    { label: 'Python', value: '2' },
+    { label: 'Item 3', value: '3' },
+  ];
   const dataText = [{
     col: false,
     title: 'Input'
@@ -47,9 +66,63 @@ export default function Showdata({ route }: any) {
   },
   ]
 
+  console.log(timeduration)
+  console.log(papertype)
+  const addqueshandle = async () => {
+    const payload = {
+      paperId: "Q1aaaa110065",
+      timeLimit: timeduration,
+      questionPaperType: papertype,
+      questions: [
+        {
+          type: "MCQ",
+          question: "what is correct option ?",
+          options: {
+            a: "3",
+            b: "4",
+            c: "5"
+          },
+          correctOption: "b"
+        },
+        {
+          type: "Input",
+          question: "This is my question?",
+          answer: "It is my answer"
+        }
+      ]
+    }
+    const token = await AsyncStorage.getItem('MYtoken')
+    console.log(token, "-------------token token")
+    if (token) {
+      const res = await ApiService.addquestionPaper(payload, token)
+      return res
+    }
+
+
+  }
+  const { data: dataofQuestion, isLoading, isSuccess, error, refetch } = useQuery({
+    queryKey: ['querrykey'],
+    queryFn: addqueshandle,
+    enabled: false
+  })
+  console.log(error)
+  if (isSuccess) {
+    console.log(isSuccess, "successfull")
+  }
+
+  const handleAddmcq = () => {
+    refetch();
+  }
+
+  const handleUpload = () => {
+    setOpenmodal2(true)
+  }
+
+
   const handleCol = (i: number) => {
     setIndex(i);
     setOpenmodal(false)
+    setOpenmodal2(false)
     navigation.navigate("AddQuestion", { data: quesData, Id: i })
   }
 
@@ -68,6 +141,77 @@ export default function Showdata({ route }: any) {
       </View>
     )
   }
+
+  const renderItem = (item: any) => {
+    return (
+      <View style={style.item}>
+        <Text style={style.textItem}>{item.label}</Text>
+        {item.value === value && (
+          <AntDesign
+            style={style.icon}
+            color="black"
+            name="Safety"
+            size={20}
+          />
+        )}
+      </View>
+    );
+  };
+
+  const modalData2 = () => {
+    return (
+      <>
+        <View>
+          <Text style={{ textAlign: 'center', color: 'white', fontFamily: 'Montserrat-Bold', marginTop: rh(3), fontSize: rf(2.4) }}>Enter Paper Duration and Type</Text>
+        </View>
+        <View style={{ flexDirection: 'row', alignContent: 'center', marginVertical: rh(3) }}>
+          <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2), color: '#06D001', marginTop: rh(2), marginLeft: rw(12) }}>Enter the Time:  </Text>
+          <TextInput value={timeduration} onChangeText={setTimeduration} keyboardType="numeric" style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2.2), paddingLeft: rw(4), backgroundColor: 'white', width: rw(15), height: rh(5), marginTop: rh(1), borderRadius: 10 }} />
+          <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2), color: '#06D001', marginTop: rh(2), marginLeft: rw(2) }}>min</Text>
+        </View>
+
+        <View style={{ flexDirection: 'row', marginBottom: rh(3) }}>
+          <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2), color: '#06D001', marginTop: rh(3), marginLeft: rw(12) }}>Paper Type:</Text>
+          <Dropdown
+            style={style.dropdown}
+            dropdownPosition='top'
+            placeholderStyle={style.placeholderStyle}
+            selectedTextStyle={style.selectedTextStyle}
+            iconStyle={style.iconStyle}
+            data={dataDropdown}
+            containerStyle={{ marginBottom: rh(0.5), borderRadius: 10 }}
+            itemContainerStyle={{ borderRadius: 10 }}
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder="Select Paper Type"
+            value={value}
+            onChange={item => {
+              setValue(item?.value)
+              setPapertype(item?.table);
+            }}
+            renderLeftIcon={() => (
+              <AntDesign style={style.icon} color="black" name="Safety" size={20} />
+            )}
+            renderItem={renderItem}
+          />
+        </View>
+
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={[style.addquescss]}
+          onPress={handleAddmcq}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10 }}>
+            <Addques />
+            <Text style={style.addquesText}>Add</Text>
+          </View>
+        </TouchableOpacity>
+      </>
+    )
+  }
+
+
 
   return (
     <SafeAreaView>
@@ -103,16 +247,17 @@ export default function Showdata({ route }: any) {
             </TouchableOpacity>
           </View>
 
-
+          <CustomModal content={modalData2()} visible={openmodal2} onClose={() => { setOpenmodal2(false); }} modaloverlaycss={{}} contentcss={{}} />
           <TouchableOpacity
             activeOpacity={0.8}
+            onPress={handleUpload}
             style={style.uploadcss}>
             <Upload />
             <Text style={style.uploadText}>Upload</Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>
-      <CustomModal content={modalData()} visible={openmodal} onClose={() => { setOpenmodal(false); }} />
+      <CustomModal content={modalData()} visible={openmodal} onClose={() => { setOpenmodal(false); }} modaloverlaycss={{}} contentcss={{}} />
     </SafeAreaView >
 
 
@@ -219,5 +364,63 @@ const style = StyleSheet.create({
     marginTop: rh(2.3),
     marginLeft: rh(41),
     marginBottom: rh(1)
-  }
+  },
+  dropdown: {
+    margin: 16,
+    height: 50,
+    width: rw(50),
+    backgroundColor: 'white',
+    borderRadius: 100,
+    padding: 12,
+    // shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    // shadowOpacity: 0.6,
+    // shadowRadius: 100,
+    // elevation: 2,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  item: {
+    padding: 17,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  textItem: {
+    flex: 1,
+    fontSize: 16,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  addquescss: {
+    justifyContent: 'center',
+    alignItems: "center",
+    height: rh(8),
+    backgroundColor: '#FF3856',
+    borderTopRightRadius: 25,
+  },
+  addquesText: {
+    fontFamily: 'Montserrat-Bold',
+    color: '#FFFFFF',
+    fontSize: rf(2.4),
+    textAlign: 'center',
+  },
 });
+
