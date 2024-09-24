@@ -25,7 +25,7 @@ export default function AddQuestion({ route }: any) {
     const [mcqInput, setMcqInput] = useState("")
     const [value, setValue] = useState(0);
     const [answer, setAnswer] = useState("")
-    const [inputans, setInputAns] = useState(Array().fill(''));
+    const [inputans, setInputAns] = useState({});
     const [currentInputIndex, setCurrentInputIndex] = useState(0);
     const [openmodal2, setOpenmodal2] = useState(true)
     const [openmodal3, setOpenmodal3] = useState(false)
@@ -47,9 +47,8 @@ export default function AddQuestion({ route }: any) {
         const sendData = [...data, {
             sn: data.length + 1,
             question: ques,
-            ans: answer,
-            date: 123,
-            category: 'pyton',
+            answer: answer,
+            type: 'Input',
         }]
         setQues("")
         setAnswer("")
@@ -92,23 +91,22 @@ export default function AddQuestion({ route }: any) {
         const sendData = [...data, {
             sn: data.length + 1,
             question: ques,
-            ans: inputans,
-            data: 123,
-            category: 'pyton',
+            options: inputans,
+            // data: 123,
+            type: 'MCQ',
+            correctOption: selected,
         }]
         navigate.navigate("ShowData", {
-            data2: sendData,
-            selectedmcq: selected
+            data2: sendData
         })
         setQueswrite(true)
         setQues("")
-        setInputAns(Array().fill(''))
-        setDisplayedData([])
+        setInputAns({})
+        setDisplayedData({})
         setMcqInput("")
         setCurrentInputIndex(0)
         setSelected(-1)
         setOpenmodal3(false)
-
     }
 
     const modalData = () => {
@@ -165,12 +163,11 @@ export default function AddQuestion({ route }: any) {
                 </View>
                 <View style={{ marginBottom: 20 }}>
                     {
-                        inputans.map((ei: any, i) => (
+                        Object.entries(inputans).map(([i, value]) => (
                             <Pressable key={i} onPress={() => handleSelectmcq(i)} style={[styles.selectmcq, selected === i ? { backgroundColor: '#06D001' } : { backgroundColor: 'white' }]}>
-                                <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2), textAlign: 'center', color: 'black', }}>{ei}</Text>
+                                <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2), textAlign: 'center', color: 'black', }}>{value}</Text>
                             </Pressable>
-                        )
-                        )
+                        ))
                     }
                 </View>
                 <TouchableOpacity
@@ -187,11 +184,16 @@ export default function AddQuestion({ route }: any) {
         )
     }
 
+    const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G']; // Extend as needed
+
     const handleInputChange = (text: string, i: number) => {
-        const updatedInputs = [...inputans];
-        updatedInputs[i] = text;
+        const updatedInputs = { ...inputans };
+        const letterKey = alphabet[i];  // Convert number index to letter
+        updatedInputs[letterKey] = text;  // Store input with letter key
         setInputAns(updatedInputs);
+        console.log(updatedInputs);
     }
+
     const handleNext = () => {
         setDisplayedData(inputans)
         if (currentInputIndex < value) {
@@ -247,19 +249,19 @@ export default function AddQuestion({ route }: any) {
                                             {
                                                 mcqInput === "" ?
                                                     <>
-                                                        <CustomModal content={modalData2()} visible={openmodal2} onClose={() => { setOpenmodal2(false); }} />
+                                                        <CustomModal content={modalData2()} visible={openmodal2} onClose={() => { setOpenmodal2(false); }} modaloverlaycss={{}} contentcss={{}} />
                                                     </>
                                                     :
                                                     <>
                                                         {
-                                                            displayedData?.map((ei: any, i: number) => (
+                                                            Object.entries(displayedData).map(([key, value]) => (
                                                                 <Text style={{
                                                                     fontFamily: 'Montserrat-Bold',
                                                                     color: '#ffffff',
                                                                     fontSize: rf(2.3),
                                                                     marginTop: rh(2),
                                                                     marginHorizontal: rh(4.5)
-                                                                }} key={i}>{String.fromCharCode(65 + (i))}. {ei}</Text>
+                                                                }} key={key}>{key}.{value}</Text>
                                                             ))
                                                         }
                                                         {
@@ -281,7 +283,7 @@ export default function AddQuestion({ route }: any) {
                                                         </TouchableOpacity>
                                                             :
                                                             <>
-                                                                <CustomModal content={modalData3()} visible={openmodal3} onClose={() => { setOpenmodal3(false); }} />
+                                                                <CustomModal content={modalData3()} visible={openmodal3} onClose={() => { setOpenmodal3(false); }} modaloverlaycss={{}} contentcss={{}} />
                                                                 <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                                                                     <TouchableOpacity
                                                                         activeOpacity={0.8}
@@ -314,7 +316,7 @@ export default function AddQuestion({ route }: any) {
                             </TouchableOpacity>
                         )
                     }
-                    <CustomModal content={modalData()} visible={openmodal} onClose={() => setOpenmodal(false)} />
+                    <CustomModal content={modalData()} visible={openmodal} onClose={() => setOpenmodal(false)} modaloverlaycss={{}} contentcss={{}} />
                 </View>
             </ImageBackground >
         </View >

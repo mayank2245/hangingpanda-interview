@@ -1,7 +1,5 @@
 import axios from 'axios';
-import url from './url';
 import config from './config';
-import logo from '../../Assests/svgs/logo';
 
 axios.defaults.timeout = 30000;
 
@@ -20,7 +18,7 @@ export default async function fireAjax({
     };
 
     URL = config.BaseURL + URL;
-    console.log(URL, "url going");
+    console.log(URL, "------------url going");
 
     let headers = { ...headerData };
     if (method === 'POST') {
@@ -32,21 +30,18 @@ export default async function fireAjax({
                 },
             };
         }
-        if (header) {
-            headers = { ...headers, header };
-        }
+        console.log(method, "method ----")
         return axios.post(URL, data).then(
             res => {
                 return res;
             },
             error => {
-                console.log('error');
                 if (error.response.status === 401) {
                     return axios.post(URL, data, headers);
                 } else {
                     return axios.post(URL, data, headers);
                 }
-            },
+            }
         );
     } else if (method === 'GET') {
         if (token) {

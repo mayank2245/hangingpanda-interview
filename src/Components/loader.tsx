@@ -1,4 +1,4 @@
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { rh } from "../Helpers/Responsivedimention";
 
 interface loading {
@@ -9,9 +9,12 @@ export const Loader: React.FC<loading> = ({ isLoading }) => {
     return (
         <View>
             <ActivityIndicator
-                style={{ padding: 10, marginTop: rh(3) }}
+                style={styles.activestyle}
                 animating={isLoading}
                 size="large" />
         </View>
     )
 }
+const styles = StyleSheet.create({
+    activestyle: { padding: 10, marginTop: rh(3) }
+})

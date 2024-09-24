@@ -20,8 +20,9 @@ import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Addques from '../../Assests/svgs/addQues';
 import { ApiService } from '../../API/apiCalls/apiCalls';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 const bgImage = require('../../Assests/HeaderImage.png')
 
 
@@ -29,7 +30,8 @@ const bgImage = require('../../Assests/HeaderImage.png')
 
 export default function Showdata({ route }: any) {
   const { data } = route.params;
-  const { data2, selectedmcq } = route.params;
+  const { data2 } = route.params;
+  const { qestionList } = route.params;
   const [quesData, setQuesData] = useState(data)
   const [index, setIndex] = useState<number>()
   const [openmodal2, setOpenmodal2] = useState(false)
@@ -37,12 +39,15 @@ export default function Showdata({ route }: any) {
   const [value, setValue] = useState(null);
   const [timeduration, setTimeduration] = useState<number>()
   const [papertype, setPapertype] = useState<string>('')
-  const [handleapi, setHandleapi] = useState(false)
   useEffect(() => {
     if (data2 !== undefined) {
       setQuesData(data2)
     }
+    if (qestionList !== undefined) {
+      setQuesData(qestionList)
+    }
   })
+  console.log(qestionList, "-----------------QestionList")
   const dataDropdown = [
     { label: 'JavaScript', value: '1' },
     { label: 'Python', value: '2' },
@@ -65,53 +70,37 @@ export default function Showdata({ route }: any) {
     title: 'Program'
   },
   ]
-
-  console.log(timeduration)
-  console.log(papertype)
+  console.log(quesData)
   const addqueshandle = async () => {
     const payload = {
-      paperId: "Q1aaaa110065",
+      paperId: "fadasddsfae35",
       timeLimit: timeduration,
       questionPaperType: papertype,
-      questions: [
-        {
-          type: "MCQ",
-          question: "what is correct option ?",
-          options: {
-            a: "3",
-            b: "4",
-            c: "5"
-          },
-          correctOption: "b"
-        },
-        {
-          type: "Input",
-          question: "This is my question?",
-          answer: "It is my answer"
-        }
-      ]
+      questions: quesData
     }
     const token = await AsyncStorage.getItem('MYtoken')
-    console.log(token, "-------------token token")
     if (token) {
-      const res = await ApiService.addquestionPaper(payload, token)
+      console.log("add question papaer call")
+      const res = token && await ApiService.addquestionPaper(payload, token)
       return res
     }
 
 
   }
-  const { data: dataofQuestion, isLoading, isSuccess, error, refetch } = useQuery({
-    queryKey: ['querrykey'],
-    queryFn: addqueshandle,
-    enabled: false
-  })
-  console.log(error)
-  if (isSuccess) {
-    console.log(isSuccess, "successfull")
+  const handleonsuccess = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Upload Successfully',
+    });
   }
+  const mutation = useMutation({
+    mutationFn: addqueshandle,
+    onSuccess: handleonsuccess
+  })
+
 
   const handleAddmcq = () => {
-    refetch();
+    mutation.mutate()
   }
 
   const handleUpload = () => {
@@ -157,21 +146,20 @@ export default function Showdata({ route }: any) {
       </View>
     );
   };
-
   const modalData2 = () => {
     return (
       <>
         <View>
-          <Text style={{ textAlign: 'center', color: 'white', fontFamily: 'Montserrat-Bold', marginTop: rh(3), fontSize: rf(2.4) }}>Enter Paper Duration and Type</Text>
+          <Text style={style.headingstyle}>Enter Paper Duration and Type</Text>
         </View>
-        <View style={{ flexDirection: 'row', alignContent: 'center', marginVertical: rh(3) }}>
-          <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2), color: '#06D001', marginTop: rh(2), marginLeft: rw(12) }}>Enter the Time:  </Text>
-          <TextInput value={timeduration} onChangeText={setTimeduration} keyboardType="numeric" style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2.2), paddingLeft: rw(4), backgroundColor: 'white', width: rw(15), height: rh(5), marginTop: rh(1), borderRadius: 10 }} />
-          <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2), color: '#06D001', marginTop: rh(2), marginLeft: rw(2) }}>min</Text>
+        <View style={style.viewmodal2}>
+          <Text style={[style.modal2Text, { marginLeft: rw(12) }]}>Enter the Time:  </Text>
+          <TextInput value={timeduration} onChangeText={setTimeduration} keyboardType="numeric" style={style.textinputmodal2} />
+          <Text style={[style.modal2Text, { marginLeft: rw(2) }]}>min</Text>
         </View>
 
-        <View style={{ flexDirection: 'row', marginBottom: rh(3) }}>
-          <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2), color: '#06D001', marginTop: rh(3), marginLeft: rw(12) }}>Paper Type:</Text>
+        <View style={style.papertypeview}>
+          <Text style={style.textpapertype}>Paper Type:</Text>
           <Dropdown
             style={style.dropdown}
             dropdownPosition='top'
@@ -187,8 +175,8 @@ export default function Showdata({ route }: any) {
             placeholder="Select Paper Type"
             value={value}
             onChange={item => {
-              setValue(item?.value)
-              setPapertype(item?.table);
+              setPapertype(item.label);
+              setValue(item.value)
             }}
             renderLeftIcon={() => (
               <AntDesign style={style.icon} color="black" name="Safety" size={20} />
@@ -229,13 +217,12 @@ export default function Showdata({ route }: any) {
                     Q {item.sn}. {item.question}
                   </Text>
                   {
-                    typeof (item.ans) === "string" ?
-                      <Text style={style.FlatListans}>{item.ans}</Text>
+                    typeof (item.answer) === "string" ?
+                      <Text style={style.FlatListans}>{item.answer}</Text>
                       :
-                      item.ans.map((ei: any, i: number) => {
-                        return <Text style={[style.FlatListans, selectedmcq === i ? { color: '#06D001' } : { color: 'white' }, { marginBottom: rh(1), marginHorizontal: rw(2) }]}>{String.fromCharCode(65 + (i))}. {ei}</Text>
-                      })
-
+                      Object.entries(item.options).map(([i, ei]) => (
+                        <Text style={[style.FlatListans, item.correctOption === i ? { color: '#06D001' } : { color: 'white' }, { marginBottom: rh(1), marginHorizontal: rw(2) }]}>{i}. {ei}</Text>
+                      ))
                   }
                 </View>
               )}
@@ -422,5 +409,23 @@ const style = StyleSheet.create({
     fontSize: rf(2.4),
     textAlign: 'center',
   },
+  headingstyle: {
+    textAlign: 'center', color: 'white', fontFamily: 'Montserrat-Bold', marginTop: rh(3), fontSize: rf(2.4)
+  },
+  viewmodal2: {
+    flexDirection: 'row', alignContent: 'center', marginVertical: rh(3)
+  },
+  modal2Text: {
+    fontFamily: 'Montserrat-Bold', fontSize: rf(2), color: '#06D001', marginTop: rh(2)
+  },
+  textinputmodal2: {
+    fontFamily: 'Montserrat-Bold', fontSize: rf(2.2), paddingLeft: rw(4), backgroundColor: 'white', width: rw(15), height: rh(5), marginTop: rh(1), borderRadius: 10
+  },
+  textpapertype: {
+    fontFamily: 'Montserrat-Bold', fontSize: rf(2), color: '#06D001', marginTop: rh(3), marginLeft: rw(12)
+  },
+  papertypeview: {
+    flexDirection: 'row', marginBottom: rh(3)
+  }
 });
 

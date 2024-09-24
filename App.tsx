@@ -7,23 +7,18 @@
 
 import React from 'react';
 import Navigate from './src/Navigation/Index';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Toast from 'react-native-toast-message';
-
-
-import NetworkLogger from 'react-native-network-logger';
-
-
+import { NavigationContainer } from '@react-navigation/native';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const queryClient = new QueryClient()
 export default function App() {
-  console.log(queryClient, 'queryClient')
   return (
-    <QueryClientProvider client={queryClient}>
-      <Navigate />
-      <Toast />
-      {/* <NetworkLogger /> */}
-    </QueryClientProvider>
-
+    <NavigationContainer>
+      <QueryClientProvider client={queryClient}>
+        <Navigate />
+        <Toast />
+      </QueryClientProvider>
+    </NavigationContainer>
   )
 }

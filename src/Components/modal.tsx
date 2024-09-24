@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, View, Text, StyleSheet, ViewStyle } from 'react-native';
-import { rf, rw } from '../Helpers/Responsivedimention';
+import { rf, rh, rw } from '../Helpers/Responsivedimention';
 
 interface CustomModalProps {
     visible: boolean;
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff20',
         zIndex: 0,
         justifyContent: 'flex-end',
-        height: 290
+        height: rh(100)
     },
     modalTitle: {
         fontFamily: 'Montserrat-SemiBold',

@@ -59,6 +59,8 @@ export default function App(): React.JSX.Element {
 
   const handleaddonebyone = () => {
     setVisiblemodal(true);
+  }
+  const handleallquestion = () => {
 
   }
 
@@ -168,7 +170,18 @@ export default function App(): React.JSX.Element {
                         <Text style={styles.addquestiontext}>Add Question Manually</Text>
                       </View>
                     </TouchableOpacity>
-                    <CustomModal visible={visiblemodal} onClose={() => setVisiblemodal(false)} content={modalData()} />
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      style={[styles.addquestion, { marginTop: rh(3) }]}
+                      onPress={() => {
+                        navigation.navigate('AllQuestionPaper');
+                      }}>
+                      <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10 }}>
+                        <Addques />
+                        <Text style={styles.addquestiontext}>See All the question</Text>
+                      </View>
+                    </TouchableOpacity>
+                    <CustomModal visible={visiblemodal} onClose={() => setVisiblemodal(false)} content={modalData()} modaloverlaycss={{}} contentcss={{}} />
                   </>
                 )}
               </View>

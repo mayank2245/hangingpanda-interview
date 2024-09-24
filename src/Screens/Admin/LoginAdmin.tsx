@@ -7,13 +7,14 @@ import Arrow from '../../Assests/svgs/arrow';
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { rf, rh, rw } from "../../Helpers/Responsivedimention";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 const bgImage = require('../../Assests/HeaderImage.png')
 
 import { ApiService } from '../../API/apiCalls/apiCalls'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Loader } from "../../Components/loader";
 import Toast from "react-native-toast-message";
+import axios from "axios";
 
 export default function LoginUserPage() {
     const [UserId, setUserId] = useState("")
@@ -21,36 +22,33 @@ export default function LoginUserPage() {
     const navigation = useNavigation();
     const loginhandle = async () => {
         const payload = {
-            email: email, // hr email 
+            email: email,
             hrID: UserId
         }
+        console.log("API call started");
         const res = await ApiService.login(payload)
+        console.log("API call response:", res);
         return res
     }
-    const { data, isLoading, isSuccess, error, refetch } = useQuery({
-        queryKey: ['querrykey'],
-        queryFn: loginhandle,
-        enabled: false
+    const mutation = useMutation({
+        mutationKey: ["passingKey123"],
+        mutationFn: loginhandle,
+        onSuccess: async data => {
+            console.log("data")
+            if (data?.data.token) {
+                await AsyncStorage.setItem('MYtoken', data.data.token);
+            }
+            navigation.navigate('AdminHome')
+        },
+        onError:
+            (error) => console.error("Failed to update data:", error),
+        onSettled: () => { console.log("seltesle") }
     })
-    if (error) {
-        console.log("first")
-        Toast.show({
-            type: 'success',
-            text1: 'Hello',
-            text2: 'This is some something 👋'
-        });
-    }
-
-    if (isSuccess) {
-        AsyncStorage.setItem('MYtoken', data?.data.token);
-        navigation.navigate('AdminHome')
-    }
 
     const handlepress = () => {
         if (UserId === "") {
             Toast.show({
                 type: 'error',
-
                 text1: 'Please fill the User Id',
             });
         }
@@ -62,9 +60,8 @@ export default function LoginUserPage() {
             });
         }
         else {
-            refetch()
+            mutation.mutate()
         }
-
     }
 
     return (
@@ -92,18 +89,14 @@ export default function LoginUserPage() {
                         <View style={styles.viewTextInp}>
                             <TextInput keyboardType="numeric" onChangeText={setUserId} value={UserId} style={styles.textQues} placeholder="Admin Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
                             <TextInput onChangeText={setEmail} value={email} style={styles.textQues} placeholder="Email Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
-                            {
-                                !isLoading ? <TouchableOpacity
-                                    activeOpacity={0.6}
-                                    onPress={handlepress}>
-                                    <Arrow style={styles.arrowCss} />
-                                </TouchableOpacity>
-                                    :
 
-                                    <Loader isLoading={isLoading} />
-                            }
+                            <TouchableOpacity
+                                activeOpacity={0.6}
+                                onPress={handlepress}>
+                                <Arrow style={styles.arrowCss} />
+                            </TouchableOpacity>
 
-
+                            <Loader isLoading={false} />
                         </View>
 
                     </KeyboardAwareScrollView>
