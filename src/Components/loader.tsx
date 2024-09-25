@@ -1,5 +1,5 @@
 import { ActivityIndicator, StyleSheet, View } from "react-native";
-import { rh } from "../Helpers/Responsivedimention";
+import { rh } from "../helpers/Responsivedimention";
 
 interface loading {
     isLoading: boolean

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from './config';
+import config from './Config';
 
 axios.defaults.timeout = 30000;
 
@@ -18,7 +18,6 @@ export default async function fireAjax({
     };
 
     URL = config.BaseURL + URL;
-    console.log(URL, "------------url going");
 
     let headers = { ...headerData };
     if (method === 'POST') {
@@ -30,7 +29,6 @@ export default async function fireAjax({
                 },
             };
         }
-        console.log(method, "method ----")
         return axios.post(URL, data).then(
             res => {
                 return res;

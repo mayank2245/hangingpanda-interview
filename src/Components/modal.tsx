@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, View, Text, StyleSheet, ViewStyle } from 'react-native';
-import { rf, rh, rw } from '../Helpers/Responsivedimention';
+import { rf, rh, rw } from '../helpers/Responsivedimention';
 
 interface CustomModalProps {
     visible: boolean;

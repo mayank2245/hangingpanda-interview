@@ -1,25 +1,26 @@
-import { ImageBackground, KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { StatusBar } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Logo from '../../Assests/svgs/logo'
 import { useState } from "react";
-import Arrow from '../../Assests/svgs/arrow';
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { rf, rh, rw } from "../../Helpers/Responsivedimention";
-const bgImage = require('../../Assests/HeaderImage.png')
+import { rf, rh, rw } from "../../helpers/Responsivedimention";
+import { Arrow, Logo } from "../../assests/svg";
+import { BackgroundImage } from "../../assests/images";
+import { Color } from "../../constant/Color";
 
 
 export default function LoginUserPage() {
-    const [UserId, setUserId] = useState("")
+    const [userId, setUserId] = useState("")
     const [name, setName] = useState("")
+
     const navigation = useNavigation();
+
     return (
         <View>
             <StatusBar backgroundColor={'transparent'} translucent={true} />
             <ImageBackground
                 style={styles.backgroundImage}
-                source={bgImage}
+                source={BackgroundImage}
                 resizeMode="cover">
                 <View style={styles.container}>
                     <KeyboardAwareScrollView
@@ -30,15 +31,15 @@ export default function LoginUserPage() {
                             <Logo />
                         </View>
                         <View style={styles.textShowCss}>
-                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>At</Text>
-                            <Text style={[styles.textShowCss, { color: '#FF3856' }]}>HangingPanda !</Text>
-                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>we truly value your exceptional work,</Text>
-                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>HR.</Text>
+                            <Text style={[styles.textShowCss, { color: Color.logintextWhite }]}>At</Text>
+                            <Text style={[styles.textShowCss, { color: Color.red }]}>HangingPanda !</Text>
+                            <Text style={[styles.textShowCss, { color: Color.logintextWhite }]}>we truly value your exceptional work,</Text>
+                            <Text style={[styles.textShowCss, { color: Color.logintextWhite }]}>HR.</Text>
                         </View>
-                        <Text style={[styles.discriptionText, { color: '#FFFFFF' }]}>Pls Enter your Details here to enter in your interview process</Text>
+                        <Text style={[styles.discriptionText, { color: Color.white }]}>Pls Enter your Details here to enter in your interview process</Text>
                         <View style={styles.viewTextInp}>
-                            <TextInput keyboardType="numeric" onChangeText={setUserId} value={UserId} style={styles.textQues} placeholder="Hr Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
-                            <TextInput onChangeText={setName} value={name} style={styles.textQues} placeholder="Email Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
+                            <TextInput keyboardType="numeric" onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="Hr Id" placeholderTextColor={Color.red} cursorColor={Color.red} />
+                            <TextInput onChangeText={setName} value={name} style={styles.textQues} placeholder="Email Id" placeholderTextColor={Color.red} cursorColor={Color.red} />
                             <TouchableOpacity
                                 activeOpacity={0.6}
                                 onPress={
@@ -65,9 +66,9 @@ const styles = StyleSheet.create({
     },
     textQues: {
         fontFamily: 'Montserrat-Bold',
-        color: '#FFFFFF',
+        color: Color.white,
         borderWidth: 3,
-        borderColor: '#FF3856',
+        borderColor: Color.red,
         width: '80%',
         margin: 'auto',
         height: rh(7),

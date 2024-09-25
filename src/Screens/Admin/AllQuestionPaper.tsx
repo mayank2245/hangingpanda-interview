@@ -1,26 +1,26 @@
-import { FlatList, ImageBackground, SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { FlatList, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { rf, rh, rw } from '../../Helpers/Responsivedimention';
-import Card from '../../Components/card'
-import { useQueries, useQuery } from '@tanstack/react-query';
-import { ApiService } from '../../API/apiCalls/apiCalls';
+import { rf, rh, rw } from '../../helpers/Responsivedimention';
+import Card from '../../components/Card'
+import { useQuery } from '@tanstack/react-query';
+import { ApiService } from '../../api/apicalls/ApiCalls';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ScrollView } from 'moti';
-const bgImage = require('../../Assests/HeaderImage.png');
+import { BackgroundImage } from '../../assests/images';
+import { Color } from '../../constant/Color';
 
 export default function AllQuestionPaper() {
     const [questionList, setQuestionList] = useState<any>()
+
     const handlegetallQues = async () => {
         const token = await AsyncStorage.getItem('MYtoken')
         if (token) {
-            console.log("add question papaer call")
-            const res = token && await ApiService.questionPaper(token)
+            const res = await ApiService.questionPaper(token)
             return res
         }
     }
 
-    const { data, isLoading, error, refetch } = useQuery({
-        queryKey: ['querryke123y'],
+    const { data } = useQuery({
+        queryKey: ['querry123'],
         queryFn: handlegetallQues,
     });
 
@@ -29,7 +29,9 @@ export default function AllQuestionPaper() {
         if (data) {
             setQuestionList(data?.data?.questionPapers || []);
         }
-    }, [data]);
+    })
+
+
 
 
     return (
@@ -40,7 +42,7 @@ export default function AllQuestionPaper() {
             />
             <ImageBackground
                 style={styles.backgroundImages}
-                source={bgImage}
+                source={BackgroundImage}
                 resizeMode="cover">
                 <View style={styles.overlay}>
 
@@ -81,7 +83,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     overlay: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        backgroundColor: Color.black,
 
         height: rh(100),
     },
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
         marginTop: rh(4),
         marginBottom: rh(1),
         marginLeft: rh(2.8),
-        color: '#FFFFFF',
+        color: Color.white,
         fontFamily: 'Montserrat-Bold',
         fontSize: rf(3),
     }

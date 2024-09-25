@@ -1,17 +1,19 @@
 import { FlatList, ImageBackground, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { rf, rh, rw } from '../../Helpers/Responsivedimention'
-import Addques from '../../Assests/svgs/addQues';
-import CustomModal from '../../Components/modal';
+import { rf, rh, rw } from '../../helpers/Responsivedimention'
+import Addques from '../../assests/svg/AddQues';
+import CustomModal from '../../components/Modal';
 import { useNavigation } from '@react-navigation/native';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import { BackgroundImage } from '../../assests/images';
+import { Color } from '../../constant/Color';
 
-const bgImage = require('../../Assests/HeaderImage.png')
 
 export default function QuestionList({ route }: any) {
-    const { item } = route.params;
-    const navigation = useNavigation();
 
+    const { item } = route.params;
+
+    const navigation = useNavigation();
 
     const datas = [
         {
@@ -54,8 +56,13 @@ export default function QuestionList({ route }: any) {
         }
     ];
 
+
     const [data, setdata] = useState(datas);
     const [visibleModal, setVisibleModal] = useState(false);
+    const [time, setTime] = useState<number>(3);
+    const [timeLeft, setTimeLeft] = useState(60 * time);
+
+    const progress = useSharedValue(rw(93));
 
     const updatedData = () => {
         data[item?.sn - 1] = item;
@@ -66,13 +73,8 @@ export default function QuestionList({ route }: any) {
         navigation.navigate("UserHome", { itemes: data });
     };
 
-    const [time, setTime] = useState<number>(3);
-    const [timeLeft, setTimeLeft] = useState(60 * time);
-    const progress = useSharedValue(rw(93));
-
     useEffect(() => {
         if (!timeLeft) return;
-
         const intervalId = setInterval(() => {
             setTimeLeft((prev) => {
                 const newTimeLeft = prev - 1;
@@ -81,7 +83,6 @@ export default function QuestionList({ route }: any) {
                 return newTimeLeft;
             });
         }, 1000);
-
         return () => clearInterval(intervalId);
     }, [timeLeft]);
 
@@ -90,43 +91,40 @@ export default function QuestionList({ route }: any) {
             width: progress.value,
         };
     });
+
     const modal = () => (
         <View>
             <Text style={[styles.modalText, {}]}>
                 Are you sure you want to submit the exam?
             </Text>
-            <View>
-                <Pressable style={styles.modalbox}>
-                    <Text style={styles.modalText}>Yes</Text>
-                </Pressable>
-                <Pressable style={styles.modalbox} onPress={() => setVisibleModal(false)}>
-                    <Text style={styles.modalText}>No</Text>
-                </Pressable>
-            </View>
+            <Pressable style={styles.modalbox}>
+                <Text style={styles.modalText}>Yes</Text>
+            </Pressable>
+            <Pressable style={styles.modalbox} onPress={() => setVisibleModal(false)}>
+                <Text style={styles.modalText}>No</Text>
+            </Pressable>
         </View>
     );
 
     return (
         <View>
             <StatusBar backgroundColor={'transparent'} translucent={true} />
-            <ImageBackground style={styles.backgroundImage} source={bgImage} resizeMode="cover">
+            <ImageBackground style={styles.backgroundImage} source={BackgroundImage} resizeMode="cover">
                 <View style={styles.overlay}>
-                    <View>
-                        <Text style={styles.timerbar}>
-                            Total Time: {time} mins
-                        </Text>
-                        <View style={styles.timebar1}>
-                            <Animated.View
-                                style={[styles.timebar2, animatedStyle,
-                                (timeLeft / (60 * time)) > 0.75 ? { backgroundColor: '#06D001' }
-                                    : (timeLeft / (60 * time)) > 0.5 ? { backgroundColor: "#FBC02D" }
-                                        : (timeLeft / (60 * time)) > 0.25 ? { backgroundColor: "#F57C00" }
-                                            : { backgroundColor: "#D32F2F" },
-                                { height: rh(4) }]}
-                            />
-                        </View>
-                        <Text style={styles.timebar2Text}>Remaining time: {Math.floor(timeLeft / 60)} mins</Text>
+                    <Text style={styles.timerbar}>
+                        Total Time: {time} mins
+                    </Text>
+                    <View style={styles.timebar1}>
+                        <Animated.View
+                            style={[styles.timebar2, animatedStyle,
+                            (timeLeft / (60 * time)) > 0.75 ? { backgroundColor: Color.green }
+                                : (timeLeft / (60 * time)) > 0.5 ? { backgroundColor: Color.yellow }
+                                    : (timeLeft / (60 * time)) > 0.25 ? { backgroundColor: Color.orange }
+                                        : { backgroundColor: Color.timebarRed },
+                            { height: rh(4) }]}
+                        />
                     </View>
+                    <Text style={styles.timebar2Text}>Remaining time: {Math.floor(timeLeft / 60)} mins</Text>
 
                     <View style={styles.flatviewcss}>
                         <FlatList
@@ -141,25 +139,17 @@ export default function QuestionList({ route }: any) {
                                         <Text style={styles.textanswer}>{item.answer}</Text>
                                     )}
                                     {item.type === "MCQ" &&
-                                        // (
-                                        //     data.map((ei, i) => (
-                                        //         // console.log("first")
-                                        //         <Text key={i} style={[styles.textoption, item.correctOption === 1 ? { color: '#06D001' } : { color: '#ffffff' }]}>
-                                        //             A+{i}.
-                                        //         </Text>
-                                        //     ))
-                                        // )
                                         <View>
-                                            <Text style={[styles.textoption, item.correctOption === 1 ? { color: '#06D001' } : { color: '#ffffff' }]}>
+                                            <Text style={[styles.textoption, item.correctOption === 1 ? { color: Color.green } : { color: Color.white }]}>
                                                 A. {item.Option1}
                                             </Text>
-                                            <Text style={[styles.textoption, item.correctOption === 2 ? { color: '#06D001' } : { color: '#ffffff' }]}>
+                                            <Text style={[styles.textoption, item.correctOption === 2 ? { color: Color.green } : { color: Color.white }]}>
                                                 B. {item.Option2}
                                             </Text>
-                                            <Text style={[styles.textoption, item.correctOption === 3 ? { color: '#06D001' } : { color: '#ffffff' }]}>
+                                            <Text style={[styles.textoption, item.correctOption === 3 ? { color: Color.green } : { color: Color.white }]}>
                                                 C. {item.Option3}
                                             </Text>
-                                            <Text style={[styles.textoption, item.correctOption === 4 ? { color: '#06D001' } : { color: '#ffffff' }]}>
+                                            <Text style={[styles.textoption, item.correctOption === 4 ? { color: Color.green } : { color: Color.white }]}>
                                                 D. {item.Option4}
                                             </Text>
                                         </View>
@@ -196,7 +186,7 @@ const styles = StyleSheet.create({
     },
     overlay: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        backgroundColor: Color.black,
         opacity: 0.96,
         width: '100%',
         overflow: 'hidden'
@@ -208,7 +198,7 @@ const styles = StyleSheet.create({
         marginRight: rh(4),
     },
     FlatListques: {
-        color: '#FF3856',
+        color: Color.red,
         fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(1.8),
         marginBottom: rh(1.6),
@@ -216,7 +206,7 @@ const styles = StyleSheet.create({
     },
     submitcss: {
         height: rh(8),
-        backgroundColor: '#FF3856',
+        backgroundColor: Color.red,
         borderTopRightRadius: 25,
         flexDirection: 'row',
         alignItems: 'center',
@@ -225,7 +215,7 @@ const styles = StyleSheet.create({
     },
     submittext: {
         fontFamily: 'Montserrat-SemiBold',
-        color: '#FFFFFF',
+        color: Color.white,
         fontSize: rf(2.6),
     },
     modalcss: {
@@ -234,13 +224,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: rw(92),
         marginLeft: rw(4),
-        backgroundColor: '#000000',
+        backgroundColor: Color.black,
         borderRadius: 25,
     },
     modalbox: {
         marginHorizontal: rw(28),
         justifyContent: 'center',
-        backgroundColor: '#FF3856',
+        backgroundColor: Color.red,
         borderRadius: 10,
         marginTop: rh(1.6),
         width: rw(40),
@@ -250,7 +240,7 @@ const styles = StyleSheet.create({
         fontFamily: 'NunitoSans-SemiBold',
         textAlign: 'center',
         fontSize: rf(2.2),
-        color: '#ffffff',
+        color: Color.white,
     },
     modalText2: {
         textAlign: 'center',
@@ -258,7 +248,7 @@ const styles = StyleSheet.create({
         width: rw(70),
         marginBottom: rh(1),
         marginLeft: rw(12),
-        color: '#ff3856',
+        color: Color.red,
         lineHeight: 30,
         fontFamily: 'Montserrat-SemiBold'
     },
@@ -274,7 +264,7 @@ const styles = StyleSheet.create({
         marginLeft: rh(1.7),
         marginRight: rh(1.7),
         borderRadius: 100,
-        backgroundColor: '#ffffff',
+        backgroundColor: Color.white,
         height: rh(4),
         justifyContent: 'center',
     },
@@ -289,13 +279,13 @@ const styles = StyleSheet.create({
     },
     textanswer: {
         fontFamily: 'Montserrat-SemiBold',
-        color: '#06D001',
+        color: Color.green,
         fontSize: rf(1.9),
         marginLeft: rw(2.6)
     },
     textoption: {
         fontFamily: 'Montserrat-SemiBold',
-        color: '#ffffff',
+        color: Color.white,
         fontSize: rf(1.9),
         marginLeft: rw(2.6)
     },

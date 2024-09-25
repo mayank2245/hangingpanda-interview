@@ -1,11 +1,12 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { rf, rh, rw } from '../Helpers/Responsivedimention'
+import { rf, rh, rw } from '../helpers/Responsivedimention'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ApiService } from '../API/apiCalls/apiCalls';
+import { ApiService } from '../api/apicalls/ApiCalls';
 import { useQuery } from '@tanstack/react-query';
+import { RandomColor } from '../helpers/RandomColor';
 
 interface CardProps {
     paperId: number,
@@ -15,47 +16,45 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ paperId, papertype, timeLimit }) => {
     const [singlePaperid, setSinglePaperid] = useState<any>()
-    const [singlePaperData, setSinglePaperData] = useState()
     const navigation = useNavigation();
-    var randomColor = require('randomcolor');
-    var color = randomColor({ luminosity: 'light' });
+
 
     const handledeletePress = () => {
         // Your delete logic here
     }
 
-
     const handlegetallQues = async () => {
-        const token = await AsyncStorage.getItem('MYtoken')
-        if (token) {
-            console.log("add question papaer call------", singlePaperid)
-            const res = token && await ApiService.singleQuestionPaper(token, singlePaperid)
-            console.log(res.data, '--->');
-
-            res && setSinglePaperData(res?.data?.questions)
-            return res
+        const token = await AsyncStorage.getItem('MYtoken');
+        if (token && singlePaperid) {
+            const res = await ApiService.singleQuestionPaper(token, singlePaperid);
+            return res;
         }
-    }
+        return { data: null };
+    };
 
-    const { data, isSuccess, isLoading, error, refetch } = useQuery({
-        queryKey: ['querrykey'],
+    const { data, isSuccess, refetch } = useQuery({
+        queryKey: ['singleQuestionPaper', singlePaperid],
         queryFn: handlegetallQues,
+        enabled: !!singlePaperid,
+    });
 
-    })
-
+    if (isSuccess && data?.data?.questionPapers?.questions) {
+        navigation.navigate('ShowData', { questionData: data?.data?.questionPapers?.questions });
+    }
 
     const handleSingleQues = (paperId: number) => {
-        setSinglePaperid(paperId)
-        navigation.navigate("ShowData", { qestionList: singlePaperData })
-    }
+        if (paperId) {
+            setSinglePaperid(paperId);
+            refetch();
+        }
+    };
 
 
     return (
         <TouchableOpacity
-            style={[styles.viewstyle, { backgroundColor: color, opacity: 0.8 }]}
+            style={[styles.viewstyle, { backgroundColor: RandomColor, opacity: 0.8 }]}
             onPress={() => handleSingleQues(paperId)}
         >
-            {/* Row containing text and delete icon */}
             <View style={styles.headerRow}>
                 <Text style={[styles.cardtext, { marginTop: rh(1) }]}>{papertype}</Text>
                 <TouchableOpacity onPress={handledeletePress}>
@@ -67,8 +66,6 @@ const Card: React.FC<CardProps> = ({ paperId, papertype, timeLimit }) => {
                     />
                 </TouchableOpacity>
             </View>
-
-            {/* Row containing clock icon and time */}
             <View style={styles.row}>
                 <MaterialCommunityIcons
                     style={styles.icon}
@@ -86,7 +83,6 @@ const Card: React.FC<CardProps> = ({ paperId, papertype, timeLimit }) => {
                 <Text style={[styles.cardtext, { marginTop: rh(1) }]}> min</Text>
             </View>
 
-            {/* Display paper ID */}
             <View style={{ marginTop: rh(1) }}>
                 <Text style={styles.cardtext2}>{paperId}</Text>
             </View>
@@ -96,8 +92,8 @@ const Card: React.FC<CardProps> = ({ paperId, papertype, timeLimit }) => {
 
 const styles = StyleSheet.create({
     viewstyle: {
-        width: rw(45), // Set width for the whole card
-        height: rh(20), // Set height for the card
+        width: rw(45),
+        height: rh(20),
         borderWidth: rw(0.3),
         padding: 10,
         paddingLeft: 16,
@@ -107,8 +103,8 @@ const styles = StyleSheet.create({
     },
     headerRow: {
         flexDirection: 'row',
-        justifyContent: 'space-between', // Ensures items are at opposite ends
-        alignItems: 'center', // Align vertically to center
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
     cardtext: {
         color: '#000000',
@@ -123,7 +119,7 @@ const styles = StyleSheet.create({
     },
     row: {
         flexDirection: 'row',
-        alignItems: 'center', // Align clock icon and time vertically
+        alignItems: 'center',
         marginTop: rh(1),
     },
     icon: {

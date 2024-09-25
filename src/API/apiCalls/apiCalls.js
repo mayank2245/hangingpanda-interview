@@ -1,9 +1,8 @@
-import fireAjax from '../axios/api';
-import apiUrl from '../axios/url';
+import fireAjax from '../axios/Api';
+import apiUrl from '../axios/Url';
 
 export const ApiService = {
     login: async payload => {
-        console.log(payload, "-----------paytolad123")
         return fireAjax({
             method: 'POST',
             URL: `${apiUrl.AdminLogin}`,
@@ -11,8 +10,6 @@ export const ApiService = {
         });
     },
     addquestionPaper: async (payload, token) => {
-        console.log(token, "-------------token token")
-        console.log(payload, "--------------paytolad")
         return fireAjax({
             method: 'POST',
             URL: `${apiUrl.addquestionpaper}`,
@@ -28,12 +25,16 @@ export const ApiService = {
         });
     },
     singleQuestionPaper: async (token, paperId) => {
-        console.log(token, "-------------token token")
-        console.log(paperId, "--------------paytolad")
         return fireAjax({
             method: 'GET',
             URL: `${apiUrl.singlequestionpaper}${paperId}`,
             token,
+        })
+    },
+    QuestionPaperType: async () => {
+        return fireAjax({
+            method: 'GET',
+            URL: `${apiUrl.allQuestionPaperType}`,
         })
     }
 };

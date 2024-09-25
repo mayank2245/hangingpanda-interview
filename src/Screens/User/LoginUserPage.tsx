@@ -1,36 +1,26 @@
-import { ImageBackground, KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { StatusBar } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Logo from '../../Assests/svgs/logo'
+import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View, StatusBar } from "react-native";
 import { useState } from "react";
-import Arrow from '../../Assests/svgs/arrow';
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { rf, rh, rw } from "../../Helpers/Responsivedimention";
-import { useQuery } from "@tanstack/react-query";
-const bgImage = require('../../Assests/HeaderImage.png')
+import { rf, rh, rw } from "../../helpers/Responsivedimention";
+import { BackgroundImage } from "../../assests/images";
+import { Arrow, Logo } from "../../assests/svg";
+import { Color } from "../../constant/Color";
 
 
 export default function LoginUserPage() {
 
-    const { isPending, error, data } = useQuery({
-        queryKey: ['candiateData'],
-        queryFn: () =>
-            fetch('http://localhost:5050/api/hr/getInterView?email=test@example.com.com&interviewId=54321').then((res) =>
-                res.json(),
-            ),
-    })
-
-
-    const [UserId, setUserId] = useState("")
-    const [name, setName] = useState("")
     const navigation = useNavigation();
+
+    const [userId, setUserId] = useState("")
+    const [name, setName] = useState("")
+
     return (
         <View>
             <StatusBar backgroundColor={'transparent'} translucent={true} />
             <ImageBackground
                 style={styles.backgroundImage}
-                source={bgImage}
+                source={BackgroundImage}
                 resizeMode="cover">
                 <View style={styles.container}>
                     <KeyboardAwareScrollView
@@ -41,15 +31,15 @@ export default function LoginUserPage() {
                             <Logo />
                         </View>
                         <View style={styles.textShowCss}>
-                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>Welcome at</Text>
-                            <Text style={[styles.textShowCss, { color: '#FF3856' }]}>HangingPanda !</Text>
-                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>We believe in your
+                            <Text style={[styles.textShowCss, { color: Color.logintextWhite }]}>Welcome at</Text>
+                            <Text style={[styles.textShowCss, { color: Color.red }]}>HangingPanda !</Text>
+                            <Text style={[styles.textShowCss, { color: Color.logintextWhite }]}>We believe in your
                                 talent.</Text>
                         </View>
-                        <Text style={[styles.discriptionText, { color: '#FFFFFF' }]}>Pls Enter your Details here to enter in your interview process</Text>
+                        <Text style={[styles.discriptionText, { color: Color.white }]}>Pls Enter your Details here to enter in your interview process</Text>
                         <View style={styles.viewTextInp}>
-                            <TextInput keyboardType="numeric" onChangeText={setUserId} value={UserId} style={styles.textQues} placeholder="Interview Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
-                            <TextInput onChangeText={setName} value={name} style={styles.textQues} placeholder="Email Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
+                            <TextInput keyboardType="numeric" onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="Interview Id" placeholderTextColor={Color.red} cursorColor={Color.red} />
+                            <TextInput onChangeText={setName} value={name} style={styles.textQues} placeholder="Email Id" placeholderTextColor={Color.red} cursorColor={Color.red} />
                             <TouchableOpacity
                                 activeOpacity={0.6}
                                 onPress={
@@ -71,14 +61,14 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: 'black',
+        backgroundColor: Color.black,
         opacity: 0.85,
     },
     textQues: {
         fontFamily: 'Montserrat-Bold',
-        color: '#FFFFFF',
+        color: Color.white,
         borderWidth: 3,
-        borderColor: '#FF3856',
+        borderColor: Color.red,
         width: '80%',
         margin: 'auto',
         height: rh(7),

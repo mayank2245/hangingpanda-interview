@@ -1,16 +1,16 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import AdminHome from '../../Screens/Admin/AdminHome';
-import showdata from '../../Screens/Admin/ShowData';
-import UserHome from '../../Screens/User/UserHome'
-import LoginUserPage from '../../Screens/User/LoginUserPage';
-import AddQuestion from '../../Screens/Admin/AddQuestion';
-import LoginHr from '../../Screens/Hr/LoginHr'
-import Instruction from '../../Screens/User/Instruction'
-import QuestionList from '../../Screens/User/QuestionList'
-import LoginAdmin from '../../Screens/Admin/LoginAdmin';
-import AllQuestionPaper from '../../Screens/Admin/AllQuestionPaper';
+import AdminHome from '../../screens/admin/AdminHome';
+import showdata from '../../screens/admin/ShowData';
+import UserHome from '../../screens/user/UserHome'
+import LoginUserPage from '../../screens/user/LoginUserPage';
+import AddQuestion from '../../screens/admin/AddQuestion';
+import LoginHr from '../../screens/hr/LoginHr'
+import Instruction from '../../screens/user/Instruction'
+import QuestionList from '../../screens/user/QuestionList'
+import LoginAdmin from '../../screens/admin/LoginAdmin';
+import AllQuestionPaper from '../../screens/admin/AllQuestionPaper';
 import NetworkLogger from 'react-native-network-logger';
 
 const DeveloperStack = () => {
