@@ -53,30 +53,10 @@ export default function AllQuestionPaper() {
                             numColumns={2}
                         />
                         : <View style={styles.viewflatlist}>
-                            <View style={{
-                                backgroundColor: '#fede68', borderWidth: rw(0.3),
-                                padding: 20,
-                                marginHorizontal: 16,
-                                height: rh(20),
-                                borderRadius: 30,
-                                marginTop: 10,
-                            }}>
-                                <View style={{ flexDirection: 'row', gap: 8 }}>
-                                    <Text style={{
-                                        color: '#000000',
-                                        fontFamily: 'Montserrat-SemiBold',
-                                        fontSize: rf(2),
-                                    }}>Total Question Paper :</Text>
-                                    <Text style={{
-                                        color: '#000000',
-                                        fontFamily: 'Montserrat-SemiBold',
-                                        fontSize: rf(2),
-                                    }}>{questionList.length}</Text>
-                                    {/* <ScrollView horizontal={true}>
-                                        <Text>Child 1</Text>
-                                        <Text>Child 2</Text>
-                                        <Text>Child 3</Text>
-                                    </ScrollView> */}
+                            <View style={styles.headerbox}>
+                                <View style={styles.headerview}>
+                                    <Text style={styles.headertext}>Total Question Paper :</Text>
+                                    <Text style={styles.headertext}>{questionList.length}</Text>
                                 </View>
                             </View>
                             <FlatList
@@ -118,6 +98,24 @@ const styles = StyleSheet.create({
 
     viewflatlist: {
         marginBottom: rh(8)
-    }
+    },
+    headerbox: {
+        backgroundColor: '#fede68',
+        borderWidth: rw(0.3),
+        padding: 20,
+        marginHorizontal: 16,
+        height: rh(20),
+        borderRadius: 30,
+        marginTop: 10,
+    },
+    headerview: {
+        flexDirection: 'row',
+        gap: 8
+    },
+    headertext: {
+        color: color.black,
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: rf(2),
+    },
 })
 
