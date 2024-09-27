@@ -1,2 +1,2 @@
-var randomColor = require('randomcolor');
-export var RandomColor = randomColor({ luminosity: 'light' });
+export var randomColor = require('randomcolor');
+

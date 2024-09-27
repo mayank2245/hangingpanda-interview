@@ -3,10 +3,10 @@ import { StatusBar } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { rf, rh, rw } from "../../helpers/Responsivedimention";
+import { rf, rh, rw } from "../../helpers/responsivedimention";
 import { Arrow, Logo } from "../../assests/svg";
 import { BackgroundImage } from "../../assests/images";
-import { Color } from "../../constant/Color";
+import { color } from "../../constant/color";
 
 
 export default function LoginUserPage() {
@@ -31,15 +31,15 @@ export default function LoginUserPage() {
                             <Logo />
                         </View>
                         <View style={styles.textShowCss}>
-                            <Text style={[styles.textShowCss, { color: Color.logintextWhite }]}>At</Text>
-                            <Text style={[styles.textShowCss, { color: Color.red }]}>HangingPanda !</Text>
-                            <Text style={[styles.textShowCss, { color: Color.logintextWhite }]}>we truly value your exceptional work,</Text>
-                            <Text style={[styles.textShowCss, { color: Color.logintextWhite }]}>HR.</Text>
+                            <Text style={[styles.textShowCss, { color: color.logintextWhite }]}>At</Text>
+                            <Text style={[styles.textShowCss, { color: color.primaryRed }]}>HangingPanda !</Text>
+                            <Text style={[styles.textShowCss, { color: color.logintextWhite }]}>we truly value your exceptional work,</Text>
+                            <Text style={[styles.textShowCss, { color: color.logintextWhite }]}>HR.</Text>
                         </View>
-                        <Text style={[styles.discriptionText, { color: Color.white }]}>Pls Enter your Details here to enter in your interview process</Text>
+                        <Text style={[styles.discriptionText, { color: color.white }]}>Pls Enter your Details here to enter in your interview process</Text>
                         <View style={styles.viewTextInp}>
-                            <TextInput keyboardType="numeric" onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="Hr Id" placeholderTextColor={Color.red} cursorColor={Color.red} />
-                            <TextInput onChangeText={setName} value={name} style={styles.textQues} placeholder="Email Id" placeholderTextColor={Color.red} cursorColor={Color.red} />
+                            <TextInput keyboardType="numeric" onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="Hr Id" placeholderTextColor={color.primaryRed} cursorColor={color.primaryRed} />
+                            <TextInput onChangeText={setName} value={name} style={styles.textQues} placeholder="Email Id" placeholderTextColor={color.primaryRed} cursorColor={color.primaryRed} />
                             <TouchableOpacity
                                 activeOpacity={0.6}
                                 onPress={
@@ -48,7 +48,6 @@ export default function LoginUserPage() {
                                 <Arrow style={styles.arrowCss} />
                             </TouchableOpacity>
                         </View>
-
                     </KeyboardAwareScrollView>
                 </View>
             </ImageBackground >
@@ -66,9 +65,9 @@ const styles = StyleSheet.create({
     },
     textQues: {
         fontFamily: 'Montserrat-Bold',
-        color: Color.white,
+        color: color.white,
         borderWidth: 3,
-        borderColor: Color.red,
+        borderColor: color.primaryRed,
         width: '80%',
         margin: 'auto',
         height: rh(7),

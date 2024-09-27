@@ -12,6 +12,7 @@ import QuestionList from '../../screens/user/QuestionList'
 import LoginAdmin from '../../screens/admin/LoginAdmin';
 import AllQuestionPaper from '../../screens/admin/AllQuestionPaper';
 import NetworkLogger from 'react-native-network-logger';
+import QuesFormateModal from '../../screens/admin/QuesFormateModal';
 
 const DeveloperStack = () => {
     const stack = createNativeStackNavigator();
@@ -22,9 +23,13 @@ const DeveloperStack = () => {
             // initialRouteName="LoginHr"                                      //Hr page
             screenOptions={{ headerShown: false }}>
             <stack.Screen name="LoginAdmin" component={LoginAdmin} />
-            <stack.Screen name="AdminHome" component={AdminHome} />
             <stack.Screen name="AllQuestionPaper" component={AllQuestionPaper} />
             <stack.Screen name="ShowData" component={showdata} />
+            <stack.Screen name="AdminHome" component={AdminHome} />
+
+
+            <stack.Screen options={{ presentation: 'modal', headerShown: true }} name="QuesFormateModal" component={QuesFormateModal} />
+
             <stack.Screen name='UserHome' component={UserHome} />
             <stack.Screen name='LoginUserPage' component={LoginUserPage} />
             <stack.Screen name='AddQuestion' component={AddQuestion} />

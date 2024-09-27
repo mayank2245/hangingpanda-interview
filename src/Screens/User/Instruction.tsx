@@ -1,21 +1,17 @@
 import { ImageBackground, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useState } from 'react';
-import { rf, rh, rw } from '../../helpers/Responsivedimention';
+import { rf, rh, rw } from '../../helpers/responsivedimention';
 import IconArrow from 'react-native-vector-icons/AntDesign';
 import LottieView from "lottie-react-native";
 import { useNavigation } from '@react-navigation/native';
-import { Alert, Checklist, Panda } from '../../assests/svg';
 import { BackgroundImage } from '../../assests/images';
-import { Color } from '../../constant/Color';
+import { color } from '../../constant/color';
+import { Alert, Checklist, Panda } from '../../assests/lottie';
 
 export default function Instruction() {
-
     const navigation = useNavigation();
-
     const [timebar, setTimebar] = useState<boolean>(true);
     const [nextButton, setNextButton] = useState<number>(1);
-
-
 
     const handletimebar = () => {
         setTimebar(!timebar);
@@ -39,7 +35,7 @@ export default function Instruction() {
                             {
                                 !timebar ? <View style={styles.timebar}></View> :
                                     <View>
-                                        <Text style={{ color: Color.white, textAlign: 'center', marginTop: rh(1.5) }}>Total Time : 30 mins</Text>
+                                        <Text style={{ color: color.white, textAlign: 'center', marginTop: rh(1.5) }}>Total Time : 30 mins</Text>
                                         <View style={[styles.timebar2, { marginTop: rh(1) }]}>
                                             <Text style={styles.timebar2Text}>Remaining time : 25 mins</Text>
                                         </View>
@@ -123,14 +119,14 @@ const styles = StyleSheet.create({
         height: rh(100)
     },
     overlay: {
-        backgroundColor: Color.logintextWhite,
+        backgroundColor: color.logintextWhite,
         height: rh(45),
         opacity: 30,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
     },
     overlay2: {
-        backgroundColor: Color.black,
+        backgroundColor: color.black,
         height: rh(100)
     },
     mustreadText: {
@@ -139,11 +135,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontFamily: 'Montserrat-SemiBold',
         fontSize: 25,
-        color: Color.red,
+        color: color.primaryRed,
         backgroundColor: "black",
     },
     textTime: {
-        color: Color.red,
+        color: color.primaryRed,
         fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(3),
         textAlign: 'center',
@@ -154,7 +150,7 @@ const styles = StyleSheet.create({
         marginTop: rh(28),
         marginLeft: rh(4.5),
         marginHorizontal: rw(7),
-        color: Color.red,
+        color: color.primaryRed,
         fontFamily: 'NunitoSans-SemiBold',
         fontSize: rf(2.4),
         textAlign: 'center'
@@ -163,13 +159,13 @@ const styles = StyleSheet.create({
         marginTop: rh(5),
         marginHorizontal: rh(3),
         borderRadius: 100,
-        backgroundColor: Color.green,
+        backgroundColor: color.green,
         height: rh(1.2)
     },
     timebar2: {
         marginHorizontal: rh(1.7),
         borderRadius: 100,
-        backgroundColor: Color.green,
+        backgroundColor: color.green,
         height: rh(4),
         justifyContent: 'center'
     },
@@ -180,7 +176,7 @@ const styles = StyleSheet.create({
     },
     touchable: {
         position: 'absolute',
-        backgroundColor: Color.red,
+        backgroundColor: color.primaryRed,
         width: "93%",
         height: rh(6),
         marginTop: rh(90),
@@ -191,7 +187,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     Nextpage: {
-        color: Color.white,
+        color: color.white,
         fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(2.2),
     },

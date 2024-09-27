@@ -1,15 +1,18 @@
-import { FlatList, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { FlatList, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { rf, rh, rw } from '../../helpers/Responsivedimention';
+import { rf, rh, rw } from '../../helpers/responsivedimention';
 import Card from '../../components/Card'
 import { useQuery } from '@tanstack/react-query';
 import { ApiService } from '../../api/apicalls/ApiCalls';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BackgroundImage } from '../../assests/images';
-import { Color } from '../../constant/Color';
+import { color } from '../../constant/color';
+import { useNavigation } from '@react-navigation/native';
+import SkeletonCard from '../../helpers/skeletonData';
 
 export default function AllQuestionPaper() {
-    const [questionList, setQuestionList] = useState<any>()
+    const [questionList, setQuestionList] = useState<any>([])
+    const navigation = useNavigation()
 
     const handlegetallQues = async () => {
         const token = await AsyncStorage.getItem('MYtoken')
@@ -24,18 +27,14 @@ export default function AllQuestionPaper() {
         queryFn: handlegetallQues,
     });
 
-
     useEffect(() => {
         if (data) {
             setQuestionList(data?.data?.questionPapers || []);
         }
     })
 
-
-
-
     return (
-        <View>
+        <>
             <StatusBar
                 backgroundColor="transparent"
                 translucent={true}
@@ -45,35 +44,54 @@ export default function AllQuestionPaper() {
                 source={BackgroundImage}
                 resizeMode="cover">
                 <View style={styles.overlay}>
-
-                    <Text style={styles.paperList}>List of Question Paper :- </Text>
-                    {/* <View style={{
-                        backgroundColor: '#fede68', borderWidth: rw(0.3),
-                        padding: 20,
-                        marginHorizontal: 16,
-                        height: rh(20),
-                        borderRadius: 30,
-                        marginTop: 10,
-                    }}>
-                        <Text style={{
-                            color: '#000000',
-                            fontFamily: 'Montserrat-SemiBold',
-                            fontSize: rf(2),
-                        }}>Data</Text>
-                    </View> */}
-
-                    <FlatList
-                        style={{ marginBottom: rh(4) }}
-                        data={questionList}
-                        renderItem={({ item }) => (
-                            <Card paperId={item.paperId} papertype={item.questionPaperType} timeLimit={item.timeLimit} />
-                        )}
-                        numColumns={2}
-                    />
+                    <Text style={styles.paperList}>List of Question Paper</Text>
+                    {!questionList ?
+                        <FlatList
+                            style={styles.flatliststyle}
+                            data={[1, 2, 3, 4, 5, 6, 7, 8]}
+                            renderItem={() => <SkeletonCard />}
+                            numColumns={2}
+                        />
+                        : <View style={styles.viewflatlist}>
+                            <View style={{
+                                backgroundColor: '#fede68', borderWidth: rw(0.3),
+                                padding: 20,
+                                marginHorizontal: 16,
+                                height: rh(20),
+                                borderRadius: 30,
+                                marginTop: 10,
+                            }}>
+                                <View style={{ flexDirection: 'row', gap: 8 }}>
+                                    <Text style={{
+                                        color: '#000000',
+                                        fontFamily: 'Montserrat-SemiBold',
+                                        fontSize: rf(2),
+                                    }}>Total Question Paper :</Text>
+                                    <Text style={{
+                                        color: '#000000',
+                                        fontFamily: 'Montserrat-SemiBold',
+                                        fontSize: rf(2),
+                                    }}>{questionList.length}</Text>
+                                    {/* <ScrollView horizontal={true}>
+                                        <Text>Child 1</Text>
+                                        <Text>Child 2</Text>
+                                        <Text>Child 3</Text>
+                                    </ScrollView> */}
+                                </View>
+                            </View>
+                            <FlatList
+                                style={styles.flatliststyle}
+                                data={questionList}
+                                renderItem={({ item }: any) => (
+                                    <Card paperId={item.paperId} papertype={item.questionPaperType} timeLimit={item.timeLimit} />
+                                )}
+                                numColumns={2}
+                            />
+                        </View>
+                    }
                 </View>
-
             </ImageBackground>
-        </View >
+        </>
     )
 }
 
@@ -83,17 +101,23 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     overlay: {
-        backgroundColor: Color.black,
-
+        backgroundColor: color.black,
         height: rh(100),
     },
     paperList: {
         marginTop: rh(4),
         marginBottom: rh(1),
         marginLeft: rh(2.8),
-        color: Color.white,
+        color: color.white,
         fontFamily: 'Montserrat-Bold',
         fontSize: rf(3),
+    },
+    flatliststyle: {
+        marginBottom: rh(6)
+    },
+
+    viewflatlist: {
+        marginBottom: rh(8)
     }
 })
 

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { AnimatePresence, Text, View } from 'moti'
 import { useNavigation } from "@react-navigation/native";
-import { rf, rh, rw } from "../../helpers/Responsivedimention";
+import { rf, rh, rw } from "../../helpers/responsivedimention";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { StatusBar, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
-import { Color } from "../../constant/Color";
+import { color } from "../../constant/color";
 
 export default function Home({ route }: any) {
     const { itemes } = route.params;
@@ -107,7 +107,7 @@ export default function Home({ route }: any) {
                         onChangeText={setAnswer}
                         onBlur={() => setFocusText(false)}
                         placeholder="Please Enter your answer..."
-                        placeholderTextColor={Color.whitePlaceholder}
+                        placeholderTextColor={color.whitePlaceholder}
                     />
                 )}
                 {data.type === "MCQ" && (
@@ -122,8 +122,8 @@ export default function Home({ route }: any) {
                                         style={[
                                             styles.textoption,
                                             data.correctOption === index + 1
-                                                ? { color: Color.green }
-                                                : { color: Color.white },
+                                                ? { color: color.green }
+                                                : { color: color.white },
                                         ]}
                                     >
                                         {String.fromCharCode(65 + index)}. {data[option]}
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     },
     quescss: {
         fontFamily: 'Montserrat-SemiBold',
-        color: Color.white,
+        color: color.white,
         width: '90%',
         marginBottom: rh(1),
         fontSize: rf(2),
@@ -167,12 +167,12 @@ const styles = StyleSheet.create({
         paddingTop: rh(2),
         paddingHorizontal: rw(3.6),
         fontSize: rf(2.2),
-        color: Color.white,
+        color: color.white,
         width: '90%',
         height: rh(67),
         borderRadius: 15,
         borderWidth: 4,
-        borderColor: Color.red,
+        borderColor: color.primaryRed,
         marginTop: rh(2),
         marginHorizontal: rw(5),
     },
@@ -182,17 +182,17 @@ const styles = StyleSheet.create({
         paddingTop: rh(2),
         paddingHorizontal: rw(3.6),
         fontSize: rf(2.2),
-        color: Color.white,
+        color: color.white,
         width: '90%',
         height: rh(33),
         borderRadius: 15,
         borderWidth: 4,
-        borderColor: Color.red,
+        borderColor: color.primaryRed,
         marginTop: rh(2),
         marginHorizontal: rw(5),
     },
     touchable: {
-        backgroundColor: Color.red,
+        backgroundColor: color.primaryRed,
         width: "90%",
         height: rh(6),
         marginTop: rh(2),
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     submit: {
-        color: Color.white,
+        color: color.white,
         fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(2.2),
     },
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
         marginLeft: rh(1.7),
         marginRight: rh(1.7),
         borderRadius: 100,
-        backgroundColor: Color.white,
+        backgroundColor: color.white,
         height: rh(2.5),
         justifyContent: 'center',
     },
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         marginLeft: rh(1.7),
         marginRight: rh(1.7),
-        backgroundColor: Color.white,
+        backgroundColor: color.white,
         justifyContent: 'center',
         borderRadius: 100,
     },
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
         marginRight: rh(1.7),
         borderRadius: 100,
         height: rh(2),
-        backgroundColor: Color.white,
+        backgroundColor: color.white,
         justifyContent: 'center',
     },
     timebar2: {
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     },
     textoption: {
         fontFamily: 'Montserrat-SemiBold',
-        color: Color.white,
+        color: color.white,
         fontSize: rf(1.9),
         marginLeft: rw(6),
         marginTop: rh(1),

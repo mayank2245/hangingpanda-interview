@@ -1,3 +1,3 @@
-const BackgroundImage = require('../images/BackgroundImage.png');
+const BackgroundImage = require('../images/backgroundImage.png');
 
 export {BackgroundImage};

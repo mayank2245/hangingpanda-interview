@@ -1,23 +1,10 @@
-import Add from './Add';
-import AddQues from './AddQues';
-import Alert from './Alert.json';
-import Arrow from './Arrow';
-import Checklist from './Checklist.json';
-import CrossIcon from './CrossIcon';
-import Logo from './Logo';
-import Onbording from './Onbording';
-import Panda from './Panda.json';
-import Upload from './Upload';
+import Add from './add';
+import AddQues from './addQues';
+import Arrow from './arrow';
+import CrossIcon from './crossIcon';
+import Logo from './logo';
+import Onbording from './onbording';
+import Upload from './upload';
+import Ellipse from './Ellipse';
 
-export {
-  Add,
-  AddQues,
-  Alert,
-  Arrow,
-  Checklist,
-  CrossIcon,
-  Logo,
-  Onbording,
-  Panda,
-  Upload,
-};
+export {Add, AddQues, Arrow, CrossIcon, Logo, Onbording, Upload, Ellipse};
