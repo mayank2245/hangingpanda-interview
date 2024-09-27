@@ -1,15 +1,15 @@
-import { ImageBackground, Pressable, StatusBar, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import { Text, View } from "react-native";
-import Addques from '../../Assests/svgs/addQues';
-import { useEffect, useState } from "react";
-import CrossIcon from "../../Assests/svgs/cuticon";
-import Add from "../../Assests/svgs/add";
-import CustomModal from "../../Components/modal";
+import { useState } from "react";
+import { ImageBackground, Pressable, StatusBar, StyleSheet, TextInput, TouchableOpacity, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { rf, rh, rw } from "../../Helpers/Responsivedimention";
-const bgImage = require('../../Assests/HeaderImage.png');
+import { rf, rh, rw } from "../../helpers/Responsivedimention";
 import WheelPicker from '@quidone/react-native-wheel-picker';
-
+import Addques from '../../assests/svg/AddQues';
+import CrossIcon from "../../assests/svg/CrossIcon";
+import Add from "../../assests/svg/Add";
+import CustomModal from "../../components/Modal";
+import { dataText, alphabet } from '../../constant/StaticData'
+import { BackgroundImage } from "../../assests/images";
+import { Color } from "../../constant/Color";
 
 const datawheel = [...Array(6).keys()].map((index) => ({
     value: index,
@@ -25,12 +25,22 @@ export default function AddQuestion({ route }: any) {
     const [mcqInput, setMcqInput] = useState("")
     const [value, setValue] = useState(0);
     const [answer, setAnswer] = useState("")
-    const [inputans, setInputAns] = useState(Array().fill(''));
+    const [inputans, setInputAns] = useState({});
     const [currentInputIndex, setCurrentInputIndex] = useState(0);
     const [openmodal2, setOpenmodal2] = useState(true)
     const [openmodal3, setOpenmodal3] = useState(false)
     const [selected, setSelected] = useState<number>()
     const [displayedData, setDisplayedData] = useState<any>([]);
+
+    const navigate = useNavigation();
+
+
+    const handleNext = () => {
+        setDisplayedData(inputans)
+        if (currentInputIndex < value) {
+            setCurrentInputIndex(currentInputIndex + 1);
+        }
+    }
 
     const handleAddques = () => {
         if (ques !== "") {
@@ -47,68 +57,53 @@ export default function AddQuestion({ route }: any) {
         const sendData = [...data, {
             sn: data.length + 1,
             question: ques,
-            ans: answer,
-            date: 123,
-            category: 'pyton',
+            answer: answer,
+            type: 'Input',
         }]
         setQues("")
         setAnswer("")
-        navigate.navigate("ShowData", {
-            data2: sendData
-        })
+        navigate.navigate("ShowData", { data2: sendData })
     }
+
     const handleSubmit2 = () => {
         setCurrentInputIndex(currentInputIndex + 1);
         setDisplayedData(inputans)
         setOpenmodal3(true)
     }
 
-    const dataText = [{
-        col: false,
-        title: 'Input'
-    },
-    {
-        col: false,
-        title: 'MCQ’s'
-    },
-    {
-        col: false,
-        title: 'Blank Space'
-    },
-    {
-        col: false,
-        title: 'Program'
-    },
-    ]
-
     const handleCol = (i: number) => {
         setIndex(i);
         navigate.navigate("AddQuestion")
     }
 
-    const navigate = useNavigation();
+    const handleInputChange = (text: string, i: number) => {
+        const updatedInputs = { ...inputans };
+        const letterKey = alphabet[i];
+        updatedInputs[letterKey] = text;
+        setInputAns(updatedInputs);
+    }
+
+    const handleSelectmcq = (i: number) => {
+        setSelected(i)
+    }
 
     const handleselectmcq = () => {
         const sendData = [...data, {
             sn: data.length + 1,
             question: ques,
-            ans: inputans,
-            data: 123,
-            category: 'pyton',
+            options: inputans,
+            type: 'MCQ',
+            correctOption: selected,
         }]
-        navigate.navigate("ShowData", {
-            data2: sendData,
-            selectedmcq: selected
-        })
+        navigate.navigate("ShowData", { data2: sendData })
         setQueswrite(true)
         setQues("")
-        setInputAns(Array().fill(''))
-        setDisplayedData([])
+        setInputAns({})
+        setDisplayedData({})
         setMcqInput("")
         setCurrentInputIndex(0)
         setSelected(-1)
         setOpenmodal3(false)
-
     }
 
     const modalData = () => {
@@ -117,8 +112,8 @@ export default function AddQuestion({ route }: any) {
                 <CrossIcon style={styles.crosscut} onPress={() => { setOpenmodal(false) }} />
                 {dataText?.map((ei, i) => {
                     return (
-                        <Pressable key={i} onPress={() => { handleCol(i) }} style={[index === i ? { backgroundColor: '#FF3856' } : '', styles.modalbox]}>
-                            <Text style={[styles.modalText, index === i ? { color: '#FFFFFF' } : { color: '#FF3856' }]}>{ei.title}</Text>
+                        <Pressable key={i} onPress={() => { handleCol(i) }} style={[index === i ? { backgroundColor: Color.red } : '', styles.modalbox]}>
+                            <Text style={[styles.modalText, index === i ? { color: Color.white } : { color: Color.red }]}>{ei.title}</Text>
                         </Pressable>
                     )
                 })}
@@ -133,7 +128,7 @@ export default function AddQuestion({ route }: any) {
                     <Text style={{ textAlign: 'center', color: 'white', fontFamily: 'Montserrat-Bold', marginTop: rh(3), fontSize: rf(2.4) }}>How much option do you want?</Text>
                 </View>
                 <View style={{ flexDirection: 'row', borderRadius: 20, columnGap: 6 }}>
-                    <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2), color: '#06D001', marginTop: rh(12), marginLeft: rw(14) }}>Enter the Option:  </Text>
+                    <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2), color: Color.green, marginTop: rh(12), marginLeft: rw(14) }}>Enter the Option:  </Text>
                     <WheelPicker
                         itemTextStyle={{ color: 'white', borderRadius: 20 }}
                         width={50}
@@ -154,9 +149,7 @@ export default function AddQuestion({ route }: any) {
             </>
         )
     }
-    const handleSelectmcq = (i: number) => {
-        setSelected(i)
-    }
+
     const modalData3 = () => {
         return (
             <>
@@ -165,12 +158,11 @@ export default function AddQuestion({ route }: any) {
                 </View>
                 <View style={{ marginBottom: 20 }}>
                     {
-                        inputans.map((ei: any, i) => (
+                        Object.entries(inputans).map(([i, value]) => (
                             <Pressable key={i} onPress={() => handleSelectmcq(i)} style={[styles.selectmcq, selected === i ? { backgroundColor: '#06D001' } : { backgroundColor: 'white' }]}>
-                                <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2), textAlign: 'center', color: 'black', }}>{ei}</Text>
+                                <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2), textAlign: 'center', color: 'black', }}>{value}</Text>
                             </Pressable>
-                        )
-                        )
+                        ))
                     }
                 </View>
                 <TouchableOpacity
@@ -187,24 +179,12 @@ export default function AddQuestion({ route }: any) {
         )
     }
 
-    const handleInputChange = (text: string, i: number) => {
-        const updatedInputs = [...inputans];
-        updatedInputs[i] = text;
-        setInputAns(updatedInputs);
-    }
-    const handleNext = () => {
-        setDisplayedData(inputans)
-        if (currentInputIndex < value) {
-            setCurrentInputIndex(currentInputIndex + 1);
-        }
-    }
-
     return (
         <View>
             <StatusBar backgroundColor={'transparent'} translucent={true} />
             <ImageBackground
                 style={styles.backgroundImage}
-                source={bgImage}
+                source={BackgroundImage}
                 resizeMode="cover">
                 <View style={styles.safearea}>
                     {
@@ -247,19 +227,19 @@ export default function AddQuestion({ route }: any) {
                                             {
                                                 mcqInput === "" ?
                                                     <>
-                                                        <CustomModal content={modalData2()} visible={openmodal2} onClose={() => { setOpenmodal2(false); }} />
+                                                        <CustomModal content={modalData2()} visible={openmodal2} onClose={() => { setOpenmodal2(false); }} modaloverlaycss={{}} contentcss={{}} />
                                                     </>
                                                     :
                                                     <>
                                                         {
-                                                            displayedData?.map((ei: any, i: number) => (
+                                                            Object.entries(displayedData).map(([key, value]) => (
                                                                 <Text style={{
                                                                     fontFamily: 'Montserrat-Bold',
-                                                                    color: '#ffffff',
+                                                                    color: Color.white,
                                                                     fontSize: rf(2.3),
                                                                     marginTop: rh(2),
                                                                     marginHorizontal: rh(4.5)
-                                                                }} key={i}>{String.fromCharCode(65 + (i))}. {ei}</Text>
+                                                                }} key={key}>{key}.{value}</Text>
                                                             ))
                                                         }
                                                         {
@@ -281,7 +261,7 @@ export default function AddQuestion({ route }: any) {
                                                         </TouchableOpacity>
                                                             :
                                                             <>
-                                                                <CustomModal content={modalData3()} visible={openmodal3} onClose={() => { setOpenmodal3(false); }} />
+                                                                <CustomModal content={modalData3()} visible={openmodal3} onClose={() => { setOpenmodal3(false); }} modaloverlaycss={{}} contentcss={{}} />
                                                                 <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                                                                     <TouchableOpacity
                                                                         activeOpacity={0.8}
@@ -314,7 +294,7 @@ export default function AddQuestion({ route }: any) {
                             </TouchableOpacity>
                         )
                     }
-                    <CustomModal content={modalData()} visible={openmodal} onClose={() => setOpenmodal(false)} />
+                    <CustomModal content={modalData()} visible={openmodal} onClose={() => setOpenmodal(false)} modaloverlaycss={{}} contentcss={{}} />
                 </View>
             </ImageBackground >
         </View >
@@ -331,9 +311,9 @@ const styles = StyleSheet.create({
     },
     textQues: {
         fontFamily: 'Montserrat-Bold',
-        color: '#FFFFFF',
+        color: Color.white,
         borderWidth: 3,
-        borderColor: '#FF3856',
+        borderColor: Color.red,
         width: '85%',
         margin: 'auto',
         height: rh(7.8),
@@ -344,7 +324,7 @@ const styles = StyleSheet.create({
     },
     enterQues: {
         fontFamily: 'Montserrat-Bold',
-        color: '#06D001',
+        color: Color.green,
         fontSize: rf(2.3),
         marginTop: rh(8),
         marginHorizontal: rh(3.2)
@@ -353,12 +333,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center",
         height: rh(8),
-        backgroundColor: '#FF3856',
+        backgroundColor: Color.red,
         borderTopRightRadius: 25,
     },
     addquesText: {
         fontFamily: 'Montserrat-Bold',
-        color: '#FFFFFF',
+        color: Color.white,
         fontSize: rf(2.4),
         textAlign: 'center',
     },
@@ -370,9 +350,9 @@ const styles = StyleSheet.create({
         fontSize: rf(2.3),
     },
     textAns: {
-        borderColor: '#06D001',
+        borderColor: Color.green,
         fontFamily: 'Montserrat-Bold',
-        color: '#FFFFFF',
+        color: Color.white,
         borderWidth: 3,
         width: '85%',
         margin: 'auto',
@@ -391,7 +371,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center",
         height: rh(7.6),
-        backgroundColor: '#FF3856',
+        backgroundColor: Color.red,
         borderTopRightRadius: 25,
         flexDirection: 'row'
     },
@@ -406,7 +386,7 @@ const styles = StyleSheet.create({
     },
     modalbox: {
         borderWidth: 3,
-        borderColor: '#FF3856',
+        borderColor: Color.red,
         borderRadius: 15,
         width: rw(90),
         margin: 'auto',
@@ -434,7 +414,7 @@ const styles = StyleSheet.create({
         marginLeft: rh(41.9),
         borderTopLeftRadius: 10,
         borderBottomLeftRadius: 10,
-        backgroundColor: "#FF3856",
+        backgroundColor: Color.red,
     },
     addQuesLogo: {
         marginTop: rh(1.2),
@@ -444,7 +424,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-Bold',
         width: rw(22),
         marginTop: rh(4.8),
-        color: "#D9D9D9",
+        color: Color.red,
         marginLeft: rh(-3.4),
         fontSize: rf(1.4),
         textAlign: 'center',

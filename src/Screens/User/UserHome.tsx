@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { StatusBar, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { rf, rh, rw } from "../../Helpers/Responsivedimention";
+import { useState } from "react";
+import { AnimatePresence, Text, View } from 'moti'
 import { useNavigation } from "@react-navigation/native";
-import { AnimatePresence, MotiView, View, Text } from 'moti'
-import Animated, { StretchInY, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import helper from "csvtojson";
-import { AnimatedView } from "react-native-reanimated/lib/typescript/component/View";
+import { rf, rh, rw } from "../../helpers/Responsivedimention";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { StatusBar, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
+import { Color } from "../../constant/Color";
 
 export default function Home({ route }: any) {
     const { itemes } = route.params;
@@ -14,7 +13,6 @@ export default function Home({ route }: any) {
     const [answer, setAnswer] = useState("");
     const [focusText, setFocusText] = useState(false);
     const navigation = useNavigation();
-    const [timebar, setTimebar] = useState(true);
     const progress = useSharedValue(rw(93));
     const [time, setTime] = useState<number>(1);
     const [timeLeft, setTimeLeft] = useState(60 * time);
@@ -28,7 +26,6 @@ export default function Home({ route }: any) {
     };
 
     const handlepressOption = (item: any, selectedOption: number) => {
-        const correctOption = item?.correctOption;
         const updatedData = { ...item, correctOption: selectedOption };
         setData(updatedData);
     };
@@ -110,7 +107,7 @@ export default function Home({ route }: any) {
                         onChangeText={setAnswer}
                         onBlur={() => setFocusText(false)}
                         placeholder="Please Enter your answer..."
-                        placeholderTextColor="#a8acb2"
+                        placeholderTextColor={Color.whitePlaceholder}
                     />
                 )}
                 {data.type === "MCQ" && (
@@ -125,8 +122,8 @@ export default function Home({ route }: any) {
                                         style={[
                                             styles.textoption,
                                             data.correctOption === index + 1
-                                                ? { color: '#06D001' }
-                                                : { color: '#ffffff' },
+                                                ? { color: Color.green }
+                                                : { color: Color.white },
                                         ]}
                                     >
                                         {String.fromCharCode(65 + index)}. {data[option]}
@@ -158,7 +155,7 @@ const styles = StyleSheet.create({
     },
     quescss: {
         fontFamily: 'Montserrat-SemiBold',
-        color: '#FFFFFF',
+        color: Color.white,
         width: '90%',
         marginBottom: rh(1),
         fontSize: rf(2),
@@ -170,12 +167,12 @@ const styles = StyleSheet.create({
         paddingTop: rh(2),
         paddingHorizontal: rw(3.6),
         fontSize: rf(2.2),
-        color: '#FFFFFF',
+        color: Color.white,
         width: '90%',
         height: rh(67),
         borderRadius: 15,
         borderWidth: 4,
-        borderColor: "#FF3856",
+        borderColor: Color.red,
         marginTop: rh(2),
         marginHorizontal: rw(5),
     },
@@ -185,17 +182,17 @@ const styles = StyleSheet.create({
         paddingTop: rh(2),
         paddingHorizontal: rw(3.6),
         fontSize: rf(2.2),
-        color: '#FFFFFF',
+        color: Color.white,
         width: '90%',
         height: rh(33),
         borderRadius: 15,
         borderWidth: 4,
-        borderColor: "#FF3856",
+        borderColor: Color.red,
         marginTop: rh(2),
         marginHorizontal: rw(5),
     },
     touchable: {
-        backgroundColor: "#FF3856",
+        backgroundColor: Color.red,
         width: "90%",
         height: rh(6),
         marginTop: rh(2),
@@ -205,7 +202,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     submit: {
-        color: '#FFFFFF',
+        color: Color.white,
         fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(2.2),
     },
@@ -218,7 +215,7 @@ const styles = StyleSheet.create({
         marginLeft: rh(1.7),
         marginRight: rh(1.7),
         borderRadius: 100,
-        backgroundColor: '#ffffff',
+        backgroundColor: Color.white,
         height: rh(2.5),
         justifyContent: 'center',
     },
@@ -232,7 +229,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         marginLeft: rh(1.7),
         marginRight: rh(1.7),
-        backgroundColor: '#ffffff',
+        backgroundColor: Color.white,
         justifyContent: 'center',
         borderRadius: 100,
     },
@@ -242,7 +239,7 @@ const styles = StyleSheet.create({
         marginRight: rh(1.7),
         borderRadius: 100,
         height: rh(2),
-        backgroundColor: '#ffffff',
+        backgroundColor: Color.white,
         justifyContent: 'center',
     },
     timebar2: {
@@ -258,7 +255,7 @@ const styles = StyleSheet.create({
     },
     textoption: {
         fontFamily: 'Montserrat-SemiBold',
-        color: '#ffffff',
+        color: Color.white,
         fontSize: rf(1.9),
         marginLeft: rw(6),
         marginTop: rh(1),

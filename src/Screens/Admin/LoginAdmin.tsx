@@ -1,19 +1,62 @@
-import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { StatusBar } from "react-native";
+import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View, StatusBar } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { rf, rh, rw } from "../../helpers/Responsivedimention";
+import { useMutation } from "@tanstack/react-query";
+import { ApiService } from '../../api/apicalls/ApiCalls'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Loader } from "../../components/Loader";
+import Toast from "react-native-toast-message";
 import { Arrow, Logo } from "../../assests/svg";
 import { BackgroundImage } from "../../assests/images";
 import { Color } from "../../constant/Color";
 
-
 export default function LoginUserPage() {
     const [userId, setUserId] = useState("")
-    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
 
     const navigation = useNavigation();
+
+    const loginhandle = async () => {
+        const payload = {
+            email: email,
+            hrID: userId
+        }
+        const res = await ApiService.login(payload)
+        return res
+    }
+    const mutation = useMutation({
+        mutationKey: ["passingKey123"],
+        mutationFn: loginhandle,
+        onSuccess: async data => {
+            if (data?.data.token) {
+                await AsyncStorage.setItem('MYtoken', data.data.token);
+            }
+            navigation.navigate('AdminHome')
+        },
+        onError: (error) => console.error("Failed to update data:", error),
+        onSettled: () => { console.log("seltesle") }
+    })
+
+    const handlepress = () => {
+        if (userId === "") {
+            Toast.show({
+                type: 'error',
+                text1: 'Please fill the User Id',
+            });
+        }
+        else if (email === "") {
+            Toast.show({
+                type: 'error',
+
+                text1: 'Please fill the Email Id',
+            });
+        }
+        else {
+            mutation.mutate()
+        }
+    }
 
     return (
         <View>
@@ -31,22 +74,22 @@ export default function LoginUserPage() {
                             <Logo />
                         </View>
                         <View style={styles.textShowCss}>
-                            <Text style={[styles.textShowCss, { color: Color.logintextWhite }]}>At</Text>
-                            <Text style={[styles.textShowCss, { color: Color.red }]}>HangingPanda !</Text>
-                            <Text style={[styles.textShowCss, { color: Color.logintextWhite }]}>we truly value your exceptional work,</Text>
-                            <Text style={[styles.textShowCss, { color: Color.logintextWhite }]}>HR.</Text>
+                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>At</Text>
+                            <Text style={[styles.textShowCss, { color: '#FF3856' }]}>HangingPanda !</Text>
+                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>we truly value your exceptional work,</Text>
+                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>Admin.</Text>
                         </View>
                         <Text style={[styles.discriptionText, { color: Color.white }]}>Pls Enter your Details here to enter in your interview process</Text>
                         <View style={styles.viewTextInp}>
-                            <TextInput keyboardType="numeric" onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="Hr Id" placeholderTextColor={Color.red} cursorColor={Color.red} />
-                            <TextInput onChangeText={setName} value={name} style={styles.textQues} placeholder="Email Id" placeholderTextColor={Color.red} cursorColor={Color.red} />
+                            <TextInput keyboardType="numeric" onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="Admin Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
+                            <TextInput onChangeText={setEmail} value={email} style={styles.textQues} placeholder="Email Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
+
                             <TouchableOpacity
                                 activeOpacity={0.6}
-                                onPress={
-                                    () => { navigation.navigate('UserHome') }
-                                }>
+                                onPress={handlepress}>
                                 <Arrow style={styles.arrowCss} />
                             </TouchableOpacity>
+                            <Loader isLoading={false} />
                         </View>
 
                     </KeyboardAwareScrollView>
@@ -97,14 +140,14 @@ const styles = StyleSheet.create({
     arrowCss: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: rh(4),
+        marginTop: rh(3),
         marginLeft: rh(17.5),
     },
     discriptionText: {
         fontFamily: 'Montserrat-Bold',
         fontSize: rf(2),
         paddingHorizontal: rw(8.6),
-        marginTop: rh(6),
+        marginTop: rh(4),
         marginBottom: rh(3)
     },
 
