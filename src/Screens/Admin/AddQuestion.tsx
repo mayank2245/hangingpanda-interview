@@ -1,20 +1,31 @@
+import {
+    ImageBackground,
+    Pressable,
+    StatusBar,
+    StyleSheet,
+    TextInput,
+    TouchableOpacity,
+    Text,
+    View
+} from "react-native";
 import { useState } from "react";
-import { ImageBackground, Pressable, StatusBar, StyleSheet, TextInput, TouchableOpacity, Text, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { rf, rh, rw } from "../../helpers/Responsivedimention";
-import WheelPicker from '@quidone/react-native-wheel-picker';
-import Addques from '../../assests/svg/AddQues';
-import CrossIcon from "../../assests/svg/CrossIcon";
-import Add from "../../assests/svg/Add";
-import CustomModal from "../../components/Modal";
-import { dataText, alphabet } from '../../constant/StaticData'
+import { color } from "../../constant/color";
 import { BackgroundImage } from "../../assests/images";
-import { Color } from "../../constant/Color";
+import { useNavigation } from "@react-navigation/native";
+import { dataText, alphabet } from '../../constant/staticData'
+import { rf, rh, rw } from "../../helpers/responsivedimention";
 
-const datawheel = [...Array(6).keys()].map((index) => ({
-    value: index,
-    label: index.toString(),
-}))
+import Add from "../../assests/svg/add";
+import Addques from '../../assests/svg/addQues';
+import CustomModal from "../../components/Modal";
+import CrossIcon from "../../assests/svg/crossIcon";
+import WheelPicker from '@quidone/react-native-wheel-picker';
+
+
+const datawheel = [...Array(5).keys()].map((index) => ({
+    value: index + 2,
+    label: (index + 2).toString(),
+}));
 
 export default function AddQuestion({ route }: any) {
     const { data, Id } = route.params;
@@ -31,15 +42,16 @@ export default function AddQuestion({ route }: any) {
     const [openmodal3, setOpenmodal3] = useState(false)
     const [selected, setSelected] = useState<number>()
     const [displayedData, setDisplayedData] = useState<any>([]);
+    const [nextOption, setNextOption] = useState<boolean>(true)
 
     const navigate = useNavigation();
-
 
     const handleNext = () => {
         setDisplayedData(inputans)
         if (currentInputIndex < value) {
             setCurrentInputIndex(currentInputIndex + 1);
         }
+        setNextOption(true)
     }
 
     const handleAddques = () => {
@@ -72,15 +84,21 @@ export default function AddQuestion({ route }: any) {
     }
 
     const handleCol = (i: number) => {
-        setIndex(i);
-        navigate.navigate("AddQuestion")
+        setOpenmodal(false)
     }
 
     const handleInputChange = (text: string, i: number) => {
-        const updatedInputs = { ...inputans };
-        const letterKey = alphabet[i];
-        updatedInputs[letterKey] = text;
-        setInputAns(updatedInputs);
+        if (text === "") {
+            setNextOption(true)
+        }
+        else {
+            setNextOption(false)
+            const updatedInputs = { ...inputans };
+            const letterKey = alphabet[i];
+            updatedInputs[letterKey] = text;
+            setInputAns(updatedInputs);
+        }
+
     }
 
     const handleSelectmcq = (i: number) => {
@@ -112,8 +130,8 @@ export default function AddQuestion({ route }: any) {
                 <CrossIcon style={styles.crosscut} onPress={() => { setOpenmodal(false) }} />
                 {dataText?.map((ei, i) => {
                     return (
-                        <Pressable key={i} onPress={() => { handleCol(i) }} style={[index === i ? { backgroundColor: Color.red } : '', styles.modalbox]}>
-                            <Text style={[styles.modalText, index === i ? { color: Color.white } : { color: Color.red }]}>{ei.title}</Text>
+                        <Pressable key={i} onPress={() => { handleCol(i) }} style={[styles.modalbox, index === i ? { backgroundColor: color.primaryRed } : '']}>
+                            <Text style={[styles.modalText, index === i ? { color: color.white } : { color: color.primaryRed }]}>{ei.title}</Text>
                         </Pressable>
                     )
                 })}
@@ -124,11 +142,9 @@ export default function AddQuestion({ route }: any) {
     const modalData2 = () => {
         return (
             <>
-                <View>
-                    <Text style={{ textAlign: 'center', color: 'white', fontFamily: 'Montserrat-Bold', marginTop: rh(3), fontSize: rf(2.4) }}>How much option do you want?</Text>
-                </View>
-                <View style={{ flexDirection: 'row', borderRadius: 20, columnGap: 6 }}>
-                    <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2), color: Color.green, marginTop: rh(12), marginLeft: rw(14) }}>Enter the Option:  </Text>
+                <Text style={styles.optionrequire}>How much option do you want?</Text>
+                <View style={styles.viewenteroption}>
+                    <Text style={styles.enteroption}>Enter the Option</Text>
                     <WheelPicker
                         itemTextStyle={{ color: 'white', borderRadius: 20 }}
                         width={50}
@@ -141,7 +157,7 @@ export default function AddQuestion({ route }: any) {
                     style={[styles.addquescss]}
                     onPress={handleAddmcq}
                 >
-                    <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10 }}>
+                    <View style={styles.addquessubmit}>
                         <Addques />
                         <Text style={styles.addquesText}>Add</Text>
                     </View>
@@ -153,14 +169,12 @@ export default function AddQuestion({ route }: any) {
     const modalData3 = () => {
         return (
             <>
-                <View>
-                    <Text style={{ textAlign: 'center', color: 'white', fontFamily: 'Montserrat-Bold', marginTop: rh(3), fontSize: rf(2.4) }}>Select the correct option</Text>
-                </View>
-                <View style={{ marginBottom: 20 }}>
+                <Text style={styles.selectcorrect}>Select the correct option</Text>
+                <View style={styles.viewmodal3}>
                     {
                         Object.entries(inputans).map(([i, value]) => (
-                            <Pressable key={i} onPress={() => handleSelectmcq(i)} style={[styles.selectmcq, selected === i ? { backgroundColor: '#06D001' } : { backgroundColor: 'white' }]}>
-                                <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: rf(2), textAlign: 'center', color: 'black', }}>{value}</Text>
+                            <Pressable key={i} onPress={() => handleSelectmcq(i)} style={[styles.selectmcq, selected === i ? { backgroundColor: color.green } : { backgroundColor: color.white }]}>
+                                <Text style={styles.mapvalue}>{value}</Text>
                             </Pressable>
                         ))
                     }
@@ -170,7 +184,7 @@ export default function AddQuestion({ route }: any) {
                     style={[styles.addquescss]}
                     onPress={handleselectmcq}
                 >
-                    <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10 }}>
+                    <View style={styles.addquessubmit}>
                         <Addques />
                         <Text style={styles.addquesText}>Submit</Text>
                     </View>
@@ -197,7 +211,7 @@ export default function AddQuestion({ route }: any) {
                                     style={styles.addquescss}
                                     onPress={handleAddques}
                                 >
-                                    <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10 }}>
+                                    <View style={styles.addquessubmit}>
                                         <Addques />
                                         <Text style={styles.addquesText}>Add</Text>
                                     </View>
@@ -233,13 +247,7 @@ export default function AddQuestion({ route }: any) {
                                                     <>
                                                         {
                                                             Object.entries(displayedData).map(([key, value]) => (
-                                                                <Text style={{
-                                                                    fontFamily: 'Montserrat-Bold',
-                                                                    color: Color.white,
-                                                                    fontSize: rf(2.3),
-                                                                    marginTop: rh(2),
-                                                                    marginHorizontal: rh(4.5)
-                                                                }} key={key}>{key}.{value}</Text>
+                                                                <Text style={styles.displayoption} key={key}>{key}. {value}</Text>
                                                             ))
                                                         }
                                                         {
@@ -252,8 +260,8 @@ export default function AddQuestion({ route }: any) {
                                                             activeOpacity={0.8}
                                                             style={styles.addanscss}
                                                             onPress={handleNext}
+                                                            disabled={nextOption}
                                                         >
-
                                                             <View style={styles.viewsubmit}>
                                                                 <Addques />
                                                                 <Text style={styles.addquesText}>Next</Text>
@@ -262,7 +270,7 @@ export default function AddQuestion({ route }: any) {
                                                             :
                                                             <>
                                                                 <CustomModal content={modalData3()} visible={openmodal3} onClose={() => { setOpenmodal3(false); }} modaloverlaycss={{}} contentcss={{}} />
-                                                                <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                                                                <View style={styles.viewsubmitmodal}>
                                                                     <TouchableOpacity
                                                                         activeOpacity={0.8}
                                                                         style={styles.addanscss}
@@ -274,7 +282,6 @@ export default function AddQuestion({ route }: any) {
                                                                         </View>
                                                                     </TouchableOpacity>
                                                                 </View>
-
                                                             </>
                                                         }
                                                     </>
@@ -306,14 +313,14 @@ const styles = StyleSheet.create({
     },
     safearea: {
         flex: 1,
-        backgroundColor: 'black',
+        backgroundColor: color.black,
         opacity: 0.85,
     },
     textQues: {
         fontFamily: 'Montserrat-Bold',
-        color: Color.white,
+        color: color.white,
         borderWidth: 3,
-        borderColor: Color.red,
+        borderColor: color.primaryRed,
         width: '85%',
         margin: 'auto',
         height: rh(7.8),
@@ -324,7 +331,7 @@ const styles = StyleSheet.create({
     },
     enterQues: {
         fontFamily: 'Montserrat-Bold',
-        color: Color.green,
+        color: color.green,
         fontSize: rf(2.3),
         marginTop: rh(8),
         marginHorizontal: rh(3.2)
@@ -333,27 +340,27 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center",
         height: rh(8),
-        backgroundColor: Color.red,
+        backgroundColor: color.primaryRed,
         borderTopRightRadius: 25,
     },
     addquesText: {
         fontFamily: 'Montserrat-Bold',
-        color: Color.white,
+        color: color.white,
         fontSize: rf(2.4),
         textAlign: 'center',
     },
     showques: {
         fontFamily: 'Montserrat-Bold',
-        color: 'white',
+        color: color.white,
         marginTop: rh(6),
         marginHorizontal: rh(3),
         fontSize: rf(2.3),
     },
     textAns: {
-        borderColor: Color.green,
+        borderColor: color.green,
         fontFamily: 'Montserrat-Bold',
-        color: Color.white,
-        borderWidth: 3,
+        color: color.white,
+        borderWidth: rw(0.6),
         width: '85%',
         margin: 'auto',
         height: rh(7.6),
@@ -365,13 +372,13 @@ const styles = StyleSheet.create({
     viewsubmit: {
         flexDirection: 'row',
         alignItems: 'center',
-        columnGap: 14,
+        columnGap: rw(3),
     },
     addanscss: {
         justifyContent: 'center',
         alignItems: "center",
         height: rh(7.6),
-        backgroundColor: Color.red,
+        backgroundColor: color.primaryRed,
         borderTopRightRadius: 25,
         flexDirection: 'row'
     },
@@ -382,11 +389,10 @@ const styles = StyleSheet.create({
         width: rw(100),
         margin: "auto",
         zIndex: 20
-
     },
     modalbox: {
-        borderWidth: 3,
-        borderColor: Color.red,
+        borderWidth: rw(0.6),
+        borderColor: color.primaryRed,
         borderRadius: 15,
         width: rw(90),
         margin: 'auto',
@@ -408,33 +414,85 @@ const styles = StyleSheet.create({
     addQues: {
         position: 'absolute',
         elevation: 2,
-        height: rh(14.2),
+        zIndex: 10,
         width: rw(7),
-        top: 350,
-        marginLeft: rh(41.9),
+        height: rh(15),
+        marginTop: rh(38),
+        marginLeft: rw(93),
         borderTopLeftRadius: 10,
         borderBottomLeftRadius: 10,
-        backgroundColor: Color.red,
+        backgroundColor: color.primaryRed,
     },
     addQuesLogo: {
         marginTop: rh(1.2),
         marginLeft: rh(0.9),
     },
     addQuesText: {
-        fontFamily: 'Montserrat-Bold',
-        width: rw(22),
+        fontFamily: "Montserrat-SemiBold",
+        width: rw(28),
         marginTop: rh(4.8),
-        color: Color.red,
-        marginLeft: rh(-3.4),
-        fontSize: rf(1.4),
+        color: color.lightWhite,
+        marginLeft: rh(-4.8),
+        fontSize: rf(1.5),
         textAlign: 'center',
         transform: [{ rotate: '270deg' }],
     },
     selectmcq: {
-        marginTop: 20,
-        marginHorizontal: 30,
+        marginTop: rh(2),
+        marginHorizontal: rw(4),
         height: rh(6),
         paddingTop: rh(1.4),
         borderRadius: 15
     },
+    optionrequire: {
+        textAlign: 'center',
+        color: 'white',
+        fontFamily: 'Montserrat-Bold',
+        marginTop: rh(3),
+        fontSize: rf(2.4)
+    },
+    viewenteroption: {
+        flexDirection: 'row',
+        borderRadius: 20,
+        columnGap: rw(2)
+    },
+    enteroption: {
+        fontFamily: 'Montserrat-Bold',
+        fontSize: rf(2),
+        color: color.green,
+        marginTop: rh(12),
+        marginLeft: rw(14)
+    },
+    selectcorrect: {
+        textAlign: 'center',
+        color: 'white',
+        fontFamily: 'Montserrat-Bold',
+        marginTop: rh(3),
+        fontSize: rf(2.4)
+    },
+    viewmodal3: {
+        marginBottom: rh(2)
+    },
+    mapvalue: {
+        fontFamily: 'Montserrat-Bold',
+        fontSize: rf(2),
+        textAlign: 'center',
+        color: 'black'
+    },
+    addquessubmit: {
+        flexDirection: "row",
+        alignItems: "center",
+        columnGap: rw(2)
+    },
+    displayoption: {
+        fontFamily: 'Montserrat-Bold',
+        color: color.white,
+        fontSize: rf(2.3),
+        marginTop: rh(2),
+        marginHorizontal: rh(4.5)
+    },
+    viewsubmitmodal: {
+        flex: 1,
+        justifyContent: 'flex-end'
+    }
 })

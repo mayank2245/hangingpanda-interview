@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+
 import {
   ImageBackground,
   Pressable,
@@ -10,19 +10,21 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import DocumentPicker from 'react-native-document-picker';
+import { useEffect, useState } from 'react';
 import RNFS from 'react-native-fs';
 import Icon from 'react-native-vector-icons/Feather';
+import DocumentPicker from 'react-native-document-picker';
 import IconCsv from 'react-native-vector-icons/FontAwesome5';
 import IconArrow from 'react-native-vector-icons/AntDesign';
-import { csvToJson } from '../../helpers/CsvToJson';
-import { useNavigation } from '@react-navigation/native';
-import { rf, rh, rw } from '../../helpers/Responsivedimention';
+
 import CustomModal from '../../components/Modal';
-import { dataText } from '../../constant/StaticData';
-import { AddQues, CrossIcon, Logo } from '../../assests/svg';
+import { color } from '../../constant/color';
+import { csvToJson } from '../../helpers/csvToJson';
+import { dataText } from '../../constant/staticData';
 import { BackgroundImage } from '../../assests/images';
-import { Color } from '../../constant/Color';
+import { useNavigation } from '@react-navigation/native';
+import { AddQues, CrossIcon, Logo } from '../../assests/svg';
+import { rf, rh, rw } from '../../helpers/responsivedimention';
 
 export default function App(): React.JSX.Element {
   const [selectedFile, setSelectedFile] = useState<any>(null);
@@ -31,7 +33,7 @@ export default function App(): React.JSX.Element {
   const navigation = useNavigation();
   const [visiblemodal, setVisiblemodal] = useState(false);
   const [Index, setIndex] = useState<number>()
-  const [showdata, setShowdata] = useState([])
+  const [showdata, setShowdata] = useState([])   //
 
   const pickDocument = async () => {
     try {
@@ -55,26 +57,10 @@ export default function App(): React.JSX.Element {
     setVisiblemodal(true);
   }
 
-
   const handleCol = (i: number) => {
     setIndex(i);
     setVisiblemodal(false)
     navigation.navigate("AddQuestion", { data: showdata, Id: i })
-  }
-
-  const modalData = () => {
-    return (
-      <View style={styles.modalcss}>
-        <CrossIcon style={styles.crosscut} onPress={() => { setVisiblemodal(false) }} />
-        {dataText?.map((ei, i) => {
-          return (
-            <Pressable key={i} onPress={() => handleCol(i)} style={[Index === i ? { backgroundColor: Color.red } : '', styles.modalbox]}>
-              <Text style={[styles.modalText, Index === i ? { color: Color.white } : { color: Color.red }]}>{ei.title}</Text>
-            </Pressable>
-          )
-        })}
-      </View>
-    )
   }
 
   useEffect(() => {
@@ -83,6 +69,22 @@ export default function App(): React.JSX.Element {
       setFileName(name);
     }
   }, [parsedData]);
+
+  const modalData = () => {
+    return (
+      <View style={styles.modalcss}>
+        <CrossIcon style={styles.crosscut} onPress={() => { setVisiblemodal(false) }} />
+        {dataText?.map((ei, i) => {
+          return (
+            <Pressable key={i} onPress={() => handleCol(i)} style={[styles.modalbox, Index === i ? { backgroundColor: color.primaryRed } : '']}>
+              <Text style={[styles.modalText, Index === i ? { color: color.white } : { color: color.primaryRed }]}>{ei.title}</Text>
+            </Pressable>
+          )
+        })}
+      </View>
+    )
+  }
+
   return (
     <SafeAreaView>
       <StatusBar
@@ -95,6 +97,12 @@ export default function App(): React.JSX.Element {
         resizeMode="cover">
         <View style={styles.overlay}>
           <ScrollView>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.quesformatePress}
+              onPress={() => navigation.navigate('QuesFormateModal')}>
+              <Text style={styles.quesformate}>Question Formate</Text>
+            </TouchableOpacity>
             <Pressable
               style={styles.filePickerContainer}
               onPress={pickDocument}>
@@ -110,7 +118,7 @@ export default function App(): React.JSX.Element {
                       style={styles.uploadPromptIcon2}
                       name="file-csv"
                       size={36}
-                      color={Color.lightBlue}
+                      color={color.lightBlue}
                     />
                     <Text style={styles.uploadPromptTitle}>{fileName}</Text>
                     <Text style={styles.uploadPromptTitle2}>
@@ -123,7 +131,7 @@ export default function App(): React.JSX.Element {
                       style={styles.uploadPromptIcon}
                       name="upload-cloud"
                       size={48}
-                      color={Color.lightRed}
+                      color={color.lightRed}
                     />
                     <Text style={styles.uploadPromptTitle}>
                       Import questions Excel or CSV
@@ -136,18 +144,18 @@ export default function App(): React.JSX.Element {
                       style={[styles.addquestion]}
                       onPress={handleaddonebyone}
                     >
-                      <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10 }}>
+                      <View style={styles.addquesManually}>
                         <AddQues />
                         <Text style={styles.addquestiontext}>Add Question Manually</Text>
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity
                       activeOpacity={0.8}
-                      style={[styles.addquestion, { marginTop: rh(3) }]}
+                      style={styles.addquestion2}
                       onPress={() => {
                         navigation.navigate('AllQuestionPaper');
                       }}>
-                      <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10 }}>
+                      <View style={styles.seeAllQues}>
                         <AddQues />
                         <Text style={styles.addquestiontext}>See All the question</Text>
                       </View>
@@ -165,16 +173,16 @@ export default function App(): React.JSX.Element {
                   navigation.navigate('ShowData', { data: parsedData });
                 }}>
                 <Text style={styles.nextButtonText}>Next</Text>
-                <IconArrow name="arrowright" size={24} color={Color.white} />
+                <IconArrow name="arrowright" size={24} color={color.white} />
               </TouchableOpacity>
             )}
 
             <Logo style={styles.logoImage} />
-            <Text style={[styles.logoText]}>HANGING PANDA PRODUCTS</Text>
+            <Text style={styles.logoText}>HANGING PANDA PRODUCTS</Text>
           </ScrollView>
         </View>
       </ImageBackground>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 }
 
@@ -184,27 +192,27 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: color.black,
     opacity: 0.8,
     height: rh(100),
   },
   filePickerContainer: {
-    marginTop: rh(13),
+    marginTop: rh(3),
     borderRadius: 19,
     paddingBottom: rh(4),
     height: rh(21.8),
     width: "90%",
     margin: 'auto',
-    backgroundColor: Color.lightWhite,
+    backgroundColor: color.lightWhite,
   },
   fileInfoContainer: {
     borderRadius: 19,
-    borderWidth: 2.5,
+    borderWidth: rw(0.6),
     height: rh(21.8),
     width: '100%',
     margin: 'auto',
     borderStyle: 'dashed',
-    borderColor: Color.lightBlue,
+    borderColor: color.lightBlue,
   },
   removeFileButton: {
     position: 'absolute',
@@ -213,7 +221,7 @@ const styles = StyleSheet.create({
   },
   fileNameText: {
     fontFamily: 'NunitoSans_7pt-SemiBold',
-    color: Color.lightBlue,
+    color: color.lightBlue,
     fontSize: rf(2),
     textAlign: 'center',
     marginTop: rh(4),
@@ -230,7 +238,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NunitoSans_7pt-SemiBold',
     fontSize: rf(2),
     textAlign: 'center',
-    color: Color.lightRed,
+    color: color.lightRed,
     paddingHorizontal: rw(2),
     marginTop: rh(1),
   },
@@ -238,16 +246,16 @@ const styles = StyleSheet.create({
     fontFamily: 'NunitoSans_7pt-SemiBold',
     fontSize: rf(1.8),
     textAlign: 'center',
-    color: '#125B9A',
+    color: color.lightBlue,
     marginTop: rh(0.4),
   },
   nextButton: {
-    backgroundColor: Color.red,
+    backgroundColor: color.primaryRed,
     borderRadius: 10,
     height: rh(4.5),
     width: rw(29),
     justifyContent: 'center',
-    gap: 8,
+    gap: rw(2),
     paddingHorizontal: rh(3),
     paddingTop: rh(1),
     flexDirection: 'row',
@@ -256,7 +264,7 @@ const styles = StyleSheet.create({
   },
   nextButtonText: {
     fontFamily: 'NunitoSans_7pt-SemiBold',
-    color: Color.white,
+    color: color.white,
     fontSize: rf(2),
   },
   logoImage: {
@@ -270,7 +278,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-SemiBold',
     position: 'absolute',
     opacity: 0.7,
-    color: '#D9D9D9',
+    color: color.lightWhite,
     fontSize: rf(4.4),
     height: rh(18),
     width: rw(55),
@@ -278,7 +286,7 @@ const styles = StyleSheet.create({
     marginLeft: rw(5),
   },
   modalcss: {
-    backgroundColor: 'black',
+    backgroundColor: color.black,
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,
     width: rw(100),
@@ -287,8 +295,8 @@ const styles = StyleSheet.create({
 
   },
   modalbox: {
-    borderWidth: 3,
-    borderColor: Color.red,
+    borderWidth: rw(0.8),
+    borderColor: color.primaryRed,
     borderRadius: 15,
     width: rw(90),
     margin: 'auto',
@@ -309,7 +317,15 @@ const styles = StyleSheet.create({
   },
   addquestion: {
     marginTop: rh(12),
-    backgroundColor: Color.red,
+    backgroundColor: color.primaryRed,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: rh(1.3),
+  },
+  addquestion2: {
+    marginTop: rh(3),
+    backgroundColor: color.primaryRed,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
@@ -318,8 +334,33 @@ const styles = StyleSheet.create({
   addquestiontext: {
     fontFamily: 'Montserrat-SemiBold',
     textAlign: 'center',
-    color: Color.white,
+    color: color.white,
     fontSize: rf(1.9),
+  },
+  seeAllQues: {
+    flexDirection: "row",
+    alignItems: "center",
+    columnGap: rw(2)
+  },
+  addquesManually: {
+    flexDirection: "row",
+    alignItems: "center",
+    columnGap: rw(2)
+  },
+  quesformate: {
+    fontFamily: 'Montserrat-SemiBold',
+    color: color.white,
+    fontSize: rf(1.3),
+    textAlign: 'center',
+  },
+  quesformatePress: {
+    marginTop: rh(6),
+    height: rh(2.5),
+    width: rw(36),
+    marginLeft: rw(59),
+    backgroundColor: color.primaryRed,
+    borderRadius: 8,
+    justifyContent: 'center'
   }
 });
 

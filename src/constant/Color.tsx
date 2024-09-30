@@ -1,6 +1,6 @@
-export const Color = {
+export const color = {
     white: '#FFFFFF',
-    red: '#FF3856',
+    primaryRed: '#FF3856',
     green: '#06D001',
     lightBlue: '#125B9A',
     lightRed: '#FF575B',
@@ -10,5 +10,6 @@ export const Color = {
     yellow: '#FBC02D',
     orange: '#F57C00',
     timebarRed: '#D32F2F',
-    logintextWhite: '#D9D9D980'
+    logintextWhite: '#D9D9D980',
+    bacgroundlightblack: 'rgba(52, 52, 52, 0.8)',
 }

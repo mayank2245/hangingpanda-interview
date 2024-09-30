@@ -1,12 +1,12 @@
 import { FlatList, ImageBackground, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { rf, rh, rw } from '../../helpers/Responsivedimention'
-import Addques from '../../assests/svg/AddQues';
+import { rf, rh, rw } from '../../helpers/responsivedimention'
+import Addques from '../../assests/svg/addQues';
 import CustomModal from '../../components/Modal';
 import { useNavigation } from '@react-navigation/native';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { BackgroundImage } from '../../assests/images';
-import { Color } from '../../constant/Color';
+import { color } from '../../constant/color';
 
 
 export default function QuestionList({ route }: any) {
@@ -117,10 +117,10 @@ export default function QuestionList({ route }: any) {
                     <View style={styles.timebar1}>
                         <Animated.View
                             style={[styles.timebar2, animatedStyle,
-                            (timeLeft / (60 * time)) > 0.75 ? { backgroundColor: Color.green }
-                                : (timeLeft / (60 * time)) > 0.5 ? { backgroundColor: Color.yellow }
-                                    : (timeLeft / (60 * time)) > 0.25 ? { backgroundColor: Color.orange }
-                                        : { backgroundColor: Color.timebarRed },
+                            (timeLeft / (60 * time)) > 0.75 ? { backgroundColor: color.green }
+                                : (timeLeft / (60 * time)) > 0.5 ? { backgroundColor: color.yellow }
+                                    : (timeLeft / (60 * time)) > 0.25 ? { backgroundColor: color.orange }
+                                        : { backgroundColor: color.timebarRed },
                             { height: rh(4) }]}
                         />
                     </View>
@@ -140,16 +140,16 @@ export default function QuestionList({ route }: any) {
                                     )}
                                     {item.type === "MCQ" &&
                                         <View>
-                                            <Text style={[styles.textoption, item.correctOption === 1 ? { color: Color.green } : { color: Color.white }]}>
+                                            <Text style={[styles.textoption, item.correctOption === 1 ? { color: color.green } : { color: color.white }]}>
                                                 A. {item.Option1}
                                             </Text>
-                                            <Text style={[styles.textoption, item.correctOption === 2 ? { color: Color.green } : { color: Color.white }]}>
+                                            <Text style={[styles.textoption, item.correctOption === 2 ? { color: color.green } : { color: color.white }]}>
                                                 B. {item.Option2}
                                             </Text>
-                                            <Text style={[styles.textoption, item.correctOption === 3 ? { color: Color.green } : { color: Color.white }]}>
+                                            <Text style={[styles.textoption, item.correctOption === 3 ? { color: color.green } : { color: color.white }]}>
                                                 C. {item.Option3}
                                             </Text>
-                                            <Text style={[styles.textoption, item.correctOption === 4 ? { color: Color.green } : { color: Color.white }]}>
+                                            <Text style={[styles.textoption, item.correctOption === 4 ? { color: color.green } : { color: color.white }]}>
                                                 D. {item.Option4}
                                             </Text>
                                         </View>
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     },
     overlay: {
         flex: 1,
-        backgroundColor: Color.black,
+        backgroundColor: color.black,
         opacity: 0.96,
         width: '100%',
         overflow: 'hidden'
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
         marginRight: rh(4),
     },
     FlatListques: {
-        color: Color.red,
+        color: color.primaryRed,
         fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(1.8),
         marginBottom: rh(1.6),
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     },
     submitcss: {
         height: rh(8),
-        backgroundColor: Color.red,
+        backgroundColor: color.primaryRed,
         borderTopRightRadius: 25,
         flexDirection: 'row',
         alignItems: 'center',
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     },
     submittext: {
         fontFamily: 'Montserrat-SemiBold',
-        color: Color.white,
+        color: color.white,
         fontSize: rf(2.6),
     },
     modalcss: {
@@ -224,13 +224,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: rw(92),
         marginLeft: rw(4),
-        backgroundColor: Color.black,
+        backgroundColor: color.black,
         borderRadius: 25,
     },
     modalbox: {
         marginHorizontal: rw(28),
         justifyContent: 'center',
-        backgroundColor: Color.red,
+        backgroundColor: color.primaryRed,
         borderRadius: 10,
         marginTop: rh(1.6),
         width: rw(40),
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
         fontFamily: 'NunitoSans-SemiBold',
         textAlign: 'center',
         fontSize: rf(2.2),
-        color: Color.white,
+        color: color.white,
     },
     modalText2: {
         textAlign: 'center',
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
         width: rw(70),
         marginBottom: rh(1),
         marginLeft: rw(12),
-        color: Color.red,
+        color: color.primaryRed,
         lineHeight: 30,
         fontFamily: 'Montserrat-SemiBold'
     },
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
         marginLeft: rh(1.7),
         marginRight: rh(1.7),
         borderRadius: 100,
-        backgroundColor: Color.white,
+        backgroundColor: color.white,
         height: rh(4),
         justifyContent: 'center',
     },
@@ -279,13 +279,13 @@ const styles = StyleSheet.create({
     },
     textanswer: {
         fontFamily: 'Montserrat-SemiBold',
-        color: Color.green,
+        color: color.green,
         fontSize: rf(1.9),
         marginLeft: rw(2.6)
     },
     textoption: {
         fontFamily: 'Montserrat-SemiBold',
-        color: Color.white,
+        color: color.white,
         fontSize: rf(1.9),
         marginLeft: rw(2.6)
     },

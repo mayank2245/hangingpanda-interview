@@ -1,21 +1,30 @@
-import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View, StatusBar } from "react-native";
+import {
+    ImageBackground,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+    StatusBar
+} from "react-native";
 import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { rf, rh, rw } from "../../helpers/Responsivedimention";
-import { useMutation } from "@tanstack/react-query";
-import { ApiService } from '../../api/apicalls/ApiCalls'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { color } from "../../constant/color";
+import { ShowToast } from "../../helpers/toast";
+import { Arrow, Ellipse, Logo } from "../../assests/svg";
 import { Loader } from "../../components/Loader";
-import Toast from "react-native-toast-message";
-import { Arrow, Logo } from "../../assests/svg";
+import { useMutation } from "@tanstack/react-query";
 import { BackgroundImage } from "../../assests/images";
-import { Color } from "../../constant/Color";
+import { ApiService } from '../../api/apicalls/ApiCalls'
+import { useNavigation } from "@react-navigation/native";
+import { rf, rh, rw } from "../../helpers/responsivedimention";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginUserPage() {
     const [userId, setUserId] = useState("")
     const [email, setEmail] = useState("")
-
+    const [callApi, setCallApi] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const navigation = useNavigation();
 
     const loginhandle = async () => {
@@ -33,28 +42,42 @@ export default function LoginUserPage() {
             if (data?.data.token) {
                 await AsyncStorage.setItem('MYtoken', data.data.token);
             }
+            setIsLoading(false)
             navigation.navigate('AdminHome')
         },
-        onError: (error) => console.error("Failed to update data:", error),
-        onSettled: () => { console.log("seltesle") }
+        onError: () => { setIsLoading(false); ShowToast("error", "Please Check your id and email") }
     })
 
     const handlepress = () => {
         if (userId === "") {
-            Toast.show({
-                type: 'error',
-                text1: 'Please fill the User Id',
-            });
+            const type = "error";
+            const text1 = "Please fill the Admin Id";
+            ShowToast(type, text1);
         }
         else if (email === "") {
-            Toast.show({
-                type: 'error',
-
-                text1: 'Please fill the Email Id',
-            });
+            const type = "error";
+            const text1 = "Please fill the Email Id";
+            ShowToast(type, text1);
+        }
+        else if (callApi === false) {
+            const type = "error";
+            const text1 = "Please enter correct Email Id";
+            ShowToast(type, text1);
         }
         else {
+            setIsLoading(true)
+            setCallApi(false)
             mutation.mutate()
+        }
+    }
+
+    const handleValidEmail = (text: any) => {
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if (reg.test(text) === false) {
+            setCallApi(false)
+            return false;
+        } else {
+            setCallApi(true)
         }
     }
 
@@ -74,24 +97,35 @@ export default function LoginUserPage() {
                             <Logo />
                         </View>
                         <View style={styles.textShowCss}>
-                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>At</Text>
-                            <Text style={[styles.textShowCss, { color: '#FF3856' }]}>HangingPanda !</Text>
-                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>we truly value your exceptional work,</Text>
-                            <Text style={[styles.textShowCss, { color: '#D9D9D980' }]}>Admin.</Text>
+                            <Text style={styles.textShowCss}>At</Text>
+                            <Text style={styles.textShowCss2}>HangingPanda !</Text>
+                            <Text style={styles.textShowCss}>we truly value your exceptional work,</Text>
+                            <Text style={styles.textShowCss}>Admin.</Text>
                         </View>
-                        <Text style={[styles.discriptionText, { color: Color.white }]}>Pls Enter your Details here to enter in your interview process</Text>
-                        <View style={styles.viewTextInp}>
-                            <TextInput keyboardType="numeric" onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="Admin Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
-                            <TextInput onChangeText={setEmail} value={email} style={styles.textQues} placeholder="Email Id" placeholderTextColor="#FF3856" cursorColor={"#FF3856"} />
-
-                            <TouchableOpacity
-                                activeOpacity={0.6}
-                                onPress={handlepress}>
-                                <Arrow style={styles.arrowCss} />
-                            </TouchableOpacity>
-                            <Loader isLoading={false} />
+                        <Text style={styles.discriptionText}>Pls Enter your Details here to enter in your interview process</Text>
+                        <TextInput keyboardType="numeric" onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="Admin Id" placeholderTextColor={color.primaryRed} cursorColor={color.primaryRed} />
+                        <TextInput
+                            style={styles.textQues}
+                            placeholder="Email Id"
+                            placeholderTextColor={color.primaryRed}
+                            cursorColor={color.primaryRed}
+                            value={email}
+                            autoCorrect={false}
+                            autoCapitalize="none"
+                            onChangeText={value => {
+                                setEmail(value.trim());
+                                handleValidEmail(value);
+                            }}
+                        />
+                        <TouchableOpacity
+                            activeOpacity={0.6}
+                            onPress={handlepress}>
+                            <Ellipse style={styles.ellipseCss} />
+                            {!isLoading && <Arrow style={styles.arrowCss} />}
+                        </TouchableOpacity>
+                        <View style={styles.loaderstyle}>
+                            <Loader isLoading={isLoading} />
                         </View>
-
                     </KeyboardAwareScrollView>
                 </View>
             </ImageBackground >
@@ -104,22 +138,20 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: 'black',
+        backgroundColor: color.black,
         opacity: 0.85,
     },
     textQues: {
         fontFamily: 'Montserrat-Bold',
-        color: Color.white,
-        borderWidth: 3,
-        borderColor: Color.red,
+        color: color.white,
+        borderWidth: rw(0.6),
+        borderColor: color.primaryRed,
         width: '80%',
         margin: 'auto',
         height: rh(7),
         marginTop: rh(2.4),
         borderRadius: 15,
         fontSize: rf(2.2),
-        paddingTop: rh(1.8),
-        paddingBottom: rh(2.6),
         textAlign: 'center'
     },
     logoCss: {
@@ -129,22 +161,39 @@ const styles = StyleSheet.create({
     },
     textShowCss: {
         fontFamily: 'Montserrat-Bold',
+        color: color.logintextWhite,
         fontSize: rf(3.5),
         paddingLeft: rw(4),
         paddingTop: rh(1.7),
         lineHeight: rh(3.4)
     },
-    viewTextInp: {
-
+    textShowCss2: {
+        fontFamily: 'Montserrat-Bold',
+        color: color.primaryRed,
+        fontSize: rf(3.5),
+        paddingLeft: rw(4),
+        paddingTop: rh(1.7),
+        lineHeight: rh(3.4)
     },
-    arrowCss: {
+    ellipseCss: {
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: rh(3),
         marginLeft: rh(17.5),
     },
+    arrowCss: {
+        position: 'absolute',
+        marginTop: rh(6),
+        marginLeft: rw(47.5),
+    },
+    loaderstyle: {
+        position: 'absolute',
+        top: rh(86.5),
+        left: rw(44.5)
+    },
     discriptionText: {
         fontFamily: 'Montserrat-Bold',
+        color: color.white,
         fontSize: rf(2),
         paddingHorizontal: rw(8.6),
         marginTop: rh(4),
