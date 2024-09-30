@@ -1,13 +1,13 @@
-import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { StatusBar } from "react-native";
 import { useState } from "react";
+import { StatusBar } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { rf, rh, rw } from "../../helpers/responsivedimention";
+import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+
+import { color } from "../../constant/color";
 import { Arrow, Logo } from "../../assests/svg";
 import { BackgroundImage } from "../../assests/images";
-import { color } from "../../constant/color";
-
+import { rf, rh, rw } from "../../helpers/responsivedimention";
 
 export default function LoginUserPage() {
     const [userId, setUserId] = useState("")

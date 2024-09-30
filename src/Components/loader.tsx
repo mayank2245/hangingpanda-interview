@@ -1,5 +1,4 @@
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
-import { rh, rw } from "../helpers/responsivedimention";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 
 interface loading {
     isLoading: boolean

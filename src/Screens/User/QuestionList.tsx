@@ -1,12 +1,13 @@
-import { FlatList, ImageBackground, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { rf, rh, rw } from '../../helpers/responsivedimention'
-import Addques from '../../assests/svg/addQues';
-import CustomModal from '../../components/Modal';
 import { useNavigation } from '@react-navigation/native';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import { BackgroundImage } from '../../assests/images';
+import { FlatList, ImageBackground, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+
 import { color } from '../../constant/color';
+import Addques from '../../assests/svg/addQues';
+import CustomModal from '../../components/Modal';
+import { BackgroundImage } from '../../assests/images';
+import { rf, rh, rw } from '../../helpers/responsivedimention'
 
 
 export default function QuestionList({ route }: any) {

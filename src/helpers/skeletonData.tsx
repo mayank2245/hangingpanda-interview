@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     },
     skeletonId: {
         marginTop: rh(2)
-    }
+    },
 });
 
 export default SkeletonCard;

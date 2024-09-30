@@ -6,15 +6,16 @@ import {
     View
 } from 'react-native'
 import { useState } from 'react'
-import CustomModal from './Modal';
-import { color } from '../constant/color';
 import { useQuery } from '@tanstack/react-query';
-import { randomColor } from '../helpers/randomColor';
-import { ApiService } from '../api/apicalls/ApiCalls';
 import { useNavigation } from '@react-navigation/native';
-import { rf, rh, rw } from '../helpers/responsivedimention'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import CustomModal from './Modal';
+import { color } from '../constant/color';
+import { randomColor } from '../helpers/randomColor';
+import { ApiService } from '../api/apicalls/ApiCalls';
+import { rf, rh, rw } from '../helpers/responsivedimention'
 
 interface CardProps {
     paperId: number,
@@ -27,6 +28,8 @@ const Card: React.FC<CardProps> = ({ paperId, papertype, timeLimit }) => {
     const [singlePaperid, setSinglePaperid] = useState<any>()
     const [visibleModal, setVisibleModal] = useState<boolean>(false)
     const [assignedColor, setAssignedColor] = useState();
+
+
 
     if (!assignedColor) {
         const newColor = randomColor({ luminosity: 'light' });
@@ -83,7 +86,8 @@ const Card: React.FC<CardProps> = ({ paperId, papertype, timeLimit }) => {
             onPress={() => handleSingleQues(paperId)}
         >
             <View style={styles.headerRow}>
-                <Text style={styles.cardtext2}>{paperId}</Text>
+                {/* <Text style={styles.cardtext2}>{paperId}</Text> */}
+                <Text style={styles.cardtext}>{papertype}</Text>
                 <TouchableOpacity onPress={handledeletePress}>
                     <MaterialCommunityIcons
                         color="black"
@@ -105,7 +109,7 @@ const Card: React.FC<CardProps> = ({ paperId, papertype, timeLimit }) => {
                 </Text>
                 <Text style={styles.cardtext}> min</Text>
             </View>
-            <Text style={styles.cardtext}>{papertype}</Text>
+
             <CustomModal
                 visible={visibleModal}
                 onClose={() => setVisibleModal(false)}

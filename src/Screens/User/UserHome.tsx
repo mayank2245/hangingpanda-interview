@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { AnimatePresence, Text, View } from 'moti'
 import { useNavigation } from "@react-navigation/native";
-import { rf, rh, rw } from "../../helpers/responsivedimention";
+import { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { StatusBar, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
+
 import { color } from "../../constant/color";
+import { rf, rh, rw } from "../../helpers/responsivedimention";
 
 export default function Home({ route }: any) {
     const { itemes } = route.params;
