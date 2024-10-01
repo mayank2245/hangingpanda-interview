@@ -7,6 +7,7 @@ import { StatusBar, StyleSheet, TextInput, TouchableOpacity } from "react-native
 
 import { color } from "../../constant/color";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
+import BackArrow from "../../components/BackArrow";
 
 export default function Home({ route }: any) {
     const { itemes } = route.params;
@@ -43,6 +44,7 @@ export default function Home({ route }: any) {
     return (
         <View style={styles.safearea}>
             <StatusBar backgroundColor="transparent" translucent={true} />
+            <BackArrow></BackArrow>
             <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() => setAnimate(prev => !prev)}
@@ -170,7 +172,7 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
         color: color.white,
         width: '90%',
-        height: rh(67),
+        height: rh(65),
         borderRadius: 15,
         borderWidth: 4,
         borderColor: color.primaryRed,
@@ -185,7 +187,7 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
         color: color.white,
         width: '90%',
-        height: rh(33),
+        height: rh(31),
         borderRadius: 15,
         borderWidth: 4,
         borderColor: color.primaryRed,
@@ -208,7 +210,7 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
     },
     touchableCss: {
-        marginVertical: rh(2.6),
+        marginVertical: rh(0),
     },
     timebar: {
         overflow: 'hidden',

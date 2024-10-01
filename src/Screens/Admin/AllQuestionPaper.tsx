@@ -11,6 +11,7 @@ import { BackgroundImage } from '../../assests/images';
 import { ApiService } from '../../api/apicalls/ApiCalls';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import BackArrow from '../../components/BackArrow';
 
 export default function AllQuestionPaper() {
     const [questionList, setQuestionList] = useState<any>([]);
@@ -18,6 +19,7 @@ export default function AllQuestionPaper() {
     const [questiontype] = useState<string[]>(["All", "Javascript", "Python", "Java", "DSA"]);
     const [selectedtype, setSelectedtype] = useState<string>('All');
     const navigation = useNavigation();
+
 
     const handlegetallQues = async () => {
         const token = await AsyncStorage.getItem('MYtoken');
@@ -57,7 +59,11 @@ export default function AllQuestionPaper() {
             <StatusBar backgroundColor="transparent" translucent={true} />
             <ImageBackground style={styles.backgroundImages} source={BackgroundImage} resizeMode="cover">
                 <View style={styles.overlay}>
-                    <Text style={styles.paperList}>List of Question Paper</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <BackArrow></BackArrow>
+                        <Text style={styles.paperList}>List of Question Paper</Text>
+                    </View>
+
                     {isLoading ? (
                         <>
                             <View style={styles.viewheader}>
@@ -130,10 +136,11 @@ const styles = StyleSheet.create({
         backgroundColor: color.black,
         height: rh(100),
     },
+
     paperList: {
-        marginTop: rh(4),
+        marginTop: rh(3.4),
         marginBottom: rh(1),
-        marginLeft: rh(2.8),
+        marginLeft: rh(2),
         color: color.white,
         fontFamily: 'Montserrat-Bold',
         fontSize: rf(3),
@@ -152,6 +159,7 @@ const styles = StyleSheet.create({
         height: rh(20),
         borderRadius: 30,
         marginTop: 10,
+        marginBottom: rh(0.8)
     },
     headerview: {
         flexDirection: 'row',

@@ -8,6 +8,7 @@ import { rf, rh, rw } from '../../helpers/responsivedimention';
 import { BackgroundImage } from '../../assests/images';
 import { color } from '../../constant/color';
 import { Alert, Checklist, Panda } from '../../assests/lottie';
+import TimeAnimation from '../../components/TimeAnimation';
 
 export default function Instruction() {
     const navigation = useNavigation();
@@ -29,20 +30,7 @@ export default function Instruction() {
                 return (
                     <View>
                         <Text style={styles.textTime}>Timer</Text>
-                        <TouchableOpacity
-                            activeOpacity={0.8}
-                            onPress={handletimebar}
-                            style={styles.touchableCss}>
-                            {
-                                !timebar ? <View style={styles.timebar}></View> :
-                                    <View>
-                                        <Text style={{ color: color.white, textAlign: 'center', marginTop: rh(1.5) }}>Total Time : 30 mins</Text>
-                                        <View style={[styles.timebar2, { marginTop: rh(1) }]}>
-                                            <Text style={styles.timebar2Text}>Remaining time : 25 mins</Text>
-                                        </View>
-                                    </View>
-                            }
-                        </TouchableOpacity>
+                        <TimeAnimation />
                         <Text style={[styles.instructionText, { marginTop: rh(24) }]}>
                             You have a timer at the top of the screen to track your exam duration. Ensure you manage your time effectively for each question type: input, MCQ, and blank space.
                         </Text>
@@ -69,7 +57,6 @@ export default function Instruction() {
                         <LottieView
                             source={Checklist}
                             style={{ width: "100%", height: "38%", marginTop: rh(2) }}
-                            autoPlay
                         />
                         <Text style={styles.instructionText}>
                             Carefully read and answer each question type as prompted. Your performance is monitored, and any disruptions will end the interview.

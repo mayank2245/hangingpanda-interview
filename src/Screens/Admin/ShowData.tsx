@@ -24,6 +24,7 @@ import { BackgroundImage } from '../../assests/images';
 import { ApiService } from '../../api/apicalls/ApiCalls';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
 import { Add, AddQues, CrossIcon, Upload } from '../../assests/svg';
+import BackArrow from '../../components/BackArrow';
 
 export default function Showdata({ route }: any) {
   const { data, data2, questionData } = route.params;
@@ -63,7 +64,6 @@ export default function Showdata({ route }: any) {
 
   const addqueshandle = async () => {
     const payload = {
-      paperId: "4353453222",
       timeLimit: timeduration,
       questionPaperType: papertype,
       questions: quesData
@@ -186,6 +186,10 @@ export default function Showdata({ route }: any) {
         source={BackgroundImage}
         resizeMode="cover">
         <View style={style.overlay}>
+          <View style={style.headerview}>
+            <BackArrow></BackArrow>
+            <Text style={style.paperList}>All Questions</Text>
+          </View>
           <View style={style.flatviewcss}>
             <View style={style.flatviewcss2}>
               <FlatList
@@ -231,7 +235,6 @@ const style = StyleSheet.create({
   flatviewcss: {
     zIndex: 0,
     flex: 1,
-    marginTop: rh(4),
     marginLeft: rw(5),
     marginRight: rh(4),
   },
@@ -250,6 +253,7 @@ const style = StyleSheet.create({
     fontFamily: 'Montserrat-SemiBold',
     color: color.green,
     fontSize: rf(1.9),
+    marginHorizontal: rw(2)
   },
   flatListans2: {
     marginBottom: rh(1),
@@ -263,6 +267,9 @@ const style = StyleSheet.create({
     flex: 1,
     backgroundColor: color.black,
     opacity: 0.9,
+  },
+  headerview: {
+    flexDirection: 'row'
   },
   uploadcss: {
     height: rh(8),
@@ -342,6 +349,14 @@ const style = StyleSheet.create({
     borderWidth: rh(0.3),
     borderColor: color.primaryRed,
     borderRadius: 15,
+  },
+  paperList: {
+    marginTop: rh(3.4),
+    marginBottom: rh(1),
+    marginLeft: rh(2),
+    color: color.white,
+    fontFamily: 'Montserrat-Bold',
+    fontSize: rf(3),
   },
   icon: {
     marginRight: rw(2),

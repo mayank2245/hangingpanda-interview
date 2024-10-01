@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import { color } from "../../constant/color";
-import { Arrow, Logo } from "../../assests/svg";
+import { Arrow, Loginellips, Logo } from "../../assests/svg";
 import { BackgroundImage } from "../../assests/images";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 
@@ -12,7 +12,6 @@ import { rf, rh, rw } from "../../helpers/responsivedimention";
 export default function LoginUserPage() {
 
     const navigation = useNavigation();
-
     const [userId, setUserId] = useState("")
     const [name, setName] = useState("")
 
@@ -46,7 +45,7 @@ export default function LoginUserPage() {
                                 onPress={
                                     () => { navigation.navigate('Instruction') }
                                 }>
-                                <Arrow style={styles.arrowCss} />
+                                <Loginellips style={styles.arrowCss} />
                             </TouchableOpacity>
                         </View>
 

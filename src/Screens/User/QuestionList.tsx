@@ -8,6 +8,10 @@ import Addques from '../../assests/svg/addQues';
 import CustomModal from '../../components/Modal';
 import { BackgroundImage } from '../../assests/images';
 import { rf, rh, rw } from '../../helpers/responsivedimention'
+import { ApiService } from '../../api/apicalls/ApiCalls';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { ShowToast } from '../../helpers/toast';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function QuestionList({ route }: any) {
@@ -93,12 +97,54 @@ export default function QuestionList({ route }: any) {
         };
     });
 
+    const getquestionhandle = async () => {
+        const res = await ApiService.getinterview()
+        return res
+    }
+
+    const { data: getinterviewpaper } = useQuery({
+        queryKey: ['getinterview'],
+        queryFn: getquestionhandle,
+    });
+    if (getinterviewpaper) {
+        console.log(getinterviewpaper?.data)
+    }
+
+
+
+
+    const loginhandle = async () => {
+        const payload = {
+            // email: email,
+            // hrID: userId
+        }
+        const res = await ApiService.login(payload)
+        return res
+    }
+    const mutation = useMutation({
+        mutationKey: ["passingKey123"],
+        mutationFn: loginhandle,
+        onSuccess: async data => {
+            if (data?.data.token) {
+                await AsyncStorage.setItem('MYtoken', data.data.token);
+            }
+            navigation.navigate('LoginUserPage')
+        },
+        onError: () => { ShowToast("error", "Please Check your id and email") }
+    })
+
+
+    const handlesubmitpaper = () => {
+        console.log(data)
+        // mutation.mutate()
+    }
+
     const modal = () => (
         <View>
             <Text style={[styles.modalText, {}]}>
                 Are you sure you want to submit the exam?
             </Text>
-            <Pressable style={styles.modalbox}>
+            <Pressable style={styles.modalbox} onPress={handlesubmitpaper} >
                 <Text style={styles.modalText}>Yes</Text>
             </Pressable>
             <Pressable style={styles.modalbox} onPress={() => setVisibleModal(false)}>

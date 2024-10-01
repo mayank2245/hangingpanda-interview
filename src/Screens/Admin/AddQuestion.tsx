@@ -20,6 +20,7 @@ import CrossIcon from "../../assests/svg/crossIcon";
 import { BackgroundImage } from "../../assests/images";
 import { dataText, alphabet } from '../../constant/staticData'
 import { rf, rh, rw } from "../../helpers/responsivedimention";
+import BackArrow from "../../components/BackArrow";
 
 
 
@@ -202,6 +203,10 @@ export default function AddQuestion({ route }: any) {
                 source={BackgroundImage}
                 resizeMode="cover">
                 <View style={styles.safearea}>
+                    <View style={styles.headerview}>
+                        <BackArrow></BackArrow>
+                        <Text style={styles.paperList}>Add Question</Text>
+                    </View>
                     {
                         queswrite === true ?
                             <>
@@ -317,6 +322,17 @@ const styles = StyleSheet.create({
         backgroundColor: color.black,
         opacity: 0.85,
     },
+    headerview: {
+        flexDirection: 'row'
+    },
+    paperList: {
+        marginTop: rh(3.5),
+        marginBottom: rh(1),
+        marginLeft: rh(2),
+        color: color.white,
+        fontFamily: 'Montserrat-Bold',
+        fontSize: rf(3),
+    },
     textQues: {
         fontFamily: 'Montserrat-Bold',
         color: color.white,
@@ -334,7 +350,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-Bold',
         color: color.green,
         fontSize: rf(2.3),
-        marginTop: rh(8),
+        marginTop: rh(2),
         marginHorizontal: rh(3.2)
     },
     addquescss: {
@@ -353,7 +369,7 @@ const styles = StyleSheet.create({
     showques: {
         fontFamily: 'Montserrat-Bold',
         color: color.white,
-        marginTop: rh(6),
+        marginTop: rh(2),
         marginHorizontal: rh(3),
         fontSize: rf(2.3),
     },
