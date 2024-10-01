@@ -26,10 +26,7 @@ const DeveloperStack = () => {
             <stack.Screen name="AllQuestionPaper" component={AllQuestionPaper} />
             <stack.Screen name="ShowData" component={showdata} />
             <stack.Screen name="AdminHome" component={AdminHome} />
-
-
-            <stack.Screen options={{ presentation: 'modal', headerShown: true }} name="QuesFormateModal" component={QuesFormateModal} />
-
+            <stack.Screen options={{ presentation: 'modal' }} name="QuesFormateModal" component={QuesFormateModal} />
             <stack.Screen name='UserHome' component={UserHome} />
             <stack.Screen name='LoginUserPage' component={LoginUserPage} />
             <stack.Screen name='AddQuestion' component={AddQuestion} />

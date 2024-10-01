@@ -9,20 +9,21 @@ import {
   View,
 } from 'react-native';
 import { useEffect, useState } from 'react';
+import Entypo from 'react-native-vector-icons/Entypo';
+import { useNavigation } from '@react-navigation/native';
+import { Dropdown } from 'react-native-element-dropdown';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 import { color } from '../../constant/color';
+import CustomModal from '../../components/Modal';
 import { ShowToast } from '../../helpers/toast';
 import { dataText } from '../../constant/staticData';
 import { BackgroundImage } from '../../assests/images';
-import { Dropdown } from 'react-native-element-dropdown';
-import { useNavigation } from '@react-navigation/native';
 import { ApiService } from '../../api/apicalls/ApiCalls';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
 import { Add, AddQues, CrossIcon, Upload } from '../../assests/svg';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import CustomModal from '../../components/Modal';
-import Entypo from 'react-native-vector-icons/Entypo';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Showdata({ route }: any) {
   const { data, data2, questionData } = route.params;
@@ -62,7 +63,7 @@ export default function Showdata({ route }: any) {
 
   const addqueshandle = async () => {
     const payload = {
-      paperId: "000000",
+      paperId: "4353453222",
       timeLimit: timeduration,
       questionPaperType: papertype,
       questions: quesData
@@ -237,7 +238,6 @@ const style = StyleSheet.create({
   flatviewcss2: {
     flexDirection: "row",
     alignItems: "center",
-    // columnGap: 10
   },
   flatListques: {
     color: color.primaryRed,

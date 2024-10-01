@@ -9,17 +9,18 @@ import {
     View
 } from "react-native";
 import { useState } from "react";
-import { color } from "../../constant/color";
-import { BackgroundImage } from "../../assests/images";
 import { useNavigation } from "@react-navigation/native";
+import WheelPicker from '@quidone/react-native-wheel-picker';
+
+import Add from "../../assests/svg/add";
+import { color } from "../../constant/color";
+import CustomModal from "../../components/Modal";
+import Addques from '../../assests/svg/addQues';
+import CrossIcon from "../../assests/svg/crossIcon";
+import { BackgroundImage } from "../../assests/images";
 import { dataText, alphabet } from '../../constant/staticData'
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 
-import Add from "../../assests/svg/add";
-import Addques from '../../assests/svg/addQues';
-import CustomModal from "../../components/Modal";
-import CrossIcon from "../../assests/svg/crossIcon";
-import WheelPicker from '@quidone/react-native-wheel-picker';
 
 
 const datawheel = [...Array(5).keys()].map((index) => ({

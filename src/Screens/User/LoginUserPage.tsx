@@ -2,10 +2,11 @@ import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View, S
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { rf, rh, rw } from "../../helpers/responsivedimention";
-import { BackgroundImage } from "../../assests/images";
-import { Arrow, Logo } from "../../assests/svg";
+
 import { color } from "../../constant/color";
+import { Arrow, Logo } from "../../assests/svg";
+import { BackgroundImage } from "../../assests/images";
+import { rf, rh, rw } from "../../helpers/responsivedimention";
 
 
 export default function LoginUserPage() {

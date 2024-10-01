@@ -1,9 +1,10 @@
-import { ImageBackground, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useState } from 'react';
-import { rf, rh, rw } from '../../helpers/responsivedimention';
-import IconArrow from 'react-native-vector-icons/AntDesign';
 import LottieView from "lottie-react-native";
 import { useNavigation } from '@react-navigation/native';
+import IconArrow from 'react-native-vector-icons/AntDesign';
+import { ImageBackground, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+import { rf, rh, rw } from '../../helpers/responsivedimention';
 import { BackgroundImage } from '../../assests/images';
 import { color } from '../../constant/color';
 import { Alert, Checklist, Panda } from '../../assests/lottie';
