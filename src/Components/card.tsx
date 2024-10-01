@@ -86,7 +86,6 @@ const Card: React.FC<CardProps> = ({ paperId, papertype, timeLimit }) => {
             onPress={() => handleSingleQues(paperId)}
         >
             <View style={styles.headerRow}>
-                {/* <Text style={styles.cardtext2}>{paperId}</Text> */}
                 <Text style={styles.cardtext}>{papertype}</Text>
                 <TouchableOpacity onPress={handledeletePress}>
                     <MaterialCommunityIcons

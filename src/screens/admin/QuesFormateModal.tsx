@@ -53,7 +53,7 @@ export default function ModalScreen({ navigation }: any) {
     }, [page, numberOfItemsPerPage]);
 
     return (
-        <View style={{ flex: 1 }}>
+        <View>
             <StatusBar backgroundColor="transparent" translucent={true} />
             <ImageBackground
                 style={styles.backgroundImages}
