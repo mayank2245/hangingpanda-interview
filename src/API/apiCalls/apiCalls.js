@@ -38,11 +38,16 @@ export const ApiService = {
         })
     },
     getinterview: async (email, interviewId) => {
-        console.log(email)
-        console.log(interviewId)
         return fireAjax({
             method: 'GET',
             URL: `${apiUrl.getinterview}?email=${email}&interviewId=${interviewId}`,
+        })
+    },
+    submitAnswers: async (payload) => {
+        return fireAjax({
+            method: 'POST',
+            URL: `${apiUrl.submitAnswers}`,
+            data: payload,
         })
     }
 };

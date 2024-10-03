@@ -24,8 +24,6 @@ import { dataText } from '../../constant/staticData';
 import { BackgroundImage } from '../../assests/images';
 import { AddQues, CrossIcon, Logo } from '../../assests/svg';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
-import BackHeader from '../../components/BackArrow';
-import BackArrow from '../../components/BackArrow';
 
 export default function App(): React.JSX.Element {
   const [selectedFile, setSelectedFile] = useState<any>(null);
@@ -34,7 +32,7 @@ export default function App(): React.JSX.Element {
   const navigation = useNavigation();
   const [visiblemodal, setVisiblemodal] = useState(false);
   const [Index, setIndex] = useState<number>()
-  const [showdata, setShowdata] = useState([])   //
+  const [showdata, setShowdata] = useState([])
 
   const pickDocument = async () => {
     try {

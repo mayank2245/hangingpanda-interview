@@ -5,7 +5,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import { color } from "../../constant/color";
-import { Arrow, Logo } from "../../assests/svg";
+import { Arrow, Loginellips, Logo } from "../../assests/svg";
 import { BackgroundImage } from "../../assests/images";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 
@@ -43,9 +43,9 @@ export default function LoginUserPage() {
                             <TouchableOpacity
                                 activeOpacity={0.6}
                                 onPress={
-                                    () => { navigation.navigate('UserHome') }
+                                    () => { navigation.navigate('HrHome') }
                                 }>
-                                <Arrow style={styles.arrowCss} />
+                                <Loginellips style={styles.arrowCss} />
                             </TouchableOpacity>
                         </View>
                     </KeyboardAwareScrollView>

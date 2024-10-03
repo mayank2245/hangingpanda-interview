@@ -34,7 +34,9 @@ export default function Instruction() {
                 return (
                     <View>
                         <Text style={styles.textTime}>Timer</Text>
-                        <TimeDuration paperduration={time} />
+                        <View style={styles.timeduration}>
+                            <TimeDuration paperduration={time} animationStart={false} initalHeight={4} />
+                        </View>
                         <Text style={styles.instructionText}>
                             You have a timer at the top of the screen to track your exam duration. Ensure you manage your time effectively for each question type: input, MCQ, and blank space.
                         </Text>
@@ -62,7 +64,7 @@ export default function Instruction() {
                             source={Checklist}
                             style={styles.lottieview}
                         />
-                        <Text style={styles.instructionText}>
+                        <Text style={styles.instructionText3}>
                             Carefully read and answer each question type as prompted. Your performance is monitored, and any disruptions will end the interview.
                         </Text>
                     </View>
@@ -137,20 +139,30 @@ const styles = StyleSheet.create({
     },
     instructionText: {
         position: "absolute",
-        marginLeft: rh(4.5),
+        marginLeft: rh(4),
         marginHorizontal: rw(7),
         color: color.primaryRed,
-        fontFamily: 'NunitoSans-SemiBold',
-        fontSize: rf(2.4),
+        fontFamily: 'NunitoSans_7pt-SemiBold',
+        fontSize: rf(2.2),
         textAlign: 'center',
-        marginTop: rh(24)
+        marginTop: rh(22)
+    },
+    instructionText3: {
+        position: "absolute",
+        marginLeft: rh(4),
+        marginHorizontal: rw(7),
+        color: color.primaryRed,
+        fontFamily: 'NunitoSans_7pt-SemiBold',
+        fontSize: rf(2.2),
+        textAlign: 'center',
+        marginTop: rh(28)
     },
     instructionText2: {
         position: "absolute",
         marginTop: rh(28),
         marginHorizontal: rw(7),
         color: color.primaryRed,
-        fontFamily: 'NunitoSans-SemiBold',
+        fontFamily: 'NunitoSans_7pt-SemiBold',
         textAlign: 'center',
         fontSize: rh(2),
         width: rw(92),
@@ -200,5 +212,8 @@ const styles = StyleSheet.create({
     lottiepanda: {
         width: "80%",
         height: "80%"
+    },
+    timeduration: {
+        marginTop: rh(2.8)
     }
 });

@@ -7,12 +7,14 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-na
 
 interface TimeDurationProps {
     paperduration: number
+    animationStart: boolean
+    initalHeight: 2 | 4
 }
 
-const TimeDuration: React.FC<TimeDurationProps> = ({ paperduration }) => {
+const TimeDuration: React.FC<TimeDurationProps> = ({ paperduration, animationStart, initalHeight }) => {
     const [time, setTime] = useState<number>(paperduration);
     const [timeLeft, setTimeLeft] = useState(60 * time);
-    const [animate, setAnimate] = useState(true);
+    const [animate, setAnimate] = useState(animationStart);
     const handleAnimation = () => {
         setAnimate(!animate)
     }
@@ -62,7 +64,7 @@ const TimeDuration: React.FC<TimeDurationProps> = ({ paperduration }) => {
                         }
                         } style={styles.timeText}>Total Time: {time} mins</Text>
                     <View from={{
-                        height: rh(2)
+                        height: rh(initalHeight)
                     }}
                         animate={{
                             height: animate ? rh(2) : rh(4),
@@ -105,16 +107,6 @@ const TimeDuration: React.FC<TimeDurationProps> = ({ paperduration }) => {
 const styles = StyleSheet.create({
     touchableCss: {
         marginVertical: rh(0),
-    },
-    timebar: {
-        overflow: 'hidden',
-        marginTop: rh(3.3),
-        marginLeft: rh(1.7),
-        marginRight: rh(1.7),
-        borderRadius: 100,
-        backgroundColor: color.white,
-        height: rh(2.5),
-        justifyContent: 'center',
     },
     timeText: {
         fontFamily: 'Montserrat-SemiBold',

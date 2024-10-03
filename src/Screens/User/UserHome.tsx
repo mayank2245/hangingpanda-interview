@@ -6,6 +6,7 @@ import { StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "
 import { color } from "../../constant/color";
 import BackArrow from "../../components/BackArrow";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
+import TimeDuration from "../../components/TimeDuration";
 
 export default function Home({ route }: any) {
     const { itemes } = route.params;
@@ -31,10 +32,13 @@ export default function Home({ route }: any) {
     return (
         <View style={styles.safearea}>
             <StatusBar backgroundColor="transparent" translucent={true} />
-            <BackArrow />
-
+            <View style={styles.backarrow}>
+                <BackArrow />
+                <Text style={styles.quesnumber}>Question No. {data.sn}</Text>
+            </View>
+            <TimeDuration paperduration={60} animationStart={true} initalHeight={2} />
             <Text style={styles.quescss}>
-                Q "{data.sn}. {data.question}"
+                Q{data.sn}. {data.question}
             </Text>
             <KeyboardAwareScrollView style={styles.keybordScroller}>
                 {data.type === "Input" && (
@@ -50,7 +54,7 @@ export default function Home({ route }: any) {
                     />
                 )}
                 {data.type === "MCQ" && (
-                    <View>
+                    <View style={styles.viewmcq}>
                         {Object.entries(data.options).map(([key, value]) => (
                             <TouchableOpacity
                                 key={key}
@@ -91,12 +95,22 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingBottom: rh(2),
     },
+    quesnumber: {
+        fontFamily: 'Montserrat-SemiBold',
+        color: color.primaryRed,
+        width: '90%',
+        marginBottom: rh(1),
+        fontSize: rf(2.4),
+        marginHorizontal: rw(5),
+        marginTop: rh(3.8)
+    },
     quescss: {
         fontFamily: 'Montserrat-SemiBold',
         color: color.white,
         width: '90%',
         marginBottom: rh(1),
-        fontSize: rf(2),
+        marginTop: rh(1.5),
+        fontSize: rf(2.2),
         marginHorizontal: rw(5),
     },
     anscss: {
@@ -195,10 +209,16 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-SemiBold',
         color: color.white,
         fontSize: rf(1.9),
-        marginLeft: rw(6),
+        marginLeft: rw(8),
         marginTop: rh(1),
     },
     keybordScroller: {
         paddingBottom: 120
+    },
+    backarrow: {
+        flexDirection: 'row',
+    },
+    viewmcq: {
+        marginBottom: rh(2),
     }
 });

@@ -73,7 +73,6 @@ export default function AllQuestionPaper() {
                                 <View style={styles.viewsubheader}>
                                     <Skeleton colorMode="dark" colors={[color.white + '20', color.black + '20']} radius="round" height={rh(4)} width={rw(80)} />
                                 </View>
-
                             </View>
                             <FlatList
                                 style={styles.flatliststyle}
@@ -82,7 +81,6 @@ export default function AllQuestionPaper() {
                                 numColumns={2}
                             />
                         </>
-
                     ) : (
                         <View style={styles.viewflatlist}>
                             <View style={styles.headerbox}>

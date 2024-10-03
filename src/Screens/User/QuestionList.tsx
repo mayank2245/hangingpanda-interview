@@ -1,4 +1,5 @@
 import {
+    Alert,
     FlatList,
     ImageBackground,
     Pressable,
@@ -15,11 +16,13 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { color } from '../../constant/color';
 import Addques from '../../assests/svg/addQues';
 import { ShowToast } from '../../helpers/toast';
+import { Loader } from '../../components/Loader';
 import CustomModal from '../../components/Modal';
 import { BackgroundImage } from '../../assests/images';
 import TimeDuration from '../../components/TimeDuration';
 import { ApiService } from '../../api/apicalls/ApiCalls';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
+import React from 'react';
 
 export default function QuestionList({ route }: any) {
     const { item } = route.params;
@@ -53,18 +56,23 @@ export default function QuestionList({ route }: any) {
         }
     }, [isSuccess])
 
-    const loginhandle = async () => {
+    const submitpaperhandle = async () => {
         const payload = {
             email: email,
-            hrID: "userId"
+            interviewId: interviewId,
+            name: "vikas",
+            questionPaperType: "MCQ",
+            totalTime: paperduration,
+            interviewDate: "2024-09-18",
+            answers: data
         }
-        const res = await ApiService.login(payload)
+        const res = await ApiService.submitAnswers(payload)
         return res
     }
 
     const mutation = useMutation({
-        mutationKey: ["passingKey123"],
-        mutationFn: loginhandle,
+        mutationKey: ["passingKeyPaperSubmit"],
+        mutationFn: submitpaperhandle,
         onSuccess: async data => {
             navigation.navigate('LoginUserPage')
         },
@@ -73,69 +81,76 @@ export default function QuestionList({ route }: any) {
 
 
     const handlesubmitpaper = () => {
-        // mutation.mutate()
+        mutation.mutate()
     }
 
     const modal = () => (
-        <View>
-            <Text style={[styles.modalText, {}]}>
+        <>
+            <Text style={styles.modalText}>
                 Are you sure you want to submit the exam?
             </Text>
-            <Pressable style={styles.modalbox} onPress={handlesubmitpaper} >
-                <Text style={styles.modalText}>Yes</Text>
+            <Pressable style={styles.modalbox} onPress={handlesubmitpaper}>
+                <Text style={styles.modalText2}>Yes</Text>
             </Pressable>
             <Pressable style={styles.modalbox} onPress={() => setVisibleModal(false)}>
-                <Text style={styles.modalText}>No</Text>
+                <Text style={styles.modalText2}>No</Text>
             </Pressable>
-        </View>
+        </>
     );
-
     return (
         <View>
             <StatusBar backgroundColor={'transparent'} translucent={true} />
             <ImageBackground style={styles.backgroundImage} source={BackgroundImage} resizeMode="cover">
                 <View style={styles.overlay}>
-                    <TimeDuration paperduration={paperduration} />
-                    <View style={styles.flatviewcss}>
-                        <FlatList
-                            data={data}
-                            keyExtractor={(item) => item.sn.toString()}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity onPress={() => handlepressques(item)}>
-                                    <Text style={styles.FlatListques}>
-                                        Q {item.sn}. {item.question}
-                                    </Text>
-                                    {item.type === "Input" && (
-                                        <Text style={styles.textanswer}>{item.answer}</Text>
-                                    )}
-                                    {item.type === "MCQ" &&
-                                        <View>
-                                            {
-                                                Object.entries(item.options).map(([key, value]) => (
-                                                    <Text style={[styles.textoption, item.correctOption === key ? { color: color.green } : { color: color.white }]}>{key}. {value}</Text>
-                                                ))
+                    {!data ?
+                        <View style={styles.isloader}><Loader isLoading={true} /></View>
+                        :
+                        <>
+                            <View style={styles.timeduration}>
+                                <TimeDuration paperduration={paperduration} animationStart={false} initalHeight={4} />
+                            </View>
+                            <View style={styles.flatviewcss}>
+                                <FlatList
+                                    data={data}
+                                    keyExtractor={(item) => item.sn.toString()}
+                                    renderItem={({ item }) => (
+                                        <TouchableOpacity onPress={() => handlepressques(item)}>
+                                            <Text style={styles.FlatListques}>
+                                                Q {item.sn}. {item.question}
+                                            </Text>
+                                            {item.type === "Input" && (
+                                                <Text style={styles.textanswer}>{item.answer}</Text>
+                                            )}
+                                            {item.type === "MCQ" &&
+                                                <View>
+                                                    {
+                                                        Object.entries(item.options).map(([key, value], i) => (
+                                                            <Text key={i} style={[styles.textoption, item.correctOption === key ? { color: color.green } : { color: color.white }]}>{key}. {value}</Text>
+                                                        ))
+                                                    }
+                                                </View>
                                             }
-                                        </View>
-                                    }
-                                </TouchableOpacity>
-                            )}
-                        />
-                    </View>
-                    <CustomModal
-                        visible={visibleModal}
-                        onClose={() => setVisibleModal(false)}
-                        content={modal()}
-                        modaloverlaycss={styles.modaloverlayCss}
-                        contentcss={styles.modalcss}
-                    />
-                    <TouchableOpacity
-                        activeOpacity={0.8}
-                        style={styles.submitcss}
-                        onPress={() => setVisibleModal(true)}
-                    >
-                        <Addques />
-                        <Text style={styles.submittext}>Submit</Text>
-                    </TouchableOpacity>
+                                        </TouchableOpacity>
+                                    )}
+                                />
+                            </View>
+                            <CustomModal
+                                visible={visibleModal}
+                                onClose={() => setVisibleModal(false)}
+                                content={modal()}
+                                modaloverlaycss={styles.modaloverlayCss}
+                                contentcss={styles.modalcss}
+                            />
+                            <TouchableOpacity
+                                activeOpacity={0.8}
+                                style={styles.submitcss}
+                                onPress={() => setVisibleModal(true)}
+                            >
+                                <Addques />
+                                <Text style={styles.submittext}>Submit</Text>
+                            </TouchableOpacity>
+                        </>
+                    }
                 </View>
             </ImageBackground>
         </View>
@@ -158,14 +173,13 @@ const styles = StyleSheet.create({
         zIndex: 0,
         flex: 1,
         marginLeft: rw(5),
-        marginRight: rh(4),
     },
     FlatListques: {
         color: color.primaryRed,
         fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(1.8),
         marginBottom: rh(1.6),
-        marginTop: rh(2.6)
+        marginTop: rh(1.8)
     },
     submitcss: {
         height: rh(8),
@@ -200,25 +214,23 @@ const styles = StyleSheet.create({
         height: rh(5),
     },
     modalText: {
-        fontFamily: 'NunitoSans-SemiBold',
+        fontFamily: 'Montserrat-SemiBold',
+        textAlign: 'center',
+        fontSize: rf(2.4),
+        paddingHorizontal: rw(4),
+        color: color.primaryRed,
+        lineHeight: rh(3)
+    },
+    modalText2: {
+        fontFamily: 'Montserrat-SemiBold',
         textAlign: 'center',
         fontSize: rf(2.2),
         color: color.white,
     },
-    modalText2: {
-        textAlign: 'center',
-        fontSize: rf(2.2),
-        width: rw(70),
-        marginBottom: rh(1),
-        marginLeft: rw(12),
-        color: color.primaryRed,
-        lineHeight: 30,
-        fontFamily: 'Montserrat-SemiBold'
-    },
     modaloverlayCss: {
         justifyContent: 'center',
         width: rw(100),
-        backgroundColor: '#ffffff20',
+        backgroundColor: '#ffffff70',
         zIndex: 0,
     },
     timebar1: {
@@ -257,5 +269,11 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
         marginTop: rh(4.5)
+    },
+    timeduration: {
+        marginTop: rh(4)
+    },
+    isloader: {
+        marginTop: rh(40)
     }
 });
