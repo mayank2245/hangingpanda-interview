@@ -18,8 +18,8 @@ const DeveloperStack = () => {
     const stack = createNativeStackNavigator();
     return (
         <stack.Navigator
-            // initialRouteName="LoginUserPage"                             // User Page
-            initialRouteName="LoginAdmin"                                 // Admin Page
+            initialRouteName="LoginUserPage"                             // User Page
+            // initialRouteName="LoginAdmin"                                 // Admin Page
             // initialRouteName="LoginHr"                                      //Hr page
             screenOptions={{ headerShown: false }}>
             <stack.Screen name="LoginAdmin" component={LoginAdmin} />

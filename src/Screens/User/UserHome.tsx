@@ -1,105 +1,43 @@
 import { useState } from "react";
-import { AnimatePresence, Text, View } from 'moti'
 import { useNavigation } from "@react-navigation/native";
-import { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { StatusBar, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import { color } from "../../constant/color";
+import BackArrow from "../../components/BackArrow";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 
 export default function Home({ route }: any) {
     const { itemes } = route.params;
+    const navigation = useNavigation();
+
     const [data, setData] = useState(itemes);
     const [answer, setAnswer] = useState("");
     const [focusText, setFocusText] = useState(false);
-    const navigation = useNavigation();
-    const progress = useSharedValue(rw(93));
-    const [time, setTime] = useState<number>(1);
-    const [timeLeft, setTimeLeft] = useState(60 * time);
 
     const handlesubmit = (item: any) => {
-        if (item.type === "Text") {
+        if (item.type === "Input") {
             item.answer = answer;
         }
-        navigation.navigate("QuestionList", { item });
+        navigation.navigate("QuestionList", { data });
         setAnswer("");
     };
 
-    const handlepressOption = (item: any, selectedOption: number) => {
+    const handlepressOption = (item: any, selectedOption: string) => {
         const updatedData = { ...item, correctOption: selectedOption };
         setData(updatedData);
     };
 
-    const animatedStyle = useAnimatedStyle(() => {
-        return {
-            width: progress.value,
-        };
-    });
-    const [animate, setAnimate] = useState(true);
-    const handleAnimation = () => {
-        setAnimate(!animate)
-    }
     return (
         <View style={styles.safearea}>
             <StatusBar backgroundColor="transparent" translucent={true} />
-            <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => setAnimate(prev => !prev)}
-                style={styles.touchableCss}
-            >
-                <AnimatePresence onExitComplete={handleAnimation}>
-                    <View style={{ height: rh(7) }}>
-                        <Text
-                            from={{
-                                opacity: 0,
-                                scaleY: 1,
-                            }}
-                            animate={{
-                                opacity: animate ? 0 : 1,
-                                scaleY: animate ? 0.5 : 1,
-                            }}
-                            transition={{
-                                type: 'timing',
-                                duration: 300,
-                            }
-
-                            } style={styles.timeText}>Total Time: {time} mins</Text>
-                        <View from={{
-                            height: rh(2)
-                        }}
-                            animate={{
-                                height: animate ? rh(2) : rh(4),
-                            }}
-                            transition={{
-                                type: 'timing',
-                                duration: 300,
-                            }}
-                            style={styles.timebar1}></View>
-                        <Text
-                            from={{
-                                opacity: 0,
-                                scaleY: 1,
-                            }}
-                            animate={{
-                                opacity: animate ? 0 : 1,
-                                scaleY: animate ? 0.5 : 1,
-                            }}
-                            transition={{
-                                type: 'timing',
-                                duration: 300,
-                            }
-
-                            } style={styles.timebar2Text}>Remaining time: {Math.floor(timeLeft / 60)} mins</Text>
-                    </View>
-                </AnimatePresence>
-            </TouchableOpacity>
+            <BackArrow />
 
             <Text style={styles.quescss}>
-                Q "{data.sn}. {data.ques}"
+                Q "{data.sn}. {data.question}"
             </Text>
-            <KeyboardAwareScrollView style={{ paddingBottom: 120 }}>
-                {data.type === "Text" && (
+            <KeyboardAwareScrollView style={styles.keybordScroller}>
+                {data.type === "Input" && (
                     <TextInput
                         onFocus={() => setFocusText(true)}
                         multiline
@@ -113,24 +51,23 @@ export default function Home({ route }: any) {
                 )}
                 {data.type === "MCQ" && (
                     <View>
-                        {["Option1", "Option2", "Option3", "Option4"].map(
-                            (option, index) => (
-                                <TouchableOpacity
-                                    key={index}
-                                    onPress={() => handlepressOption(data, index + 1)}
+                        {Object.entries(data.options).map(([key, value]) => (
+                            <TouchableOpacity
+                                key={key}
+                                onPress={() => handlepressOption(data, key)}
+                            >
+                                <Text
+                                    style={[
+                                        styles.textoption,
+                                        data.correctOption === key
+                                            ? { color: color.green }
+                                            : { color: color.white },
+                                    ]}
                                 >
-                                    <Text
-                                        style={[
-                                            styles.textoption,
-                                            data.correctOption === index + 1
-                                                ? { color: color.green }
-                                                : { color: color.white },
-                                        ]}
-                                    >
-                                        {String.fromCharCode(65 + index)}. {data[option]}
-                                    </Text>
-                                </TouchableOpacity>
-                            )
+                                    {key}. {value}
+                                </Text>
+                            </TouchableOpacity>
+                        )
                         )}
                     </View>
                 )}
@@ -170,7 +107,7 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
         color: color.white,
         width: '90%',
-        height: rh(67),
+        height: rh(65),
         borderRadius: 15,
         borderWidth: 4,
         borderColor: color.primaryRed,
@@ -185,7 +122,7 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
         color: color.white,
         width: '90%',
-        height: rh(33),
+        height: rh(31),
         borderRadius: 15,
         borderWidth: 4,
         borderColor: color.primaryRed,
@@ -208,7 +145,7 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
     },
     touchableCss: {
-        marginVertical: rh(2.6),
+        marginVertical: rh(0),
     },
     timebar: {
         overflow: 'hidden',
@@ -261,4 +198,7 @@ const styles = StyleSheet.create({
         marginLeft: rw(6),
         marginTop: rh(1),
     },
+    keybordScroller: {
+        paddingBottom: 120
+    }
 });

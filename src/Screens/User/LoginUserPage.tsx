@@ -1,18 +1,23 @@
-import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View, StatusBar } from "react-native";
+import {
+    ImageBackground,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+    StatusBar
+} from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import { color } from "../../constant/color";
-import { Arrow, Logo } from "../../assests/svg";
 import { BackgroundImage } from "../../assests/images";
+import { Loginellips, Logo } from "../../assests/svg";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 
-
 export default function LoginUserPage() {
-
     const navigation = useNavigation();
-
     const [userId, setUserId] = useState("")
     const [name, setName] = useState("")
 
@@ -32,24 +37,21 @@ export default function LoginUserPage() {
                             <Logo />
                         </View>
                         <View style={styles.textShowCss}>
-                            <Text style={[styles.textShowCss, { color: color.logintextWhite }]}>Welcome at</Text>
-                            <Text style={[styles.textShowCss, { color: color.primaryRed }]}>HangingPanda !</Text>
-                            <Text style={[styles.textShowCss, { color: color.logintextWhite }]}>We believe in your
+                            <Text style={styles.textShowCss}>Welcome at</Text>
+                            <Text style={styles.textShowCss2}>HangingPanda !</Text>
+                            <Text style={styles.textShowCss}>We believe in your
                                 talent.</Text>
                         </View>
-                        <Text style={[styles.discriptionText, { color: color.white }]}>Pls Enter your Details here to enter in your interview process</Text>
-                        <View style={styles.viewTextInp}>
-                            <TextInput keyboardType="numeric" onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="Interview Id" placeholderTextColor={color.primaryRed} cursorColor={color.primaryRed} />
-                            <TextInput onChangeText={setName} value={name} style={styles.textQues} placeholder="Email Id" placeholderTextColor={color.primaryRed} cursorColor={color.primaryRed} />
-                            <TouchableOpacity
-                                activeOpacity={0.6}
-                                onPress={
-                                    () => { navigation.navigate('Instruction') }
-                                }>
-                                <Arrow style={styles.arrowCss} />
-                            </TouchableOpacity>
-                        </View>
-
+                        <Text style={styles.discriptionText}>Pls Enter your Details here to enter in your interview process</Text>
+                        <TextInput keyboardType="numeric" onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="Interview Id" placeholderTextColor={color.primaryRed} cursorColor={color.primaryRed} />
+                        <TextInput onChangeText={setName} value={name} style={styles.textQues} placeholder="Email Id" placeholderTextColor={color.primaryRed} cursorColor={color.primaryRed} />
+                        <TouchableOpacity
+                            activeOpacity={0.6}
+                            onPress={
+                                () => { navigation.navigate('Instruction') }
+                            }>
+                            <Loginellips style={styles.arrowCss} />
+                        </TouchableOpacity>
                     </KeyboardAwareScrollView>
                 </View>
             </ImageBackground >
@@ -87,13 +89,19 @@ const styles = StyleSheet.create({
     },
     textShowCss: {
         fontFamily: 'Montserrat-Bold',
+        color: color.logintextWhite,
         fontSize: rf(3.5),
         paddingLeft: rw(4),
         paddingTop: rh(1.7),
         lineHeight: rh(3.4)
     },
-    viewTextInp: {
-
+    textShowCss2: {
+        fontFamily: 'Montserrat-Bold',
+        color: color.primaryRed,
+        fontSize: rf(3.5),
+        paddingLeft: rw(4),
+        paddingTop: rh(1.7),
+        lineHeight: rh(3.4)
     },
     arrowCss: {
         justifyContent: 'center',
@@ -106,7 +114,8 @@ const styles = StyleSheet.create({
         fontSize: rf(1.8),
         paddingHorizontal: rw(8.6),
         marginTop: rh(6),
-        marginBottom: rh(3)
+        marginBottom: rh(3),
+        color: color.white
     },
 
 })

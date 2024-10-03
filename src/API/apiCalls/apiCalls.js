@@ -36,5 +36,13 @@ export const ApiService = {
             method: 'GET',
             URL: `${apiUrl.allQuestionPaperType}`,
         })
+    },
+    getinterview: async (email, interviewId) => {
+        console.log(email)
+        console.log(interviewId)
+        return fireAjax({
+            method: 'GET',
+            URL: `${apiUrl.getinterview}?email=${email}&interviewId=${interviewId}`,
+        })
     }
 };

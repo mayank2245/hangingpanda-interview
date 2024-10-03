@@ -1,104 +1,87 @@
-import React, { useEffect, useState } from 'react'
+import {
+    FlatList,
+    ImageBackground,
+    Pressable,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from 'react-native'
+import { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
-import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import { FlatList, ImageBackground, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { color } from '../../constant/color';
 import Addques from '../../assests/svg/addQues';
+import { ShowToast } from '../../helpers/toast';
 import CustomModal from '../../components/Modal';
 import { BackgroundImage } from '../../assests/images';
-import { rf, rh, rw } from '../../helpers/responsivedimention'
-
+import TimeDuration from '../../components/TimeDuration';
+import { ApiService } from '../../api/apicalls/ApiCalls';
+import { rf, rh, rw } from '../../helpers/responsivedimention';
 
 export default function QuestionList({ route }: any) {
-
     const { item } = route.params;
-
     const navigation = useNavigation();
-
-    const datas = [
-        {
-            sn: 1,
-            ques: "What is a lambda function in Python?",
-            type: "Text",
-            answer: ""
-        },
-        {
-            sn: 2,
-            ques: "What is a lambda function in Python?",
-            type: "Text",
-            answer: ""
-        },
-        {
-            sn: 3,
-            ques: "What is a lambda function in Python?",
-            type: "Text",
-            answer: ""
-        },
-        {
-            sn: 4,
-            ques: "What is a lambda function in Python?",
-            type: "MCQ",
-            Option1: "Lorem",
-            Option2: "Ipsum",
-            Option3: "Lorem Ipsum",
-            Option4: "None of the above",
-            correctOption: -1,
-        },
-        {
-            sn: 5,
-            ques: "What is a lambda function in Python?",
-            type: "MCQ",
-            Option1: "Lorem",
-            Option2: "Ipsum",
-            Option3: "Lorem Ipsum",
-            Option4: "None of the above",
-            correctOption: -1,
-        }
-    ];
-
-
-    const [data, setdata] = useState(datas);
+    const [data, setdata] = useState();
     const [visibleModal, setVisibleModal] = useState(false);
-    const [time, setTime] = useState<number>(3);
-    const [timeLeft, setTimeLeft] = useState(60 * time);
-
-    const progress = useSharedValue(rw(93));
-
-    const updatedData = () => {
-        data[item?.sn - 1] = item;
-    };
-    updatedData();
+    const [paperduration, setPaperduration] = useState<number>(60)
 
     const handlepressques = (data: any) => {
         navigation.navigate("UserHome", { itemes: data });
     };
 
-    useEffect(() => {
-        if (!timeLeft) return;
-        const intervalId = setInterval(() => {
-            setTimeLeft((prev) => {
-                const newTimeLeft = prev - 1;
-                const percentage = (newTimeLeft / (60 * time)) * rw(93);
-                progress.value = withTiming(percentage, { duration: 1000 });
-                return newTimeLeft;
-            });
-        }, 1000);
-        return () => clearInterval(intervalId);
-    }, [timeLeft]);
+    const email = "test@example.com"
+    const interviewId = "CD126FBTYG"
 
-    const animatedStyle = useAnimatedStyle(() => {
-        return {
-            width: progress.value,
-        };
+    const getquestionhandle = async () => {
+        const res = await ApiService.getinterview(email, interviewId)
+        return res
+    }
+
+    const { data: getinterviewpaper, isSuccess } = useQuery({
+        queryKey: ['getinterview'],
+        queryFn: getquestionhandle,
+        enabled: true,
     });
+
+    useEffect(() => {
+        if (isSuccess) {
+            setPaperduration(getinterviewpaper?.data?.timeLimit)
+            setdata(getinterviewpaper?.data?.questions)
+        }
+    }, [isSuccess])
+
+    const loginhandle = async () => {
+        const payload = {
+            email: email,
+            hrID: "userId"
+        }
+        const res = await ApiService.login(payload)
+        return res
+    }
+
+    const mutation = useMutation({
+        mutationKey: ["passingKey123"],
+        mutationFn: loginhandle,
+        onSuccess: async data => {
+            navigation.navigate('LoginUserPage')
+        },
+        onError: () => { ShowToast("error", "Please Check your id and email") }
+    })
+
+
+    const handlesubmitpaper = () => {
+        // mutation.mutate()
+    }
 
     const modal = () => (
         <View>
             <Text style={[styles.modalText, {}]}>
                 Are you sure you want to submit the exam?
             </Text>
-            <Pressable style={styles.modalbox}>
+            <Pressable style={styles.modalbox} onPress={handlesubmitpaper} >
                 <Text style={styles.modalText}>Yes</Text>
             </Pressable>
             <Pressable style={styles.modalbox} onPress={() => setVisibleModal(false)}>
@@ -112,21 +95,7 @@ export default function QuestionList({ route }: any) {
             <StatusBar backgroundColor={'transparent'} translucent={true} />
             <ImageBackground style={styles.backgroundImage} source={BackgroundImage} resizeMode="cover">
                 <View style={styles.overlay}>
-                    <Text style={styles.timerbar}>
-                        Total Time: {time} mins
-                    </Text>
-                    <View style={styles.timebar1}>
-                        <Animated.View
-                            style={[styles.timebar2, animatedStyle,
-                            (timeLeft / (60 * time)) > 0.75 ? { backgroundColor: color.green }
-                                : (timeLeft / (60 * time)) > 0.5 ? { backgroundColor: color.yellow }
-                                    : (timeLeft / (60 * time)) > 0.25 ? { backgroundColor: color.orange }
-                                        : { backgroundColor: color.timebarRed },
-                            { height: rh(4) }]}
-                        />
-                    </View>
-                    <Text style={styles.timebar2Text}>Remaining time: {Math.floor(timeLeft / 60)} mins</Text>
-
+                    <TimeDuration paperduration={paperduration} />
                     <View style={styles.flatviewcss}>
                         <FlatList
                             data={data}
@@ -134,25 +103,18 @@ export default function QuestionList({ route }: any) {
                             renderItem={({ item }) => (
                                 <TouchableOpacity onPress={() => handlepressques(item)}>
                                     <Text style={styles.FlatListques}>
-                                        Q {item.sn}. {item.ques}
+                                        Q {item.sn}. {item.question}
                                     </Text>
-                                    {item.type === "Text" && item.answer !== "" && (
+                                    {item.type === "Input" && (
                                         <Text style={styles.textanswer}>{item.answer}</Text>
                                     )}
                                     {item.type === "MCQ" &&
                                         <View>
-                                            <Text style={[styles.textoption, item.correctOption === 1 ? { color: color.green } : { color: color.white }]}>
-                                                A. {item.Option1}
-                                            </Text>
-                                            <Text style={[styles.textoption, item.correctOption === 2 ? { color: color.green } : { color: color.white }]}>
-                                                B. {item.Option2}
-                                            </Text>
-                                            <Text style={[styles.textoption, item.correctOption === 3 ? { color: color.green } : { color: color.white }]}>
-                                                C. {item.Option3}
-                                            </Text>
-                                            <Text style={[styles.textoption, item.correctOption === 4 ? { color: color.green } : { color: color.white }]}>
-                                                D. {item.Option4}
-                                            </Text>
+                                            {
+                                                Object.entries(item.options).map(([key, value]) => (
+                                                    <Text style={[styles.textoption, item.correctOption === key ? { color: color.green } : { color: color.white }]}>{key}. {value}</Text>
+                                                ))
+                                            }
                                         </View>
                                     }
                                 </TouchableOpacity>

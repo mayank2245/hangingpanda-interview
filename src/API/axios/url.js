@@ -4,4 +4,5 @@ export default {
     addquestionpaper: 'hr/questionPaper',
     singlequestionpaper: 'hr/questionPaper/',
     allQuestionPaperType: 'admin/allQuestionPaperType',
+    getinterview: 'hr/getInterView',
 }

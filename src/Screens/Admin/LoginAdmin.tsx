@@ -18,7 +18,7 @@ import { ShowToast } from "../../helpers/toast";
 import { Loader } from "../../components/Loader";
 import { BackgroundImage } from "../../assests/images";
 import { ApiService } from '../../api/apicalls/ApiCalls'
-import { Arrow, Ellipse, Logo } from "../../assests/svg";
+import { Arrow, Ellipse, Loginellips, Logo } from "../../assests/svg";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 
 export default function LoginUserPage() {
@@ -44,7 +44,10 @@ export default function LoginUserPage() {
                 await AsyncStorage.setItem('MYtoken', data.data.token);
             }
             setIsLoading(false)
+
             navigation.navigate('AdminHome')
+            setUserId("")
+            setEmail("")
         },
         onError: () => { setIsLoading(false); ShowToast("error", "Please Check your id and email") }
     })
@@ -120,13 +123,18 @@ export default function LoginUserPage() {
                         />
                         <TouchableOpacity
                             activeOpacity={0.6}
-                            onPress={handlepress}>
-                            <Ellipse style={styles.ellipseCss} />
-                            {!isLoading && <Arrow style={styles.arrowCss} />}
+                            onPress={handlepress}
+                            style={styles.ellipetouchable}>
+                            {!isLoading &&
+                                <Loginellips style={styles.ellipseCss} />}
                         </TouchableOpacity>
-                        <View style={styles.loaderstyle}>
-                            <Loader isLoading={isLoading} />
-                        </View>
+
+                        {isLoading && <><Ellipse style={styles.ellipsisloading} />
+                            <View style={styles.loaderstyle}>
+                                <Loader isLoading={isLoading} />
+                            </View>
+                        </>}
+
                     </KeyboardAwareScrollView>
                 </View>
             </ImageBackground >
@@ -177,10 +185,19 @@ const styles = StyleSheet.create({
         lineHeight: rh(3.4)
     },
     ellipseCss: {
+        borderWidth: 2,
+        borderColor: 'red',
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: rh(3),
-        marginLeft: rh(17.5),
+    },
+    ellipsisloading: {
+        marginLeft: rh(18),
+        borderWidth: 2,
+        borderColor: 'red',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: rh(3),
     },
     arrowCss: {
         position: 'absolute',
@@ -190,7 +207,7 @@ const styles = StyleSheet.create({
     loaderstyle: {
         position: 'absolute',
         top: rh(86.5),
-        left: rw(44.5)
+        left: rw(45.8)
     },
     discriptionText: {
         fontFamily: 'Montserrat-Bold',
@@ -200,6 +217,8 @@ const styles = StyleSheet.create({
         marginTop: rh(4),
         marginBottom: rh(3)
     },
-
+    ellipetouchable: {
+        alignSelf: 'center'
+    }
 })
 

@@ -1,14 +1,15 @@
 import csv from 'csvtojson';
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, DataTable } from 'react-native-paper';
-import { Button, ImageBackground, StatusBar, StyleSheet, Text, View } from "react-native";
-
-import { BackgroundImage } from "../../assests/images";
+import { ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
+import { Table, TableWrapper, Row } from 'react-native-reanimated-table';
 import { color } from "../../constant/color";
-import { rf, rh } from "../../helpers/responsivedimention";
+import { rf, rh, rw } from "../../helpers/responsivedimention";
+import BackArrow from '../../components/BackArrow';
 
 
 export default function ModalScreen({ navigation }: any) {
+
     const csvFileUrl = "https://docs.google.com/spreadsheets/d/1b8yY_OQYzJ5xBhys9k8FFl5yHZg-wbJJq7A2X4hBQPk/export?format=csv&gid=402345587"; // Modified CSV URL
     const [state, setState] = useState({
         tableHead: [],
@@ -55,37 +56,44 @@ export default function ModalScreen({ navigation }: any) {
     return (
         <View>
             <StatusBar backgroundColor="transparent" translucent={true} />
-            <ImageBackground
-                style={styles.backgroundImages}
-                source={BackgroundImage}
-                resizeMode="cover"
-            >
-                <View style={styles.overlay}>
-                    <View style={styles.container}>
-                        {
-                            loader === true ? <ActivityIndicator size={"large"} style={styles.loadercss} animating={true} color={color.primaryRed} />
-                                : <DataTable>
-                                    <DataTable.Header style={styles.headerRow}>
-                                        {state.tableHead.map((headerData, index) => (
-                                            <DataTable.Title key={index} style={styles.cellWithBorder}>
-                                                <Text style={styles.conatinertextheader}>{headerData}</Text>
-                                            </DataTable.Title>
-                                        ))}
-                                    </DataTable.Header>
-                                    {state.currentPageData.map((rowData, rowIndex) => (
-                                        <DataTable.Row key={rowIndex} style={styles.rowWithBorder}>
-                                            {rowData.map((cellData, cellIndex) => (
-                                                <DataTable.Cell key={cellIndex} style={styles.cellWithBorder}>
-                                                    <Text style={styles.conatinertext}>{cellData}</Text>
-                                                </DataTable.Cell>
-                                            ))}
-                                        </DataTable.Row>
-                                    ))}
-                                </DataTable>
-                        }
-                    </View>
+
+            <View style={styles.overlay}>
+                <View style={styles.headerview}>
+                    <BackArrow />
+                    <Text style={styles.questionformatetext}>Question paper format </Text>
                 </View>
-            </ImageBackground>
+
+                <ScrollView horizontal={true} style={styles.container} >
+                    {
+                        loader === true ? <ActivityIndicator size={"large"} style={styles.loadercss} animating={true} color={color.primaryRed} />
+                            : <DataTable style={styles.datatable}>
+                                <DataTable.Header style={styles.headerRow}>
+                                    {state.tableHead.map((headerData, index) => (
+                                        <DataTable.Title key={index} style={styles.cellWithBorder}>
+                                            <View style={{
+                                                backgroundColor: '#FF385680',
+                                                paddingHorizontal: rh(0.4),
+                                                borderRadius: 12,
+                                            }}>
+                                                <Text style={styles.conatinertextheader}>{headerData}</Text>
+                                            </View>
+                                        </DataTable.Title>
+                                    ))}
+                                </DataTable.Header>
+                                {state.currentPageData.map((rowData, rowIndex) => (
+                                    <DataTable.Row key={rowIndex} style={[styles.rowWithBorder, rowIndex === state.currentPageData.length - 1 ? styles.lastRow : {}]}>
+                                        {rowData.map((cellData, cellIndex) => (
+                                            <DataTable.Cell key={cellIndex} style={[styles.cellWithBorder, cellIndex === rowData.length - 1 ? styles.lastCell : {}]}>
+                                                <Text style={styles.conatinertext}>{cellData}</Text>
+                                            </DataTable.Cell>
+                                        ))}
+                                    </DataTable.Row>
+                                ))}
+                            </DataTable>
+                    }
+                </ScrollView>
+
+            </View>
         </View>
     );
 }
@@ -97,25 +105,32 @@ const styles = StyleSheet.create({
     },
     overlay: {
         backgroundColor: color.black,
-        opacity: 0.8,
+        // opacity: 0.8,
         height: '100%',
     },
+    questionformatetext: {
+        fontFamily: "Montserrat-SemiBold",
+        fontSize: rf(2.2),
+        marginTop: rh(4),
+        marginLeft: rw(2),
+        color: color.primaryRed
+    },
+    datatable: {
+        borderWidth: rh(0.2),
+        borderColor: color.white,
+        borderRadius: 12
+    },
+    headerview: {
+        flexDirection: 'row'
+    },
     container: {
-        flex: 1,
-        padding: 16,
-        marginTop: rh(3)
+        margin: 26,
+        marginTop: rh(1)
     },
     headerRow: {
         backgroundColor: '#333333',
-    },
-    rowWithBorder: {
-        borderBottomWidth: 1,
-        borderBottomColor: color.white,
-    },
-    cellWithBorder: {
-        borderLeftWidth: 1,
-        borderLeftColor: color.white,
-        padding: 8,
+        borderTopRightRadius: 12,
+        borderTopLeftRadius: 12,
     },
     conatinertextheader: {
         color: color.white,
@@ -128,6 +143,25 @@ const styles = StyleSheet.create({
         fontSize: rf(1.1),
     },
     loadercss: {
-        marginTop: rh(2)
+        marginLeft: rw(35),
+        marginTop: rh(-20)
+        // justifyContent: 'center'
+    },
+    rowWithBorder: {
+        borderBottomWidth: 1,
+        borderBottomColor: color.white,
+        borderLeftWidth: 1,
+        borderLeftColor: color.white,
+    },
+    lastRow: {
+        borderBottomWidth: 1,
+    },
+    cellWithBorder: {
+        borderRightWidth: 1,
+        borderRightColor: color.white,
+        padding: 8,
+    },
+    lastCell: {
+        borderRightWidth: 0,
     }
 });
