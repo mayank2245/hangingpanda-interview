@@ -124,7 +124,7 @@ export default function LoginUserPage() {
                         <TouchableOpacity
                             activeOpacity={0.6}
                             onPress={handlepress}
-                            style={{ alignSelf: 'center' }}>
+                            style={styles.ellipetouchable}>
                             {!isLoading &&
                                 <Loginellips style={styles.ellipseCss} />}
                         </TouchableOpacity>
@@ -217,9 +217,8 @@ const styles = StyleSheet.create({
         marginTop: rh(4),
         marginBottom: rh(3)
     },
-    viewloginbutton: {
-        backgroundColor: 'red'
+    ellipetouchable: {
+        alignSelf: 'center'
     }
-
 })
 
