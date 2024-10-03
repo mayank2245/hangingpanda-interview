@@ -59,7 +59,7 @@ export default function ModalScreen({ navigation }: any) {
 
             <View style={styles.overlay}>
                 <View style={styles.headerview}>
-                    <BackArrow></BackArrow>
+                    <BackArrow />
                     <Text style={styles.questionformatetext}>Question paper format </Text>
                 </View>
 

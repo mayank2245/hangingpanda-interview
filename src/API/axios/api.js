@@ -18,6 +18,7 @@ export default async function fireAjax({
     };
 
     URL = config.BaseURL + URL;
+    console.log(URL)
 
     let headers = { ...headerData };
     if (method === 'POST') {

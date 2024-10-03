@@ -59,8 +59,8 @@ export default function AllQuestionPaper() {
             <StatusBar backgroundColor="transparent" translucent={true} />
             <ImageBackground style={styles.backgroundImages} source={BackgroundImage} resizeMode="cover">
                 <View style={styles.overlay}>
-                    <View style={{ flexDirection: 'row' }}>
-                        <BackArrow></BackArrow>
+                    <View style={styles.backarrow}>
+                        <BackArrow />
                         <Text style={styles.paperList}>List of Question Paper</Text>
                     </View>
 
@@ -201,5 +201,8 @@ const styles = StyleSheet.create({
     textheaderbox: {
         paddingHorizontal: rh(0.8),
         fontFamily: "Montserrat-SemiBold"
+    },
+    backarrow: {
+        flexDirection: 'row'
     }
 });

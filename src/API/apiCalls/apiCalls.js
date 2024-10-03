@@ -42,7 +42,7 @@ export const ApiService = {
         console.log(interviewId)
         return fireAjax({
             method: 'GET',
-            URL: `${apiUrl.getinterview}${paperId}`,
+            URL: `${apiUrl.getinterview}?email=${email}&interviewId=${interviewId}`,
         })
     }
 };

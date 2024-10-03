@@ -187,7 +187,7 @@ export default function Showdata({ route }: any) {
         resizeMode="cover">
         <View style={style.overlay}>
           <View style={style.headerview}>
-            <BackArrow></BackArrow>
+            <BackArrow />
             <Text style={style.paperList}>All Questions</Text>
           </View>
           <View style={style.flatviewcss}>

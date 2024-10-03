@@ -1,23 +1,27 @@
+import {
+    ImageBackground,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import { useState } from 'react';
 import LottieView from "lottie-react-native";
 import { useNavigation } from '@react-navigation/native';
 import IconArrow from 'react-native-vector-icons/AntDesign';
-import { ImageBackground, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { rf, rh, rw } from '../../helpers/responsivedimention';
-import { BackgroundImage } from '../../assests/images';
 import { color } from '../../constant/color';
+import { BackgroundImage } from '../../assests/images';
+import TimeDuration from '../../components/TimeDuration';
 import { Alert, Checklist, Panda } from '../../assests/lottie';
-import TimeAnimation from '../../components/TimeAnimation';
+import { rf, rh, rw } from '../../helpers/responsivedimention';
 
 export default function Instruction() {
     const navigation = useNavigation();
+    const [time, setTime] = useState<number>(60);
     const [timebar, setTimebar] = useState<boolean>(true);
     const [nextButton, setNextButton] = useState<number>(1);
-
-    const handletimebar = () => {
-        setTimebar(!timebar);
-    };
 
     const handleNextButton = () => {
         setNextButton(nextButton + 1);
@@ -30,8 +34,8 @@ export default function Instruction() {
                 return (
                     <View>
                         <Text style={styles.textTime}>Timer</Text>
-                        <TimeAnimation />
-                        <Text style={[styles.instructionText, { marginTop: rh(24) }]}>
+                        <TimeDuration paperduration={time} />
+                        <Text style={styles.instructionText}>
                             You have a timer at the top of the screen to track your exam duration. Ensure you manage your time effectively for each question type: input, MCQ, and blank space.
                         </Text>
                     </View>
@@ -42,10 +46,10 @@ export default function Instruction() {
                         <Text style={styles.textTime}>Stay Focused</Text>
                         <LottieView
                             source={Alert}
-                            style={{ width: "100%", height: "40%", marginTop: rh(2) }}
+                            style={styles.lottieview}
                             autoPlay
                         />
-                        <Text style={[styles.instructionText, { fontSize: rh(2), width: rw(92), marginLeft: rw(4) }]}>
+                        <Text style={styles.instructionText2}>
                             Do not close the app or switch to other applications. If you attempt to exit or switch apps, your exam will be automatically terminated.
                         </Text>
                     </View>
@@ -56,7 +60,7 @@ export default function Instruction() {
                         <Text style={styles.textTime}>Follow All Instructions</Text>
                         <LottieView
                             source={Checklist}
-                            style={{ width: "100%", height: "38%", marginTop: rh(2) }}
+                            style={styles.lottieview}
                         />
                         <Text style={styles.instructionText}>
                             Carefully read and answer each question type as prompted. Your performance is monitored, and any disruptions will end the interview.
@@ -79,15 +83,13 @@ export default function Instruction() {
                 <View style={styles.overlay}>
                     <LottieView
                         source={Panda}
-                        style={{ width: "80%", height: "80%" }}
+                        style={styles.lottiepanda}
                         autoPlay
                         loop
                     />
                     <Text style={styles.mustreadText}>Must Read Instruction</Text>
                 </View>
-
                 {renderInstructionContent()}
-
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={styles.touchable}
@@ -135,13 +137,24 @@ const styles = StyleSheet.create({
     },
     instructionText: {
         position: "absolute",
-        marginTop: rh(28),
         marginLeft: rh(4.5),
         marginHorizontal: rw(7),
         color: color.primaryRed,
         fontFamily: 'NunitoSans-SemiBold',
         fontSize: rf(2.4),
-        textAlign: 'center'
+        textAlign: 'center',
+        marginTop: rh(24)
+    },
+    instructionText2: {
+        position: "absolute",
+        marginTop: rh(28),
+        marginHorizontal: rw(7),
+        color: color.primaryRed,
+        fontFamily: 'NunitoSans-SemiBold',
+        textAlign: 'center',
+        fontSize: rh(2),
+        width: rw(92),
+        marginLeft: rw(4)
     },
     timebar: {
         marginTop: rh(5),
@@ -179,7 +192,13 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(2.2),
     },
-    touchableCss: {
-        marginVertical: rh(3)
+    lottieview: {
+        width: "100%",
+        height: "38%",
+        marginTop: rh(2)
+    },
+    lottiepanda: {
+        width: "80%",
+        height: "80%"
     }
 });

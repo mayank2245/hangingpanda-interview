@@ -5,8 +5,12 @@ import { rf, rh, rw } from '../helpers/responsivedimention'
 import { color } from '../constant/color';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
-export default function TimeAnimation() {
-    const [time, setTime] = useState<number>(60);
+interface TimeDurationProps {
+    paperduration: number
+}
+
+const TimeDuration: React.FC<TimeDurationProps> = ({ paperduration }) => {
+    const [time, setTime] = useState<number>(paperduration);
     const [timeLeft, setTimeLeft] = useState(60 * time);
     const [animate, setAnimate] = useState(true);
     const handleAnimation = () => {
@@ -136,3 +140,4 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 })
+export default TimeDuration;

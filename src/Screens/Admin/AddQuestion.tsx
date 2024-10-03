@@ -204,7 +204,7 @@ export default function AddQuestion({ route }: any) {
                 resizeMode="cover">
                 <View style={styles.safearea}>
                     <View style={styles.headerview}>
-                        <BackArrow></BackArrow>
+                        <BackArrow />
                         <Text style={styles.paperList}>Add Question</Text>
                     </View>
                     {
