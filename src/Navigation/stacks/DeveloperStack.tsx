@@ -13,15 +13,16 @@ import LoginAdmin from '../../screens/admin/LoginAdmin';
 import AllQuestionPaper from '../../screens/admin/AllQuestionPaper';
 import NetworkLogger from 'react-native-network-logger';
 import QuesFormateModal from '../../screens/admin/QuesFormateModal';
+import LandingPage from '../../screens/landingPage/LandingPage';
+import HrHome from '../../screens/hr/HrHome';
 
 const DeveloperStack = () => {
     const stack = createNativeStackNavigator();
     return (
         <stack.Navigator
-            initialRouteName="LoginUserPage"                             // User Page
-            // initialRouteName="LoginAdmin"                                 // Admin Page
-            // initialRouteName="LoginHr"                                      //Hr page
+            initialRouteName="LandingPage"
             screenOptions={{ headerShown: false }}>
+            <stack.Screen name="LandingPage" component={LandingPage} />
             <stack.Screen name="LoginAdmin" component={LoginAdmin} />
             <stack.Screen name="AllQuestionPaper" component={AllQuestionPaper} />
             <stack.Screen name="ShowData" component={showdata} />
@@ -31,6 +32,7 @@ const DeveloperStack = () => {
             <stack.Screen name='LoginUserPage' component={LoginUserPage} />
             <stack.Screen name='AddQuestion' component={AddQuestion} />
             <stack.Screen name='LoginHr' component={LoginHr} />
+            <stack.Screen name='HrHome' component={HrHome} />
             <stack.Screen name='Instruction' component={Instruction} />
             <stack.Screen name='QuestionList' component={QuestionList} />
             <stack.Screen name='NetworkLogger' component={NetworkLogger} />

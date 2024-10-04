@@ -18,7 +18,7 @@ import { ShowToast } from "../../helpers/toast";
 import { Loader } from "../../components/Loader";
 import { BackgroundImage } from "../../assests/images";
 import { ApiService } from '../../api/apicalls/ApiCalls'
-import { Arrow, Ellipse, Loginellips, Logo } from "../../assests/svg";
+import { Ellipse, Loginellips, Logo } from "../../assests/svg";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 
 export default function LoginUserPage() {

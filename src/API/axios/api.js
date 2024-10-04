@@ -14,11 +14,9 @@ export default async function fireAjax({
     const headerData = {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
-        // Code: code,
     };
 
     URL = config.BaseURL + URL;
-    console.log(URL)
 
     let headers = { ...headerData };
     if (method === 'POST') {

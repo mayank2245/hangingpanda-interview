@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
     },
     overlay: {
         backgroundColor: color.black,
-        // opacity: 0.8,
         height: '100%',
     },
     questionformatetext: {
@@ -145,7 +144,6 @@ const styles = StyleSheet.create({
     loadercss: {
         marginLeft: rw(35),
         marginTop: rh(-20)
-        // justifyContent: 'center'
     },
     rowWithBorder: {
         borderBottomWidth: 1,

@@ -14,3 +14,5 @@ export const dataText = [{
 },
 ]
 export const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+
+export const LandingPageData = [{ title: "Admin", screen: "LoginAdmin" }, { title: "User", screen: "LoginUserPage" }, { title: "Hr", screen: 'LoginHr' }]
