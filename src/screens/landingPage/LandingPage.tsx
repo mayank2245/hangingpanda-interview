@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-Bold',
         fontSize: rf(1.8),
         paddingHorizontal: rw(8.6),
-        marginTop: rh(2),
+        marginTop: rh(4),
         marginBottom: rh(3),
         color: color.white
     },

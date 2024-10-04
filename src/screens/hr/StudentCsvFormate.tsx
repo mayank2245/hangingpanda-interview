@@ -91,14 +91,12 @@ export default function ModalScreen({ navigation }: any) {
     return (
         <View>
             <StatusBar backgroundColor="transparent" translucent={true} />
-
             <View style={styles.overlay}>
                 <View style={styles.headerview}>
                     <BackArrow />
-                    <Text style={styles.questionformatetext}>Question paper format </Text>
+                    <Text style={styles.questionformatetext}>Add Student format </Text>
                     <TouchableOpacity style={styles.uploadPromptIcon} onPress={handleDownloadReports}>
                         <Icon
-
                             name="download-cloud"
                             size={28}
                             color={color.lightRed}
@@ -207,7 +205,7 @@ const styles = StyleSheet.create({
     },
     uploadPromptIcon: {
         alignSelf: 'flex-end',
-        marginLeft: rw(17.5)
+        marginLeft: rw(24.5)
     }
 });
 

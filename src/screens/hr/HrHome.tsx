@@ -60,7 +60,7 @@ export default function App(): React.JSX.Element {
     const handleCol = (i: number) => {
         setIndex(i);
         setVisiblemodal(false)
-        navigation.navigate("AddQuestion", { data: showdata, Id: i })
+
     }
 
     useEffect(() => {
@@ -100,7 +100,7 @@ export default function App(): React.JSX.Element {
                         <TouchableOpacity
                             activeOpacity={0.8}
                             style={styles.quesformatePress}
-                            onPress={() => navigation.navigate('QuesFormateModal')}>
+                            onPress={() => navigation.navigate('StudentCsvFormate')}>
                             <Text style={styles.quesformate}>Add Student Formate</Text>
                         </TouchableOpacity>
                         <Pressable
@@ -142,7 +142,7 @@ export default function App(): React.JSX.Element {
                                         <TouchableOpacity
                                             activeOpacity={0.8}
                                             style={[styles.addquestion]}
-                                            onPress={handleaddonebyone}
+                                            onPress={() => navigation.navigate("AllStudentList", { candidateData: { email: "afsd", interviewDate: "2024-09-10T10:00:00Z", name: "asd", questionPaperType: "DSA" } })}
                                         >
                                             <View style={styles.addquesManually}>
                                                 <AddQues />

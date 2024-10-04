@@ -11,5 +11,6 @@ export const color = {
     orange: '#F57C00',
     timebarRed: '#D32F2F',
     logintextWhite: '#D9D9D980',
+    skeletonColor: '#D9D9D930',
     bacgroundlightblack: 'rgba(52, 52, 52, 0.8)',
 }
