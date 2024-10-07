@@ -146,7 +146,7 @@ export default function App(): React.JSX.Element {
                                         >
                                             <View style={styles.addquesManually}>
                                                 <AddQues />
-                                                <Text style={styles.addquestiontext}>Add Question Manually</Text>
+                                                <Text style={styles.addquestiontext}>Add Candidate Manually</Text>
                                             </View>
                                         </TouchableOpacity>
                                         <CustomModal visible={visiblemodal} onClose={() => setVisiblemodal(false)} content={modalData()} modaloverlaycss={{}} contentcss={{}} />
@@ -165,7 +165,6 @@ export default function App(): React.JSX.Element {
                                 <IconArrow name="arrowright" size={24} color={color.white} />
                             </TouchableOpacity>
                         )}
-
                         <Logo style={styles.logoImage} />
                         <Text style={styles.logoText}>HANGING PANDA PRODUCTS</Text>
                     </ScrollView>

@@ -83,8 +83,8 @@ export default function AddQuestion({ route }: any) {
                         ) : (
                             <>
                                 <View style={styles.headerbox}>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                        <View style={{ justifyContent: 'center' }}>
+                                    <View style={styles.viewheaderbox}>
+                                        <View style={styles.viewsubheaderbox}>
                                             <Text style={styles.headertext}>Total</Text>
                                             <Text style={styles.headertext}>candidate</Text>
                                         </View>
@@ -248,5 +248,13 @@ const styles = StyleSheet.create({
     },
     allcandidate: {
         height: rh(89)
+    },
+    viewheaderbox: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    viewsubheaderbox: {
+        justifyContent: 'center'
     }
 });

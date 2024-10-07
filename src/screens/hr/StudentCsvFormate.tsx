@@ -111,11 +111,7 @@ export default function ModalScreen({ navigation }: any) {
                                 <DataTable.Header style={styles.headerRow}>
                                     {state.tableHead.map((headerData, index) => (
                                         <DataTable.Title key={index} style={styles.cellWithBorder}>
-                                            <View style={{
-                                                backgroundColor: '#FF385680',
-                                                paddingHorizontal: rh(0.4),
-                                                borderRadius: 12,
-                                            }}>
+                                            <View style={styles.viewheadercss}>
                                                 <Text style={styles.conatinertextheader}>{headerData}</Text>
                                             </View>
                                         </DataTable.Title>
@@ -206,6 +202,11 @@ const styles = StyleSheet.create({
     uploadPromptIcon: {
         alignSelf: 'flex-end',
         marginLeft: rw(24.5)
+    },
+    viewheadercss: {
+        backgroundColor: '#FF385680',
+        paddingHorizontal: rh(0.4),
+        borderRadius: 12,
     }
 });
 
