@@ -15,6 +15,9 @@ import NetworkLogger from 'react-native-network-logger';
 import QuesFormateModal from '../../screens/admin/QuesFormateModal';
 import LandingPage from '../../screens/landingPage/LandingPage';
 import HrHome from '../../screens/hr/HrHome';
+import AllStudentList from '../../screens/hr/AllStudentList';
+import AddStudent from '../../screens/hr/AddStudent';
+import StudentCsvFormate from '../../screens/hr/StudentCsvFormate';
 
 const DeveloperStack = () => {
     const stack = createNativeStackNavigator();
@@ -33,6 +36,9 @@ const DeveloperStack = () => {
             <stack.Screen name='AddQuestion' component={AddQuestion} />
             <stack.Screen name='LoginHr' component={LoginHr} />
             <stack.Screen name='HrHome' component={HrHome} />
+            <stack.Screen name='AllStudentList' component={AllStudentList} />
+            <stack.Screen name='AddStudent' component={AddStudent} />
+            <stack.Screen name='StudentCsvFormate' component={StudentCsvFormate} />
             <stack.Screen name='Instruction' component={Instruction} />
             <stack.Screen name='QuestionList' component={QuestionList} />
             <stack.Screen name='NetworkLogger' component={NetworkLogger} />

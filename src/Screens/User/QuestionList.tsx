@@ -23,6 +23,7 @@ import TimeDuration from '../../components/TimeDuration';
 import { ApiService } from '../../api/apicalls/ApiCalls';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
 import React from 'react';
+import QuestionListSkeleton from '../../helpers/skeletonUserData';
 
 export default function QuestionList({ route }: any) {
     const { item } = route.params;
@@ -103,7 +104,7 @@ export default function QuestionList({ route }: any) {
             <ImageBackground style={styles.backgroundImage} source={BackgroundImage} resizeMode="cover">
                 <View style={styles.overlay}>
                     {!data ?
-                        <View style={styles.isloader}><Loader isLoading={true} /></View>
+                        <QuestionListSkeleton />
                         :
                         <>
                             <View style={styles.timeduration}>

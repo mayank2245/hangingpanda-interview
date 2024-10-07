@@ -24,7 +24,9 @@ export default function Instruction() {
     const [nextButton, setNextButton] = useState<number>(1);
 
     const handleNextButton = () => {
-        setNextButton(nextButton + 1);
+        if (nextButton < 3) {
+            setNextButton(nextButton + 1);
+        }
         nextButton === 3 && navigation.navigate("QuestionList", { ans: "", serial: -1 })
     };
 
@@ -80,27 +82,28 @@ export default function Instruction() {
             <ImageBackground
                 style={styles.backgroundImage}
                 source={BackgroundImage}
-                resizeMode="cover" />
-            <View style={styles.overlay2}>
-                <View style={styles.overlay}>
-                    <LottieView
-                        source={Panda}
-                        style={styles.lottiepanda}
-                        autoPlay
-                        loop
-                    />
-                    <Text style={styles.mustreadText}>Must Read Instruction</Text>
+                resizeMode="cover" >
+                <View style={styles.overlay2}>
+                    <View style={styles.overlay}>
+                        <LottieView
+                            source={Panda}
+                            style={styles.lottiepanda}
+                            autoPlay
+                            loop
+                        />
+                        <Text style={styles.mustreadText}>Must Read Instruction</Text>
+                    </View>
+                    {renderInstructionContent()}
+                    <TouchableOpacity
+                        activeOpacity={0.8}
+                        style={styles.touchable}
+                        onPress={handleNextButton}
+                    >
+                        <Text style={styles.Nextpage}> {nextButton === 3 ? "Get started" : "Next page " + nextButton + "/3"} </Text>
+                        <IconArrow name="arrowright" size={24} color="white" />
+                    </TouchableOpacity>
                 </View>
-                {renderInstructionContent()}
-                <TouchableOpacity
-                    activeOpacity={0.8}
-                    style={styles.touchable}
-                    onPress={handleNextButton}
-                >
-                    <Text style={styles.Nextpage}> {nextButton === 3 ? "Get started" : "Next page " + nextButton + "/3"} </Text>
-                    <IconArrow name="arrowright" size={24} color="white" />
-                </TouchableOpacity>
-            </View>
+            </ImageBackground>
         </View>
     );
 }
@@ -113,13 +116,13 @@ const styles = StyleSheet.create({
     overlay: {
         backgroundColor: color.logintextWhite,
         height: rh(45),
-        opacity: 30,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
     },
     overlay2: {
         backgroundColor: color.black,
-        height: rh(100)
+        opacity: 0.9,
+        height: rh(100),
     },
     mustreadText: {
         paddingBottom: rh(1),

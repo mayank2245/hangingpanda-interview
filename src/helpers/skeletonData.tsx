@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         marginLeft: rh(1.6),
         borderRadius: 30,
         marginTop: rh(1),
-        backgroundColor: '#D9D9D930',
+        backgroundColor: color.skeletonColor,
         color: color.lightWhite
     },
     viewheader: {

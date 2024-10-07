@@ -82,7 +82,7 @@ export default function AllQuestionPaper() {
                             />
                         </>
                     ) : (
-                        <View style={styles.viewflatlist}>
+                        <>
                             <View style={styles.headerbox}>
                                 <View style={styles.headerview}>
                                     <Text style={styles.headertext}>Total Question Paper:</Text>
@@ -99,25 +99,27 @@ export default function AllQuestionPaper() {
                                                 style={[
                                                     styles.itemtype,
                                                     selectedtype === item
-                                                        ? { backgroundColor: color.primaryRed, borderWidth: 1 }
-                                                        : {}
+                                                        ? { backgroundColor: color.white }
+                                                        : { borderWidth: rw(0.4) }
                                                 ]}
                                             >
-                                                <Text style={[styles.textheaderbox, selectedtype === item ? { color: color.white, } : {}]}>{item}</Text>
+                                                <Text style={[styles.textheaderbox, selectedtype === item ? { color: color.black, } : { color: color.white }]}>{item}</Text>
                                             </TouchableOpacity>
                                         )}
                                     />
                                 </View>
                             </View>
-                            <FlatList
-                                style={styles.flatliststyle}
-                                data={filteredQuestions}
-                                renderItem={({ item }: any) => (
-                                    <Card paperId={item.paperId} papertype={item.questionPaperType} timeLimit={item.timeLimit} />
-                                )}
-                                numColumns={2}
-                            />
-                        </View>
+                            <View style={styles.viewflatlist}>
+                                <FlatList
+                                    style={styles.flatliststyle}
+                                    data={filteredQuestions}
+                                    renderItem={({ item }: any) => (
+                                        <Card paperId={item.paperId} papertype={item.questionPaperType} timeLimit={item.timeLimit} />
+                                    )}
+                                    numColumns={2}
+                                />
+                            </View>
+                        </>
                     )}
                 </View>
             </ImageBackground>
@@ -147,10 +149,10 @@ const styles = StyleSheet.create({
         marginBottom: rh(6),
     },
     viewflatlist: {
-        marginBottom: rh(8),
+        marginBottom: rh(29),
     },
     headerbox: {
-        backgroundColor: '#fede68',
+        backgroundColor: color.primaryRed,
         borderWidth: rw(0.3),
         padding: 20,
         marginHorizontal: 16,
@@ -165,15 +167,14 @@ const styles = StyleSheet.create({
     },
     headertext: {
         marginTop: rh(2),
-        color: color.black,
+        color: color.white,
         fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(3),
     },
     itemtype: {
         marginRight: 10,
-        borderWidth: rw(0.4),
         borderRadius: 18,
-        padding: rw(1.8),
+        padding: rw(1),
     },
     viewheader: {
         backgroundColor: '#D9D9D930',
@@ -193,7 +194,7 @@ const styles = StyleSheet.create({
     },
     headerboxflat: {
         marginLeft: rw(1),
-        marginTop: rh(4),
+        marginTop: rh(5),
         width: rw(80)
     },
     textheaderbox: {

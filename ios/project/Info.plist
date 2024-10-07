@@ -32,7 +32,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -50,103 +50,14 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Black.ttf</string>
-		<string>Montserrat-BlackItalic.ttf</string>
 		<string>Montserrat-Bold.ttf</string>
-		<string>Montserrat-BoldItalic.ttf</string>
 		<string>Montserrat-ExtraBold.ttf</string>
-		<string>Montserrat-ExtraBoldItalic.ttf</string>
 		<string>Montserrat-ExtraLight.ttf</string>
-		<string>Montserrat-ExtraLightItalic.ttf</string>
-		<string>Montserrat-Italic.ttf</string>
 		<string>Montserrat-Light.ttf</string>
-		<string>Montserrat-LightItalic.ttf</string>
 		<string>Montserrat-Medium.ttf</string>
-		<string>Montserrat-MediumItalic.ttf</string>
 		<string>Montserrat-Regular.ttf</string>
 		<string>Montserrat-SemiBold.ttf</string>
-		<string>Montserrat-SemiBoldItalic.ttf</string>
 		<string>Montserrat-Thin.ttf</string>
-		<string>Montserrat-ThinItalic.ttf</string>
-		<string>NunitoSans_10pt-Black.ttf</string>
-		<string>NunitoSans_10pt-BlackItalic.ttf</string>
-		<string>NunitoSans_10pt-Bold.ttf</string>
-		<string>NunitoSans_10pt-BoldItalic.ttf</string>
-		<string>NunitoSans_10pt-ExtraBold.ttf</string>
-		<string>NunitoSans_10pt-ExtraBoldItalic.ttf</string>
-		<string>NunitoSans_10pt-ExtraLight.ttf</string>
-		<string>NunitoSans_10pt-ExtraLightItalic.ttf</string>
-		<string>NunitoSans_10pt-Italic.ttf</string>
-		<string>NunitoSans_10pt-Light.ttf</string>
-		<string>NunitoSans_10pt-LightItalic.ttf</string>
-		<string>NunitoSans_10pt-Medium.ttf</string>
-		<string>NunitoSans_10pt-MediumItalic.ttf</string>
-		<string>NunitoSans_10pt-Regular.ttf</string>
-		<string>NunitoSans_10pt-SemiBold.ttf</string>
-		<string>NunitoSans_10pt-SemiBoldItalic.ttf</string>
-		<string>NunitoSans_10pt_Condensed-Black.ttf</string>
-		<string>NunitoSans_10pt_Condensed-BlackItalic.ttf</string>
-		<string>NunitoSans_10pt_Condensed-Bold.ttf</string>
-		<string>NunitoSans_10pt_Condensed-BoldItalic.ttf</string>
-		<string>NunitoSans_10pt_Condensed-ExtraBold.ttf</string>
-		<string>NunitoSans_10pt_Condensed-ExtraBoldItalic.ttf</string>
-		<string>NunitoSans_10pt_Condensed-ExtraLight.ttf</string>
-		<string>NunitoSans_10pt_Condensed-ExtraLightItalic.ttf</string>
-		<string>NunitoSans_10pt_Condensed-Italic.ttf</string>
-		<string>NunitoSans_10pt_Condensed-Light.ttf</string>
-		<string>NunitoSans_10pt_Condensed-LightItalic.ttf</string>
-		<string>NunitoSans_10pt_Condensed-Medium.ttf</string>
-		<string>NunitoSans_10pt_Condensed-MediumItalic.ttf</string>
-		<string>NunitoSans_10pt_Condensed-Regular.ttf</string>
-		<string>NunitoSans_10pt_Condensed-SemiBold.ttf</string>
-		<string>NunitoSans_10pt_Condensed-SemiBoldItalic.ttf</string>
-		<string>NunitoSans_10pt_Expanded-Black.ttf</string>
-		<string>NunitoSans_10pt_Expanded-BlackItalic.ttf</string>
-		<string>NunitoSans_10pt_Expanded-Bold.ttf</string>
-		<string>NunitoSans_10pt_Expanded-BoldItalic.ttf</string>
-		<string>NunitoSans_10pt_Expanded-ExtraBold.ttf</string>
-		<string>NunitoSans_10pt_Expanded-ExtraBoldItalic.ttf</string>
-		<string>NunitoSans_10pt_Expanded-ExtraLight.ttf</string>
-		<string>NunitoSans_10pt_Expanded-ExtraLightItalic.ttf</string>
-		<string>NunitoSans_10pt_Expanded-Italic.ttf</string>
-		<string>NunitoSans_10pt_Expanded-Light.ttf</string>
-		<string>NunitoSans_10pt_Expanded-LightItalic.ttf</string>
-		<string>NunitoSans_10pt_Expanded-Medium.ttf</string>
-		<string>NunitoSans_10pt_Expanded-MediumItalic.ttf</string>
-		<string>NunitoSans_10pt_Expanded-Regular.ttf</string>
-		<string>NunitoSans_10pt_Expanded-SemiBold.ttf</string>
-		<string>NunitoSans_10pt_Expanded-SemiBoldItalic.ttf</string>
-		<string>NunitoSans_10pt_SemiCondensed-Black.ttf</string>
-		<string>NunitoSans_10pt_SemiCondensed-BlackItalic.ttf</string>
-		<string>NunitoSans_10pt_SemiCondensed-Bold.ttf</string>
-		<string>NunitoSans_10pt_SemiCondensed-BoldItalic.ttf</string>
-		<string>NunitoSans_10pt_SemiCondensed-ExtraBold.ttf</string>
-		<string>NunitoSans_10pt_SemiCondensed-ExtraBoldItalic.ttf</string>
-		<string>NunitoSans_10pt_SemiCondensed-ExtraLight.ttf</string>
-		<string>NunitoSans_10pt_SemiCondensed-ExtraLightItalic.ttf</string>
-		<string>NunitoSans_10pt_SemiCondensed-Italic.ttf</string>
-		<string>NunitoSans_10pt_SemiCondensed-Light.ttf</string>
-		<string>NunitoSans_10pt_SemiCondensed-LightItalic.ttf</string>
-		<string>NunitoSans_10pt_SemiCondensed-Medium.ttf</string>
-		<string>NunitoSans_10pt_SemiCondensed-MediumItalic.ttf</string>
-		<string>NunitoSans_10pt_SemiCondensed-Regular.ttf</string>
-		<string>NunitoSans_10pt_SemiCondensed-SemiBold.ttf</string>
-		<string>NunitoSans_10pt_SemiCondensed-SemiBoldItalic.ttf</string>
-		<string>NunitoSans_10pt_SemiExpanded-Black.ttf</string>
-		<string>NunitoSans_10pt_SemiExpanded-BlackItalic.ttf</string>
-		<string>NunitoSans_10pt_SemiExpanded-Bold.ttf</string>
-		<string>NunitoSans_10pt_SemiExpanded-BoldItalic.ttf</string>
-		<string>NunitoSans_10pt_SemiExpanded-ExtraBold.ttf</string>
-		<string>NunitoSans_10pt_SemiExpanded-ExtraBoldItalic.ttf</string>
-		<string>NunitoSans_10pt_SemiExpanded-ExtraLight.ttf</string>
-		<string>NunitoSans_10pt_SemiExpanded-ExtraLightItalic.ttf</string>
-		<string>NunitoSans_10pt_SemiExpanded-Italic.ttf</string>
-		<string>NunitoSans_10pt_SemiExpanded-Light.ttf</string>
-		<string>NunitoSans_10pt_SemiExpanded-LightItalic.ttf</string>
-		<string>NunitoSans_10pt_SemiExpanded-Medium.ttf</string>
-		<string>NunitoSans_10pt_SemiExpanded-MediumItalic.ttf</string>
-		<string>NunitoSans_10pt_SemiExpanded-Regular.ttf</string>
-		<string>NunitoSans_10pt_SemiExpanded-SemiBold.ttf</string>
-		<string>NunitoSans_10pt_SemiExpanded-SemiBoldItalic.ttf</string>
 		<string>NunitoSans_7pt-Black.ttf</string>
 		<string>NunitoSans_7pt-BlackItalic.ttf</string>
 		<string>NunitoSans_7pt-Bold.ttf</string>
