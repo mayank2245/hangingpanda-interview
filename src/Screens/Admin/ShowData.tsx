@@ -21,7 +21,7 @@ import CustomModal from '../../components/Modal';
 import { ShowToast } from '../../helpers/toast';
 import { dataText } from '../../constant/staticData';
 import { BackgroundImage } from '../../assests/images';
-import { ApiService } from '../../api/apicalls/ApiCalls';
+import { ApiService } from '../../api/apiCalls/ApiCalls';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
 import { Add, AddQues, CrossIcon, Upload } from '../../assests/svg';
 import BackArrow from '../../components/BackArrow';

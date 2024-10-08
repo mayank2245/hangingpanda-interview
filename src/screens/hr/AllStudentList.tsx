@@ -1,26 +1,25 @@
 import {
     ImageBackground,
-    Pressable,
     StatusBar,
     StyleSheet,
-    TextInput,
     TouchableOpacity,
     Text,
     View,
     FlatList
 } from "react-native";
 
-import { useNavigation } from "@react-navigation/native";
-import { color } from "../../constant/color";
-import Addques from '../../assests/svg/addQues';
-import { BackgroundImage } from "../../assests/images";
-import { rf, rh, rw } from "../../helpers/responsivedimention";
-import BackArrow from "../../components/BackArrow";
-import Card from "../../components/Card";
 import { Skeleton } from "moti/skeleton";
 import { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+
+import { color } from "../../constant/color";
+import Addques from '../../assests/svg/addQues';
+import BackArrow from "../../components/BackArrow";
 import SkeletonCard from "../../helpers/skeletonData";
+import { BackgroundImage } from "../../assests/images";
 import CandidateCard from "../../components/CandidateCard";
+import { rf, rh, rw } from "../../helpers/responsivedimention";
+
 const questionType = ["All", "Javascript", "Python", "Java", "DSA"];
 
 export default function AddQuestion({ route }: any) {
@@ -49,6 +48,11 @@ export default function AddQuestion({ route }: any) {
             );
         }
     }, [candidateData, selectedType]);
+
+    const handleDeleteCard = (candidateEmail: string) => {
+        const updatedCandidate = filteredQuestions.filter((fli) => fli.email === candidateEmail)
+        setFilteredQuestions(updatedCandidate)
+    }
 
     return (
         <View>
@@ -119,7 +123,7 @@ export default function AddQuestion({ route }: any) {
                                         style={styles.flatliststyle}
                                         data={filteredQuestions}
                                         renderItem={({ item }: any) => (
-                                            <CandidateCard candidateName={item.name} interviewDate={item.interviewDate} candidateEmail={item.email} paperType={item.questionPaperType} />
+                                            <CandidateCard candidateName={item.name} interviewDate={item.interviewDate} candidateEmail={item.email} paperType={item.questionPaperType} onDelete={handleDeleteCard} />
                                         )}
                                         numColumns={2}
                                     />

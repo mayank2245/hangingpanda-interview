@@ -1,14 +1,13 @@
 import csv from 'csvtojson';
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, DataTable } from 'react-native-paper';
-import { ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Table, TableWrapper, Row } from 'react-native-reanimated-table';
+import { Alert, Linking, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Platform, PermissionsAndroid } from 'react-native';
 import { color } from "../../constant/color";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import BackArrow from '../../components/BackArrow';
 import Icon from 'react-native-vector-icons/Feather';
-import axios from 'axios';
-
+import ReactNativeBlobUtil from 'react-native-blob-util'
 
 export default function ModalScreen({ navigation }: any) {
 
@@ -55,38 +54,49 @@ export default function ModalScreen({ navigation }: any) {
         setTableData(csvFileUrl);
     }, [page, numberOfItemsPerPage]);
 
-
-    const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_BASE_URL,
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-        }
-    });
-
-    const handleDownloadReports = () => {
-        const url = 'https://docs.google.com/spreadsheets/d/1b8yY_OQYzJ5xBhys9k8FFl5yHZg-wbJJq7A2X4hBQPk/edit?usp=sharing'
-        axiosInstance(url)
-            .then(
-                (response: { data: string | Blob; }) => {
-                    console.log("response", response)
-                    const url = window.URL.createObjectURL(new Blob([response.data]))
-                    const link = document.createElement('a')
-                    link.href = url
-                    const fileName = `downloaded Report ${moment(new Date()).format("DD MMM YY")}.csv`;
-                    link.setAttribute('download', fileName)
-                    document.body.appendChild(link)
-                    link.click()
-                    link.remove()
-                },
-                console.log("first")
-            ).catch(
-                (error: any) => {
-                    console.log(error)
+    const requestPermissions = async () => {
+        if (Platform.OS === 'android') {
+            try {
+                if (Platform.Version >= 31) {
+                    const granted = await PermissionsAndroid.requestMultiple([
+                        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+                        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                    ]);
+                    const allPermissionsGranted = Object.values(granted).every(
+                        status => status === PermissionsAndroid.RESULTS.GRANTED
+                    );
+                    if (allPermissionsGranted) {
+                        console.log('All permissions granted');
+                    } else {
+                        console.log('Some permissions denied');
+                    }
                 }
-            )
-    }
+            } catch (err) {
+                console.warn(err);
+            }
+        }
+    };
+
+    const handleDownloadReports = async () => {
+        const fileUrl = 'https://docs.google.com/spreadsheets/d/1wGTjbeAXM5_Dy9Xme6ks51qdjo9bHv8RN9mPseLtzm4/export?format=csv'; // Updated link
+        await requestPermissions();  // Make sure permissions are requested before download
+
+        try {
+            const res = await ReactNativeBlobUtil.config({
+                fileCache: true,
+                appendExt: 'csv',
+                path: Platform.OS === 'android'
+                    ? ReactNativeBlobUtil.fs.dirs.DownloadDir + '/question_paper.csv'
+                    : ReactNativeBlobUtil.fs.dirs.DocumentDir + '/question_paper.csv',
+            }).fetch('GET', fileUrl);
+
+            const filePath = res.path();
+            console.log('File downloaded successfully at:', filePath);
+        } catch (error) {
+            console.error('Error downloading the CSV file:', error);
+        }
+    };
+
 
     return (
         <View>
@@ -123,10 +133,16 @@ export default function ModalScreen({ navigation }: any) {
                                         </DataTable.Title>
                                     ))}
                                 </DataTable.Header>
+                                //use Cell Index to give col and row particular height
                                 {state.currentPageData.map((rowData, rowIndex) => (
                                     <DataTable.Row key={rowIndex} style={[styles.rowWithBorder, rowIndex === state.currentPageData.length - 1 ? styles.lastRow : {}]}>
-                                        {rowData.map((cellData: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined, cellIndex: React.Key | null | undefined) => (
+                                        {rowData && rowData?.map((cellData: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined, cellIndex: React.Key | null | undefined) => (
                                             <DataTable.Cell key={cellIndex} style={[styles.cellWithBorder, cellIndex === rowData.length - 1 ? styles.lastCell : {}]}>
+
+                                                {
+
+
+                                                }
                                                 <Text style={styles.conatinertext}>{cellData}</Text>
                                             </DataTable.Cell>
                                         ))}
@@ -160,29 +176,36 @@ const styles = StyleSheet.create({
     datatable: {
         borderWidth: rh(0.2),
         borderColor: color.white,
-        borderRadius: 12
+        borderRadius: 12,
+        marginBottom: rh(3), // Space for footer or other UI components
     },
     headerview: {
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     container: {
-        margin: 26,
-        marginTop: rh(3)
+        margin: rw(6),
+        marginTop: rh(3),
     },
     headerRow: {
         backgroundColor: '#333333',
         borderTopRightRadius: 12,
         borderTopLeftRadius: 12,
+        flexDirection: 'row', // Ensure the header rows are aligned horizontally
     },
     conatinertextheader: {
         color: color.white,
         fontFamily: "Montserrat-Bold",
         fontSize: rf(1.3),
+        paddingVertical: rh(1), // Vertical padding for better alignment
+        paddingHorizontal: rw(2), // Horizontal padding for balanced spacing
+        textAlign: 'center', // Ensures the text is centered in the header
     },
     conatinertext: {
         color: color.white,
         fontFamily: "Montserrat-SemiBold",
         fontSize: rf(1.1),
+        padding: rw(2),
+        textAlign: 'center',
     },
     loadercss: {
         marginLeft: rw(35),
@@ -193,6 +216,7 @@ const styles = StyleSheet.create({
         borderBottomColor: color.white,
         borderLeftWidth: 1,
         borderLeftColor: color.white,
+        flexDirection: 'row', // Ensure the row content aligns horizontally
     },
     lastRow: {
         borderBottomWidth: 1,
@@ -200,7 +224,10 @@ const styles = StyleSheet.create({
     cellWithBorder: {
         borderRightWidth: 1,
         borderRightColor: color.white,
-        padding: 8,
+        paddingVertical: rh(1), // Vertical padding for cells
+        paddingHorizontal: rw(2), // Horizontal padding for cells
+        justifyContent: 'center', // Ensure content is vertically aligned
+        alignItems: 'center', // Horizontally center the content inside cells
     },
     lastCell: {
         borderRightWidth: 0,
@@ -210,4 +237,5 @@ const styles = StyleSheet.create({
         marginLeft: rw(17.5)
     }
 });
+
 

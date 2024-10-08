@@ -21,7 +21,6 @@ export default function LandingPage() {
     const [screen, setScreen] = useState<string>()
 
     const handleScreen = (ei: string) => {
-        set
     }
 
     return (

@@ -17,7 +17,7 @@ import { color } from "../../constant/color";
 import { ShowToast } from "../../helpers/toast";
 import { Loader } from "../../components/Loader";
 import { BackgroundImage } from "../../assests/images";
-import { ApiService } from '../../api/apicalls/ApiCalls'
+import { ApiService } from '../../api/apiCalls/ApiCalls'
 import { Ellipse, Loginellips, Logo } from "../../assests/svg";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 

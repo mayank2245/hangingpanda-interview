@@ -6,15 +6,12 @@ import {
     View
 } from 'react-native'
 import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import CustomModal from './Modal';
 import { color } from '../constant/color';
 import { randomColor } from '../helpers/randomColor';
-import { ApiService } from '../api/apicalls/ApiCalls';
 import { rf, rh, rw } from '../helpers/responsivedimention'
 
 interface CardProps {
@@ -22,9 +19,10 @@ interface CardProps {
     interviewDate: string,
     candidateEmail: string,
     paperType: string
+    onDelete: (email: string) => void;
 }
 
-const CandidateCard: React.FC<CardProps> = ({ candidateName, candidateEmail, interviewDate, paperType }) => {
+const CandidateCard: React.FC<CardProps> = ({ candidateName, candidateEmail, interviewDate, paperType, onDelete }) => {
     const navigation = useNavigation();
     const [singlePaperid, setSinglePaperid] = useState<any>()
     const [visibleModal, setVisibleModal] = useState<boolean>(false)
@@ -34,10 +32,14 @@ const CandidateCard: React.FC<CardProps> = ({ candidateName, candidateEmail, int
         const newColor = randomColor({ luminosity: 'light' });
         setAssignedColor(newColor);
     }
-
     const handledeletePress = () => {
         setVisibleModal(true)
     }
+    const handledeleteCard = () => {
+        onDelete(candidateEmail);
+        setVisibleModal(false)
+    }
+
 
 
     const modal = () => (
@@ -45,7 +47,7 @@ const CandidateCard: React.FC<CardProps> = ({ candidateName, candidateEmail, int
             <Text style={styles.modalText}>
                 Are you sure you want to delete this Question Paper?
             </Text>
-            <TouchableOpacity style={styles.modalbox} onPress={handledeletePress}>
+            <TouchableOpacity style={styles.modalbox} onPress={handledeleteCard}>
                 <Text style={styles.modalText2}>Yes</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.modalbox} onPress={() => setVisibleModal(false)}>

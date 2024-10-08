@@ -8,7 +8,7 @@ import Card from '../../components/Card';
 import { color } from '../../constant/color';
 import SkeletonCard from '../../helpers/skeletonData';
 import { BackgroundImage } from '../../assests/images';
-import { ApiService } from '../../api/apicalls/ApiCalls';
+import { ApiService } from '../../api/apiCalls/ApiCalls';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BackArrow from '../../components/BackArrow';
