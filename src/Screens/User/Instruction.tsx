@@ -111,7 +111,7 @@ export default function Instruction() {
 const styles = StyleSheet.create({
     backgroundImage: {
         flex: 1,
-        height: rh(100)
+        height: rh(110)
     },
     overlay: {
         backgroundColor: color.logintextWhite,
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     overlay2: {
         backgroundColor: color.black,
         opacity: 0.9,
-        height: rh(100),
+        height: rh(110),
     },
     mustreadText: {
         paddingBottom: rh(1),
@@ -193,9 +193,9 @@ const styles = StyleSheet.create({
     touchable: {
         position: 'absolute',
         backgroundColor: color.primaryRed,
-        width: "93%",
+        width: rw(93),
         height: rh(6),
-        marginTop: rh(90),
+        marginTop: rh(93),
         marginLeft: rh(1.5),
         borderRadius: 10,
         alignItems: 'center',

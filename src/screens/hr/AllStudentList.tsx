@@ -245,7 +245,6 @@ const styles = StyleSheet.create({
         marginBottom: rh(0.8)
     },
     headertext: {
-
         color: color.white,
         fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(3),

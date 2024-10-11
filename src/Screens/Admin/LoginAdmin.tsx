@@ -125,10 +125,8 @@ export default function LoginUserPage() {
                             activeOpacity={0.6}
                             onPress={handlepress}
                             style={styles.ellipetouchable}>
-                            {!isLoading &&
-                                <Loginellips style={styles.ellipseCss} />}
+                            {!isLoading && <Loginellips style={styles.ellipseCss} />}
                         </TouchableOpacity>
-
                         {isLoading && <><Ellipse style={styles.ellipsisloading} />
                             <View style={styles.loaderstyle}>
                                 <Loader isLoading={isLoading} />
@@ -192,7 +190,7 @@ const styles = StyleSheet.create({
         marginTop: rh(3),
     },
     ellipsisloading: {
-        marginLeft: rh(18),
+        marginLeft: rw(40),
         borderWidth: 2,
         borderColor: 'red',
         justifyContent: 'center',
