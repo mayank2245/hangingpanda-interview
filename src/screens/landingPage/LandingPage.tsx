@@ -12,16 +12,16 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 import { color } from "../../constant/color";
 import { BackgroundImage } from "../../assests/images";
-import { Loginellips, Logo } from "../../assests/svg";
+import { Logo } from "../../assests/svg";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import { LandingPageData } from "../../constant/staticData";
+import RNText from "../../components/RNText";
 
 export default function LandingPage() {
     const navigation = useNavigation();
     const [screen, setScreen] = useState<string>()
 
     const handleScreen = (ei: string) => {
-        set
     }
 
     return (
@@ -40,6 +40,7 @@ export default function LandingPage() {
                             <Logo />
                         </View>
                         <View style={styles.textShowCss}>
+                            <RNText style={styles.textShowCss5} type="heading" Montserrat bold>Welcome at</RNText>
                             <Text style={styles.textShowCss}>Welcome at</Text>
                             <Text style={styles.textShowCss2}>HangingPanda !</Text>
                             <Text style={styles.textShowCss}>We believe in your
@@ -87,13 +88,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: rh(10.8),
     },
+    textShowCss5: {
+        color: color.logintextWhite,
+        paddingLeft: rw(4),
+        paddingTop: rh(1.7),
+        lineHeight: rh(3.4)
+    },
     textShowCss: {
         fontFamily: 'Montserrat-Bold',
         color: color.logintextWhite,
         fontSize: rf(3.5),
         paddingLeft: rw(4),
         paddingTop: rh(1.7),
-        lineHeight: rh(3.4)
+
     },
     textShowCss2: {
         fontFamily: 'Montserrat-Bold',

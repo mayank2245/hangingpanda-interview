@@ -2,15 +2,31 @@ import csv from 'csvtojson';
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, DataTable } from 'react-native-paper';
 import { ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Table, TableWrapper, Row } from 'react-native-reanimated-table';
+import { Platform, PermissionsAndroid } from 'react-native';
 import { color } from "../../constant/color";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import BackArrow from '../../components/BackArrow';
 import Icon from 'react-native-vector-icons/Feather';
-import axios from 'axios';
-
+import ReactNativeBlobUtil from 'react-native-blob-util'
 
 export default function ModalScreen({ navigation }: any) {
+
+    const columnWidths = {
+        0: { width: rw(13.3), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
+        1: { width: rw(29.4), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
+        2: { width: rw(43.4), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
+        3: { width: rw(45.3), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
+        4: { width: rw(29), height: rh(6.5) },
+    };
+
+    const cellWidths = {
+        0: { width: rw(12), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
+        1: { width: rw(29), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
+        2: { width: rw(43), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
+        3: { width: rw(45), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
+        4: { width: rw(29), height: rh(6.3) },
+    };
+
 
     const csvFileUrl = "https://docs.google.com/spreadsheets/d/1b8yY_OQYzJ5xBhys9k8FFl5yHZg-wbJJq7A2X4hBQPk/export?format=csv&gid=402345587"; // Modified CSV URL
     const [state, setState] = useState({
@@ -55,38 +71,49 @@ export default function ModalScreen({ navigation }: any) {
         setTableData(csvFileUrl);
     }, [page, numberOfItemsPerPage]);
 
+    // const requestPermissions = async () => {
+    //     if (Platform.OS === 'android') {
+    //         try {
+    //             if (Platform.Version >= 31) {
+    //                 const granted = await PermissionsAndroid.requestMultiple([
+    //                     PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+    //                     PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+    //                 ]);
+    //                 const allPermissionsGranted = Object.values(granted).every(
+    //                     status => status === PermissionsAndroid.RESULTS.GRANTED
+    //                 );
+    //                 if (allPermissionsGranted) {
+    //                     console.log('All permissions granted');
+    //                 } else {
+    //                     console.log('Some permissions denied');
+    //                 }
+    //             }
+    //         } catch (err) {
+    //             console.warn(err);
+    //         }
+    //     }
+    // };
 
-    const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_BASE_URL,
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-        }
-    });
+    // const handleDownloadReports = async () => {
+    //     const fileUrl = 'https://docs.google.com/spreadsheets/d/1wGTjbeAXM5_Dy9Xme6ks51qdjo9bHv8RN9mPseLtzm4/export?format=csv'; // Updated link
+    //     await requestPermissions();  // Make sure permissions are requested before download
 
-    const handleDownloadReports = () => {
-        const url = 'https://docs.google.com/spreadsheets/d/1b8yY_OQYzJ5xBhys9k8FFl5yHZg-wbJJq7A2X4hBQPk/edit?usp=sharing'
-        axiosInstance(url)
-            .then(
-                (response: { data: string | Blob; }) => {
-                    console.log("response", response)
-                    const url = window.URL.createObjectURL(new Blob([response.data]))
-                    const link = document.createElement('a')
-                    link.href = url
-                    const fileName = `downloaded Report ${moment(new Date()).format("DD MMM YY")}.csv`;
-                    link.setAttribute('download', fileName)
-                    document.body.appendChild(link)
-                    link.click()
-                    link.remove()
-                },
-                console.log("first")
-            ).catch(
-                (error: any) => {
-                    console.log(error)
-                }
-            )
-    }
+    //     try {
+    //         const res = await ReactNativeBlobUtil.config({
+    //             fileCache: true,
+    //             appendExt: 'csv',
+    //             path: Platform.OS === 'android'
+    //                 ? ReactNativeBlobUtil.fs.dirs.DownloadDir + '/question_paper.csv'
+    //                 : ReactNativeBlobUtil.fs.dirs.DocumentDir + '/question_paper.csv',
+    //         }).fetch('GET', fileUrl);
+
+    //         const filePath = res.path();
+    //         console.log('File downloaded successfully at:', filePath);
+    //     } catch (error) {
+    //         console.error('Error downloading the CSV file:', error);
+    //     }
+    // };
+
 
     return (
         <View>
@@ -96,9 +123,8 @@ export default function ModalScreen({ navigation }: any) {
                 <View style={styles.headerview}>
                     <BackArrow />
                     <Text style={styles.questionformatetext}>Question paper format </Text>
-                    <TouchableOpacity style={styles.uploadPromptIcon} onPress={handleDownloadReports}>
+                    <TouchableOpacity style={styles.uploadPromptIcon} >
                         <Icon
-
                             name="download-cloud"
                             size={28}
                             color={color.lightRed}
@@ -112,21 +138,31 @@ export default function ModalScreen({ navigation }: any) {
                             : <DataTable style={styles.datatable}>
                                 <DataTable.Header style={styles.headerRow}>
                                     {state.tableHead.map((headerData, index) => (
-                                        <DataTable.Title key={index} style={styles.cellWithBorder}>
-                                            <View style={{
-                                                backgroundColor: '#FF385680',
-                                                paddingHorizontal: rh(0.4),
-                                                borderRadius: 12,
-                                            }}>
+                                        <DataTable.Title
+                                            key={index}
+                                            style={[
+                                                styles.cellWithBorder,
+                                                index === state.currentPageData.length - 1 ? { borderLeftWidth: 0 } : {},
+                                                { margin: rw(0.6) },
+                                                columnWidths[index] || {}
+                                            ]}
+                                        >
+                                            <View >
                                                 <Text style={styles.conatinertextheader}>{headerData}</Text>
                                             </View>
                                         </DataTable.Title>
                                     ))}
                                 </DataTable.Header>
                                 {state.currentPageData.map((rowData, rowIndex) => (
-                                    <DataTable.Row key={rowIndex} style={[styles.rowWithBorder, rowIndex === state.currentPageData.length - 1 ? styles.lastRow : {}]}>
-                                        {rowData.map((cellData: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined, cellIndex: React.Key | null | undefined) => (
-                                            <DataTable.Cell key={cellIndex} style={[styles.cellWithBorder, cellIndex === rowData.length - 1 ? styles.lastCell : {}]}>
+                                    <DataTable.Row key={rowIndex} style={[styles.rowWithBorder, rowIndex === state.currentPageData.length - 1 ? styles.lastRow : { borderRightWidth: 1, borderRightColor: color.white, }]}>
+                                        {rowData && rowData?.map((cellData, cellIndex) => (
+                                            <DataTable.Cell
+                                                key={cellIndex}
+                                                style={[
+                                                    styles.cellWithBorder,
+                                                    cellWidths[cellIndex] || {}
+                                                ]}
+                                            >
                                                 <Text style={styles.conatinertext}>{cellData}</Text>
                                             </DataTable.Cell>
                                         ))}
@@ -158,31 +194,43 @@ const styles = StyleSheet.create({
         color: color.primaryRed
     },
     datatable: {
-        borderWidth: rh(0.2),
+        borderWidth: rh(0),
         borderColor: color.white,
-        borderRadius: 12
+        borderRadius: 12,
+        marginVertical: rh(3)
     },
     headerview: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginTop: rh(2.2),
     },
     container: {
-        margin: 26,
-        marginTop: rh(3)
+        margin: rw(6),
+        marginTop: rh(3),
     },
     headerRow: {
         backgroundColor: '#333333',
         borderTopRightRadius: 12,
         borderTopLeftRadius: 12,
+        borderWidth: rw(0.3),
+        borderColor: color.white,
+        flexDirection: 'row',
     },
     conatinertextheader: {
         color: color.white,
         fontFamily: "Montserrat-Bold",
         fontSize: rf(1.3),
+        backgroundColor: '#FF385680',
+        paddingHorizontal: rh(1.2),
+        paddingVertical: rh(0.5),
+        borderRadius: 12,
+        textAlign: 'center',
     },
     conatinertext: {
         color: color.white,
         fontFamily: "Montserrat-SemiBold",
         fontSize: rf(1.1),
+        padding: rw(1),
+        textAlign: 'center',
     },
     loadercss: {
         marginLeft: rw(35),
@@ -193,14 +241,18 @@ const styles = StyleSheet.create({
         borderBottomColor: color.white,
         borderLeftWidth: 1,
         borderLeftColor: color.white,
+        flexDirection: 'row',
     },
     lastRow: {
-        borderBottomWidth: 1,
-    },
-    cellWithBorder: {
         borderRightWidth: 1,
         borderRightColor: color.white,
-        padding: 8,
+        // borderBottomWidth: 1,
+        borderBottomRightRadius: 12,
+        borderBottomLeftRadius: 12,
+    },
+    cellWithBorder: {
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     lastCell: {
         borderRightWidth: 0,
@@ -210,4 +262,5 @@ const styles = StyleSheet.create({
         marginLeft: rw(17.5)
     }
 });
+
 

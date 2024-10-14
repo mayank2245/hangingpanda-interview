@@ -3,7 +3,7 @@ import { MotiView } from 'moti';
 import { Skeleton } from 'moti/skeleton';
 import { color } from '../constant/color';
 import { StyleSheet, View } from 'react-native';
-import { rf, rh, rw } from '../helpers/responsivedimention';
+import { rf, rh, rw } from './responsivedimention';
 
 const SkeletonCard = () => {
     return (

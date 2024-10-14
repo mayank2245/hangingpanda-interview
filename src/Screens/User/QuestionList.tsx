@@ -20,7 +20,7 @@ import { Loader } from '../../components/Loader';
 import CustomModal from '../../components/Modal';
 import { BackgroundImage } from '../../assests/images';
 import TimeDuration from '../../components/TimeDuration';
-import { ApiService } from '../../api/apicalls/ApiCalls';
+import { ApiService } from '../../api/apiCalls/ApiCalls';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
 import React from 'react';
 import QuestionListSkeleton from '../../helpers/skeletonUserData';

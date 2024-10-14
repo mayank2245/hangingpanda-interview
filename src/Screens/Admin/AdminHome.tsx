@@ -191,9 +191,9 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   overlay: {
+    flex: 1,
     backgroundColor: color.black,
-    opacity: 0.8,
-    height: rh(100),
+    opacity: 0.85,
   },
   filePickerContainer: {
     marginTop: rh(3),
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
   },
   logoImage: {
     position: 'absolute',
-    marginTop: rh(63),
+    marginTop: rh(65),
     width: rw(3),
     height: rh(4),
     marginLeft: rw(4)
@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
     fontSize: rf(4.4),
     height: rh(18),
     width: rw(55),
-    marginTop: rh(78),
+    marginTop: rh(82),
     marginLeft: rw(5),
   },
   modalcss: {

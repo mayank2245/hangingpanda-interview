@@ -180,9 +180,9 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     overlay: {
+        flex: 1,
         backgroundColor: color.black,
-        opacity: 0.8,
-        height: rh(100),
+        opacity: 0.85,
     },
     filePickerContainer: {
         marginTop: rh(3),

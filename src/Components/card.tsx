@@ -13,9 +13,10 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import CustomModal from './Modal';
 import { color } from '../constant/color';
-import { randomColor } from '../helpers/randomColor';
-import { ApiService } from '../api/apicalls/ApiCalls';
+
+import { ApiService } from '../api/apiCalls/ApiCalls';
 import { rf, rh, rw } from '../helpers/responsivedimention'
+import { randomColor } from '../helpers/randomColor';
 
 interface CardProps {
     paperId: number,

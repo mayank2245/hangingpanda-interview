@@ -8,7 +8,6 @@ interface CustomModalProps {
     content: any;
     modaloverlaycss: ViewStyle;
     contentcss: ViewStyle;
-
 }
 
 const CustomModal: React.FC<CustomModalProps> = ({ visible, onClose, content, modaloverlaycss, contentcss }) => {

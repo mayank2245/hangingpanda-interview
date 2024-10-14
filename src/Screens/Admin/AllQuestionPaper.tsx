@@ -8,7 +8,7 @@ import Card from '../../components/Card';
 import { color } from '../../constant/color';
 import SkeletonCard from '../../helpers/skeletonData';
 import { BackgroundImage } from '../../assests/images';
-import { ApiService } from '../../api/apicalls/ApiCalls';
+import { ApiService } from '../../api/apiCalls/ApiCalls';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BackArrow from '../../components/BackArrow';
@@ -85,8 +85,11 @@ export default function AllQuestionPaper() {
                         <>
                             <View style={styles.headerbox}>
                                 <View style={styles.headerview}>
-                                    <Text style={styles.headertext}>Total Question Paper:</Text>
-                                    <Text style={styles.headertext}>{filteredQuestions.length}</Text>
+                                    <View style={styles.viewsubheaderbox}>
+                                        <Text style={styles.headertext}>Total</Text>
+                                        <Text style={styles.headertext}>Question</Text>
+                                    </View>
+                                    <Text style={styles.headertextno}>{filteredQuestions.length}</Text>
                                 </View>
                                 <View style={styles.headerboxflat}>
                                     <FlatList
@@ -133,10 +136,10 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     overlay: {
+        flex: 1,
         backgroundColor: color.black,
-        height: rh(100),
+        opacity: 0.85,
     },
-
     paperList: {
         marginTop: rh(3.4),
         marginBottom: rh(1),
@@ -149,27 +152,32 @@ const styles = StyleSheet.create({
         marginBottom: rh(6),
     },
     viewflatlist: {
-        marginBottom: rh(29),
+        marginBottom: rh(25),
     },
     headerbox: {
         backgroundColor: color.primaryRed,
         borderWidth: rw(0.3),
-        padding: 20,
+        paddingHorizontal: rw(5),
         marginHorizontal: 16,
         height: rh(20),
         borderRadius: 30,
-        marginTop: 10,
+        marginTop: rh(1),
         marginBottom: rh(0.8)
     },
     headerview: {
         flexDirection: 'row',
-        gap: 8,
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
     headertext: {
-        marginTop: rh(2),
         color: color.white,
         fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(3),
+    },
+    headertextno: {
+        color: color.white,
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: rf(10),
     },
     itemtype: {
         marginRight: 10,
@@ -194,7 +202,7 @@ const styles = StyleSheet.create({
     },
     headerboxflat: {
         marginLeft: rw(1),
-        marginTop: rh(5),
+        marginTop: rh(1),
         width: rw(80)
     },
     textheaderbox: {
@@ -202,6 +210,10 @@ const styles = StyleSheet.create({
         fontFamily: "Montserrat-SemiBold"
     },
     backarrow: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginTop: rh(2.2)
+    },
+    viewsubheaderbox: {
+        justifyContent: 'center'
     }
 });
