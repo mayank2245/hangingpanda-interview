@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -16,11 +16,18 @@ export default function Home({ route }: any) {
     const [answer, setAnswer] = useState("");
     const [focusText, setFocusText] = useState(false);
 
+    useEffect(() => {
+        if (data.type === "Input") {
+            setAnswer(itemes?.answer)
+        }
+    }, [])
+
+
     const handlesubmit = (item: any) => {
         if (item.type === "Input") {
             item.answer = answer;
         }
-        navigation.navigate("QuestionList", { data });
+        navigation.navigate("QuestionList", { item: data });
         setAnswer("");
     };
 
@@ -111,7 +118,7 @@ const styles = StyleSheet.create({
         marginBottom: rh(1),
         marginTop: rh(1.5),
         fontSize: rf(2.2),
-        marginHorizontal: rw(5),
+        marginLeft: rw(6)
     },
     anscss: {
         textAlignVertical: 'top',
@@ -216,6 +223,7 @@ const styles = StyleSheet.create({
         paddingBottom: 120
     },
     backarrow: {
+        marginTop: rh(1),
         flexDirection: 'row',
     },
     viewmcq: {

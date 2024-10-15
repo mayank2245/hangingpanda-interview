@@ -21,6 +21,7 @@ export default function AllQuestionPaper() {
     const navigation = useNavigation();
 
 
+
     const handlegetallQues = async () => {
         const token = await AsyncStorage.getItem('MYtoken');
         if (token) {
@@ -103,7 +104,7 @@ export default function AllQuestionPaper() {
                                                     styles.itemtype,
                                                     selectedtype === item
                                                         ? { backgroundColor: color.white }
-                                                        : { borderWidth: rw(0.4) }
+                                                        : { borderWidth: rw(0.4), borderColor: color.white }
                                                 ]}
                                             >
                                                 <Text style={[styles.textheaderbox, selectedtype === item ? { color: color.black, } : { color: color.white }]}>{item}</Text>
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
     overlay: {
         flex: 1,
         backgroundColor: color.black,
-        opacity: 0.85,
+        opacity: 0.9,
     },
     paperList: {
         marginTop: rh(3.4),
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
         marginBottom: rh(6),
     },
     viewflatlist: {
-        marginBottom: rh(25),
+        marginBottom: rh(28),
     },
     headerbox: {
         backgroundColor: color.primaryRed,
@@ -201,9 +202,8 @@ const styles = StyleSheet.create({
         marginTop: rh(2.4)
     },
     headerboxflat: {
-        marginLeft: rw(1),
         marginTop: rh(1),
-        width: rw(80)
+
     },
     textheaderbox: {
         paddingHorizontal: rh(0.8),

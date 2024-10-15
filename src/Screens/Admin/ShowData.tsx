@@ -17,7 +17,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { color } from '../../constant/color';
-import CustomModal from '../../components/Modal';
 import { ShowToast } from '../../helpers/toast';
 import { dataText } from '../../constant/staticData';
 import { BackgroundImage } from '../../assests/images';
@@ -25,6 +24,7 @@ import { ApiService } from '../../api/apiCalls/ApiCalls';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
 import { Add, AddQues, CrossIcon, Upload } from '../../assests/svg';
 import BackArrow from '../../components/BackArrow';
+import CustomModal from '../../components/Modal';
 
 export default function Showdata({ route }: any) {
   const { data, data2, questionData } = route.params;
@@ -165,6 +165,11 @@ export default function Showdata({ route }: any) {
             renderItem={renderItem}
           />
         </View>
+
+
+
+
+
         <TouchableOpacity
           activeOpacity={0.8}
           style={[style.addquescss]}
@@ -209,6 +214,7 @@ export default function Showdata({ route }: any) {
                     }
                   </>
                 )}
+                showsVerticalScrollIndicator={false}
                 keyExtractor={item => item.sn}
               />
             </View>
@@ -269,7 +275,8 @@ const style = StyleSheet.create({
     opacity: 0.9,
   },
   headerview: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginTop: rh(1.2)
   },
   uploadcss: {
     height: rh(8),

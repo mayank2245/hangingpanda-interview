@@ -17,13 +17,16 @@ import DocumentPicker from 'react-native-document-picker';
 import IconArrow from 'react-native-vector-icons/AntDesign';
 import IconCsv from 'react-native-vector-icons/FontAwesome5';
 
-import CustomModal from '../../components/Modal';
+
 import { color } from '../../constant/color';
 import { csvToJson } from '../../helpers/csvToJson';
 import { dataText } from '../../constant/staticData';
 import { BackgroundImage } from '../../assests/images';
 import { AddQues, CrossIcon, Logo } from '../../assests/svg';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
+import CustomModal from '../../components/Modal';
+
+
 
 export default function App(): React.JSX.Element {
   const [selectedFile, setSelectedFile] = useState<any>(null);
