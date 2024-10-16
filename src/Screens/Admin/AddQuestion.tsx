@@ -14,13 +14,13 @@ import WheelPicker from '@quidone/react-native-wheel-picker';
 
 import Add from "../../assests/svg/add";
 import { color } from "../../constant/color";
-import CustomModal from "../../components/Modal";
 import Addques from '../../assests/svg/addQues';
 import CrossIcon from "../../assests/svg/crossIcon";
 import { BackgroundImage } from "../../assests/images";
 import { dataText, alphabet } from '../../constant/staticData'
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import BackArrow from "../../components/BackArrow";
+import CustomModal from "../../components/Modal";
 
 
 

@@ -124,8 +124,9 @@ const styles = StyleSheet.create({
     },
 
     timebar2Text: {
+        color: 'black',
         position: 'absolute',
-        marginTop: 35,
+        top: rh(4.2),
         marginLeft: 105,
         fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(1.6),

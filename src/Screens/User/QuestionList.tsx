@@ -1,5 +1,7 @@
 import {
     Alert,
+    AppState,
+    BackHandler,
     FlatList,
     ImageBackground,
     Pressable,
@@ -31,6 +33,27 @@ export default function QuestionList({ route }: any) {
     const [data, setdata] = useState();
     const [visibleModal, setVisibleModal] = useState(false);
     const [paperduration, setPaperduration] = useState<number>(60)
+    const [appState, setAppState] = useState(AppState.currentState);
+
+    useEffect(() => {
+        const handleAppStateChange = (nextAppState: any) => {
+            if (appState.match(/active/) && nextAppState === 'background') {
+                handlesubmitpaper();
+            }
+            setAppState(nextAppState);
+        };
+
+        const subscription = AppState.addEventListener('change', handleAppStateChange);
+        return () => subscription.remove();
+    }, [appState]);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+            e.preventDefault();
+            setVisibleModal(true)
+        });
+        return unsubscribe;
+    }, [navigation]);
 
     const handlepressques = (data: any) => {
         navigation.navigate("UserHome", { itemes: data });
@@ -82,8 +105,13 @@ export default function QuestionList({ route }: any) {
 
 
     const handlesubmitpaper = () => {
+        console.log("Paper Submited")
         mutation.mutate()
     }
+
+    useEffect(() => {
+
+    })
 
     const modal = () => (
         <>

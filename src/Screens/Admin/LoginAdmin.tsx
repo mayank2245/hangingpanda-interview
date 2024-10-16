@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     textShowCss2: {
         fontFamily: 'Montserrat-Bold',
         color: color.primaryRed,
-        fontSize: rf(3.5),
+        fontSize: rf(3.2),
         paddingLeft: rw(4),
         paddingTop: rh(1.7),
         lineHeight: rh(3.4)
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
         marginTop: rh(3),
     },
     ellipsisloading: {
-        marginLeft: rw(40),
+        marginLeft: rw(38.2),
         borderWidth: 2,
         borderColor: 'red',
         justifyContent: 'center',
@@ -204,8 +204,8 @@ const styles = StyleSheet.create({
     },
     loaderstyle: {
         position: 'absolute',
-        top: rh(86.5),
-        left: rw(45.8)
+        top: rh(90),
+        left: rw(45)
     },
     discriptionText: {
         fontFamily: 'Montserrat-Bold',

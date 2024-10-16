@@ -7,7 +7,7 @@ import {
     Text,
     View
 } from "react-native";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import { color } from "../../constant/color";
@@ -18,6 +18,8 @@ import BackArrow from "../../components/BackArrow";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Dropdown } from "react-native-element-dropdown";
 import Entypo from "react-native-vector-icons/Entypo";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function AddQuestion() {
     const [candidateName, setcandidateName] = useState("")
@@ -26,6 +28,22 @@ export default function AddQuestion() {
     const [papertype, setPapertype] = useState<string>('')
     const [value, setValue] = useState(null);
     const navigation = useNavigation();
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [selectedtime, setSelectedtime] = useState()
+
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+
+    const handleConfirm = (date: any) => {
+        console.warn("A date has been picked: ", date);
+        setSelectedtime(date)
+        hideDatePicker();
+    };
 
     const PaperTypeDropDown = [
         {
@@ -111,35 +129,46 @@ export default function AddQuestion() {
                         <Text style={styles.enterQues}>Enter Candidate Email:</Text>
                         <TextInput onChangeText={setcandidateEmail} value={candidateEmail} style={styles.textQues} placeholder="Enter Candidate Email" placeholderTextColor="#FF3856" cursorColor="#FF3856"></TextInput>
                     </View>
-                    <View>
 
-                        <Text style={styles.enterQues}>Select Candidate Paper Type:</Text>
-                        <View style={styles.papertypeview}>
-                            <Dropdown
-                                style={styles.dropdown}
-                                dropdownPosition='bottom'
-                                placeholderStyle={styles.placeholderStyle}
-                                selectedTextStyle={styles.selectedTextStyle}
-                                iconStyle={styles.iconStyle}
-                                data={PaperTypeDropDown}
-                                containerStyle={styles.containerStyle}
-                                itemContainerStyle={styles.itemcontainer}
-                                maxHeight={300}
-                                labelField="name"
-                                valueField="name"
-                                placeholder="Select Paper Type"
-                                iconColor={'red'}
-                                value={value}
-                                onChange={item => {
-                                    setPapertype(item.name);
-                                    setValue(item.name)
-                                }}
-                                renderItem={renderItem}
-                            />
-                        </View>
+                    <Text style={styles.enterQues}>Candidate Paper Type:</Text>
+                    <View style={styles.papertypeview}>
+                        <Dropdown
+                            style={styles.dropdown}
+                            dropdownPosition='bottom'
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            iconStyle={styles.iconStyle}
+                            data={PaperTypeDropDown}
+                            containerStyle={styles.containerStyle}
+                            itemContainerStyle={styles.itemcontainer}
+                            maxHeight={300}
+                            labelField="name"
+                            valueField="name"
+                            placeholder="Select Paper Type"
+                            iconColor={'red'}
+                            value={value}
+                            onChange={item => {
+                                setPapertype(item.name);
+                                setValue(item.name)
+                            }}
+                            renderItem={renderItem}
+                        />
                     </View>
-
-
+                    <Text style={styles.enterQues}>Candidate Interview Timing:</Text>
+                    <TouchableOpacity onPress={() => setDatePickerVisibility(!isDatePickerVisible)}><Text style={styles.enterQues2}>Select Interview Timing</Text></TouchableOpacity>
+                    <DateTimePickerModal
+                        isVisible={isDatePickerVisible}
+                        mode="time"
+                        onConfirm={handleConfirm}
+                        onCancel={hideDatePicker}
+                    />
+                    <DateTimePickerModal
+                        isVisible={isDatePickerVisible}
+                        mode="date"
+                        onConfirm={handleConfirm}
+                        onCancel={hideDatePicker}
+                    />
+                    <Text style={styles.enterQues2}>{selectedtime}</Text>
                     <View style={styles.addbutton}>
                         <TouchableOpacity
                             activeOpacity={0.8}
@@ -197,6 +226,13 @@ const styles = StyleSheet.create({
         marginTop: rh(2),
         marginHorizontal: rh(3.8)
     },
+    enterQues2: {
+        fontFamily: 'Montserrat-SemiBold',
+        color: color.white,
+        fontSize: rf(2.3),
+        marginTop: rh(2),
+        marginHorizontal: rh(3.8)
+    },
     addquescss: {
         justifyContent: 'center',
         alignItems: "center",
@@ -225,7 +261,6 @@ const styles = StyleSheet.create({
         marginVertical: rh(1.8),
         alignSelf: 'center',
         marginTop: rh(1),
-        marginBottom: rh(6)
     },
     dropdown: {
         height: rh(6.5),
@@ -266,6 +301,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     textItem: {
+        color: color.bacgroundlightblack,
         flex: 1,
         fontSize: rf(2),
         fontFamily: 'Montserrat-SemiBold'
