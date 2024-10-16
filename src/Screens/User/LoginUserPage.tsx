@@ -16,13 +16,11 @@ import { color } from "../../constant/color";
 import { BackgroundImage } from "../../assests/images";
 import { Loginellips, Logo } from "../../assests/svg";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
-import { Screen } from "react-native-screens";
 
-export default function LoginUserPage() {
+export default function LoginUserPage({ }) {
     const navigation = useNavigation();
     const [userId, setUserId] = useState("")
     const [name, setName] = useState("")
-    const [screen, setScreen] = useState<"Admin" | "User" | "Hr">()
 
     return (
         <View>

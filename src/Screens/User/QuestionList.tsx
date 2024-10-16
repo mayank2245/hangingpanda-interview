@@ -1,9 +1,10 @@
 import {
-    Alert,
     AppState,
     BackHandler,
+    DeviceEventEmitter,
     FlatList,
     ImageBackground,
+    Platform,
     Pressable,
     StatusBar,
     StyleSheet,
@@ -18,42 +19,79 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { color } from '../../constant/color';
 import Addques from '../../assests/svg/addQues';
 import { ShowToast } from '../../helpers/toast';
-import { Loader } from '../../components/Loader';
 import CustomModal from '../../components/Modal';
 import { BackgroundImage } from '../../assests/images';
 import TimeDuration from '../../components/TimeDuration';
 import { ApiService } from '../../api/apiCalls/ApiCalls';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
+import { Alert } from '../../assests/lottie';
 import React from 'react';
 import QuestionListSkeleton from '../../helpers/skeletonUserData';
+import LottieView from 'lottie-react-native';
 
 export default function QuestionList({ route }: any) {
     const { item } = route.params;
     const navigation = useNavigation();
     const [data, setdata] = useState();
-    const [visibleModal, setVisibleModal] = useState(false);
     const [paperduration, setPaperduration] = useState<number>(60)
     const [appState, setAppState] = useState(AppState.currentState);
+    const [backgoing, setBackgoing] = useState(false);
+    const [visibleModal, setVisibleModal] = useState(false);
 
     useEffect(() => {
-        const handleAppStateChange = (nextAppState: any) => {
-            if (appState.match(/active/) && nextAppState === 'background') {
-                handlesubmitpaper();
-            }
-            setAppState(nextAppState);
+        const handleAppStateBlur = () => {
+            setBackgoing(true);
         };
 
-        const subscription = AppState.addEventListener('change', handleAppStateChange);
-        return () => subscription.remove();
+        if (Platform.OS === 'android') {
+            AppState.addEventListener('blur', handleAppStateBlur);
+        }
+
+        // Cleanup function to remove the event listener
+        return () => {
+            if (Platform.OS === 'android') {
+                AppState.removeEventListener('blur', handleAppStateBlur);
+
+            }
+        };
+    }, []);
+
+
+
+
+    useEffect(() => {
+        const appStateListener = AppState.addEventListener('change', nextAppState => {
+            console.log('Next AppState is: ', nextAppState);
+
+            if (appState.match(/active/) && nextAppState === 'background') {
+                handlesubmitpaper();
+                setBackgoing(false)
+                navigation.navigate("QuitScreen");
+            }
+            if (nextAppState === 'inactive') {
+                console.log('App is inactive');
+                // Add any additional logic you want to execute in the inactive state here
+            }
+
+            setAppState(nextAppState);
+        });
+
+        return () => {
+            appStateListener?.remove();
+        };
     }, [appState]);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('beforeRemove', (e) => {
             e.preventDefault();
-            setVisibleModal(true)
+            setBackgoing(true);
         });
         return unsubscribe;
     }, [navigation]);
+
+
+
+
 
     const handlepressques = (data: any) => {
         navigation.navigate("UserHome", { itemes: data });
@@ -108,10 +146,24 @@ export default function QuestionList({ route }: any) {
         console.log("Paper Submited")
         mutation.mutate()
     }
+    const modal2 = () => (
+        <>
+            <LottieView
+                source={Alert}
+                style={styles.lottieview}
+                autoPlay
+            />
+            <Text style={styles.modalText}>
+                You cannot exit while the test is in progress
+            </Text>
+            <Pressable style={styles.modalboxOk} onPress={() => { setBackgoing(false) }}>
+                <Text style={styles.modalText2}>ok</Text>
+            </Pressable>
+        </>
+    );
 
-    useEffect(() => {
 
-    })
+
 
     const modal = () => (
         <>
@@ -121,7 +173,7 @@ export default function QuestionList({ route }: any) {
             <Pressable style={styles.modalbox} onPress={handlesubmitpaper}>
                 <Text style={styles.modalText2}>Yes</Text>
             </Pressable>
-            <Pressable style={styles.modalbox} onPress={() => setVisibleModal(false)}>
+            <Pressable style={styles.modalbox} onPress={() => { setVisibleModal(false), setBackgoing(false) }}>
                 <Text style={styles.modalText2}>No</Text>
             </Pressable>
         </>
@@ -136,7 +188,7 @@ export default function QuestionList({ route }: any) {
                         :
                         <>
                             <View style={styles.timeduration}>
-                                <TimeDuration paperduration={paperduration} animationStart={false} initalHeight={4} />
+                                <TimeDuration paperduration={paperduration} animationStart={false} initalHeight={4} countDownStart={true} />
                             </View>
                             <View style={styles.flatviewcss}>
                                 <FlatList
@@ -165,11 +217,18 @@ export default function QuestionList({ route }: any) {
                             </View>
                             <CustomModal
                                 visible={visibleModal}
-                                onClose={() => setVisibleModal(false)}
+                                onClose={() => { setVisibleModal(false), setBackgoing(false) }}
                                 content={modal()}
                                 modaloverlaycss={styles.modaloverlayCss}
                                 contentcss={styles.modalcss}
                             />
+                            {!visibleModal && <CustomModal
+                                visible={backgoing}
+                                onClose={() => setBackgoing(false)}
+                                content={modal2()}
+                                modaloverlaycss={styles.modaloverlayCss}
+                                contentcss={styles.modalcss}
+                            />}
                             <TouchableOpacity
                                 activeOpacity={0.8}
                                 style={styles.submitcss}
@@ -242,6 +301,15 @@ const styles = StyleSheet.create({
         width: rw(40),
         height: rh(5),
     },
+    modalboxOk: {
+        marginHorizontal: rw(28),
+        justifyContent: 'center',
+        backgroundColor: color.primaryRed,
+        borderRadius: 10,
+        marginVertical: rh(1.6),
+        width: rw(40),
+        height: rh(5),
+    },
     modalText: {
         fontFamily: 'Montserrat-SemiBold',
         textAlign: 'center',
@@ -304,5 +372,9 @@ const styles = StyleSheet.create({
     },
     isloader: {
         marginTop: rh(40)
-    }
+    },
+    lottieview: {
+        width: "100%",
+        height: "42%",
+    },
 });
