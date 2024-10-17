@@ -5,15 +5,79 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import { color } from "../../constant/color";
-import { Arrow, Loginellips, Logo } from "../../assests/svg";
+import { Arrow, Ellipse, Loginellips, Logo } from "../../assests/svg";
 import { BackgroundImage } from "../../assests/images";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
+import { ApiService } from "../../api/apiCalls/ApiCalls";
+import { useMutation } from "@tanstack/react-query";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ShowToast } from "../../helpers/toast";
+import { Loader } from "../../components/Loader";
 
 export default function LoginUserPage() {
     const [userId, setUserId] = useState("")
-    const [name, setName] = useState("")
-
+    const [email, setEmail] = useState("")
+    const [callApi, setCallApi] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const navigation = useNavigation();
+
+    const loginhandle = async () => {
+        const payload = {
+            email: email,
+            hrID: userId
+        }
+        const res = await ApiService.login(payload)
+        return res
+    }
+    const mutation = useMutation({
+        mutationKey: ["passingKeyLoginhr"],
+        mutationFn: loginhandle,
+        onSuccess: async data => {
+            if (data?.data.token) {
+                await AsyncStorage.setItem('MYtoken', data.data.token);
+            }
+            setIsLoading(false)
+
+            navigation.navigate('HrHome')
+            setUserId("")
+            setEmail("")
+        },
+        onError: () => { setIsLoading(false); ShowToast("error", "Please Check your id and email") }
+    })
+
+    const handlepress = () => {
+        if (userId === "") {
+            const type = "error";
+            const text1 = "Please fill the Admin Id";
+            ShowToast(type, text1);
+        }
+        else if (email === "") {
+            const type = "error";
+            const text1 = "Please fill the Email Id";
+            ShowToast(type, text1);
+        }
+        else if (callApi === false) {
+            const type = "error";
+            const text1 = "Please enter correct Email Id";
+            ShowToast(type, text1);
+        }
+        else {
+            setIsLoading(true)
+            setCallApi(false)
+            mutation.mutate()
+        }
+    }
+
+    const handleValidEmail = (text: any) => {
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if (reg.test(text) === false) {
+            setCallApi(false)
+            return false;
+        } else {
+            setCallApi(true)
+        }
+    }
+
 
     return (
         <View>
@@ -39,14 +103,31 @@ export default function LoginUserPage() {
                         <Text style={[styles.discriptionText, { color: color.white }]}>Pls Enter your Details here to enter in your interview process</Text>
                         <View style={styles.viewTextInp}>
                             <TextInput keyboardType="numeric" onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="Hr Id" placeholderTextColor={color.primaryRed} cursorColor={color.primaryRed} />
-                            <TextInput onChangeText={setName} value={name} style={styles.textQues} placeholder="Email Id" placeholderTextColor={color.primaryRed} cursorColor={color.primaryRed} />
+                            <TextInput
+                                style={styles.textQues}
+                                placeholder="Email Id"
+                                placeholderTextColor={color.primaryRed}
+                                cursorColor={color.primaryRed}
+                                value={email}
+                                autoCorrect={false}
+                                autoCapitalize="none"
+                                onChangeText={value => {
+                                    setEmail(value.trim());
+                                    handleValidEmail(value);
+                                }}
+                            />
                             <TouchableOpacity
                                 activeOpacity={0.6}
-                                onPress={
-                                    () => { navigation.navigate('HrHome') }
-                                }>
-                                <Loginellips style={styles.arrowCss} />
+                                onPress={handlepress}
+                                style={styles.ellipetouchable}>
+                                {!isLoading && <Loginellips style={styles.ellipseCss} />}
                             </TouchableOpacity>
+                            {isLoading && <><Ellipse style={styles.ellipsisloading} />
+                                <View style={styles.loaderstyle}>
+                                    <Loader isLoading={isLoading} />
+                                </View>
+                            </>}
+
                         </View>
                     </KeyboardAwareScrollView>
                 </View>
@@ -106,6 +187,28 @@ const styles = StyleSheet.create({
         marginTop: rh(6),
         marginBottom: rh(3)
     },
-
+    ellipseCss: {
+        borderWidth: 2,
+        borderColor: 'red',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: rh(3),
+    },
+    ellipsisloading: {
+        marginLeft: rw(38.2),
+        borderWidth: 2,
+        borderColor: 'red',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: rh(3),
+    },
+    ellipetouchable: {
+        alignSelf: 'center'
+    },
+    loaderstyle: {
+        position: 'absolute',
+        top: rh(25),
+        left: rw(45)
+    },
 })
 

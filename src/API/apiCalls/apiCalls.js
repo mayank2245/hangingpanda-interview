@@ -37,7 +37,7 @@ export const ApiService = {
             URL: `${apiUrl.allQuestionPaperType}`,
         })
     },
-    getinterview: async (email, interviewId) => {
+    getinterview: async ({ email, interviewId }) => {
         return fireAjax({
             method: 'GET',
             URL: `${apiUrl.getinterview}?email=${email}&interviewId=${interviewId}`,

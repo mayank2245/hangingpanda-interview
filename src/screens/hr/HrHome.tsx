@@ -142,7 +142,7 @@ export default function App(): React.JSX.Element {
                                         <TouchableOpacity
                                             activeOpacity={0.8}
                                             style={[styles.addquestion]}
-                                            onPress={() => navigation.navigate("AllStudentList", { candidateData: { email: "afsd", interviewDate: "2024-09-10T10:00:00Z", name: "asd", questionPaperType: "DSA" } })}
+                                            onPress={() => navigation.navigate("AllStudentList", { candidateData: { email: "Hanging@gmail.com", interviewDate: "2024-09-10T10:00:00Z", name: "Hanging", questionPaperType: "DSA" } })}
                                         >
                                             <View style={styles.addquesManually}>
                                                 <AddQues />

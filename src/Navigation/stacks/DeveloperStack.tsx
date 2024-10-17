@@ -18,6 +18,7 @@ import HrHome from '../../screens/hr/HrHome';
 import AllStudentList from '../../screens/hr/AllStudentList';
 import AddStudent from '../../screens/hr/AddStudent';
 import StudentCsvFormate from '../../screens/hr/StudentCsvFormate';
+import QuitScreen from '../../screens/user/QuitScreen';
 
 const DeveloperStack = () => {
     const stack = createNativeStackNavigator();
@@ -28,6 +29,7 @@ const DeveloperStack = () => {
             <stack.Screen name="LandingPage" component={LandingPage} />
             <stack.Screen name="LoginAdmin" component={LoginAdmin} />
             <stack.Screen name="AllQuestionPaper" component={AllQuestionPaper} />
+            <stack.Screen name="QuitScreen" component={QuitScreen} />
             <stack.Screen name="ShowData" component={showdata} />
             <stack.Screen name="AdminHome" component={AdminHome} />
             <stack.Screen options={{ presentation: 'modal' }} name="QuesFormateModal" component={QuesFormateModal} />

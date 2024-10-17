@@ -19,9 +19,9 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { Dropdown } from "react-native-element-dropdown";
 import Entypo from "react-native-vector-icons/Entypo";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import DateTimePicker from '@react-native-community/datetimepicker';
 
-export default function AddQuestion() {
+export default function AddQuestion({ route }: any) {
+    const { candidatNo } = route.params;
     const [candidateName, setcandidateName] = useState("")
     const [candidateEmail, setcandidateEmail] = useState("")
     const [candidateDate, setcandidateDate] = useState()
@@ -29,6 +29,7 @@ export default function AddQuestion() {
     const [value, setValue] = useState(null);
     const navigation = useNavigation();
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [questiontype] = useState<string[]>(["Name", "Email", "Python", "Java", "DSA"]);
     const [selectedtime, setSelectedtime] = useState()
 
     const showDatePicker = () => {
@@ -121,12 +122,11 @@ export default function AddQuestion() {
                         <BackArrow />
                         <Text style={styles.paperList}>Add Candidate</Text>
                     </View>
+                    <Text style={styles.paperList}>Candidate No: {candidatNo + 1}</Text>
                     <View style={{ marginBottom: rh(1) }}>
-                        <Text style={styles.enterQues}>Enter Candidate Name:</Text>
                         <TextInput onChangeText={setcandidateName} value={candidateName} style={styles.textQues} placeholder="Enter Candidate Name" placeholderTextColor="#FF3856" cursorColor="#FF3856"></TextInput>
                     </View>
                     <View style={{ marginBottom: rh(1) }}>
-                        <Text style={styles.enterQues}>Enter Candidate Email:</Text>
                         <TextInput onChangeText={setcandidateEmail} value={candidateEmail} style={styles.textQues} placeholder="Enter Candidate Email" placeholderTextColor="#FF3856" cursorColor="#FF3856"></TextInput>
                     </View>
 
@@ -177,10 +177,22 @@ export default function AddQuestion() {
                         >
                             <View style={styles.addquessubmit}>
                                 <Addques />
-                                <Text style={styles.addquesText}>Add</Text>
+                                <Text style={styles.addquesText}>Next</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
+                    {/* <View style={styles.addbutton}>
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            style={styles.addquescss}
+                            onPress={handleadd}
+                        >
+                            <View style={styles.addquessubmit}>
+                                <Addques />
+                                <Text style={styles.addquesText}>Add</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View> */}
                 </View>
             </ImageBackground >
         </View >
@@ -196,7 +208,8 @@ const styles = StyleSheet.create({
         opacity: 0.85,
     },
     headerview: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginTop: rh(1.2)
     },
     paperList: {
         marginTop: rh(3.5),

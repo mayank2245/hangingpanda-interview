@@ -37,7 +37,7 @@ export default function LoginUserPage() {
         return res
     }
     const mutation = useMutation({
-        mutationKey: ["passingKey123"],
+        mutationKey: ["passingKeyLoginAdmin"],
         mutationFn: loginhandle,
         onSuccess: async data => {
             if (data?.data.token) {
@@ -132,7 +132,6 @@ export default function LoginUserPage() {
                                 <Loader isLoading={isLoading} />
                             </View>
                         </>}
-
                     </KeyboardAwareScrollView>
                 </View>
             </ImageBackground >

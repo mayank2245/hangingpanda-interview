@@ -9,9 +9,10 @@ interface TimeDurationProps {
     paperduration: number
     animationStart: boolean
     initalHeight: 2 | 4
+    countDownStart: true | false
 }
 
-const TimeDuration: React.FC<TimeDurationProps> = ({ paperduration, animationStart, initalHeight }) => {
+const TimeDuration: React.FC<TimeDurationProps> = ({ paperduration, animationStart, initalHeight, countDownStart }) => {
     const [time, setTime] = useState<number>(paperduration);
     const [timeLeft, setTimeLeft] = useState(60 * time);
     const [animate, setAnimate] = useState(animationStart);
@@ -23,15 +24,17 @@ const TimeDuration: React.FC<TimeDurationProps> = ({ paperduration, animationSta
 
     useEffect(() => {
         if (!timeLeft) return;
-        const intervalId = setInterval(() => {
-            setTimeLeft((prev) => {
-                const newTimeLeft = prev - 1;
-                const percentage = (newTimeLeft / (60 * time)) * rw(93);
-                progress.value = withTiming(percentage, { duration: 1000 });
-                return newTimeLeft;
-            });
-        }, 1000);
-        return () => clearInterval(intervalId);
+        if (countDownStart) {
+            const intervalId = setInterval(() => {
+                setTimeLeft((prev) => {
+                    const newTimeLeft = prev - 1;
+                    const percentage = (newTimeLeft / (60 * time)) * rw(93);
+                    progress.value = withTiming(percentage, { duration: 1000 });
+                    return newTimeLeft;
+                });
+            }, 1000);
+            return () => clearInterval(intervalId);
+        }
     }, [timeLeft]);
 
     const animatedStyle = useAnimatedStyle(() => {
@@ -97,7 +100,7 @@ const TimeDuration: React.FC<TimeDurationProps> = ({ paperduration, animationSta
                             duration: 300,
                         }
 
-                        } style={styles.timebar2Text}>Remaining time: {Math.floor(timeLeft / 60)} mins</Text>
+                        } style={styles.timebar2Text}>Remaining time: {Math.floor(timeLeft / 60)} mins {Math.floor(timeLeft - (Math.floor(timeLeft / 60) * 60))} sec</Text>
                 </View>
             </AnimatePresence>
         </TouchableOpacity>
@@ -127,7 +130,7 @@ const styles = StyleSheet.create({
         color: 'black',
         position: 'absolute',
         top: rh(4.2),
-        marginLeft: 105,
+        marginLeft: 85,
         fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(1.6),
         textAlign: 'center',

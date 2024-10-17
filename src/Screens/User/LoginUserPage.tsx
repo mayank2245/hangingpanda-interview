@@ -14,15 +14,84 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 import { color } from "../../constant/color";
 import { BackgroundImage } from "../../assests/images";
-import { Loginellips, Logo } from "../../assests/svg";
+import { Ellipse, Loginellips, Logo } from "../../assests/svg";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
-import { Screen } from "react-native-screens";
+import { ApiService } from "../../api/apiCalls/ApiCalls";
+import { QueryClient, useMutation } from "@tanstack/react-query";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ShowToast } from "../../helpers/toast";
+import { Loader } from "../../components/Loader";
 
-export default function LoginUserPage() {
-    const navigation = useNavigation();
+export default function LoginUserPage({ }) {
     const [userId, setUserId] = useState("")
-    const [name, setName] = useState("")
-    const [screen, setScreen] = useState<"Admin" | "User" | "Hr">()
+    const [email, setEmail] = useState("")
+    const [callApi, setCallApi] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const navigation = useNavigation();
+
+
+
+    const loginhandle = async () => {
+        const payload = {
+            email: email,
+            interviewId: userId
+        }
+        const res = await ApiService.getinterview(payload)
+        return res
+    }
+    const queryClient = new QueryClient()
+    const mutation = useMutation({
+        mutationKey: ["passingKeyLoginUser"],
+        mutationFn: loginhandle,
+        onSuccess: async data => {
+            if (data?.data.questions) {
+                await AsyncStorage.setItem("MyPaper", JSON.stringify(data.data.questions));
+                await AsyncStorage.setItem("PaperDuration", JSON.stringify(data.data.timeLimit));
+                queryClient.setQueryData("passingKeyLoginUser", data);
+            }
+            navigation.navigate('Instruction')
+            setIsLoading(false)
+            setUserId("")
+            setEmail("")
+        },
+        onError: () => {
+            setIsLoading(false);
+            ShowToast("error", "Please Check your id and email");
+        }
+    });
+
+    const handlepress = () => {
+        if (userId === "") {
+            const type = "error";
+            const text1 = "Please fill the User Id";
+            ShowToast(type, text1);
+        }
+        else if (email === "") {
+            const type = "error";
+            const text1 = "Please fill the Email Id";
+            ShowToast(type, text1);
+        }
+        else if (callApi === false) {
+            const type = "error";
+            const text1 = "Please enter correct Email Id";
+            ShowToast(type, text1);
+        }
+        else {
+            setIsLoading(true)
+            setCallApi(false)
+            mutation.mutate()
+        }
+    }
+
+    const handleValidEmail = (text: any) => {
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if (reg.test(text) === false) {
+            setCallApi(false)
+            return false;
+        } else {
+            setCallApi(true)
+        }
+    }
 
     return (
         <View>
@@ -46,15 +115,31 @@ export default function LoginUserPage() {
                                 talent.</Text>
                         </View>
                         <Text style={styles.discriptionText}>Pls Enter your Details here to enter in your interview process</Text>
-                        <TextInput keyboardType="numeric" onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="Interview Id" placeholderTextColor={color.primaryRed} cursorColor={color.primaryRed} />
-                        <TextInput onChangeText={setName} value={name} style={styles.textQues} placeholder="Email Id" placeholderTextColor={color.primaryRed} cursorColor={color.primaryRed} />
+                        <TextInput keyboardType="numeric" onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="User Id" placeholderTextColor={color.primaryRed} cursorColor={color.primaryRed} />
+                        <TextInput
+                            style={styles.textQues}
+                            placeholder="Email Id"
+                            placeholderTextColor={color.primaryRed}
+                            cursorColor={color.primaryRed}
+                            value={email}
+                            autoCorrect={false}
+                            autoCapitalize="none"
+                            onChangeText={value => {
+                                setEmail(value.trim());
+                                handleValidEmail(value);
+                            }}
+                        />
                         <TouchableOpacity
                             activeOpacity={0.6}
-                            onPress={
-                                () => { navigation.navigate('Instruction') }
-                            }>
-                            <Loginellips style={styles.arrowCss} />
+                            onPress={handlepress}
+                            style={styles.ellipetouchable}>
+                            {!isLoading && <Loginellips style={styles.ellipseCss} />}
                         </TouchableOpacity>
+                        {isLoading && <><Ellipse style={styles.ellipsisloading} />
+                            <View style={styles.loaderstyle}>
+                                <Loader isLoading={isLoading} />
+                            </View>
+                        </>}
                     </KeyboardAwareScrollView>
                 </View>
             </ImageBackground >
@@ -119,6 +204,29 @@ const styles = StyleSheet.create({
         marginTop: rh(6),
         marginBottom: rh(3),
         color: color.white
+    },
+    ellipseCss: {
+        borderWidth: 2,
+        borderColor: 'red',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: rh(3),
+    },
+    ellipsisloading: {
+        marginLeft: rw(38.2),
+        borderWidth: 2,
+        borderColor: 'red',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: rh(3),
+    },
+    ellipetouchable: {
+        alignSelf: 'center'
+    },
+    loaderstyle: {
+        position: 'absolute',
+        top: rh(87),
+        left: rw(45)
     },
 
 })
