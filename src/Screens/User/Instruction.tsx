@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LottieView from "lottie-react-native";
 import { useNavigation } from '@react-navigation/native';
 import IconArrow from 'react-native-vector-icons/AntDesign';
@@ -16,12 +16,26 @@ import { BackgroundImage } from '../../assests/images';
 import TimeDuration from '../../components/TimeDuration';
 import { Alert, Checklist, Panda } from '../../assests/lottie';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Instruction() {
     const navigation = useNavigation();
-    const [time, setTime] = useState<number>(60);
-    const [timebar, setTimebar] = useState<boolean>(true);
     const [nextButton, setNextButton] = useState<number>(1);
+    const [paperduration, setPaperduration] = useState<number>()
+
+
+    useEffect(() => {
+        const handle = async () => {
+            try {
+                const paperduration = await AsyncStorage.getItem('PaperDuration');
+                if (paperduration !== null) {
+                    setPaperduration(JSON.parse(paperduration))
+                }
+            } catch (error) {
+            }
+        }
+        handle()
+    }, [])
 
     const handleNextButton = () => {
         if (nextButton < 3) {
@@ -37,7 +51,7 @@ export default function Instruction() {
                     <View>
                         <Text style={styles.textTime}>Timer</Text>
                         <View style={styles.timeduration}>
-                            <TimeDuration paperduration={time} animationStart={false} initalHeight={4} countDownStart={false} />
+                            {paperduration && <TimeDuration paperduration={paperduration} animationStart={false} initalHeight={4} countDownStart={false} />}
                         </View>
                         <Text style={styles.instructionText}>
                             You have a timer at the top of the screen to track your exam duration. Ensure you manage your time effectively for each question type: input, MCQ, and blank space.

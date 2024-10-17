@@ -23,6 +23,8 @@ export default function Home({ route }: any) {
     }, [])
 
 
+
+
     const handlesubmit = (item: any) => {
         if (item.type === "Input") {
             item.answer = answer;

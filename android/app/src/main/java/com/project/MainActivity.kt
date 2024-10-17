@@ -8,6 +8,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
 
+
 class MainActivity : ReactActivity() {
 
     /**

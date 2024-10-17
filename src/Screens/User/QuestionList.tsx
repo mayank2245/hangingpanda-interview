@@ -14,7 +14,7 @@ import {
 } from 'react-native'
 import { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
 
 import { color } from '../../constant/color';
 import Addques from '../../assests/svg/addQues';
@@ -28,15 +28,20 @@ import { Alert } from '../../assests/lottie';
 import React from 'react';
 import QuestionListSkeleton from '../../helpers/skeletonUserData';
 import LottieView from 'lottie-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function QuestionList({ route }: any) {
-    const { item } = route.params;
+    const item = route.params;
+    console.log(item.item, "--------params")
     const navigation = useNavigation();
     const [data, setdata] = useState();
-    const [paperduration, setPaperduration] = useState<number>(60)
+    const [paperduration, setPaperduration] = useState<number>()
     const [appState, setAppState] = useState(AppState.currentState);
     const [backgoing, setBackgoing] = useState(false);
     const [visibleModal, setVisibleModal] = useState(false);
+    const queryClient = new QueryClient()
+    const dataapi = queryClient.getQueryData("passingKeyLoginUser")
+    console.log(dataapi, "---dataApi");
 
     useEffect(() => {
         const handleAppStateBlur = () => {
@@ -57,19 +62,44 @@ export default function QuestionList({ route }: any) {
     }, []);
 
 
+    useEffect(() => {
+        const handle = async () => {
+            try {
+                const myquestion = await AsyncStorage.getItem('MyPaper');
+                if (myquestion !== null) {
+                    setdata(JSON.parse(myquestion))
+                }
+                const paperduration = await AsyncStorage.getItem('PaperDuration');
+                if (paperduration !== null) {
+                    setPaperduration(JSON.parse(paperduration))
+                }
+            } catch (error) {
+            }
+        }
+        handle()
+    }, [])
+    useEffect(() => {
+        if (item?.item?.sn) {
+            const updatedData = data?.map((ei: any) => {
+                if (item?.item?.sn === ei.sn) {
+                    return { ...ei, ...item.item };
+                }
+                return ei;
+            });
+            setdata(updatedData);
+        }
+    }, [item]);
 
 
     useEffect(() => {
         const appStateListener = AppState.addEventListener('change', nextAppState => {
-            console.log('Next AppState is: ', nextAppState);
-
             if (appState.match(/active/) && nextAppState === 'background') {
                 handlesubmitpaper();
                 setBackgoing(false)
                 navigation.navigate("QuitScreen");
+                setBackgoing(false)
             }
             if (nextAppState === 'inactive') {
-                console.log('App is inactive');
                 // Add any additional logic you want to execute in the inactive state here
             }
 
@@ -89,16 +119,9 @@ export default function QuestionList({ route }: any) {
         return unsubscribe;
     }, [navigation]);
 
-
-
-
-
     const handlepressques = (data: any) => {
         navigation.navigate("UserHome", { itemes: data });
     };
-
-    const email = "test@example.com"
-    const interviewId = "CD126FBTYG"
 
     const getquestionhandle = async () => {
         const res = await ApiService.getinterview(email, interviewId)
@@ -120,8 +143,8 @@ export default function QuestionList({ route }: any) {
 
     const submitpaperhandle = async () => {
         const payload = {
-            email: email,
-            interviewId: interviewId,
+            email: "email",
+            interviewId: "interviewId",
             name: "vikas",
             questionPaperType: "MCQ",
             totalTime: paperduration,
@@ -141,11 +164,10 @@ export default function QuestionList({ route }: any) {
         onError: () => { ShowToast("error", "Please Check your id and email") }
     })
 
-
     const handlesubmitpaper = () => {
-        console.log("Paper Submited")
         mutation.mutate()
     }
+
     const modal2 = () => (
         <>
             <LottieView
@@ -162,9 +184,6 @@ export default function QuestionList({ route }: any) {
         </>
     );
 
-
-
-
     const modal = () => (
         <>
             <Text style={styles.modalText}>
@@ -178,6 +197,7 @@ export default function QuestionList({ route }: any) {
             </Pressable>
         </>
     );
+
     return (
         <View>
             <StatusBar backgroundColor={'transparent'} translucent={true} />
@@ -188,7 +208,7 @@ export default function QuestionList({ route }: any) {
                         :
                         <>
                             <View style={styles.timeduration}>
-                                <TimeDuration paperduration={paperduration} animationStart={false} initalHeight={4} countDownStart={true} />
+                                {paperduration && <TimeDuration paperduration={paperduration} animationStart={false} initalHeight={4} countDownStart={true} />}
                             </View>
                             <View style={styles.flatviewcss}>
                                 <FlatList
