@@ -1,9 +1,10 @@
 import {
-    Alert,
     AppState,
     BackHandler,
+    DeviceEventEmitter,
     FlatList,
     ImageBackground,
+    Platform,
     Pressable,
     StatusBar,
     StyleSheet,
@@ -13,44 +14,104 @@ import {
 } from 'react-native'
 import { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
 
 import { color } from '../../constant/color';
 import Addques from '../../assests/svg/addQues';
 import { ShowToast } from '../../helpers/toast';
-import { Loader } from '../../components/Loader';
 import CustomModal from '../../components/Modal';
 import { BackgroundImage } from '../../assests/images';
 import TimeDuration from '../../components/TimeDuration';
 import { ApiService } from '../../api/apiCalls/ApiCalls';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
+import { Alert } from '../../assests/lottie';
 import React from 'react';
 import QuestionListSkeleton from '../../helpers/skeletonUserData';
+import LottieView from 'lottie-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function QuestionList({ route }: any) {
-    const { item } = route.params;
+    const item = route.params;
     const navigation = useNavigation();
     const [data, setdata] = useState();
-    const [visibleModal, setVisibleModal] = useState(false);
-    const [paperduration, setPaperduration] = useState<number>(60)
+    const [paperduration, setPaperduration] = useState<number>()
     const [appState, setAppState] = useState(AppState.currentState);
+    const [backgoing, setBackgoing] = useState(false);
+    const [visibleModal, setVisibleModal] = useState(false);
+    const queryClient = new QueryClient()
+    const dataapi = queryClient.getQueryData("passingKeyLoginUser")
 
     useEffect(() => {
-        const handleAppStateChange = (nextAppState: any) => {
-            if (appState.match(/active/) && nextAppState === 'background') {
-                handlesubmitpaper();
-            }
-            setAppState(nextAppState);
+        const handleAppStateBlur = () => {
+            setBackgoing(true);
         };
 
-        const subscription = AppState.addEventListener('change', handleAppStateChange);
-        return () => subscription.remove();
+        if (Platform.OS === 'android') {
+            AppState.addEventListener('blur', handleAppStateBlur);
+        }
+
+        // Cleanup function to remove the event listener
+        return () => {
+            if (Platform.OS === 'android') {
+                AppState.removeEventListener('blur', handleAppStateBlur);
+
+            }
+        };
+    }, []);
+
+
+    useEffect(() => {
+        const handle = async () => {
+            try {
+                const myquestion = await AsyncStorage.getItem('MyPaper');
+                if (myquestion !== null) {
+                    setdata(JSON.parse(myquestion))
+                }
+                const paperduration = await AsyncStorage.getItem('PaperDuration');
+                if (paperduration !== null) {
+                    setPaperduration(JSON.parse(paperduration))
+                }
+            } catch (error) {
+            }
+        }
+        handle()
+    }, [])
+    useEffect(() => {
+        if (item?.item?.sn) {
+            const updatedData = data?.map((ei: any) => {
+                if (item?.item?.sn === ei.sn) {
+                    return { ...ei, ...item.item };
+                }
+                return ei;
+            });
+            setdata(updatedData);
+        }
+    }, [item]);
+
+    useEffect(() => {
+        const appStateListener = AppState.addEventListener('change', nextAppState => {
+            if (appState.match(/active/) && nextAppState === 'background') {
+                handlesubmitpaper();
+                setBackgoing(false)
+                navigation.navigate("QuitScreen");
+                setBackgoing(false)
+            }
+            if (nextAppState === 'inactive') {
+                // Add any additional logic you want to execute in the inactive state here
+            }
+
+            setAppState(nextAppState);
+        });
+
+        return () => {
+            appStateListener?.remove();
+        };
     }, [appState]);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('beforeRemove', (e) => {
             e.preventDefault();
-            setVisibleModal(true)
+            setBackgoing(true);
         });
         return unsubscribe;
     }, [navigation]);
@@ -58,9 +119,6 @@ export default function QuestionList({ route }: any) {
     const handlepressques = (data: any) => {
         navigation.navigate("UserHome", { itemes: data });
     };
-
-    const email = "test@example.com"
-    const interviewId = "CD126FBTYG"
 
     const getquestionhandle = async () => {
         const res = await ApiService.getinterview(email, interviewId)
@@ -82,8 +140,8 @@ export default function QuestionList({ route }: any) {
 
     const submitpaperhandle = async () => {
         const payload = {
-            email: email,
-            interviewId: interviewId,
+            email: "email",
+            interviewId: "interviewId",
             name: "vikas",
             questionPaperType: "MCQ",
             totalTime: paperduration,
@@ -103,15 +161,34 @@ export default function QuestionList({ route }: any) {
         onError: () => { ShowToast("error", "Please Check your id and email") }
     })
 
-
     const handlesubmitpaper = () => {
-        console.log("Paper Submited")
         mutation.mutate()
     }
 
-    useEffect(() => {
+    const handleNotSubmit = () => {
+        setVisibleModal(false)
+        setBackgoing(false)
+    }
+    const handleOncloseModal = () => {
+        setVisibleModal(false)
+        setBackgoing(false)
+    }
 
-    })
+    const modal2 = () => (
+        <>
+            <LottieView
+                source={Alert}
+                style={styles.lottieview}
+                autoPlay
+            />
+            <Text style={styles.modalText}>
+                You cannot exit while the test is in progress
+            </Text>
+            <Pressable style={styles.modalboxOk} onPress={() => { setBackgoing(false) }}>
+                <Text style={styles.modalText2}>ok</Text>
+            </Pressable>
+        </>
+    );
 
     const modal = () => (
         <>
@@ -121,11 +198,12 @@ export default function QuestionList({ route }: any) {
             <Pressable style={styles.modalbox} onPress={handlesubmitpaper}>
                 <Text style={styles.modalText2}>Yes</Text>
             </Pressable>
-            <Pressable style={styles.modalbox} onPress={() => setVisibleModal(false)}>
+            <Pressable style={styles.modalbox} onPress={handleNotSubmit}>
                 <Text style={styles.modalText2}>No</Text>
             </Pressable>
         </>
     );
+
     return (
         <View>
             <StatusBar backgroundColor={'transparent'} translucent={true} />
@@ -136,7 +214,7 @@ export default function QuestionList({ route }: any) {
                         :
                         <>
                             <View style={styles.timeduration}>
-                                <TimeDuration paperduration={paperduration} animationStart={false} initalHeight={4} />
+                                {paperduration && <TimeDuration paperduration={paperduration} animationStart={false} initalHeight={4} countDownStart={true} />}
                             </View>
                             <View style={styles.flatviewcss}>
                                 <FlatList
@@ -165,11 +243,18 @@ export default function QuestionList({ route }: any) {
                             </View>
                             <CustomModal
                                 visible={visibleModal}
-                                onClose={() => setVisibleModal(false)}
+                                onClose={handleOncloseModal}
                                 content={modal()}
                                 modaloverlaycss={styles.modaloverlayCss}
                                 contentcss={styles.modalcss}
                             />
+                            {!visibleModal && <CustomModal
+                                visible={backgoing}
+                                onClose={() => setBackgoing(false)}
+                                content={modal2()}
+                                modaloverlaycss={styles.modaloverlayCss}
+                                contentcss={styles.modalcss}
+                            />}
                             <TouchableOpacity
                                 activeOpacity={0.8}
                                 style={styles.submitcss}
@@ -242,6 +327,15 @@ const styles = StyleSheet.create({
         width: rw(40),
         height: rh(5),
     },
+    modalboxOk: {
+        marginHorizontal: rw(28),
+        justifyContent: 'center',
+        backgroundColor: color.primaryRed,
+        borderRadius: 10,
+        marginVertical: rh(1.6),
+        width: rw(40),
+        height: rh(5),
+    },
     modalText: {
         fontFamily: 'Montserrat-SemiBold',
         textAlign: 'center',
@@ -304,5 +398,9 @@ const styles = StyleSheet.create({
     },
     isloader: {
         marginTop: rh(40)
-    }
+    },
+    lottieview: {
+        width: "100%",
+        height: "42%",
+    },
 });

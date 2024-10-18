@@ -135,7 +135,7 @@ export default function AddQuestion({ route }: any) {
                         <TouchableOpacity
                             activeOpacity={0.8}
                             style={styles.addquescss}
-                            onPress={() => navigation.navigate("AddStudent")}
+                            onPress={() => navigation.navigate("AddStudent", { candidatNo: questionList.length })}
                         >
                             <View style={styles.addquessubmit}>
                                 <Addques />
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
         fontSize: rf(3),
     },
     allcandidate: {
-        height: rh(89)
+        height: rh(96)
     },
     viewheaderbox: {
         flexDirection: 'row',

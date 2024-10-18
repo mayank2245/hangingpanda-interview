@@ -23,6 +23,8 @@ export default function Home({ route }: any) {
     }, [])
 
 
+
+
     const handlesubmit = (item: any) => {
         if (item.type === "Input") {
             item.answer = answer;
@@ -43,7 +45,7 @@ export default function Home({ route }: any) {
                 <BackArrow />
                 <Text style={styles.quesnumber}>Question No. {data.sn}</Text>
             </View>
-            <TimeDuration paperduration={60} animationStart={true} initalHeight={2} />
+            <TimeDuration paperduration={23} animationStart={true} initalHeight={2} countDownStart={true} />
             <Text style={styles.quescss}>
                 Q{data.sn}. {data.question}
             </Text>
