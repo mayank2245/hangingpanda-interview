@@ -32,7 +32,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function QuestionList({ route }: any) {
     const item = route.params;
-    console.log(item.item, "--------params")
     const navigation = useNavigation();
     const [data, setdata] = useState();
     const [paperduration, setPaperduration] = useState<number>()
@@ -41,7 +40,6 @@ export default function QuestionList({ route }: any) {
     const [visibleModal, setVisibleModal] = useState(false);
     const queryClient = new QueryClient()
     const dataapi = queryClient.getQueryData("passingKeyLoginUser")
-    console.log(dataapi, "---dataApi");
 
     useEffect(() => {
         const handleAppStateBlur = () => {
@@ -89,7 +87,6 @@ export default function QuestionList({ route }: any) {
             setdata(updatedData);
         }
     }, [item]);
-
 
     useEffect(() => {
         const appStateListener = AppState.addEventListener('change', nextAppState => {
@@ -168,6 +165,15 @@ export default function QuestionList({ route }: any) {
         mutation.mutate()
     }
 
+    const handleNotSubmit = () => {
+        setVisibleModal(false)
+        setBackgoing(false)
+    }
+    const handleOncloseModal = () => {
+        setVisibleModal(false)
+        setBackgoing(false)
+    }
+
     const modal2 = () => (
         <>
             <LottieView
@@ -192,7 +198,7 @@ export default function QuestionList({ route }: any) {
             <Pressable style={styles.modalbox} onPress={handlesubmitpaper}>
                 <Text style={styles.modalText2}>Yes</Text>
             </Pressable>
-            <Pressable style={styles.modalbox} onPress={() => { setVisibleModal(false), setBackgoing(false) }}>
+            <Pressable style={styles.modalbox} onPress={handleNotSubmit}>
                 <Text style={styles.modalText2}>No</Text>
             </Pressable>
         </>
@@ -237,7 +243,7 @@ export default function QuestionList({ route }: any) {
                             </View>
                             <CustomModal
                                 visible={visibleModal}
-                                onClose={() => { setVisibleModal(false), setBackgoing(false) }}
+                                onClose={handleOncloseModal}
                                 content={modal()}
                                 modaloverlaycss={styles.modaloverlayCss}
                                 contentcss={styles.modalcss}

@@ -19,7 +19,6 @@ export default function App() {
     init().finally(async () => {
       // Hide BootSplash after the initialization tasks are done
       await BootSplash.hide({ fade: true });
-      console.log("BootSplash has been hidden successfully");
     });
   }, []);
 

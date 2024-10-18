@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
         color: 'black',
         position: 'absolute',
         top: rh(4.2),
-        marginLeft: 85,
+        marginLeft: rw(23),
         fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(1.6),
         textAlign: 'center',
