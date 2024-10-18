@@ -5,46 +5,34 @@ import {
     TextInput,
     TouchableOpacity,
     Text,
-    View
+    View,
+    Button
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import Entypo from 'react-native-vector-icons/Entypo';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { color } from "../../constant/color";
 import Addques from '../../assests/svg/addQues';
 import { BackgroundImage } from "../../assests/images";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import BackArrow from "../../components/BackArrow";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Dropdown } from "react-native-element-dropdown";
-import Entypo from "react-native-vector-icons/Entypo";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export default function AddQuestion({ route }: any) {
     const { candidatNo } = route.params;
-    const [candidateName, setcandidateName] = useState("")
-    const [candidateEmail, setcandidateEmail] = useState("")
-    const [candidateDate, setcandidateDate] = useState()
-    const [papertype, setPapertype] = useState<string>('')
+    const [candidateName, setcandidateName] = useState<string>("")
+    const [candidateEmail, setcandidateEmail] = useState<string>("")
+    const [papertype, setPapertype] = useState<string>("")
     const [value, setValue] = useState(null);
     const navigation = useNavigation();
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [questiontype] = useState<string[]>(["Name", "Email", "Python", "Java", "DSA"]);
-    const [selectedtime, setSelectedtime] = useState()
-
-    const showDatePicker = () => {
-        setDatePickerVisibility(true);
-    };
-
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
-    };
-
-    const handleConfirm = (date: any) => {
-        console.warn("A date has been picked: ", date);
-        setSelectedtime(date)
-        hideDatePicker();
-    };
+    const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+    const [questionfocus, setQuestionfocus] = useState<"Name" | "Email" | "PaperType" | "Date" | "Time" | "">("")
+    const [date, setDate] = useState<Date>(new Date('2024-10-18T00:00:00'));
 
     const PaperTypeDropDown = [
         {
@@ -82,7 +70,6 @@ export default function AddQuestion({ route }: any) {
         }
     ]
 
-
     const handleadd = () => {
         const candidateData = {
             name: candidateName,
@@ -109,6 +96,22 @@ export default function AddQuestion({ route }: any) {
         );
     };
 
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setDatePickerVisibility(false);
+        setTimePickerVisibility(false);
+        setDate(currentDate);
+    };
+
+    const showDatepicker = () => {
+        setQuestionfocus('Date')
+        setDatePickerVisibility(true);
+    };
+
+    const showTimepicker = () => {
+        setQuestionfocus('Time')
+        setTimePickerVisibility(true);
+    };
 
     return (
         <View>
@@ -122,20 +125,15 @@ export default function AddQuestion({ route }: any) {
                         <BackArrow />
                         <Text style={styles.paperList}>Add Candidate</Text>
                     </View>
-                    <Text style={styles.paperList}>Candidate No: {candidatNo + 1}</Text>
-                    <View style={{ marginBottom: rh(1) }}>
-                        <TextInput onChangeText={setcandidateName} value={candidateName} style={styles.textQues} placeholder="Enter Candidate Name" placeholderTextColor="#FF3856" cursorColor="#FF3856"></TextInput>
-                    </View>
-                    <View style={{ marginBottom: rh(1) }}>
-                        <TextInput onChangeText={setcandidateEmail} value={candidateEmail} style={styles.textQues} placeholder="Enter Candidate Email" placeholderTextColor="#FF3856" cursorColor="#FF3856"></TextInput>
-                    </View>
-
-                    <Text style={styles.enterQues}>Candidate Paper Type:</Text>
+                    <Text style={styles.paperListSub}>Candidate No: {candidatNo + 1}</Text>
+                    <TextInput onChangeText={setcandidateName} value={candidateName} onFocus={() => setQuestionfocus("Name")} onBlur={() => setQuestionfocus("")} style={[styles.textQues, questionfocus === "Name" ? { borderColor: color.timebarRed, } : { borderColor: color.primaryRed }]} placeholder="Candidate Name" placeholderTextColor={questionfocus === "Name" ? color.timebarRed : color.primaryRed} cursorColor="#FF3856"></TextInput>
+                    <TextInput onChangeText={setcandidateEmail} value={candidateEmail} onFocus={() => setQuestionfocus("Email")} onBlur={() => setQuestionfocus("")} style={[styles.textQues, questionfocus === "Email" ? { borderColor: color.timebarRed, } : { borderColor: color.primaryRed }]} placeholder="Candidate Email" placeholderTextColor={questionfocus === "Email" ? color.timebarRed : color.primaryRed} cursorColor="#FF3856"></TextInput>
                     <View style={styles.papertypeview}>
                         <Dropdown
-                            style={styles.dropdown}
+                            onFocus={() => setQuestionfocus("PaperType")}
+                            style={[styles.dropdown, questionfocus === "PaperType" ? { borderColor: color.timebarRed } : { borderColor: color.primaryRed }]}
                             dropdownPosition='bottom'
-                            placeholderStyle={styles.placeholderStyle}
+                            placeholderStyle={[styles.placeholderStyle, questionfocus === "PaperType" ? { color: color.timebarRed } : { color: color.primaryRed }]}
                             selectedTextStyle={styles.selectedTextStyle}
                             iconStyle={styles.iconStyle}
                             data={PaperTypeDropDown}
@@ -145,7 +143,7 @@ export default function AddQuestion({ route }: any) {
                             labelField="name"
                             valueField="name"
                             placeholder="Select Paper Type"
-                            iconColor={'red'}
+                            iconColor={questionfocus === "PaperType" ? color.timebarRed : color.primaryRed}
                             value={value}
                             onChange={item => {
                                 setPapertype(item.name);
@@ -154,21 +152,56 @@ export default function AddQuestion({ route }: any) {
                             renderItem={renderItem}
                         />
                     </View>
-                    <Text style={styles.enterQues}>Candidate Interview Timing:</Text>
-                    <TouchableOpacity onPress={() => setDatePickerVisibility(!isDatePickerVisible)}><Text style={styles.enterQues2}>Select Interview Timing</Text></TouchableOpacity>
-                    <DateTimePickerModal
-                        isVisible={isDatePickerVisible}
-                        mode="time"
-                        onConfirm={handleConfirm}
-                        onCancel={hideDatePicker}
-                    />
-                    <DateTimePickerModal
-                        isVisible={isDatePickerVisible}
-                        mode="date"
-                        onConfirm={handleConfirm}
-                        onCancel={hideDatePicker}
-                    />
-                    <Text style={styles.enterQues2}>{selectedtime}</Text>
+                    {isDatePickerVisible && <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        mode='date'
+                        minimumDate={new Date()}
+                        is24Hour={true}
+                        textColor="#FFFFFF"
+                        positiveButton={{ label: 'OK', textColor: color.primaryRed }}
+                        negativeButton={{ label: 'Cancel', textColor: color.primaryRed }}
+                        onChange={onChange}
+                    />}
+                    {isTimePickerVisible && <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        minimumDate={new Date()}
+                        mode='time'
+                        is24Hour={false}
+                        style={{ width: 20, borderColor: color.primaryRed }}
+                        accentColor={color.primaryRed}
+                        positiveButton={{ label: 'OK', textColor: color.primaryRed }}
+                        negativeButton={{ label: 'Cancel', textColor: color.primaryRed }}
+                        textColor={color.primaryRed}
+                        onChange={onChange}
+                    />}
+                    <View style={[styles.timepicker, questionfocus === "Date" ? { borderColor: color.timebarRed } : { borderColor: color.primaryRed }]}>
+                        <View style={styles.timepickersub}>
+                            {date.getTime() === new Date('2024-10-18T00:00:00').getTime() ? <Text style={styles.ShowcandidateSub2}>Interview Date</Text> : <Text style={styles.ShowcandidateSub}>{date?.toLocaleDateString()}</Text>}
+                        </View>
+                        <TouchableOpacity onPress={showDatepicker}>
+                            <EvilIcons
+                                style={styles.icon}
+                                color={questionfocus === "Date" ? color.timebarRed : color.primaryRed}
+                                name="calendar"
+                                size={35}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={[styles.timepicker, questionfocus === "Time" ? { borderColor: color.timebarRed } : { borderColor: color.primaryRed }]}>
+                        <View style={styles.timepickersub}>
+                            {date.getTime() === new Date('2024-10-18T00:00:00').getTime() ? <Text style={styles.ShowcandidateSub2}>Interview Time</Text> : <Text style={styles.ShowcandidateSub}>{date?.toLocaleTimeString()}</Text>}
+                        </View>
+                        <TouchableOpacity onPress={showTimepicker} >
+                            <MaterialCommunityIcons
+                                style={styles.icon2}
+                                color={questionfocus === 'Time' ? color.timebarRed : color.primaryRed}
+                                name="clock-time-nine-outline"
+                                size={27}
+                            />
+                        </TouchableOpacity>
+                    </View>
                     <View style={styles.addbutton}>
                         <TouchableOpacity
                             activeOpacity={0.8}
@@ -177,22 +210,10 @@ export default function AddQuestion({ route }: any) {
                         >
                             <View style={styles.addquessubmit}>
                                 <Addques />
-                                <Text style={styles.addquesText}>Next</Text>
+                                <Text style={styles.addquesText}>Submit</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
-                    {/* <View style={styles.addbutton}>
-                        <TouchableOpacity
-                            activeOpacity={0.8}
-                            style={styles.addquescss}
-                            onPress={handleadd}
-                        >
-                            <View style={styles.addquessubmit}>
-                                <Addques />
-                                <Text style={styles.addquesText}>Add</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View> */}
                 </View>
             </ImageBackground >
         </View >
@@ -219,15 +240,45 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-Bold',
         fontSize: rf(3),
     },
+    paperListSub: {
+        marginTop: rh(1.5),
+        marginBottom: rh(2),
+        marginLeft: rh(2),
+        color: color.white,
+        fontFamily: 'Montserrat-Bold',
+        fontSize: rf(3),
+    },
+    Showcandidate: {
+        marginTop: rh(1.5),
+        marginBottom: rh(1),
+        color: color.white,
+        fontFamily: 'Montserrat-Bold',
+        fontSize: rf(2),
+    },
+    ShowcandidateSub: {
+        marginTop: rh(1.5),
+        marginBottom: rh(1),
+        marginLeft: rh(1),
+        color: color.lightWhite,
+        fontFamily: 'Montserrat-Bold',
+        fontSize: rf(2),
+    },
+    ShowcandidateSub2: {
+        marginTop: rh(1.5),
+        marginBottom: rh(1),
+        marginLeft: rh(1),
+        color: color.primaryRed,
+        fontFamily: 'Montserrat-Bold',
+        fontSize: rf(2),
+    },
     textQues: {
         fontFamily: 'Montserrat-Bold',
-        color: color.white,
-        borderWidth: 3,
-        borderColor: color.primaryRed,
+        color: color.lightWhite,
+        borderWidth: rw(0.7),
         width: '85%',
         margin: 'auto',
         height: rh(6.5),
-        marginTop: rh(1),
+        marginTop: rh(1.8),
         borderRadius: 15,
         fontSize: rf(2.3),
         paddingHorizontal: rw(3.6),
@@ -280,18 +331,17 @@ const styles = StyleSheet.create({
         width: '85%',
         paddingHorizontal: rw(5),
         borderWidth: rh(0.3),
-        borderColor: color.primaryRed,
+        marginTop: rh(1.8),
         borderRadius: 15,
     },
     placeholderStyle: {
         fontSize: rf(2.2),
-        color: color.primaryRed,
         fontFamily: 'Montserrat-Bold',
     },
     selectedTextStyle: {
-        color: color.primaryRed,
         fontFamily: 'Montserrat-Bold',
         fontSize: rf(2.2),
+        color: color.lightWhite
     },
     iconStyle: {
         width: rw(4),
@@ -305,7 +355,10 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     icon: {
-        marginRight: rw(2),
+        marginTop: rh(0.7),
+    },
+    icon2: {
+        marginTop: rh(1),
     },
     item: {
         padding: rh(2),
@@ -319,4 +372,19 @@ const styles = StyleSheet.create({
         fontSize: rf(2),
         fontFamily: 'Montserrat-SemiBold'
     },
+    timepicker: {
+        marginTop: rh(1.8),
+        height: rh(6.5),
+        width: '85%',
+        paddingHorizontal: rw(5),
+        borderWidth: rh(0.3),
+        borderRadius: 15,
+        marginLeft: rw(8),
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+
+    },
+    timepickersub: {
+        flexDirection: 'row'
+    }
 })
