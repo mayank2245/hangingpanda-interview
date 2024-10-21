@@ -226,10 +226,11 @@ export default function QuestionList({ route }: any) {
                                                 Q {item.sn}. {item.question}
                                             </Text>
                                             {item.type === "Input" && (
-                                                <Text style={styles.textanswer}>{item.answer}</Text>
+                                                item.answer !== undefined && <Text style={styles.textanswer}>{item.answer}</Text>
                                             )}
+
                                             {item.type === "MCQ" &&
-                                                <View>
+                                                <View style={styles.mcqstyle}>
                                                     {
                                                         Object.entries(item.options).map(([key, value], i) => (
                                                             <Text key={i} style={[styles.textoption, item.correctOption === key ? { color: color.green } : { color: color.white }]}>{key}. {value}</Text>
@@ -287,12 +288,12 @@ const styles = StyleSheet.create({
         zIndex: 0,
         flex: 1,
         marginLeft: rw(5),
+        marginTop: rh(2)
     },
     FlatListques: {
         color: color.primaryRed,
         fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(1.8),
-        marginBottom: rh(1.6),
         marginTop: rh(1.8)
     },
     submitcss: {
@@ -379,7 +380,8 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-SemiBold',
         color: color.green,
         fontSize: rf(1.9),
-        marginLeft: rw(2.6)
+        marginLeft: rw(2.6),
+        marginTop: rh(1)
     },
     textoption: {
         fontFamily: 'Montserrat-SemiBold',
@@ -403,4 +405,7 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "42%",
     },
+    mcqstyle: {
+        marginTop: rh(2)
+    }
 });
