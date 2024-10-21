@@ -51,7 +51,7 @@ export default function Instruction() {
                     <View>
                         <Text style={styles.textTime}>Timer</Text>
                         <View style={styles.timeduration}>
-                            {paperduration && <TimeDuration paperduration={paperduration} animationStart={false} initalHeight={4} countDownStart={false} />}
+                            {paperduration && <TimeDuration paperduration={paperduration} animationStart={false} initalHeight={4} timeLeft={paperduration * 60} />}
                         </View>
                         <Text style={styles.instructionText}>
                             You have a timer at the top of the screen to track your exam duration. Ensure you manage your time effectively for each question type: input, MCQ, and blank space.

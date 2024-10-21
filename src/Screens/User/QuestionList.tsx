@@ -29,6 +29,7 @@ import React from 'react';
 import QuestionListSkeleton from '../../helpers/skeletonUserData';
 import LottieView from 'lottie-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSharedValue, withTiming } from 'react-native-reanimated';
 
 export default function QuestionList({ route }: any) {
     const item = route.params;
@@ -40,21 +41,18 @@ export default function QuestionList({ route }: any) {
     const [visibleModal, setVisibleModal] = useState(false);
     const queryClient = new QueryClient()
     const dataapi = queryClient.getQueryData("passingKeyLoginUser")
-
+    const [time, setTime] = useState<number>();
+    const [timeLeft, setTimeLeft] = useState(60 * time);
     useEffect(() => {
         const handleAppStateBlur = () => {
             setBackgoing(true);
         };
-
         if (Platform.OS === 'android') {
             AppState.addEventListener('blur', handleAppStateBlur);
         }
-
-        // Cleanup function to remove the event listener
         return () => {
             if (Platform.OS === 'android') {
                 AppState.removeEventListener('blur', handleAppStateBlur);
-
             }
         };
     }, []);
@@ -70,12 +68,15 @@ export default function QuestionList({ route }: any) {
                 const paperduration = await AsyncStorage.getItem('PaperDuration');
                 if (paperduration !== null) {
                     setPaperduration(JSON.parse(paperduration))
+                    setTime(JSON.parse(paperduration))
+                    setTimeLeft(JSON.parse(paperduration) * 60)
                 }
             } catch (error) {
             }
         }
         handle()
     }, [])
+
     useEffect(() => {
         if (item?.item?.sn) {
             const updatedData = data?.map((ei: any) => {
@@ -117,7 +118,7 @@ export default function QuestionList({ route }: any) {
     }, [navigation]);
 
     const handlepressques = (data: any) => {
-        navigation.navigate("UserHome", { itemes: data });
+        navigation.navigate("UserHome", { itemes: data, time: timeLeft, totalTime: paperduration });
     };
 
     const getquestionhandle = async () => {
@@ -173,6 +174,23 @@ export default function QuestionList({ route }: any) {
         setVisibleModal(false)
         setBackgoing(false)
     }
+    const progress = useSharedValue(rw(93));
+    useEffect(() => {
+        if (!timeLeft) return;
+        if (time) {
+            const intervalId = setInterval(() => {
+                setTimeLeft((prev) => {
+                    const newTimeLeft = prev - 1;
+                    const percentage = (newTimeLeft / (60 * time)) * rw(93);
+                    progress.value = withTiming(percentage, { duration: 1000 });
+                    return newTimeLeft;
+                });
+            }, 1000);
+
+            return () => clearInterval(intervalId);
+        }
+    }, [timeLeft]);
+
 
     const modal2 = () => (
         <>
@@ -214,7 +232,7 @@ export default function QuestionList({ route }: any) {
                         :
                         <>
                             <View style={styles.timeduration}>
-                                {paperduration && <TimeDuration paperduration={paperduration} animationStart={false} initalHeight={4} countDownStart={true} />}
+                                {time && paperduration && <TimeDuration paperduration={paperduration} animationStart={false} initalHeight={4} timeLeft={timeLeft} />}
                             </View>
                             <View style={styles.flatviewcss}>
                                 <FlatList

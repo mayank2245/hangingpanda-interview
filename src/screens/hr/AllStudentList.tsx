@@ -26,13 +26,14 @@ export default function AddQuestion({ route }: any) {
     const { candidateData } = route.params;
     const navigation = useNavigation();
     const [isLoading, setIsLoading] = useState(false);
-    const [filteredQuestions, setFilteredQuestions] = useState<any[]>([{ email: "Hanging@gmail.com", interviewDate: "2024-09-10T10:00:00Z", name: "Hanging", questionPaperType: "DSA" }]);
+    const [filteredQuestions, setFilteredQuestions] = useState<any[]>(candidateData);
     const [selectedType, setSelectedType] = useState<string>('All');
     const [questionList, setQuestionList] = useState<any[]>([{ email: "Hanging@gmail.com", interviewDate: "2024-09-10T10:00:00Z", name: "Hanging", questionPaperType: "DSA" }]);
 
     const handleSelectType = (item: string) => {
         setSelectedType(item);
     };
+    console.log(candidateData, "---CANDIDATE")
     useEffect(() => {
         const questions = [candidateData, ...questionList];
         setQuestionList(questions);
@@ -47,7 +48,7 @@ export default function AddQuestion({ route }: any) {
                 )
             );
         }
-    }, [candidateData, selectedType]);
+    }, [selectedType]);
 
     const handleDeleteCard = (candidateEmail: string) => {
         const updatedCandidate = filteredQuestions.filter((fli) => fli.email === candidateEmail)
@@ -123,7 +124,7 @@ export default function AddQuestion({ route }: any) {
                                         style={styles.flatliststyle}
                                         data={filteredQuestions}
                                         renderItem={({ item }: any) => (
-                                            <CandidateCard candidateName={item.name} interviewDate={item.interviewDate} candidateEmail={item.email} paperType={item.questionPaperType} onDelete={handleDeleteCard} />
+                                            <CandidateCard candidateName={item.name} interviewDate={item.interviewDate} candidateEmail={item.email} paperType={item.questionPaperType} onDelete={handleDeleteCard} inteviewTime={item.inteviewTime} />
                                         )}
                                         numColumns={2}
                                     />

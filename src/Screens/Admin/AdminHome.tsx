@@ -40,8 +40,9 @@ export default function App(): React.JSX.Element {
   const pickDocument = async () => {
     try {
       const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.csv],
+        type: [DocumentPicker.types.allFiles],
       });
+
       setSelectedFile(res);
       const fileContent = await RNFS.readFile(res[0].uri, 'utf8');
       const parsedResult = csvToJson(fileContent);

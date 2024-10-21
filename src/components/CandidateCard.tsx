@@ -17,14 +17,13 @@ import { rf, rh, rw } from '../helpers/responsivedimention'
 interface CardProps {
     candidateName: string,
     interviewDate: string,
+    inteviewTime: string,
     candidateEmail: string,
     paperType: string
     onDelete: (email: string) => void;
 }
 
-const CandidateCard: React.FC<CardProps> = ({ candidateName, candidateEmail, interviewDate, paperType, onDelete }) => {
-    const navigation = useNavigation();
-    const [singlePaperid, setSinglePaperid] = useState<any>()
+const CandidateCard: React.FC<CardProps> = ({ candidateName, candidateEmail, interviewDate, paperType, onDelete, inteviewTime }) => {
     const [visibleModal, setVisibleModal] = useState<boolean>(false)
     const [assignedColor, setAssignedColor] = useState();
 
@@ -80,7 +79,7 @@ const CandidateCard: React.FC<CardProps> = ({ candidateName, candidateEmail, int
                     size={15}
                 />
                 <Text style={styles.cardtext3}>
-                    {interviewDate}
+                    {interviewDate} ({inteviewTime})
                 </Text>
             </View>
             <Text style={styles.cardtext}>{paperType}</Text>

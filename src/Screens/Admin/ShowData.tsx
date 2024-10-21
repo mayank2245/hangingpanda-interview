@@ -184,6 +184,7 @@ export default function Showdata({ route }: any) {
     )
   }
 
+
   return (
     <SafeAreaView>
       <ImageBackground
