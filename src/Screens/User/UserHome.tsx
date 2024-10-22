@@ -7,11 +7,12 @@ import { color } from "../../constant/color";
 import BackArrow from "../../components/BackArrow";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import TimeDuration from "../../components/TimeDuration";
+import { useSharedValue, withTiming } from "react-native-reanimated";
 
 export default function Home({ route }: any) {
-    const { itemes } = route.params;
+    const { itemes, time, totalTime } = route.params;
     const navigation = useNavigation();
-
+    const [timeLeft, setTimeLeft] = useState(time);
     const [data, setData] = useState(itemes);
     const [answer, setAnswer] = useState("");
     const [focusText, setFocusText] = useState(false);
@@ -38,6 +39,20 @@ export default function Home({ route }: any) {
         setData(updatedData);
     };
 
+    useEffect(() => {
+        if (!timeLeft) return;
+        const intervalId = setInterval(() => {
+            setTimeLeft((prev) => {
+                const newTimeLeft = prev - 1;
+                const percentage = (newTimeLeft / (60 * time)) * rw(93);
+                process.value = withTiming(percentage, { duration: 1000 });
+                return newTimeLeft;
+            });
+        }, 1000);
+
+        return () => clearInterval(intervalId);
+    }, [timeLeft]);
+
     return (
         <View style={styles.safearea}>
             <StatusBar backgroundColor="transparent" translucent={true} />
@@ -45,7 +60,7 @@ export default function Home({ route }: any) {
                 <BackArrow />
                 <Text style={styles.quesnumber}>Question No. {data.sn}</Text>
             </View>
-            <TimeDuration paperduration={23} animationStart={true} initalHeight={2} countDownStart={true} />
+            <TimeDuration paperduration={totalTime} animationStart={true} initalHeight={2} timeLeft={timeLeft} />
             <Text style={styles.quescss}>
                 Q{data.sn}. {data.question}
             </Text>

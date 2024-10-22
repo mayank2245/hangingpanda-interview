@@ -12,11 +12,12 @@ import ReactNativeBlobUtil from 'react-native-blob-util'
 export default function ModalScreen({ navigation }: any) {
 
     const columnWidths = {
-        0: { width: rw(13.3), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
+        0: { width: rw(13), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
         1: { width: rw(29.4), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
         2: { width: rw(43.4), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
-        3: { width: rw(45.3), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
-        4: { width: rw(29), height: rh(6.5) },
+        3: { width: rw(45.5), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
+        4: { width: rw(45.3), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
+        5: { width: rw(29), height: rh(6.5) },
     };
 
     const cellWidths = {
@@ -24,17 +25,20 @@ export default function ModalScreen({ navigation }: any) {
         1: { width: rw(29), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
         2: { width: rw(43), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
         3: { width: rw(45), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
-        4: { width: rw(29), height: rh(6.3) },
+        4: { width: rw(45), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
+        5: { width: rw(29), height: rh(6.3) },
     };
 
 
-    const csvFileUrl = "https://docs.google.com/spreadsheets/d/1b8yY_OQYzJ5xBhys9k8FFl5yHZg-wbJJq7A2X4hBQPk/export?format=csv&gid=402345587"; // Modified CSV URL
+    const csvFileUrl = "https://docs.google.com/spreadsheets/d/1wGTjbeAXM5_Dy9Xme6ks51qdjo9bHv8RN9mPseLtzm4/export?format=csv";
+
     const [state, setState] = useState({
         tableHead: [],
         tableData: [],
         currentPageData: [],
         numberOfPages: 1
     });
+
     const [page, setPage] = useState(0);
     const [loader, setLoader] = useState(true)
     const [numberOfItemsPerPage, setNumberOfItemsPerPage] = useState(10);
@@ -71,50 +75,6 @@ export default function ModalScreen({ navigation }: any) {
         setTableData(csvFileUrl);
     }, [page, numberOfItemsPerPage]);
 
-    // const requestPermissions = async () => {
-    //     if (Platform.OS === 'android') {
-    //         try {
-    //             if (Platform.Version >= 31) {
-    //                 const granted = await PermissionsAndroid.requestMultiple([
-    //                     PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-    //                     PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-    //                 ]);
-    //                 const allPermissionsGranted = Object.values(granted).every(
-    //                     status => status === PermissionsAndroid.RESULTS.GRANTED
-    //                 );
-    //                 if (allPermissionsGranted) {
-    //                     console.log('All permissions granted');
-    //                 } else {
-    //                     console.log('Some permissions denied');
-    //                 }
-    //             }
-    //         } catch (err) {
-    //             console.warn(err);
-    //         }
-    //     }
-    // };
-
-    // const handleDownloadReports = async () => {
-    //     const fileUrl = 'https://docs.google.com/spreadsheets/d/1wGTjbeAXM5_Dy9Xme6ks51qdjo9bHv8RN9mPseLtzm4/export?format=csv'; // Updated link
-    //     await requestPermissions();  // Make sure permissions are requested before download
-
-    //     try {
-    //         const res = await ReactNativeBlobUtil.config({
-    //             fileCache: true,
-    //             appendExt: 'csv',
-    //             path: Platform.OS === 'android'
-    //                 ? ReactNativeBlobUtil.fs.dirs.DownloadDir + '/question_paper.csv'
-    //                 : ReactNativeBlobUtil.fs.dirs.DocumentDir + '/question_paper.csv',
-    //         }).fetch('GET', fileUrl);
-
-    //         const filePath = res.path();
-    //         console.log('File downloaded successfully at:', filePath);
-    //     } catch (error) {
-    //         console.error('Error downloading the CSV file:', error);
-    //     }
-    // };
-
-
     return (
         <View>
             <StatusBar backgroundColor="transparent" translucent={true} />
@@ -122,14 +82,17 @@ export default function ModalScreen({ navigation }: any) {
             <View style={styles.overlay}>
                 <View style={styles.headerview}>
                     <BackArrow />
-                    <Text style={styles.questionformatetext}>Question paper format </Text>
-                    <TouchableOpacity style={styles.uploadPromptIcon} >
-                        <Icon
-                            name="download-cloud"
-                            size={28}
-                            color={color.lightRed}
-                        />
-                    </TouchableOpacity>
+                    <View style={styles.backarrow}>
+                        <Text style={styles.questionformatetext}>Candidate format </Text>
+                        <TouchableOpacity style={styles.uploadPromptIcon} >
+                            <Icon
+                                name="download-cloud"
+                                size={28}
+                                color={color.lightRed}
+                            />
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
 
                 <ScrollView horizontal={true} style={styles.container} >
@@ -137,7 +100,7 @@ export default function ModalScreen({ navigation }: any) {
                         loader === true ? <ActivityIndicator size={"large"} style={styles.loadercss} animating={true} color={color.primaryRed} />
                             : <DataTable style={styles.datatable}>
                                 <DataTable.Header style={styles.headerRow}>
-                                    {state.tableHead.map((headerData, index) => (
+                                    {state?.tableHead?.map((headerData, index) => (
                                         <DataTable.Title
                                             key={index}
                                             style={[
@@ -201,6 +164,7 @@ const styles = StyleSheet.create({
     },
     headerview: {
         flexDirection: 'row',
+        marginTop: rh(2.2),
     },
     container: {
         margin: rw(6),
@@ -259,5 +223,11 @@ const styles = StyleSheet.create({
     uploadPromptIcon: {
         alignSelf: 'flex-end',
         marginLeft: rw(17.5)
+    },
+    backarrow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     }
 });
+
+

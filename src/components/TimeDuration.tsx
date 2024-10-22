@@ -9,34 +9,16 @@ interface TimeDurationProps {
     paperduration: number
     animationStart: boolean
     initalHeight: 2 | 4
-    countDownStart: true | false
+    timeLeft: number
 }
 
-const TimeDuration: React.FC<TimeDurationProps> = ({ paperduration, animationStart, initalHeight, countDownStart }) => {
+const TimeDuration: React.FC<TimeDurationProps> = ({ paperduration, animationStart, initalHeight, timeLeft }) => {
     const [time, setTime] = useState<number>(paperduration);
-    const [timeLeft, setTimeLeft] = useState(60 * time);
     const [animate, setAnimate] = useState(animationStart);
     const handleAnimation = () => {
         setAnimate(!animate)
     }
-
     const progress = useSharedValue(rw(93));
-
-    useEffect(() => {
-        if (!timeLeft) return;
-        if (countDownStart) {
-            const intervalId = setInterval(() => {
-                setTimeLeft((prev) => {
-                    const newTimeLeft = prev - 1;
-                    const percentage = (newTimeLeft / (60 * time)) * rw(93);
-                    progress.value = withTiming(percentage, { duration: 1000 });
-                    return newTimeLeft;
-                });
-            }, 1000);
-            return () => clearInterval(intervalId);
-        }
-    }, [timeLeft]);
-
     const animatedStyle = useAnimatedStyle(() => {
         return {
             width: progress.value,

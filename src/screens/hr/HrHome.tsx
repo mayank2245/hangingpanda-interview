@@ -19,7 +19,7 @@ import IconCsv from 'react-native-vector-icons/FontAwesome5';
 
 import CustomModal from '../../components/Modal';
 import { color } from '../../constant/color';
-import { csvToJson } from '../../helpers/csvToJson';
+import { csvToJson, csvToJsonStudent } from '../../helpers/csvToJson';
 import { dataText } from '../../constant/staticData';
 import { BackgroundImage } from '../../assests/images';
 import { AddQues, CrossIcon, Logo } from '../../assests/svg';
@@ -38,11 +38,13 @@ export default function App(): React.JSX.Element {
     const pickDocument = async () => {
         try {
             const res = await DocumentPicker.pick({
-                type: [DocumentPicker.types.csv],
+                type: [DocumentPicker.types.allFiles],
             });
             setSelectedFile(res);
             const fileContent = await RNFS.readFile(res[0].uri, 'utf8');
-            const parsedResult = csvToJson(fileContent);
+            console.log(fileContent, "filecontnte--")
+            const parsedResult = csvToJsonStudent(fileContent);
+            console.log(parsedResult, "parseresult---")
             setParsedData(parsedResult);
         } catch (err: any) {
             console.log('Error:', err.message);
@@ -159,7 +161,7 @@ export default function App(): React.JSX.Element {
                                 activeOpacity={0.8}
                                 style={styles.nextButton}
                                 onPress={() => {
-                                    navigation.navigate('ShowData', { data: parsedData });
+                                    navigation.navigate('AllStudentList', { candidateData: parsedData });
                                 }}>
                                 <Text style={styles.nextButtonText}>Next</Text>
                                 <IconArrow name="arrowright" size={24} color={color.white} />

@@ -6,11 +6,10 @@ import {
     TouchableOpacity,
     Text,
     View,
-    Button
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Entypo from 'react-native-vector-icons/Entypo';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -21,6 +20,7 @@ import { BackgroundImage } from "../../assests/images";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import BackArrow from "../../components/BackArrow";
 import { Dropdown } from "react-native-element-dropdown";
+import { ShowToast } from "../../helpers/toast";
 
 export default function AddQuestion({ route }: any) {
     const { candidatNo } = route.params;
@@ -33,6 +33,8 @@ export default function AddQuestion({ route }: any) {
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
     const [questionfocus, setQuestionfocus] = useState<"Name" | "Email" | "PaperType" | "Date" | "Time" | "">("")
     const [date, setDate] = useState<Date>(new Date('2024-10-18T00:00:00'));
+    const [time, setTime] = useState<Date>(new Date('2024-10-18T00:00:00'));
+
 
     const PaperTypeDropDown = [
         {
@@ -71,13 +73,41 @@ export default function AddQuestion({ route }: any) {
     ]
 
     const handleadd = () => {
-        const candidateData = {
-            name: candidateName,
-            email: candidateEmail,
-            questionPaperType: papertype,
-            interviewDate: "2024-09-10T10:00:00Z"
+        if (candidateName === "") {
+            const type = "error";
+            const text1 = "Please fill the Candidate Name";
+            ShowToast(type, text1);
         }
-        navigation.navigate("AllStudentList", { candidateData: candidateData })
+        else if (candidateEmail === "") {
+            const type = "error";
+            const text1 = "Please fill the Candidate Email";
+            ShowToast(type, text1);
+        }
+        else if (papertype === "") {
+            const type = "error";
+            const text1 = "Please fill the Candidate Paper Type";
+            ShowToast(type, text1);
+        }
+        else if (date.getTime() === new Date('2024-10-18T00:00:00').getTime()) {
+            const type = "error";
+            const text1 = "Please fill the Candidate date";
+            ShowToast(type, text1);
+        }
+        else if (time.getTime() === new Date('2024-10-18T00:00:00').getTime()) {
+            const type = "error";
+            const text1 = "Please fill the Candidate time";
+            ShowToast(type, text1);
+        }
+        else {
+            const candidateData = {
+                name: candidateName,
+                email: candidateEmail,
+                questionPaperType: papertype,
+                interviewDate: date?.toLocaleDateString(),
+                inteviewTime: time?.toLocaleTimeString()
+            }
+            navigation.navigate("AllStudentList", { candidateData: candidateData })
+        }
     }
 
     const renderItem = (item: any) => {
@@ -96,20 +126,27 @@ export default function AddQuestion({ route }: any) {
         );
     };
 
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate;
+    const hideDatePicker = () => {
         setDatePickerVisibility(false);
-        setTimePickerVisibility(false);
-        setDate(currentDate);
+        setTimePickerVisibility(false)
+    };
+
+    const handleConfirm = (date) => {
+        setDate(date)
+        setDatePickerVisibility(false);
+        setTimePickerVisibility(false)
+    };
+    const handleConfirm2 = (date) => {
+        setTime(date)
+        setDatePickerVisibility(false);
+        setTimePickerVisibility(false)
     };
 
     const showDatepicker = () => {
-        setQuestionfocus('Date')
         setDatePickerVisibility(true);
     };
 
     const showTimepicker = () => {
-        setQuestionfocus('Time')
         setTimePickerVisibility(true);
     };
 
@@ -152,30 +189,25 @@ export default function AddQuestion({ route }: any) {
                             renderItem={renderItem}
                         />
                     </View>
-                    {isDatePickerVisible && <DateTimePicker
-                        testID="dateTimePicker"
-                        value={date}
-                        mode='date'
+                    <DateTimePickerModal
+                        isVisible={isDatePickerVisible}
+                        mode="date"
+                        onConfirm={handleConfirm}
+                        onCancel={hideDatePicker}
                         minimumDate={new Date()}
-                        is24Hour={true}
-                        textColor="#FFFFFF"
-                        positiveButton={{ label: 'OK', textColor: color.primaryRed }}
-                        negativeButton={{ label: 'Cancel', textColor: color.primaryRed }}
-                        onChange={onChange}
-                    />}
-                    {isTimePickerVisible && <DateTimePicker
-                        testID="dateTimePicker"
-                        value={date}
-                        minimumDate={new Date()}
-                        mode='time'
+                        isDarkModeEnabled={true}
+
+                        themeVariant="dark"
+                    />
+                    <DateTimePickerModal
+                        isVisible={isTimePickerVisible}
+                        mode="time"
+                        onConfirm={handleConfirm2}
+                        onCancel={hideDatePicker}
+                        themeVariant={'dark'}
                         is24Hour={false}
-                        style={{ width: 20, borderColor: color.primaryRed }}
-                        accentColor={color.primaryRed}
-                        positiveButton={{ label: 'OK', textColor: color.primaryRed }}
-                        negativeButton={{ label: 'Cancel', textColor: color.primaryRed }}
-                        textColor={color.primaryRed}
-                        onChange={onChange}
-                    />}
+                    />
+
                     <View style={[styles.timepicker, questionfocus === "Date" ? { borderColor: color.timebarRed } : { borderColor: color.primaryRed }]}>
                         <View style={styles.timepickersub}>
                             {date.getTime() === new Date('2024-10-18T00:00:00').getTime() ? <Text style={styles.ShowcandidateSub2}>Interview Date</Text> : <Text style={styles.ShowcandidateSub}>{date?.toLocaleDateString()}</Text>}
@@ -191,7 +223,7 @@ export default function AddQuestion({ route }: any) {
                     </View>
                     <View style={[styles.timepicker, questionfocus === "Time" ? { borderColor: color.timebarRed } : { borderColor: color.primaryRed }]}>
                         <View style={styles.timepickersub}>
-                            {date.getTime() === new Date('2024-10-18T00:00:00').getTime() ? <Text style={styles.ShowcandidateSub2}>Interview Time</Text> : <Text style={styles.ShowcandidateSub}>{date?.toLocaleTimeString()}</Text>}
+                            {time.getTime() === new Date('2024-10-18T00:00:00').getTime() ? <Text style={styles.ShowcandidateSub2}>Interview Time</Text> : <Text style={styles.ShowcandidateSub}>{time?.toLocaleTimeString()}</Text>}
                         </View>
                         <TouchableOpacity onPress={showTimepicker} >
                             <MaterialCommunityIcons
