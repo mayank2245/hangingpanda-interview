@@ -33,6 +33,7 @@ export default function AddQuestion({ route }: any) {
     const handleSelectType = (item: string) => {
         setSelectedType(item);
     };
+
     useEffect(() => {
         const questions = [candidateData, ...questionList];
         setQuestionList(questions);

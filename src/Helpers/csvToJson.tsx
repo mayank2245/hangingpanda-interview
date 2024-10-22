@@ -14,7 +14,6 @@ export function csvToJson(csvString) {
 
     if (obj.type === 'MCQ') {
       const optionsArray = values[3].split('^').map(option => option.trim());
-      console.log(optionsArray, "-------------------")
       obj.options = {
         a: optionsArray[0],
         b: optionsArray[1],
@@ -24,8 +23,6 @@ export function csvToJson(csvString) {
       if (values[4] !== "Don't fill") {
         Object.entries(obj.options).forEach(([key, value]) => {
           if (value == values[4]) {
-            console.log(value, "value")
-            console.log(key, "-key-")
             obj.correctOption = key;
           }
 
@@ -36,7 +33,6 @@ export function csvToJson(csvString) {
     } else {
       obj.answer = values[3];
     }
-    console.log(obj, "-----obje")
     return obj;
   });
 
@@ -47,7 +43,7 @@ export function csvToJson(csvString) {
 export function csvToJsonStudent(csvString) {
   const lines = csvString.trim().split('\n');
   const headers = lines[0].split(',').map(header => header.trim());
-  const result = lines.slice(2).map(line => {
+  const result = lines.slice(1).map(line => {
     const values = line.split(',').map(value => value.trim());
     const obj = {
       sn: parseInt(values[0], 10),

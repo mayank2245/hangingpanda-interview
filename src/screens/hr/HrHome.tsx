@@ -42,7 +42,9 @@ export default function App(): React.JSX.Element {
             });
             setSelectedFile(res);
             const fileContent = await RNFS.readFile(res[0].uri, 'utf8');
+            console.log(fileContent, "filecontnte--")
             const parsedResult = csvToJsonStudent(fileContent);
+            console.log(parsedResult, "parseresult---")
             setParsedData(parsedResult);
         } catch (err: any) {
             console.log('Error:', err.message);
