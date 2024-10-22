@@ -19,6 +19,7 @@ import AllStudentList from '../../screens/hr/AllStudentList';
 import AddStudent from '../../screens/hr/AddStudent';
 import StudentCsvFormate from '../../screens/hr/StudentCsvFormate';
 import QuitScreen from '../../screens/user/QuitScreen';
+import AddAllCandidate from '../../screens/hr/AddAllCandidate';
 
 const DeveloperStack = () => {
     const stack = createNativeStackNavigator();
@@ -40,6 +41,7 @@ const DeveloperStack = () => {
             <stack.Screen name='HrHome' component={HrHome} />
             <stack.Screen name='AllStudentList' component={AllStudentList} />
             <stack.Screen name='AddStudent' component={AddStudent} />
+            <stack.Screen name='AddAllCandidate' component={AddAllCandidate} />
             <stack.Screen name='StudentCsvFormate' component={StudentCsvFormate} />
             <stack.Screen name='Instruction' component={Instruction} />
             <stack.Screen name='QuestionList' component={QuestionList} />

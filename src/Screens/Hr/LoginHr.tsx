@@ -34,7 +34,7 @@ export default function LoginUserPage() {
         mutationFn: loginhandle,
         onSuccess: async data => {
             if (data?.data.token) {
-                await AsyncStorage.setItem('MYtoken', data.data.token);
+                await AsyncStorage.setItem('HrLogintoken', data.data.token);
             }
             setIsLoading(false)
 

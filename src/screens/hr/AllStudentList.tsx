@@ -22,33 +22,16 @@ import { rf, rh, rw } from "../../helpers/responsivedimention";
 
 const questionType = ["All", "Javascript", "Python", "Java", "DSA"];
 
-export default function AddQuestion({ route }: any) {
-    const { candidateData } = route.params;
+export default function AddQuestion() {
     const navigation = useNavigation();
     const [isLoading, setIsLoading] = useState(false);
-    const [filteredQuestions, setFilteredQuestions] = useState<any[]>(candidateData);
+    const [filteredQuestions, setFilteredQuestions] = useState<any[]>();
     const [selectedType, setSelectedType] = useState<string>('All');
     const [questionList, setQuestionList] = useState<any[]>([{ email: "Hanging@gmail.com", interviewDate: "2024-09-10T10:00:00Z", name: "Hanging", questionPaperType: "DSA" }]);
 
     const handleSelectType = (item: string) => {
         setSelectedType(item);
     };
-
-    useEffect(() => {
-        const questions = [candidateData, ...questionList];
-        setQuestionList(questions);
-        if (selectedType === 'All') {
-            if (questions.length !== 1) {
-                setFilteredQuestions(questions);
-            }
-        } else {
-            setFilteredQuestions(
-                questions.filter((q: any) =>
-                    q.questionPaperType.toLowerCase() === selectedType.toLowerCase()
-                )
-            );
-        }
-    }, [selectedType]);
 
     const handleDeleteCard = (candidateEmail: string) => {
         const updatedCandidate = filteredQuestions.filter((fli) => fli.email === candidateEmail)
@@ -124,7 +107,7 @@ export default function AddQuestion({ route }: any) {
                                         style={styles.flatliststyle}
                                         data={filteredQuestions}
                                         renderItem={({ item }: any) => (
-                                            <CandidateCard candidateName={item.name} interviewDate={item.interviewDate} candidateEmail={item.email} paperType={item.questionPaperType} onDelete={handleDeleteCard} inteviewTime={item.inteviewTime} />
+                                            <CandidateCard candidateName={item.name} interviewDate={item.interviewDate} candidateEmail={item.email} paperType={item.paperType} onDelete={handleDeleteCard} inteviewTime={item.inteviewTime} />
                                         )}
                                         numColumns={2}
                                     />

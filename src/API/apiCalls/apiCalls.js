@@ -49,5 +49,13 @@ export const ApiService = {
             URL: `${apiUrl.submitAnswers}`,
             data: payload,
         })
+    },
+    addcandidate: async (payload, token) => {
+        return fireAjax({
+            method: 'POST',
+            URL: `${apiUrl.addcandidate}`,
+            data: payload,
+            token,
+        })
     }
 };

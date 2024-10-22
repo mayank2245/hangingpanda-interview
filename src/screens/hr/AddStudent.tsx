@@ -13,6 +13,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Entypo from 'react-native-vector-icons/Entypo';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import moment from 'moment';
 
 import { color } from "../../constant/color";
 import Addques from '../../assests/svg/addQues';
@@ -21,9 +22,12 @@ import { rf, rh, rw } from "../../helpers/responsivedimention";
 import BackArrow from "../../components/BackArrow";
 import { Dropdown } from "react-native-element-dropdown";
 import { ShowToast } from "../../helpers/toast";
+import { useMutation } from "@tanstack/react-query";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ApiService } from "../../api/apiCalls/ApiCalls";
 
 export default function AddQuestion({ route }: any) {
-    const { candidatNo } = route.params;
+    const { candidatedata } = route.params;
     const [candidateName, setcandidateName] = useState<string>("")
     const [candidateEmail, setcandidateEmail] = useState<string>("")
     const [papertype, setPapertype] = useState<string>("")
@@ -34,7 +38,6 @@ export default function AddQuestion({ route }: any) {
     const [questionfocus, setQuestionfocus] = useState<"Name" | "Email" | "PaperType" | "Date" | "Time" | "">("")
     const [date, setDate] = useState<Date>(new Date('2024-10-18T00:00:00'));
     const [time, setTime] = useState<Date>(new Date('2024-10-18T00:00:00'));
-
 
     const PaperTypeDropDown = [
         {
@@ -99,14 +102,34 @@ export default function AddQuestion({ route }: any) {
             ShowToast(type, text1);
         }
         else {
-            const candidateData = {
-                name: candidateName,
-                email: candidateEmail,
-                questionPaperType: papertype,
-                interviewDate: date?.toLocaleDateString(),
-                inteviewTime: time?.toLocaleTimeString()
+            let dateTimeString = `${date?.toLocaleDateString()} ${time?.toLocaleTimeString()}`;
+            let momentObj = moment(dateTimeString, 'MM/DD/YYYY h:mm:ss A');
+            let dateTime = momentObj.format('YYYY-MM-DDTHH:mm:ss');
+            if (candidatedata) {
+                const candidate = [
+                    ...candidatedata, {
+                        name: candidateName,
+                        email: candidateEmail,
+                        questionPaperType: papertype,
+                        interviewDate: dateTime
+                    }]
+                navigation.navigate("AddAllCandidate", { candidateData: candidate })
+            } else {
+                const candidate = [{
+                    name: candidateName,
+                    email: candidateEmail,
+                    questionPaperType: papertype,
+                    interviewDate: dateTime
+                }]
+                navigation.navigate("AddAllCandidate", { candidateData: candidate })
             }
-            navigation.navigate("AllStudentList", { candidateData: candidateData })
+
+            setcandidateName("");
+            setcandidateEmail("");
+            setPapertype("")
+            setValue(null)
+            setDate(new Date('2024-10-18T00:00:00'))
+            setTime(new Date('2024-10-18T00:00:00'))
         }
     }
 
@@ -136,8 +159,8 @@ export default function AddQuestion({ route }: any) {
         setDatePickerVisibility(false);
         setTimePickerVisibility(false)
     };
-    const handleConfirm2 = (date) => {
-        setTime(date)
+    const handleConfirm2 = (time) => {
+        setTime(time)
         setDatePickerVisibility(false);
         setTimePickerVisibility(false)
     };
@@ -162,7 +185,7 @@ export default function AddQuestion({ route }: any) {
                         <BackArrow />
                         <Text style={styles.paperList}>Add Candidate</Text>
                     </View>
-                    <Text style={styles.paperListSub}>Candidate No: {candidatNo + 1}</Text>
+                    <Text style={styles.paperListSub}>Candidate:</Text>
                     <TextInput onChangeText={setcandidateName} value={candidateName} onFocus={() => setQuestionfocus("Name")} onBlur={() => setQuestionfocus("")} style={[styles.textQues, questionfocus === "Name" ? { borderColor: color.timebarRed, } : { borderColor: color.primaryRed }]} placeholder="Candidate Name" placeholderTextColor={questionfocus === "Name" ? color.timebarRed : color.primaryRed} cursorColor="#FF3856"></TextInput>
                     <TextInput onChangeText={setcandidateEmail} value={candidateEmail} onFocus={() => setQuestionfocus("Email")} onBlur={() => setQuestionfocus("")} style={[styles.textQues, questionfocus === "Email" ? { borderColor: color.timebarRed, } : { borderColor: color.primaryRed }]} placeholder="Candidate Email" placeholderTextColor={questionfocus === "Email" ? color.timebarRed : color.primaryRed} cursorColor="#FF3856"></TextInput>
                     <View style={styles.papertypeview}>

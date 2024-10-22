@@ -71,50 +71,6 @@ export default function ModalScreen({ navigation }: any) {
         setTableData(csvFileUrl);
     }, [page, numberOfItemsPerPage]);
 
-    // const requestPermissions = async () => {
-    //     if (Platform.OS === 'android') {
-    //         try {
-    //             if (Platform.Version >= 31) {
-    //                 const granted = await PermissionsAndroid.requestMultiple([
-    //                     PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-    //                     PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-    //                 ]);
-    //                 const allPermissionsGranted = Object.values(granted).every(
-    //                     status => status === PermissionsAndroid.RESULTS.GRANTED
-    //                 );
-    //                 if (allPermissionsGranted) {
-    //                     console.log('All permissions granted');
-    //                 } else {
-    //                     console.log('Some permissions denied');
-    //                 }
-    //             }
-    //         } catch (err) {
-    //             console.warn(err);
-    //         }
-    //     }
-    // };
-
-    // const handleDownloadReports = async () => {
-    //     const fileUrl = 'https://docs.google.com/spreadsheets/d/1wGTjbeAXM5_Dy9Xme6ks51qdjo9bHv8RN9mPseLtzm4/export?format=csv'; // Updated link
-    //     await requestPermissions();  // Make sure permissions are requested before download
-
-    //     try {
-    //         const res = await ReactNativeBlobUtil.config({
-    //             fileCache: true,
-    //             appendExt: 'csv',
-    //             path: Platform.OS === 'android'
-    //                 ? ReactNativeBlobUtil.fs.dirs.DownloadDir + '/question_paper.csv'
-    //                 : ReactNativeBlobUtil.fs.dirs.DocumentDir + '/question_paper.csv',
-    //         }).fetch('GET', fileUrl);
-
-    //         const filePath = res.path();
-    //         console.log('File downloaded successfully at:', filePath);
-    //     } catch (error) {
-    //         console.error('Error downloading the CSV file:', error);
-    //     }
-    // };
-
-
     return (
         <View>
             <StatusBar backgroundColor="transparent" translucent={true} />

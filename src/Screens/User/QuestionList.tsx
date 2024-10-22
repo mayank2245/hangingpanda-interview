@@ -141,10 +141,10 @@ export default function QuestionList({ route }: any) {
 
     const submitpaperhandle = async () => {
         const payload = {
-            email: "email",
-            interviewId: "interviewId",
-            name: "vikas",
-            questionPaperType: "MCQ",
+            email: "test@example.com",
+            interviewId: "54321",
+            name: "test 1 ",
+            questionPaperType: "javascript",
             totalTime: paperduration,
             interviewDate: "2024-09-18",
             answers: data
@@ -157,6 +157,7 @@ export default function QuestionList({ route }: any) {
         mutationKey: ["passingKeyPaperSubmit"],
         mutationFn: submitpaperhandle,
         onSuccess: async data => {
+            ShowToast("success", "Submit Successfully")
             navigation.navigate('LoginUserPage')
         },
         onError: () => { ShowToast("error", "Please Check your id and email") }
@@ -246,7 +247,6 @@ export default function QuestionList({ route }: any) {
                                             {item.type === "Input" && (
                                                 item.answer !== undefined && <Text style={styles.textanswer}>{item.answer}</Text>
                                             )}
-
                                             {item.type === "MCQ" &&
                                                 <View style={styles.mcqstyle}>
                                                     {
