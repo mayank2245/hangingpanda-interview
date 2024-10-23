@@ -49,7 +49,7 @@ export function csvToJsonStudent(csvString) {
       sn: parseInt(values[0], 10),
       name: values[1],
       email: values[2],
-      paperType: values[3],
+      questionPaperType: values[3],
       interviewDate: values[4],
       interviewTime: values[5]
     };

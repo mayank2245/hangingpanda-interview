@@ -165,11 +165,6 @@ export default function Showdata({ route }: any) {
             renderItem={renderItem}
           />
         </View>
-
-
-
-
-
         <TouchableOpacity
           activeOpacity={0.8}
           style={[style.addquescss]}

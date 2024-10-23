@@ -42,9 +42,7 @@ export default function App(): React.JSX.Element {
             });
             setSelectedFile(res);
             const fileContent = await RNFS.readFile(res[0].uri, 'utf8');
-            console.log(fileContent, "filecontnte--")
             const parsedResult = csvToJsonStudent(fileContent);
-            console.log(parsedResult, "parseresult---")
             setParsedData(parsedResult);
         } catch (err: any) {
             console.log('Error:', err.message);
@@ -144,11 +142,22 @@ export default function App(): React.JSX.Element {
                                         <TouchableOpacity
                                             activeOpacity={0.8}
                                             style={[styles.addquestion]}
-                                            onPress={() => navigation.navigate("AllStudentList", { candidateData: { email: "Hanging@gmail.com", interviewDate: "2024-09-10T10:00:00Z", name: "Hanging", questionPaperType: "DSA" } })}
+                                            onPress={() => navigation.navigate("AddStudent", { candidatNo: 1 })}
                                         >
                                             <View style={styles.addquesManually}>
                                                 <AddQues />
                                                 <Text style={styles.addquestiontext}>Add Candidate Manually</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            activeOpacity={0.8}
+                                            style={styles.addquestion2}
+                                            onPress={() => {
+                                                navigation.navigate('AllStudentList');
+                                            }}>
+                                            <View style={styles.seeAllQues}>
+                                                <AddQues />
+                                                <Text style={styles.addquestiontext}>See All the Candidate</Text>
                                             </View>
                                         </TouchableOpacity>
                                         <CustomModal visible={visiblemodal} onClose={() => setVisiblemodal(false)} content={modalData()} modaloverlaycss={{}} contentcss={{}} />
@@ -161,7 +170,7 @@ export default function App(): React.JSX.Element {
                                 activeOpacity={0.8}
                                 style={styles.nextButton}
                                 onPress={() => {
-                                    navigation.navigate('AllStudentList', { candidateData: parsedData });
+                                    navigation.navigate('AddAllCandidate', { candidateData: parsedData });
                                 }}>
                                 <Text style={styles.nextButtonText}>Next</Text>
                                 <IconArrow name="arrowright" size={24} color={color.white} />

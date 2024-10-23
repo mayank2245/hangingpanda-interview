@@ -6,4 +6,5 @@ export default {
     allQuestionPaperType: 'admin/allQuestionPaperType',
     getinterview: 'hr/getInterView',
     submitAnswers: 'hr/submitAnswers',
+    addcandidate: 'hr/submitInterviews'
 }

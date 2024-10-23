@@ -16,8 +16,8 @@ import { rf, rh, rw } from '../helpers/responsivedimention'
 
 interface CardProps {
     candidateName: string,
-    interviewDate: string,
-    inteviewTime: string,
+    interviewDate: any,
+    inteviewTime: any,
     candidateEmail: string,
     paperType: string
     onDelete: (email: string) => void;
@@ -26,7 +26,6 @@ interface CardProps {
 const CandidateCard: React.FC<CardProps> = ({ candidateName, candidateEmail, interviewDate, paperType, onDelete, inteviewTime }) => {
     const [visibleModal, setVisibleModal] = useState<boolean>(false)
     const [assignedColor, setAssignedColor] = useState();
-
     if (!assignedColor) {
         const newColor = randomColor({ luminosity: 'light' });
         setAssignedColor(newColor);
@@ -76,11 +75,22 @@ const CandidateCard: React.FC<CardProps> = ({ candidateName, candidateEmail, int
                     style={styles.icon}
                     color="black"
                     name="clock-time-nine-outline"
-                    size={15}
+                    size={18}
                 />
-                <Text style={styles.cardtext3}>
-                    {interviewDate} ({inteviewTime})
-                </Text>
+                {
+                    !inteviewTime ? <Text style={styles.cardtext3}>
+
+                        {new Date(interviewDate).toISOString().split('T')[0]} {new Date(interviewDate).toLocaleTimeString('en-US', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: true
+                        })}
+                    </Text> : <Text style={styles.cardtext3}>
+                        {interviewDate} {inteviewTime}
+                    </Text>
+
+                }
+
             </View>
             <Text style={styles.cardtext}>{paperType}</Text>
             <CustomModal
