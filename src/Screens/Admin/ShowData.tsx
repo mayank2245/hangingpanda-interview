@@ -119,7 +119,7 @@ export default function Showdata({ route }: any) {
   const renderItem = (item: any) => {
     return (
       <View style={style.item}>
-        <Text style={[style.textItem, item.name === value && { color: color.primaryRed }]}>{item.name ? String(item.name) : item.description}</Text>
+        <Text style={[style.textItem, item.name === value ? { color: color.primaryRed } : { color: color.bacgroundlightblack }]}>{item.name ? String(item.name) : item.description}</Text>
         {item.name === value && (
           <Entypo
             style={style.icon}

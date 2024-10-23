@@ -38,6 +38,9 @@ const CandidateCard: React.FC<CardProps> = ({ candidateName, candidateEmail, int
         setVisibleModal(false)
     }
 
+    const isValidDate = (date) => {
+        return !isNaN(new Date(date).getTime());
+    };
 
 
     const modal = () => (
@@ -77,19 +80,21 @@ const CandidateCard: React.FC<CardProps> = ({ candidateName, candidateEmail, int
                     name="clock-time-nine-outline"
                     size={18}
                 />
-                {
-                    !inteviewTime ? <Text style={styles.cardtext3}>
-
-                        {new Date(interviewDate).toISOString().split('T')[0]} {new Date(interviewDate).toLocaleTimeString('en-US', {
+                {isValidDate(interviewDate) ? (
+                    <Text style={styles.cardtext3}>
+                        {new Date(interviewDate).toISOString().split('T')[0]}{' '}
+                        {new Date(interviewDate).toLocaleTimeString('en-US', {
                             hour: '2-digit',
                             minute: '2-digit',
                             hour12: true
                         })}
-                    </Text> : <Text style={styles.cardtext3}>
+                    </Text>
+                ) : (
+                    <Text style={styles.cardtext3}>
                         {interviewDate} {inteviewTime}
                     </Text>
+                )}
 
-                }
 
             </View>
             <Text style={styles.cardtext}>{paperType}</Text>

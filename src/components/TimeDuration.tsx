@@ -10,21 +10,21 @@ interface TimeDurationProps {
     animationStart: boolean
     initalHeight: 2 | 4
     timeLeft: number
+    progress: any
 }
 
-const TimeDuration: React.FC<TimeDurationProps> = ({ paperduration, animationStart, initalHeight, timeLeft }) => {
+const TimeDuration: React.FC<TimeDurationProps> = ({ paperduration, animationStart, initalHeight, timeLeft, progress }) => {
     const [time, setTime] = useState<number>(paperduration);
     const [animate, setAnimate] = useState(animationStart);
     const handleAnimation = () => {
         setAnimate(!animate)
     }
-    const progress = useSharedValue(rw(93));
+
     const animatedStyle = useAnimatedStyle(() => {
         return {
-            width: progress.value,
+            width: progress,
         };
     });
-
 
     return (
         <TouchableOpacity

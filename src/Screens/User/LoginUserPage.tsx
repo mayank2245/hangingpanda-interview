@@ -11,13 +11,12 @@ import {
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-
 import { color } from "../../constant/color";
 import { BackgroundImage } from "../../assests/images";
 import { Ellipse, Loginellips, Logo } from "../../assests/svg";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import { ApiService } from "../../api/apiCalls/ApiCalls";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ShowToast } from "../../helpers/toast";
 import { Loader } from "../../components/Loader";
@@ -29,8 +28,6 @@ export default function LoginUserPage({ }) {
     const [isLoading, setIsLoading] = useState(false)
     const navigation = useNavigation();
 
-
-
     const loginhandle = async () => {
         const payload = {
             email: email,
@@ -39,26 +36,26 @@ export default function LoginUserPage({ }) {
         const res = await ApiService.getinterview(payload)
         return res
     }
-    const queryClient = new QueryClient()
+    const queryClient = useQueryClient(); // Use the same instance from the provider
+
     const mutation = useMutation({
         mutationKey: ["passingKeyLoginUser"],
         mutationFn: loginhandle,
         onSuccess: async data => {
             if (data?.data.questions) {
-                await AsyncStorage.setItem("MyPaper", JSON.stringify(data.data.questions));
                 await AsyncStorage.setItem("PaperDuration", JSON.stringify(data.data.timeLimit));
-                queryClient.setQueryData("passingKeyLoginUser", data);
+                queryClient.setQueryData(['passingKeyLoginUser'], data);
             }
-            navigation.navigate('Instruction')
-            setIsLoading(false)
-            setUserId("")
-            setEmail("")
+            navigation.navigate('Instruction', { paperTime: JSON.stringify(data?.data.timeLimit) });
+            setIsLoading(false);
+            setUserId("");
+            setEmail("");
         },
         onError: () => {
             setIsLoading(false);
             ShowToast("error", "Please Check your id and email");
         }
-    });
+    })
 
     const handlepress = () => {
         if (userId === "") {

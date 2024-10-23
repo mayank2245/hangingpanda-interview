@@ -18,24 +18,11 @@ import { Alert, Checklist, Panda } from '../../assests/lottie';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Instruction() {
+export default function Instruction({ route }) {
+    const { paperTime } = route.params;
     const navigation = useNavigation();
     const [nextButton, setNextButton] = useState<number>(1);
-    const [paperduration, setPaperduration] = useState<number>()
-
-
-    useEffect(() => {
-        const handle = async () => {
-            try {
-                const paperduration = await AsyncStorage.getItem('PaperDuration');
-                if (paperduration !== null) {
-                    setPaperduration(JSON.parse(paperduration))
-                }
-            } catch (error) {
-            }
-        }
-        handle()
-    }, [])
+    const [paperduration, setPaperduration] = useState<number>(paperTime)
 
     const handleNextButton = () => {
         if (nextButton < 3) {
@@ -51,7 +38,7 @@ export default function Instruction() {
                     <View>
                         <Text style={styles.textTime}>Timer</Text>
                         <View style={styles.timeduration}>
-                            {paperduration && <TimeDuration paperduration={paperduration} animationStart={false} initalHeight={4} timeLeft={paperduration * 60} />}
+                            {paperduration && <TimeDuration paperduration={paperduration} animationStart={false} initalHeight={4} timeLeft={paperduration * 60} progress={undefined} />}
                         </View>
                         <Text style={styles.instructionText}>
                             You have a timer at the top of the screen to track your exam duration. Ensure you manage your time effectively for each question type: input, MCQ, and blank space.

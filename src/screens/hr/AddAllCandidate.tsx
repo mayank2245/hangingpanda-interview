@@ -12,30 +12,35 @@ import { BackgroundImage } from '../../assests/images';
 import BackArrow from '../../components/BackArrow';
 import { useNavigation } from '@react-navigation/native';
 
-export default function AddAllCandidate({ route }) {
-    const { candidateData } = route.params;
+export default function AddAllCandidate({ route }: any) {
+    const { candidateData } = route.params || {};
     const Navigation = useNavigation();
     const [payload, setPayload] = useState({ interviews: candidateData });
+    const [loader, setLoader] = useState(false)
 
-    const handleaddcandidate = async () => {
+    const handleaddCandidate = async () => {
         const token = await AsyncStorage.getItem('HrLogintoken');
         if (token && payload) {
-            const res = await ApiService.addcandidate(payload, token)
-            return res
+            const res = await ApiService.addCandidate(token, payload);
+            return res;
         }
+        return { data: null };
     }
 
     const mutation = useMutation({
-        mutationKey: ["slkdf"],
-        mutationFn: handleaddcandidate,
+        mutationKey: ["handleaddCandidate"],
+        mutationFn: handleaddCandidate,
         onSuccess: () => {
             const type = "success";
             const text1 = "Upload Successfully";
             ShowToast(type, text1);
-        }
+            setLoader(false)
+        },
+        onError: () => { setLoader(false) }
     })
 
     const handleUpload = () => {
+        setLoader(true)
         mutation.mutate();
     }
 
@@ -58,18 +63,29 @@ export default function AddAllCandidate({ route }) {
                     <FlatList
                         style={styles.flatliststyle}
                         data={candidateData}
-                        renderItem={({ item }: any) => (
-                            <CandidateCard candidateName={item.name} interviewDate={item.interviewDate} candidateEmail={item.email} paperType={item.questionPaperType} inteviewTime={item.interviewTime} onDelete={function (email: string): void { throw new Error('Function not implemented.'); }} />
+
+                        renderItem={({ item }) => (<>
+                            <CandidateCard
+                                candidateName={item.name}
+                                interviewDate={item.interviewDate}
+                                candidateEmail={item.email}
+                                paperType={item.questionPaperType}
+                                inteviewTime={item.interviewTime}
+                                onDelete={(email: string) => {/* implement your onDelete functionality */ }}
+                            />
+                        </>
                         )}
                         numColumns={2}
+                        keyExtractor={(item, index) => index.toString()}  // Ensure unique keys
                     />
+
                     <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                         <TouchableOpacity
                             activeOpacity={0.8}
                             onPress={handleUpload}
-                            style={styles.uploadcss}>
+                            style={[styles.uploadcss, !loader ? {} : { opacity: 0.5 }]}>
                             <Upload />
-                            <Text style={styles.uploadText}>Upload</Text>
+                            <Text style={styles.uploadText}>{!loader ? "Upload" : "Uploading"}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

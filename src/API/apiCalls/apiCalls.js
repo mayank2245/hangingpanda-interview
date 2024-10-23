@@ -50,10 +50,10 @@ export const ApiService = {
             data: payload,
         })
     },
-    addcandidate: async (payload, token) => {
+    addCandidate: async (token, payload) => {
         return fireAjax({
             method: 'POST',
-            URL: `${apiUrl.addcandidate}`,
+            URL: `${apiUrl.addCandidate}`,
             data: payload,
             token,
         })
