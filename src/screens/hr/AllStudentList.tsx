@@ -76,7 +76,6 @@ export default function AddQuestion() {
                                             <Text style={styles.headertext}>Total</Text>
                                             <Text style={styles.headertext}>candidate</Text>
                                         </View>
-
                                         <Text style={[styles.headertext, {
                                             fontSize: rf(10),
                                         }]}>{questionList.length}</Text>
