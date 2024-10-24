@@ -102,7 +102,7 @@ export default function AddQuestion({ route }: any) {
             ShowToast(type, text1);
         }
         else {
-            let dateTimeString = `${date?.toLocaleDateString()} ${time?.toLocaleTimeString()}`;
+            let dateTimeString = `${moment(date).format('MM/DD/YYYY')} ${moment(time).format('h:mm:ss A')}`;
             let momentObj = moment(dateTimeString, 'MM/DD/YYYY h:mm:ss A');
             let dateTime = momentObj.format('YYYY-MM-DDTHH:mm:ss');
             if (candidatedata) {
@@ -114,7 +114,8 @@ export default function AddQuestion({ route }: any) {
                         interviewDate: dateTime
                     }]
                 navigation.navigate("AddAllCandidate", { candidateData: candidate })
-            } else {
+            }
+            else {
                 const candidate = [{
                     name: candidateName,
                     email: candidateEmail,

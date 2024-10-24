@@ -1,7 +1,5 @@
 import {
     AppState,
-    BackHandler,
-    DeviceEventEmitter,
     FlatList,
     ImageBackground,
     Platform,
@@ -14,7 +12,7 @@ import {
 } from 'react-native'
 import { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
-import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { color } from '../../constant/color';
 import Addques from '../../assests/svg/addQues';
@@ -28,7 +26,6 @@ import { Alert } from '../../assests/lottie';
 import React from 'react';
 import QuestionListSkeleton from '../../helpers/skeletonUserData';
 import LottieView from 'lottie-react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSharedValue, withTiming } from 'react-native-reanimated';
 
 export default function QuestionList({ route }: any) {
@@ -39,10 +36,21 @@ export default function QuestionList({ route }: any) {
     const [appState, setAppState] = useState(AppState.currentState);
     const [backgoing, setBackgoing] = useState(false);
     const [visibleModal, setVisibleModal] = useState(false);
-    const queryClient = new QueryClient()
-    const dataapi = queryClient.getQueryData("passingKeyLoginUser")
     const [time, setTime] = useState<number>();
     const [timeLeft, setTimeLeft] = useState(60 * time);
+    const [candidateData, setCandidateData] = useState()
+
+    const queryClient = useQueryClient();
+
+    useEffect(() => {
+        const cachedData = queryClient.getQueryData(['passingKeyLoginUser']);
+        setCandidateData(cachedData?.data)
+        setdata(cachedData?.data.questions)
+        setPaperduration(cachedData?.data.timeLimit)
+        setTime(cachedData?.data.timeLimit)
+        setTimeLeft(cachedData?.data.timeLimit * 60)
+    }, [])
+
     useEffect(() => {
         const handleAppStateBlur = () => {
             setBackgoing(true);
@@ -56,26 +64,6 @@ export default function QuestionList({ route }: any) {
             }
         };
     }, []);
-
-
-    useEffect(() => {
-        const handle = async () => {
-            try {
-                const myquestion = await AsyncStorage.getItem('MyPaper');
-                if (myquestion !== null) {
-                    setdata(JSON.parse(myquestion))
-                }
-                const paperduration = await AsyncStorage.getItem('PaperDuration');
-                if (paperduration !== null) {
-                    setPaperduration(JSON.parse(paperduration))
-                    setTime(JSON.parse(paperduration))
-                    setTimeLeft(JSON.parse(paperduration) * 60)
-                }
-            } catch (error) {
-            }
-        }
-        handle()
-    }, [])
 
     useEffect(() => {
         if (item?.item?.sn) {
@@ -117,10 +105,6 @@ export default function QuestionList({ route }: any) {
         return unsubscribe;
     }, [navigation]);
 
-    const handlepressques = (data: any) => {
-        navigation.navigate("UserHome", { itemes: data, time: timeLeft, totalTime: paperduration });
-    };
-
     const getquestionhandle = async () => {
         const res = await ApiService.getinterview(email, interviewId)
         return res
@@ -141,13 +125,13 @@ export default function QuestionList({ route }: any) {
 
     const submitpaperhandle = async () => {
         const payload = {
-            email: "test@example.com",
-            interviewId: "54321",
-            name: "test 1 ",
-            questionPaperType: "javascript",
+            email: candidateData?.email,
+            interviewId: candidateData?.interviewId,
+            name: candidateData?.name,
+            questionPaperType: candidateData?.questionPaperType,
             totalTime: paperduration,
-            interviewDate: "2024-09-18",
-            answers: data
+            interviewDate: new Date(),
+            answers: data,
         }
         const res = await ApiService.submitAnswers(payload)
         return res
@@ -158,9 +142,14 @@ export default function QuestionList({ route }: any) {
         mutationFn: submitpaperhandle,
         onSuccess: async data => {
             ShowToast("success", "Submit Successfully")
-            navigation.navigate('LoginUserPage')
+            navigation.push('LoginUserPage')
         },
-        onError: () => { ShowToast("error", "Please Check your id and email") }
+        onError: (err) => {
+            navigation.push('LoginUserPage')
+            console.log(err)
+            ShowToast("error", `${err}`)
+
+        }
     })
 
     const handlesubmitpaper = () => {
@@ -187,11 +176,16 @@ export default function QuestionList({ route }: any) {
                     return newTimeLeft;
                 });
             }, 1000);
-
+            if (timeLeft === 1) {
+                mutation.mutate();
+            }
             return () => clearInterval(intervalId);
         }
     }, [timeLeft]);
 
+    const handlepressques = (data: any) => {
+        navigation.navigate("UserHome", { itemes: data, time: timeLeft, totalTime: paperduration, progressWidth: progress.value });
+    };
 
     const modal2 = () => (
         <>
@@ -233,7 +227,7 @@ export default function QuestionList({ route }: any) {
                         :
                         <>
                             <View style={styles.timeduration}>
-                                {time && paperduration && <TimeDuration paperduration={paperduration} animationStart={false} initalHeight={4} timeLeft={timeLeft} />}
+                                {time && paperduration && <TimeDuration paperduration={paperduration} animationStart={false} initalHeight={4} timeLeft={timeLeft} progress={progress.value} />}
                             </View>
                             <View style={styles.flatviewcss}>
                                 <FlatList
@@ -245,13 +239,13 @@ export default function QuestionList({ route }: any) {
                                                 Q {item.sn}. {item.question}
                                             </Text>
                                             {item.type === "Input" && (
-                                                item.answer !== undefined && <Text style={styles.textanswer}>{item.answer}</Text>
+                                                item.userAnswer !== undefined && <Text style={styles.textanswer}>{item.userAnswer}</Text>
                                             )}
                                             {item.type === "MCQ" &&
                                                 <View style={styles.mcqstyle}>
                                                     {
                                                         Object.entries(item.options).map(([key, value], i) => (
-                                                            <Text key={i} style={[styles.textoption, item.correctOption === key ? { color: color.green } : { color: color.white }]}>{key}. {value}</Text>
+                                                            <Text key={i} style={[styles.textoption, item.userAnswer === key ? { color: color.green } : { color: color.white }]}>{key}. {value}</Text>
                                                         ))
                                                     }
                                                 </View>

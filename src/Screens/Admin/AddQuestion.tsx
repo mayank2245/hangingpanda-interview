@@ -67,16 +67,18 @@ export default function AddQuestion({ route }: any) {
     }
 
     const handleSubmit = () => {
-        setQueswrite(true)
-        const sendData = [...data, {
-            sn: data.length + 1,
-            question: ques,
-            answer: answer,
-            type: 'Input',
-        }]
-        setQues("")
-        setAnswer("")
-        navigate.navigate("ShowData", { data2: sendData })
+        if (answer !== "") {
+            setQueswrite(true)
+            const sendData = [...data, {
+                sn: data.length + 1,
+                question: ques,
+                answer: answer,
+                type: 'Input',
+            }]
+            setQues("")
+            setAnswer("")
+            navigate.navigate("ShowData", { data2: sendData })
+        }
     }
 
     const handleSubmit2 = () => {
@@ -211,7 +213,7 @@ export default function AddQuestion({ route }: any) {
                         queswrite === true ?
                             <>
                                 <Text style={styles.enterQues}>Q. {data.length + 1}</Text>
-                                <TextInput onChangeText={setQues} value={ques} style={styles.textQues} placeholder="Enter your queestion here" placeholderTextColor="#FF3856" cursorColor="#FF3856"></TextInput>
+                                <TextInput onChangeText={setQues} value={ques} style={styles.textQues} placeholder="Enter your question here" placeholderTextColor="#FF3856" cursorColor="#FF3856"></TextInput>
                                 <TouchableOpacity
                                     activeOpacity={0.8}
                                     style={styles.addquescss}

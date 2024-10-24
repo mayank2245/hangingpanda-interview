@@ -10,48 +10,60 @@ import TimeDuration from "../../components/TimeDuration";
 import { useSharedValue, withTiming } from "react-native-reanimated";
 
 export default function Home({ route }: any) {
-    const { itemes, time, totalTime } = route.params;
+    const { itemes, time, totalTime, progressWidth } = route.params;
     const navigation = useNavigation();
     const [timeLeft, setTimeLeft] = useState(time);
     const [data, setData] = useState(itemes);
     const [answer, setAnswer] = useState("");
     const [focusText, setFocusText] = useState(false);
+    const [counter, setCounter] = useState(0)
+    const [timeBarWidth, setTimeBarWidth] = useState(progressWidth)
 
     useEffect(() => {
         if (data.type === "Input") {
-            setAnswer(itemes?.answer)
+            setAnswer(itemes?.userAnswer)
+        }
+        if (itemes.timeTaken) {
+            setCounter(itemes.timeTaken * 60)
         }
     }, [])
 
 
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCounter((prev) => prev + 1);
+        }, 1000);
 
+        return () => clearInterval(intervalId);
+    }, []);
 
     const handlesubmit = (item: any) => {
         if (item.type === "Input") {
-            item.answer = answer;
+            item.userAnswer = answer;
+            item.timeTaken = Math.floor(counter / 60);
         }
         navigation.navigate("QuestionList", { item: data });
         setAnswer("");
     };
 
     const handlepressOption = (item: any, selectedOption: string) => {
-        const updatedData = { ...item, correctOption: selectedOption };
+        const updatedData = { ...item, userAnswer: selectedOption, timeTaken: Math.floor(counter / 60), };
         setData(updatedData);
     };
-
+    const progress = useSharedValue(progressWidth);
     useEffect(() => {
         if (!timeLeft) return;
         const intervalId = setInterval(() => {
             setTimeLeft((prev) => {
                 const newTimeLeft = prev - 1;
-                const percentage = (newTimeLeft / (60 * time)) * rw(93);
-                process.value = withTiming(percentage, { duration: 1000 });
+                const percentage = (newTimeLeft / Math.floor((timeLeft))) * progressWidth;
+                progress.value = withTiming(percentage, { duration: 1000 });
                 return newTimeLeft;
             });
         }, 1000);
 
         return () => clearInterval(intervalId);
-    }, [timeLeft]);
+    }, []);
 
     return (
         <View style={styles.safearea}>
@@ -60,7 +72,7 @@ export default function Home({ route }: any) {
                 <BackArrow />
                 <Text style={styles.quesnumber}>Question No. {data.sn}</Text>
             </View>
-            <TimeDuration paperduration={totalTime} animationStart={true} initalHeight={2} timeLeft={timeLeft} />
+            <TimeDuration paperduration={totalTime} animationStart={true} initalHeight={2} timeLeft={timeLeft} progress={progress.value} />
             <Text style={styles.quescss}>
                 Q{data.sn}. {data.question}
             </Text>
@@ -87,7 +99,7 @@ export default function Home({ route }: any) {
                                 <Text
                                     style={[
                                         styles.textoption,
-                                        data.correctOption === key
+                                        data.userAnswer === key
                                             ? { color: color.green }
                                             : { color: color.white },
                                     ]}
