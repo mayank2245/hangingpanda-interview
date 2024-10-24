@@ -15,10 +15,10 @@ const getTextStyle = (type: string, bold: string, semibold: string, Montserrat: 
     let style;
     switch (type) {
         case 'heading':
-            style = styles.textBold;
+            style = styles.heading;
             break;
         case 'sub_heading':
-            style = styles.SemiBold;
+            style = styles.sub_heading;
             break;
         default:
             style = styles.textregular;
@@ -42,11 +42,11 @@ const getTextStyle = (type: string, bold: string, semibold: string, Montserrat: 
 };
 
 const styles = StyleSheet.create({
-    textBold: {
+    heading: {
         fontSize: rf(3.5),
         color: color.white,
     },
-    SemiBold: {
+    sub_heading: {
         fontSize: rf(2.2),
         color: color.white
     },
