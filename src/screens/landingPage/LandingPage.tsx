@@ -40,7 +40,7 @@ export default function LandingPage() {
                             <Logo />
                         </View>
                         <View style={styles.textShowCss}>
-                            <RNText style={styles.textShowCss5} type="heading" Montserrat bold>Welcome at</RNText>
+                            <RNText style={styles.textShowCss5} type="heading" textBold Montserrat bold>Welcome at</RNText>
                             <Text style={styles.textShowCss}>Welcome at</Text>
                             <Text style={styles.textShowCss2}>HangingPanda !</Text>
                             <Text style={styles.textShowCss}>We believe in your
@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
         color: color.logintextWhite,
         paddingLeft: rw(4),
         paddingTop: rh(1.7),
-        lineHeight: rh(3.4)
     },
     textShowCss: {
         fontFamily: 'Montserrat-Bold',
