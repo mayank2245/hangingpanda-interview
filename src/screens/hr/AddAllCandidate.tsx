@@ -1,5 +1,5 @@
-import { FlatList, ImageBackground, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { FlatList, ImageBackground, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ApiService } from '../../api/apiCalls/ApiCalls';
 import { useMutation } from '@tanstack/react-query';
@@ -11,6 +11,7 @@ import CandidateCard from '../../components/CandidateCard';
 import { BackgroundImage } from '../../assests/images';
 import BackArrow from '../../components/BackArrow';
 import { useNavigation } from '@react-navigation/native';
+import RNText from '../../components/RNText';
 
 export default function AddAllCandidate({ route }: any) {
     const { candidateData } = route.params || {};
@@ -54,11 +55,11 @@ export default function AddAllCandidate({ route }: any) {
                 <View style={styles.safearea}>
                     <View style={styles.headerview}>
                         <BackArrow />
-                        <Text style={styles.paperList}>Add Candidate</Text>
+                        <RNText style={styles.paperList} type="heading" font='MontserratBold' colortype="white">Add Candidate</RNText>
                     </View>
                     <TouchableOpacity onPress={() => Navigation.navigate("AddStudent", { candidatedata: candidateData })} style={styles.addQues}>
                         <Add style={styles.addQuesLogo} />
-                        <Text style={[styles.addQuesText]}>Add Candidate</Text>
+                        <RNText style={styles.addQuesText} font='MontserratSemiBold' colortype="lightWhite">Add Candidate</RNText>
                     </TouchableOpacity>
                     <FlatList
                         style={styles.flatliststyle}
@@ -85,7 +86,7 @@ export default function AddAllCandidate({ route }: any) {
                             onPress={handleUpload}
                             style={[styles.uploadcss, !loader ? {} : { opacity: 0.5 }]}>
                             <Upload />
-                            <Text style={styles.uploadText}>{!loader ? "Upload" : "Uploading"}</Text>
+                            <RNText type="subHeading" font='MontserratSemiBold' colortype="white">{!loader ? "Upload" : "Uploading"}</RNText>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -110,9 +111,6 @@ const styles = StyleSheet.create({
         marginTop: rh(3.5),
         marginBottom: rh(1),
         marginLeft: rh(2),
-        color: color.white,
-        fontFamily: 'Montserrat-Bold',
-        fontSize: rf(3),
     },
     uploadcss: {
         height: rh(8),
@@ -122,11 +120,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         columnGap: rw(2),
-    },
-    uploadText: {
-        fontFamily: 'Montserrat-SemiBold',
-        color: color.white,
-        fontSize: rf(2.6),
     },
     flatliststyle: {
         marginBottom: rh(6),
@@ -150,12 +143,9 @@ const styles = StyleSheet.create({
         marginLeft: rh(0.8),
     },
     addQuesText: {
-        fontFamily: "Montserrat-SemiBold",
         width: rw(28),
         marginTop: rh(4.8),
-        color: color.lightWhite,
         marginLeft: rh(-4.8),
-        fontSize: rf(1.5),
         textAlign: 'center',
         transform: [{ rotate: '270deg' }],
     },

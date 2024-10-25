@@ -763,8 +763,6 @@
 				E67A6C55C48345B5B57A5F9C /* Montserrat-Black.ttf in Resources */,
 				2EB49FEF39374B38B9B7B09B /* Montserrat-Bold.ttf in Resources */,
 				8D853E4AFC8E430D8C0F95DC /* Montserrat-ExtraBold.ttf in Resources */,
-				B33B2652F93347DB83F42586 /* .ttf in Resources */,
-				451CD73F75DC40F497EE59F7 /* .ttf in Resources */,
 				6AD32C423FFB471A9899C696 /* Montserrat-Light.ttf in Resources */,
 				7E73DCB1FAD84EFC9A178883 /* Montserrat-Medium.ttf in Resources */,
 				E7A3BF9816184E95A43E9128 /* Montserrat-Regular.ttf in Resources */,
@@ -865,7 +863,6 @@
 				BE883D92E39243059803CE80 /* NunitoSans_7pt-MediumItalic.ttf in Resources */,
 				7686093A571446CCB2B46691 /* NunitoSans_7pt-Regular.ttf in Resources */,
 				7A4A4B75D6524D5683C75099 /* NunitoSans_7pt-SemiBold.ttf in Resources */,
-				0E5B144E1CFA423BBEDCEC36 /* NunitoSans_7pt-SemiBoldItalic.ttf in Resources */,
 				51DB32E5F2884920ADC07F0F /* NunitoSans_7pt_Condensed-Black.ttf in Resources */,
 				3682C0D3B5B14C6A86ED06A8 /* NunitoSans_7pt_Condensed-BlackItalic.ttf in Resources */,
 				3B09276A00064AE3B3F41617 /* NunitoSans_7pt_Condensed-Bold.ttf in Resources */,
@@ -1275,7 +1272,10 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -1349,7 +1349,10 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

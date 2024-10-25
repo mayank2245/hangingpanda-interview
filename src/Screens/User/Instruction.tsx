@@ -2,7 +2,6 @@ import {
     ImageBackground,
     StatusBar,
     StyleSheet,
-    Text,
     TouchableOpacity,
     View
 } from 'react-native';
@@ -17,6 +16,7 @@ import TimeDuration from '../../components/TimeDuration';
 import { Alert, Checklist, Panda } from '../../assests/lottie';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import RNText from '../../components/RNText';
 
 export default function Instruction({ route }) {
     const { paperTime } = route.params;
@@ -36,40 +36,40 @@ export default function Instruction({ route }) {
             case 1:
                 return (
                     <View>
-                        <Text style={styles.textTime}>Timer</Text>
+                        <RNText style={styles.textTime} type="heading" font='MontserratSemiBold' colortype="red">Timer</RNText>
                         <View style={styles.timeduration}>
                             {paperduration && <TimeDuration paperduration={paperduration} animationStart={false} initalHeight={4} timeLeft={paperduration * 60} progress={undefined} />}
                         </View>
-                        <Text style={styles.instructionText}>
+                        <RNText style={styles.instructionText} type="subHeading" font='NunitoSemiBold' colortype="red">
                             You have a timer at the top of the screen to track your exam duration. Ensure you manage your time effectively for each question type: input, MCQ, and blank space.
-                        </Text>
+                        </RNText>
                     </View>
                 );
             case 2:
                 return (
                     <View>
-                        <Text style={styles.textTime}>Stay Focused</Text>
+                        <RNText style={styles.textTime} type="heading" font='MontserratSemiBold' colortype="red">Stay Focused</RNText>
                         <LottieView
                             source={Alert}
                             style={styles.lottieview}
                             autoPlay
                         />
-                        <Text style={styles.instructionText2}>
+                        <RNText style={styles.instructionText2} type="subHeading" font='NunitoSemiBold' colortype="red">
                             Do not close the app or switch to other applications. If you attempt to exit or switch apps, your exam will be automatically terminated.
-                        </Text>
+                        </RNText>
                     </View>
                 );
             case 3:
                 return (
                     <View>
-                        <Text style={styles.textTime}>Follow All Instructions</Text>
+                        <RNText style={styles.textTime} type="heading" font='MontserratSemiBold' colortype="red">Follow All Instructions</RNText>
                         <LottieView
                             source={Checklist}
                             style={styles.lottieview}
                         />
-                        <Text style={styles.instructionText3}>
+                        <RNText style={styles.instructionText3} type="subHeading" font='NunitoSemiBold' colortype="red">
                             Carefully read and answer each question type as prompted. Your performance is monitored, and any disruptions will end the interview.
-                        </Text>
+                        </RNText>
                     </View>
                 );
             default:
@@ -92,7 +92,7 @@ export default function Instruction({ route }) {
                             autoPlay
                             loop
                         />
-                        <Text style={styles.mustreadText}>Must Read Instruction</Text>
+                        <RNText style={styles.mustreadText} type="subHeading" font='MontserratSemiBold' colortype="red">Must Read Instruction</RNText>
                     </View>
                     {renderInstructionContent()}
                     <TouchableOpacity
@@ -100,7 +100,7 @@ export default function Instruction({ route }) {
                         style={styles.touchable}
                         onPress={handleNextButton}
                     >
-                        <Text style={styles.Nextpage}> {nextButton === 3 ? "Get started" : "Next page " + nextButton + "/3"} </Text>
+                        <RNText type="subHeading" font='MontserratSemiBold' colortype="white">{nextButton === 3 ? "Get started" : "Next page " + nextButton + "/3"} </RNText>
                         <IconArrow name="arrowright" size={24} color="white" />
                     </TouchableOpacity>
                 </View>
@@ -129,15 +129,9 @@ const styles = StyleSheet.create({
         paddingBottom: rh(1),
         justifyContent: 'center',
         textAlign: 'center',
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: 25,
-        color: color.primaryRed,
         backgroundColor: "black",
     },
     textTime: {
-        color: color.primaryRed,
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: rf(3),
         textAlign: 'center',
         marginTop: rh(2.5),
     },
@@ -145,9 +139,6 @@ const styles = StyleSheet.create({
         position: "absolute",
         marginLeft: rh(4),
         marginHorizontal: rw(7),
-        color: color.primaryRed,
-        fontFamily: 'NunitoSans_7pt-SemiBold',
-        fontSize: rf(2.2),
         textAlign: 'center',
         marginTop: rh(22)
     },
@@ -155,9 +146,6 @@ const styles = StyleSheet.create({
         position: "absolute",
         marginLeft: rh(4),
         marginHorizontal: rw(7),
-        color: color.primaryRed,
-        fontFamily: 'NunitoSans_7pt-SemiBold',
-        fontSize: rf(2.2),
         textAlign: 'center',
         marginTop: rh(28)
     },
@@ -165,10 +153,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         marginTop: rh(28),
         marginHorizontal: rw(7),
-        color: color.primaryRed,
-        fontFamily: 'NunitoSans_7pt-SemiBold',
         textAlign: 'center',
-        fontSize: rh(2),
         width: rw(92),
         marginLeft: rw(4)
     },
@@ -202,11 +187,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row'
-    },
-    Nextpage: {
-        color: color.white,
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: rf(2.2),
     },
     lottieview: {
         width: "100%",

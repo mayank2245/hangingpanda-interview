@@ -1,7 +1,5 @@
 import {
-    Pressable,
     StyleSheet,
-    Text,
     TouchableOpacity,
     View
 } from 'react-native'
@@ -17,6 +15,7 @@ import { color } from '../constant/color';
 import { ApiService } from '../api/apiCalls/ApiCalls';
 import { rf, rh, rw } from '../helpers/responsivedimention'
 import { randomColor } from '../helpers/randomColor';
+import RNText from './RNText';
 
 interface CardProps {
     paperId: number,
@@ -69,15 +68,13 @@ const Card: React.FC<CardProps> = ({ paperId, papertype, timeLimit }) => {
 
     const modal = () => (
         <>
-            <Text style={styles.modalText}>
-                Are you sure you want to delete this Question Paper?
-            </Text>
-            <Pressable style={styles.modalbox}>
-                <Text style={styles.modalText2}>Yes</Text>
-            </Pressable>
-            <Pressable style={styles.modalbox} onPress={() => setVisibleModal(false)}>
-                <Text style={styles.modalText2}>No</Text>
-            </Pressable>
+            <RNText style={styles.modalText} type="subHeading" font='MontserratSemiBold' colortype="red">Are you sure you want to delete this Question Paper?</RNText>
+            <TouchableOpacity style={styles.modalbox} >
+                <RNText style={styles.modalText2} type="subHeading" font='MontserratSemiBold' colortype="white">Yes</RNText>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.modalbox} onPress={() => setVisibleModal(false)}>
+                <RNText style={styles.modalText2} type="subHeading" font='MontserratSemiBold' colortype="white">No</RNText>
+            </TouchableOpacity>
         </>
     );
 
@@ -87,7 +84,7 @@ const Card: React.FC<CardProps> = ({ paperId, papertype, timeLimit }) => {
             onPress={() => handleSingleQues(paperId)}
         >
             <View style={styles.headerRow}>
-                <Text style={styles.cardtext}>{papertype}</Text>
+                <RNText style={styles.cardtext} type="subHeading" font='MontserratBold' colortype="black">{papertype}</RNText>
                 <TouchableOpacity onPress={handledeletePress}>
                     <MaterialCommunityIcons
                         color="black"
@@ -104,10 +101,8 @@ const Card: React.FC<CardProps> = ({ paperId, papertype, timeLimit }) => {
                     name="clock-time-nine-outline"
                     size={35}
                 />
-                <Text style={styles.cardtext3}>
-                    {timeLimit}
-                </Text>
-                <Text style={styles.cardtext}> min</Text>
+                <RNText style={styles.cardtext3} type="heading" font='MontserratBold' colortype="black">{timeLimit}</RNText>
+                <RNText style={styles.cardtext} type="subHeading" font='MontserratBold' colortype="black">min</RNText>
             </View>
 
             <CustomModal
@@ -139,9 +134,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     cardtext: {
-        color: color.black,
-        fontFamily: 'Montserrat-Bold',
-        fontSize: rf(2.1),
         marginTop: rh(2),
         marginLeft: rw(1)
 
@@ -170,10 +162,7 @@ const styles = StyleSheet.create({
     },
     cardtext3: {
         marginTop: rh(0.7),
-        fontFamily: 'Montserrat-Bold',
-        color: color.black,
         marginLeft: rw(2.5),
-        fontSize: rf(3.6),
     },
     modalbox: {
         marginHorizontal: rw(28),

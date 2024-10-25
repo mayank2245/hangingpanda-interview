@@ -2,7 +2,7 @@ import { useState } from "react";
 import { StatusBar } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ImageBackground, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 
 import { color } from "../../constant/color";
 import { Arrow, Ellipse, Loginellips, Logo } from "../../assests/svg";
@@ -13,6 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ShowToast } from "../../helpers/toast";
 import { Loader } from "../../components/Loader";
+import RNText from "../../components/RNText";
 
 export default function LoginUserPage() {
     const [userId, setUserId] = useState("")
@@ -95,12 +96,12 @@ export default function LoginUserPage() {
                             <Logo />
                         </View>
                         <View style={styles.textShowCss}>
-                            <Text style={[styles.textShowCss, { color: color.logintextWhite }]}>At</Text>
-                            <Text style={[styles.textShowCss, { color: color.primaryRed }]}>HangingPanda !</Text>
-                            <Text style={[styles.textShowCss, { color: color.logintextWhite }]}>we truly value your exceptional work,</Text>
-                            <Text style={[styles.textShowCss, { color: color.logintextWhite }]}>HR.</Text>
+                            <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="logintextWhite">At</RNText>
+                            <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="red">HangingPanda !</RNText>
+                            <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="logintextWhite">we truly value your exceptional work,</RNText>
+                            <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="logintextWhite">Admin.</RNText>
                         </View>
-                        <Text style={[styles.discriptionText, { color: color.white }]}>Pls Enter your Details here to enter in your interview process</Text>
+                        <RNText style={styles.discriptionText} font='MontserratBold' colortype="white">Pls Enter your Details here to enter in your interview process</RNText>
                         <View style={styles.viewTextInp}>
                             <TextInput keyboardType="numeric" onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="Hr Id" placeholderTextColor={color.primaryRed} cursorColor={color.primaryRed} />
                             <TextInput
@@ -165,11 +166,8 @@ const styles = StyleSheet.create({
         marginTop: rh(10.8),
     },
     textShowCss: {
-        fontFamily: 'Montserrat-Bold',
-        fontSize: rf(3.5),
         paddingLeft: rw(4),
         paddingTop: rh(1.7),
-        lineHeight: rh(3.4)
     },
     viewTextInp: {
 
