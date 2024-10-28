@@ -16,7 +16,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import moment from 'moment';
 
 import { color } from "../../constant/color";
-import Addques from '../../assests/svg/addQues';
+
 import { BackgroundImage } from "../../assests/images";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import BackArrow from "../../components/BackArrow";
@@ -25,6 +25,7 @@ import { ShowToast } from "../../helpers/toast";
 import { useMutation } from "@tanstack/react-query";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ApiService } from "../../api/apiCalls/ApiCalls";
+import { AddQues } from "../../assests/svg";
 
 export default function AddQuestion({ route }: any) {
     const { candidatedata } = route.params;
@@ -265,7 +266,7 @@ export default function AddQuestion({ route }: any) {
                             onPress={handleadd}
                         >
                             <View style={styles.addquessubmit}>
-                                <Addques />
+                                <AddQues />
                                 <Text style={styles.addquesText}>Submit</Text>
                             </View>
                         </TouchableOpacity>

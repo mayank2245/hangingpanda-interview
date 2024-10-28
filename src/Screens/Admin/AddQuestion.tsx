@@ -12,15 +12,13 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import WheelPicker from '@quidone/react-native-wheel-picker';
 
-import Add from "../../assests/svg/add";
 import { color } from "../../constant/color";
-import Addques from '../../assests/svg/addQues';
-import CrossIcon from "../../assests/svg/crossIcon";
 import { BackgroundImage } from "../../assests/images";
 import { dataText, alphabet } from '../../constant/staticData'
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import BackArrow from "../../components/BackArrow";
 import CustomModal from "../../components/Modal";
+import { Add, AddQues, CrossIcon } from "../../assests/svg";
 
 
 
@@ -148,7 +146,7 @@ export default function AddQuestion({ route }: any) {
             <>
                 <Text style={styles.optionrequire}>How much option do you want?</Text>
                 <View style={styles.viewenteroption}>
-                    <Text style={styles.enteroption}>Enter the Option</Text>
+                    <Text style={styles.enteroption}>Enter Option</Text>
                     <WheelPicker
                         itemTextStyle={{ color: 'white', borderRadius: 20 }}
                         width={50}
@@ -162,7 +160,7 @@ export default function AddQuestion({ route }: any) {
                     onPress={handleAddmcq}
                 >
                     <View style={styles.addquessubmit}>
-                        <Addques />
+                        <AddQues />
                         <Text style={styles.addquesText}>Add</Text>
                     </View>
                 </TouchableOpacity>
@@ -189,7 +187,7 @@ export default function AddQuestion({ route }: any) {
                     onPress={handleselectmcq}
                 >
                     <View style={styles.addquessubmit}>
-                        <Addques />
+                        <AddQues />
                         <Text style={styles.addquesText}>Submit</Text>
                     </View>
                 </TouchableOpacity>
@@ -220,7 +218,7 @@ export default function AddQuestion({ route }: any) {
                                     onPress={handleAddques}
                                 >
                                     <View style={styles.addquessubmit}>
-                                        <Addques />
+                                        <AddQues />
                                         <Text style={styles.addquesText}>Add</Text>
                                     </View>
                                 </TouchableOpacity>
@@ -237,7 +235,7 @@ export default function AddQuestion({ route }: any) {
                                             onPress={handleSubmit}
                                         >
                                             <View style={styles.viewsubmit}>
-                                                <Addques />
+                                                <AddQues />
                                                 <Text style={styles.addquesText}>Submit</Text>
                                             </View>
                                         </TouchableOpacity>
@@ -271,7 +269,7 @@ export default function AddQuestion({ route }: any) {
                                                             disabled={nextOption}
                                                         >
                                                             <View style={styles.viewsubmit}>
-                                                                <Addques />
+                                                                <AddQues />
                                                                 <Text style={styles.addquesText}>Next</Text>
                                                             </View>
                                                         </TouchableOpacity>
@@ -285,7 +283,7 @@ export default function AddQuestion({ route }: any) {
                                                                         onPress={handleSubmit2}
                                                                     >
                                                                         <View style={styles.viewsubmit}>
-                                                                            <Addques />
+                                                                            <AddQues />
                                                                             <Text style={styles.addquesText}>Submit</Text>
                                                                         </View>
                                                                     </TouchableOpacity>
@@ -444,14 +442,14 @@ const styles = StyleSheet.create({
     },
     addQuesLogo: {
         marginTop: rh(1.2),
-        marginLeft: rh(0.9),
+        marginLeft: rh(1),
     },
     addQuesText: {
         fontFamily: "Montserrat-SemiBold",
         width: rw(28),
         marginTop: rh(4.8),
         color: color.lightWhite,
-        marginLeft: rh(-4.8),
+        marginLeft: rh(-5),
         fontSize: rf(1.5),
         textAlign: 'center',
         transform: [{ rotate: '270deg' }],
@@ -473,13 +471,13 @@ const styles = StyleSheet.create({
     viewenteroption: {
         flexDirection: 'row',
         borderRadius: 20,
-        columnGap: rw(2)
+        columnGap: rw(3)
     },
     enteroption: {
         fontFamily: 'Montserrat-Bold',
         fontSize: rf(2),
         color: color.green,
-        marginTop: rh(12),
+        marginTop: rh(16),
         marginLeft: rw(14)
     },
     selectcorrect: {

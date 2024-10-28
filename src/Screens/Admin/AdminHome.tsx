@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
   },
   logoImage: {
     position: 'absolute',
-    marginTop: rh(65),
+    marginTop: rh(60),
     width: rw(3),
     height: rh(4),
     marginLeft: rw(4)
@@ -283,9 +283,8 @@ const styles = StyleSheet.create({
     opacity: 0.7,
     color: color.lightWhite,
     fontSize: rf(4.4),
-    height: rh(18),
     width: rw(55),
-    marginTop: rh(82),
+    marginTop: rh(78),
     marginLeft: rw(5),
   },
   modalcss: {
@@ -315,7 +314,7 @@ const styles = StyleSheet.create({
   },
   crosscut: {
     marginTop: rh(2.3),
-    marginLeft: rh(41),
+    marginLeft: rh(48),
     marginBottom: rh(1)
   },
   addquestion: {

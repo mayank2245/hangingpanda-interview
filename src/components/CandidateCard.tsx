@@ -130,7 +130,6 @@ const styles = StyleSheet.create({
         color: color.black,
         fontFamily: 'Montserrat-Bold',
         fontSize: rf(2.1),
-        marginTop: rh(2),
         marginLeft: rw(1)
 
     },

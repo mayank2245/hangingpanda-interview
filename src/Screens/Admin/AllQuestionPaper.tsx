@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     itemtype: {
         marginRight: 10,
         borderRadius: 18,
-        padding: rw(1),
+        padding: rw(0.8),
     },
     viewheader: {
         backgroundColor: '#D9D9D930',
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
         marginTop: rh(2.4)
     },
     headerboxflat: {
-        marginTop: rh(1),
+        marginTop: rh(0.8),
 
     },
     textheaderbox: {

@@ -58,7 +58,7 @@ export default function AddAllCandidate({ route }: any) {
                     </View>
                     <TouchableOpacity onPress={() => Navigation.navigate("AddStudent", { candidatedata: candidateData })} style={styles.addQues}>
                         <Add style={styles.addQuesLogo} />
-                        <Text style={[styles.addQuesText]}>Add Candidate</Text>
+                        <Text style={styles.addQuesText}>Add Candidate</Text>
                     </TouchableOpacity>
                     <FlatList
                         style={styles.flatliststyle}
@@ -83,7 +83,7 @@ export default function AddAllCandidate({ route }: any) {
                         <TouchableOpacity
                             activeOpacity={0.8}
                             onPress={handleUpload}
-                            style={[styles.uploadcss, !loader ? {} : { opacity: 0.5 }]}>
+                            style={[styles.uploadcss, !loader ? "" : { opacity: 0.5 }]}>
                             <Upload />
                             <Text style={styles.uploadText}>{!loader ? "Upload" : "Uploading"}</Text>
                         </TouchableOpacity>
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
         elevation: 2,
         zIndex: 10,
         width: rw(7),
-        height: rh(15),
+        height: rh(18),
         marginTop: rh(40),
         marginLeft: rw(93),
         borderTopLeftRadius: 10,
@@ -147,14 +147,14 @@ const styles = StyleSheet.create({
         height: rh(4),
         width: rw(4),
         marginTop: rh(1),
-        marginLeft: rh(0.8),
+        marginLeft: rh(1),
     },
     addQuesText: {
         fontFamily: "Montserrat-SemiBold",
         width: rw(28),
-        marginTop: rh(4.8),
+        marginTop: rh(4.9),
         color: color.lightWhite,
-        marginLeft: rh(-4.8),
+        marginLeft: rh(-5),
         fontSize: rf(1.5),
         textAlign: 'center',
         transform: [{ rotate: '270deg' }],

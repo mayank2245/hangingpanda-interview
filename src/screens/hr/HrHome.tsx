@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
     },
     logoImage: {
         position: 'absolute',
-        marginTop: rh(63),
+        marginTop: rh(60),
         width: rw(3),
         height: rh(4),
         marginLeft: rw(4)
@@ -279,7 +279,6 @@ const styles = StyleSheet.create({
         opacity: 0.7,
         color: color.lightWhite,
         fontSize: rf(4.4),
-        height: rh(18),
         width: rw(55),
         marginTop: rh(78),
         marginLeft: rw(5),

@@ -24,7 +24,7 @@ import { rf, rh, rw } from "../../helpers/responsivedimention";
 export default function LoginUserPage() {
     const [userId, setUserId] = useState("")
     const [email, setEmail] = useState("")
-    const [callApi, setCallApi] = useState(false)
+    const [callApi, setCallApi] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
     const navigation = useNavigation();
 

@@ -13,12 +13,13 @@ import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import { color } from "../../constant/color";
-import Addques from '../../assests/svg/addQues';
+
 import BackArrow from "../../components/BackArrow";
 import SkeletonCard from "../../helpers/skeletonData";
 import { BackgroundImage } from "../../assests/images";
 import CandidateCard from "../../components/CandidateCard";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
+import { AddQues } from "../../assests/svg";
 
 const questionType = ["All", "Javascript", "Python", "Java", "DSA"];
 
@@ -121,7 +122,7 @@ export default function AddQuestion() {
                             onPress={() => navigation.navigate("AddStudent", { candidatNo: questionList.length })}
                         >
                             <View style={styles.addquessubmit}>
-                                <Addques />
+                                <AddQues />
                                 <Text style={styles.addquesText}>Add Candidate</Text>
                             </View>
                         </TouchableOpacity>
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
     itemtype: {
         marginRight: 10,
         borderRadius: 18,
-        padding: rw(1),
+        padding: rw(0.6),
     },
     viewflatlist: {
         marginBottom: rh(24),
@@ -207,7 +208,6 @@ const styles = StyleSheet.create({
     },
     headerboxflat: {
         marginLeft: rw(1),
-        marginTop: rh(1),
         width: rw(80)
     },
     textheaderbox: {
