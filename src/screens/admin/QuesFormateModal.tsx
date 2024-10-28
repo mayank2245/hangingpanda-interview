@@ -1,13 +1,14 @@
 import csv from 'csvtojson';
 import React, { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, DataTable } from 'react-native-paper';
-import { Share, StatusBar, StyleSheet, Text, TouchableOpacity, View, ScrollView, Alert } from "react-native";
+import { Share, StatusBar, StyleSheet, TouchableOpacity, View, ScrollView, Alert } from "react-native";
 import { Platform, PermissionsAndroid } from 'react-native';
 import { color } from "../../constant/color";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import BackArrow from '../../components/BackArrow';
 import Icon from 'react-native-vector-icons/Feather';
 import ReactNativeBlobUtil from 'react-native-blob-util';
+import RNText from '../../components/RNText';
 
 export default function ModalScreen({ navigation }) {
 
@@ -143,7 +144,7 @@ export default function ModalScreen({ navigation }) {
 
             <View style={styles.headerview}>
                 <BackArrow />
-                <Text style={styles.questionformatetext}>Question paper format</Text>
+                <RNText style={styles.questionformatetext} type="subHeading" font='MontserratSemiBold' colortype="red">Question paper format</RNText>
                 <TouchableOpacity
                     style={styles.uploadPromptIcon}
                     activeOpacity={0.8}
@@ -172,22 +173,22 @@ export default function ModalScreen({ navigation }) {
                                         columnWidths[index] || {}
                                     ]}
                                 >
-                                    <Text style={styles.conatinertextheader}>{headerData}</Text>
+                                    <RNText style={styles.conatinertextheader} font='MontserratBold' colortype="white">{headerData}</RNText>
                                 </DataTable.Title>
                             ))}
                         </DataTable.Header>
-                        {/* {state.currentPageData.map((rowData, rowIndex) => (
+                        {state.currentPageData.map((rowData, rowIndex) => (
                             <DataTable.Row key={rowIndex} style={[styles.rowWithBorder, rowIndex === state.currentPageData.length - 1 ? styles.lastRow : {}]}>
                                 {rowData.map((cellData, cellIndex) => (
                                     <DataTable.Cell
                                         key={cellIndex}
                                         style={[styles.cellWithBorder, columnWidths[cellIndex] || {}]}
                                     >
-                                        <Text style={styles.conatinertext}>{cellData}</Text>
+                                        <RNText style={styles.conatinertext} font='MontserratSemiBold' colortype="white">{cellData}</RNText>
                                     </DataTable.Cell>
                                 ))}
                             </DataTable.Row>
-                        ))} */}
+                        ))}
                     </DataTable>
                 )}
             </ScrollView>
@@ -201,11 +202,8 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     questionformatetext: {
-        fontFamily: "Montserrat-SemiBold",
-        fontSize: rf(2.2),
         marginTop: rh(4),
         marginLeft: rw(2),
-        color: color.primaryRed
     },
     datatable: {
         borderWidth: rh(0),
@@ -230,9 +228,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     conatinertextheader: {
-        color: color.white,
-        fontFamily: "Montserrat-Bold",
-        fontSize: rf(1.3),
         backgroundColor: '#FF385680',
         paddingHorizontal: rh(1.2),
         paddingVertical: rh(0.5),
@@ -240,9 +235,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     conatinertext: {
-        color: color.white,
-        fontFamily: "Montserrat-SemiBold",
-        fontSize: rf(1.1),
         padding: rw(1),
         textAlign: 'center',
     },

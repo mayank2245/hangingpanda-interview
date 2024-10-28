@@ -1,7 +1,6 @@
 import {
     ImageBackground,
     StyleSheet,
-    Text,
     TouchableOpacity,
     View,
     StatusBar,
@@ -40,16 +39,16 @@ export default function LandingPage() {
                             <Logo />
                         </View>
                         <View style={styles.textShowCss}>
-                            <RNText style={styles.textShowCss5} type="heading" textBold Montserrat bold>Welcome at</RNText>
-                            <Text style={styles.textShowCss}>Welcome at</Text>
-                            <Text style={styles.textShowCss2}>HangingPanda !</Text>
-                            <Text style={styles.textShowCss}>We believe in your
-                                talent.</Text>
+                            <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="logintextWhite">Welcome at</RNText>
+                            <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="red">HangingPanda !</RNText>
+                            <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="logintextWhite">We believe in your talent.</RNText>
                         </View>
-                        <Text style={styles.discriptionText}>Pls Enter your Details here to enter in your interview process</Text>
+                        <RNText style={styles.discriptionText} font='MontserratBold' colortype="white">Pls Enter your Details here to enter in your interview process</RNText>
                         {
                             LandingPageData.map((ei, i) => {
-                                return <TouchableOpacity key={i} onPress={() => navigation.navigate(`${ei.screen}`)}><Text style={styles.textQues}>{ei.title}</Text></TouchableOpacity>
+                                return <TouchableOpacity key={i} onPress={() => navigation.navigate(`${ei.screen}`)}>
+                                    <RNText style={styles.textQues} type="subHeading" font='MontserratBold' colortype="white">{ei.title}</RNText>
+                                </TouchableOpacity>
                             })
                         }
                     </KeyboardAwareScrollView>
@@ -69,8 +68,6 @@ const styles = StyleSheet.create({
         opacity: 0.85,
     },
     textQues: {
-        fontFamily: 'Montserrat-Bold',
-        color: color.white,
         borderWidth: 3,
         borderColor: color.primaryRed,
         width: '80%',
@@ -78,7 +75,6 @@ const styles = StyleSheet.create({
         height: rh(7),
         marginTop: rh(2.4),
         borderRadius: 15,
-        fontSize: rf(2.2),
         paddingTop: rh(1.8),
         paddingBottom: rh(2.6),
         textAlign: 'center'
@@ -94,20 +90,8 @@ const styles = StyleSheet.create({
         paddingTop: rh(1.7),
     },
     textShowCss: {
-        fontFamily: 'Montserrat-Bold',
-        color: color.logintextWhite,
-        fontSize: rf(3.5),
         paddingLeft: rw(4),
         paddingTop: rh(1.7),
-
-    },
-    textShowCss2: {
-        fontFamily: 'Montserrat-Bold',
-        color: color.primaryRed,
-        fontSize: rf(3.5),
-        paddingLeft: rw(4),
-        paddingTop: rh(1.7),
-        lineHeight: rh(3.4)
     },
     arrowCss: {
         justifyContent: 'center',
@@ -116,12 +100,9 @@ const styles = StyleSheet.create({
         marginLeft: rh(17.5),
     },
     discriptionText: {
-        fontFamily: 'Montserrat-Bold',
-        fontSize: rf(1.8),
         paddingHorizontal: rw(8.6),
         marginTop: rh(4),
         marginBottom: rh(3),
-        color: color.white
     },
     switchScreen: {
         fontFamily: 'Montserrat-Bold',

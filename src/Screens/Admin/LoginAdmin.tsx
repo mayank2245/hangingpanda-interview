@@ -1,7 +1,6 @@
 import {
     ImageBackground,
     StyleSheet,
-    Text,
     TextInput,
     TouchableOpacity,
     View,
@@ -20,6 +19,7 @@ import { BackgroundImage } from "../../assests/images";
 import { ApiService } from '../../api/apiCalls/ApiCalls'
 import { Ellipse, Loginellips, Logo } from "../../assests/svg";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
+import RNText from "../../components/RNText";
 
 export default function LoginUserPage() {
     const [userId, setUserId] = useState("")
@@ -101,12 +101,12 @@ export default function LoginUserPage() {
                             <Logo />
                         </View>
                         <View style={styles.textShowCss}>
-                            <Text style={styles.textShowCss}>At</Text>
-                            <Text style={styles.textShowCss2}>HangingPanda !</Text>
-                            <Text style={styles.textShowCss}>we truly value your exceptional work,</Text>
-                            <Text style={styles.textShowCss}>Admin.</Text>
+                            <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="logintextWhite">At</RNText>
+                            <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="red">HangingPanda !</RNText>
+                            <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="logintextWhite">we truly value your exceptional work,</RNText>
+                            <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="logintextWhite">Admin.</RNText>
                         </View>
-                        <Text style={styles.discriptionText}>Pls Enter your Details here to enter in your interview process</Text>
+                        <RNText style={styles.discriptionText} font='MontserratBold' colortype="white">Pls Enter your Details here to enter in your interview process</RNText>
                         <TextInput keyboardType="numeric" onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="Admin Id" placeholderTextColor={color.primaryRed} cursorColor={color.primaryRed} />
                         <TextInput
                             style={styles.textQues}
@@ -166,12 +166,8 @@ const styles = StyleSheet.create({
         marginTop: rh(10.8),
     },
     textShowCss: {
-        fontFamily: 'Montserrat-Bold',
-        color: color.logintextWhite,
-        fontSize: rf(3.5),
         paddingLeft: rw(4),
         paddingTop: rh(1.7),
-        lineHeight: rh(3.4)
     },
     textShowCss2: {
         fontFamily: 'Montserrat-Bold',

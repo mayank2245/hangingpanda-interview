@@ -3,7 +3,6 @@ import {
     StatusBar,
     StyleSheet,
     TouchableOpacity,
-    Text,
     View,
     FlatList
 } from "react-native";
@@ -19,6 +18,7 @@ import SkeletonCard from "../../helpers/skeletonData";
 import { BackgroundImage } from "../../assests/images";
 import CandidateCard from "../../components/CandidateCard";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
+import RNText from "../../components/RNText";
 
 const questionType = ["All", "Javascript", "Python", "Java", "DSA"];
 
@@ -48,7 +48,7 @@ export default function AddQuestion() {
                 <View style={styles.safearea}>
                     <View style={styles.headerview}>
                         <BackArrow />
-                        <Text style={styles.paperList}>Candidate's List</Text>
+                        <RNText style={styles.paperList} type="subHeading" font='MontserratSemiBold' colortype="white">Candidate's List</RNText>
                     </View>
                     <View style={styles.allcandidate}>
                         {isLoading ? (
@@ -73,12 +73,10 @@ export default function AddQuestion() {
                                 <View style={styles.headerbox}>
                                     <View style={styles.viewheaderbox}>
                                         <View style={styles.viewsubheaderbox}>
-                                            <Text style={styles.headertext}>Total</Text>
-                                            <Text style={styles.headertext}>candidate</Text>
+                                            <RNText type="Heading" font='MontserratSemiBold' colortype="white">Total</RNText>
+                                            <RNText type="Heading" font='MontserratSemiBold' colortype="white">Candidate</RNText>
                                         </View>
-                                        <Text style={[styles.headertext, {
-                                            fontSize: rf(10),
-                                        }]}>{questionList.length}</Text>
+                                        <RNText style={styles.headertext} type="subHeading" font='MontserratSemiBold' colortype="white">{questionList.length}</RNText>
                                     </View>
                                     <View style={styles.headerboxflat}>
                                         <FlatList
@@ -95,7 +93,7 @@ export default function AddQuestion() {
                                                             : { borderWidth: rw(0.4), borderColor: color.white }
                                                     ]}
                                                 >
-                                                    <Text style={[styles.textheaderbox, selectedType === item ? { color: color.black } : { color: color.white }]}>{item}</Text>
+                                                    <RNText style={[styles.textheaderbox, selectedType === item ? { color: color.black } : { color: color.white }]} font='MontserratSemiBold'>{item}</RNText>
                                                 </TouchableOpacity>
                                             )}
                                         />
@@ -122,7 +120,7 @@ export default function AddQuestion() {
                         >
                             <View style={styles.addquessubmit}>
                                 <Addques />
-                                <Text style={styles.addquesText}>Add Candidate</Text>
+                                <RNText style={styles.addquesText} type="subHeading" font='MontserratBold' colortype="white">Add Candidate</RNText>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -148,9 +146,6 @@ const styles = StyleSheet.create({
         marginTop: rh(3.5),
         marginBottom: rh(1),
         marginLeft: rh(2),
-        color: color.white,
-        fontFamily: 'Montserrat-Bold',
-        fontSize: rf(3),
     },
     itemtype: {
         marginRight: 10,
@@ -180,9 +175,6 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 25,
     },
     addquesText: {
-        fontFamily: 'Montserrat-Bold',
-        color: color.white,
-        fontSize: rf(2.4),
         textAlign: 'center',
     },
     addstudent: {
@@ -212,7 +204,6 @@ const styles = StyleSheet.create({
     },
     textheaderbox: {
         paddingHorizontal: rh(0.8),
-        fontFamily: "Montserrat-SemiBold"
     },
     flatliststyle: {
         marginBottom: rh(6),
@@ -228,9 +219,7 @@ const styles = StyleSheet.create({
         marginBottom: rh(0.8)
     },
     headertext: {
-        color: color.white,
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: rf(3),
+        fontSize: rf(10),
     },
     allcandidate: {
         height: rh(96)

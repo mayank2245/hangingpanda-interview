@@ -1,57 +1,80 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { color } from '../constant/color'
 import { rf } from '../helpers/responsivedimention'
+import { color } from '../constant/color'
 
-const RNText = ({ type, bold, semibold, Montserrat, NunitoSans, redcolor, style, ...props }: any) => {
+const RNText = ({ type, font, colortype, style, ...props }: any) => {
     return (
-        <Text style={StyleSheet.flatten([getTextStyle(type, bold, semibold, Montserrat, NunitoSans, redcolor), style])} {...props} />
+        <Text style={StyleSheet.flatten([getTextStyle(type, font, colortype), style])} {...props} />
     )
 }
 
 export default RNText;
 
-const getTextStyle = (type: string, bold: string, semibold: string, Montserrat: string, NunitoSans: string, redcolor: string) => {
+const getTextStyle = (type: string, font: string, colortype: string) => {
     let style;
     switch (type) {
         case 'heading':
             style = styles.heading;
             break;
-        case 'sub_heading':
+        case 'subHeading':
             style = styles.sub_heading;
             break;
         default:
             style = styles.textregular;
     }
-    if (bold) {
-        style = { ...style, fontWeight: "bold" }
+    switch (font) {
+        case 'MontserratBold':
+            style = { ...style, fontFamily: 'Montserrat-Bold' };
+            break;
+        case 'MontserratSemiBold':
+            style = { ...style, fontFamily: 'Montserrat-SemiBold' };
+            break;
+        case 'NunitoSans':
+            style = { ...style, fontFamily: 'NunitoSans_7pt-Regular' };
+
+        case 'NunitoSemiBold':
+            style = { ...style, fontFamily: 'NunitoSans_7pt-SemiBold' };
+        default:
+            style = styles.textregular;
     }
-    if (semibold) {
-        style = { ...style, fontWeight: "semibold" };
-    }
-    if (Montserrat) {
-        style = { ...style, fontFamily: 'Montserrat-Regular' };
-    }
-    if (NunitoSans) {
-        style = { ...style, fontFamily: 'NunitoSans_7pt-Regular' };
-    }
-    if (redcolor) {
+    if (colortype === "red") {
         style = { ...style, color: color.primaryRed };
     }
+    if (colortype === "logintextWhite") {
+        style = { ...style, color: color.logintextWhite };
+    }
+    if (colortype === "white") {
+        style = { ...style, color: color.white };
+    }
+    if (colortype === "lightRed") {
+        style = { ...style, color: color.lightRed };
+    }
+    if (colortype === "lightBlue") {
+        style = { ...style, color: color.lightBlue };
+    }
+    if (colortype === "lightWhite") {
+        style = { ...style, color: color.lightWhite };
+    }
+    if (colortype === "green") {
+        style = { ...style, color: color.green };
+    }
+    if (colortype === "black") {
+        style = { ...style, color: color.black };
+    }
+
+
     return style;
 };
 
 const styles = StyleSheet.create({
     heading: {
         fontSize: rf(3.5),
-        color: color.white,
     },
     sub_heading: {
         fontSize: rf(2.2),
-        color: color.white
     },
     textregular: {
-        fontSize: rf(1),
-        color: color.white
-    }
+        fontSize: rf(1.8),
+    },
 });

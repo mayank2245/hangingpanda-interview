@@ -5,7 +5,6 @@ import {
     ScrollView,
     StatusBar,
     StyleSheet,
-    Text,
     TouchableOpacity,
     View,
 } from 'react-native';
@@ -24,6 +23,7 @@ import { dataText } from '../../constant/staticData';
 import { BackgroundImage } from '../../assests/images';
 import { AddQues, CrossIcon, Logo } from '../../assests/svg';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
+import RNText from '../../components/RNText';
 
 
 export default function App(): React.JSX.Element {
@@ -77,7 +77,7 @@ export default function App(): React.JSX.Element {
                 {dataText?.map((ei, i) => {
                     return (
                         <Pressable key={i} onPress={() => handleCol(i)} style={[styles.modalbox, Index === i ? { backgroundColor: color.primaryRed } : '']}>
-                            <Text style={[styles.modalText, Index === i ? { color: color.white } : { color: color.primaryRed }]}>{ei.title}</Text>
+                            <RNText style={[styles.modalText, Index === i ? { color: color.white } : { color: color.primaryRed }]} type="subHeading" font="MontserratSemiBold" >{ei.title}</RNText>
                         </Pressable>
                     )
                 })}
@@ -101,7 +101,7 @@ export default function App(): React.JSX.Element {
                             activeOpacity={0.8}
                             style={styles.quesformatePress}
                             onPress={() => navigation.navigate('StudentCsvFormate')}>
-                            <Text style={styles.quesformate}>Add Student Formate</Text>
+                            <RNText style={styles.quesformate} font='MontserratSemiBold' colortype="white">Student Formate</RNText>
                         </TouchableOpacity>
                         <Pressable
                             style={styles.filePickerContainer}
@@ -120,10 +120,8 @@ export default function App(): React.JSX.Element {
                                             size={36}
                                             color={color.lightBlue}
                                         />
-                                        <Text style={styles.uploadPromptTitle}>{fileName}</Text>
-                                        <Text style={styles.uploadPromptTitle2}>
-                                            Click next button to preview
-                                        </Text>
+                                        <RNText style={styles.uploadPromptTitle} type="subHeading" font='NunitoSemiBold' colortype="lightRed">{fileName}</RNText>
+                                        <RNText style={styles.uploadPromptTitle2} font='NunitoSemiBold' colortype="lightBlue">Click next button to preview</RNText>
                                     </>
                                 ) : (
                                     <>
@@ -133,12 +131,8 @@ export default function App(): React.JSX.Element {
                                             size={48}
                                             color={color.lightRed}
                                         />
-                                        <Text style={styles.uploadPromptTitle}>
-                                            Import questions Excel or CSV
-                                        </Text>
-                                        <Text style={styles.uploadPromptTitle2}>
-                                            Drag or click to upload
-                                        </Text>
+                                        <RNText style={styles.uploadPromptTitle} type="subHeading" font='NunitoSemiBold' colortype="lightRed">Import questions Excel or CSV</RNText>
+                                        <RNText style={styles.uploadPromptTitle2} font='NunitoSemiBold' colortype="lightBlue">Drag or click to upload</RNText>
                                         <TouchableOpacity
                                             activeOpacity={0.8}
                                             style={[styles.addquestion]}
@@ -146,7 +140,7 @@ export default function App(): React.JSX.Element {
                                         >
                                             <View style={styles.addquesManually}>
                                                 <AddQues />
-                                                <Text style={styles.addquestiontext}>Add Candidate Manually</Text>
+                                                <RNText style={styles.addquestiontext} font='MontserratSemiBold' colortype="white">Add Candidate Manually</RNText>
                                             </View>
                                         </TouchableOpacity>
                                         <TouchableOpacity
@@ -157,7 +151,7 @@ export default function App(): React.JSX.Element {
                                             }}>
                                             <View style={styles.seeAllQues}>
                                                 <AddQues />
-                                                <Text style={styles.addquestiontext}>See All the Candidate</Text>
+                                                <RNText style={styles.addquestiontext} font='MontserratSemiBold' colortype="white">See All the Candidate</RNText>
                                             </View>
                                         </TouchableOpacity>
                                         <CustomModal visible={visiblemodal} onClose={() => setVisiblemodal(false)} content={modalData()} modaloverlaycss={{}} contentcss={{}} />
@@ -172,12 +166,12 @@ export default function App(): React.JSX.Element {
                                 onPress={() => {
                                     navigation.navigate('AddAllCandidate', { candidateData: parsedData });
                                 }}>
-                                <Text style={styles.nextButtonText}>Next</Text>
+                                <RNText type="subHeading" font='NunitoSemiBold' colortype="white">Next</RNText>
                                 <IconArrow name="arrowright" size={24} color={color.white} />
                             </TouchableOpacity>
                         )}
                         <Logo style={styles.logoImage} />
-                        <Text style={styles.logoText}>HANGING PANDA PRODUCTS</Text>
+                        <RNText style={styles.logoText} font='MontserratSemiBold' colortype="lightWhite">HANGING PANDA PRODUCTS</RNText>
                     </ScrollView>
                 </View>
             </ImageBackground>
@@ -234,18 +228,12 @@ const styles = StyleSheet.create({
         marginLeft: rw(40),
     },
     uploadPromptTitle: {
-        fontFamily: 'NunitoSans_7pt-SemiBold',
-        fontSize: rf(2),
         textAlign: 'center',
-        color: color.lightRed,
         paddingHorizontal: rw(2),
         marginTop: rh(1),
     },
     uploadPromptTitle2: {
-        fontFamily: 'NunitoSans_7pt-SemiBold',
-        fontSize: rf(1.8),
         textAlign: 'center',
-        color: color.lightBlue,
         marginTop: rh(0.4),
     },
     nextButton: {
@@ -274,10 +262,8 @@ const styles = StyleSheet.create({
         marginLeft: rw(4)
     },
     logoText: {
-        fontFamily: 'Montserrat-SemiBold',
         position: 'absolute',
         opacity: 0.7,
-        color: color.lightWhite,
         fontSize: rf(4.4),
         height: rh(18),
         width: rw(55),
@@ -305,9 +291,7 @@ const styles = StyleSheet.create({
         marginBottom: rh(1),
     },
     modalText: {
-        fontFamily: 'Montserrat-SemiBold',
         textAlign: 'center',
-        fontSize: rf(2.7),
     },
     crosscut: {
         marginTop: rh(2.3),
@@ -331,10 +315,7 @@ const styles = StyleSheet.create({
         padding: rh(1.3),
     },
     addquestiontext: {
-        fontFamily: 'Montserrat-SemiBold',
         textAlign: 'center',
-        color: color.white,
-        fontSize: rf(1.9),
     },
     seeAllQues: {
         flexDirection: "row",
@@ -347,9 +328,6 @@ const styles = StyleSheet.create({
         columnGap: rw(2)
     },
     quesformate: {
-        fontFamily: 'Montserrat-SemiBold',
-        color: color.white,
-        fontSize: rf(1.3),
         textAlign: 'center',
     },
     quesformatePress: {

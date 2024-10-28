@@ -20,27 +20,29 @@ export default async function fireAjax({
 
     let headers = { ...headerData };
     if (method === 'POST') {
+        console.log("first12344");
         if (token) {
             headers = {
-                headers: {
-                    ...headers,
-                    Authorization: `Bearer ${token}`,
-                },
+                ...headers,
+                Authorization: `Bearer ${token}`,
             };
         }
-        return axios.post(URL, data).then(
-            res => {
-                return res;
-            },
-            error => {
-                if (error.response.status === 401) {
-                    return axios.post(URL, data, headers);
-                } else {
-                    return axios.post(URL, data, headers);
+        return axios.post(URL, data, { headers }) // Pass headers directly
+            .then(
+                res => res,
+                error => {
+                    // Check if a retry is needed on 401 status
+                    if (error.response?.status === 401 && token) {
+                        // Retry with token in headers
+                        return axios.post(URL, data, { headers });
+                    } else {
+                        // Other errors
+                        throw error; // Ensure other errors are handled as needed
+                    }
                 }
-            }
-        );
-    } else if (method === 'GET') {
+            );
+    }
+    else if (method === 'GET') {
         if (token) {
             headers = {
                 headers: {
