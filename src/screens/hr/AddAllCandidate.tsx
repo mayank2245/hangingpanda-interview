@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     uploadcss: {
         height: rh(8),
         backgroundColor: color.primaryRed,
-        borderTopRightRadius: 25,
+        borderTopRightRadius: rw(20),
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
