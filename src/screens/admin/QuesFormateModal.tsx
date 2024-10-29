@@ -41,100 +41,101 @@ export default function ModalScreen({ navigation }: any) {
     const [loader, setLoader] = useState(true)
     const [numberOfItemsPerPage, setNumberOfItemsPerPage] = useState(10);
 
-    try {
-        const response = await fetch(csvFileUrl);
-        const resp = await response.text();
-        const csvRow = await csv({
-            noheader: false,
-            output: "csv"
-        }).fromString(resp);
+    const setTableData = async (csvFileUrl: string | URL | Request) => {
+        try {
+            const response = await fetch(csvFileUrl);
+            const resp = await response.text();
+            const csvRow = await csv({
+                noheader: false,
+                output: "csv"
+            }).fromString(resp);
 
-        let pages = Math.ceil((csvRow.length - 1) / numberOfItemsPerPage);
-        const currentPageData = csvRow.slice(
-            page * numberOfItemsPerPage + 1,
-            (page + 1) * numberOfItemsPerPage + 1
-        );
+            let pages = Math.ceil((csvRow.length - 1) / numberOfItemsPerPage);
+            const currentPageData = csvRow.slice(
+                page * numberOfItemsPerPage + 1,
+                (page + 1) * numberOfItemsPerPage + 1
+            );
 
-        setState({
-            tableHead: csvRow[0],
-            tableData: csvRow.slice(1),
-            currentPageData,
-            numberOfPages: pages
-        });
-        setLoader(false)
-    } catch (error) {
-        console.error("Error fetching the CSV data", error);
-    }
-};
+            setState({
+                tableHead: csvRow[0],
+                tableData: csvRow.slice(1),
+                currentPageData,
+                numberOfPages: pages
+            });
+            setLoader(false)
+        } catch (error) {
+            console.error("Error fetching the CSV data", error);
+        }
+    };
 
-useEffect(() => {
-    setLoader(true)
-    setTableData(csvFileUrl);
-}, [page, numberOfItemsPerPage]);
+    useEffect(() => {
+        setLoader(true)
+        setTableData(csvFileUrl);
+    }, [page, numberOfItemsPerPage]);
 
-return (
-    <View>
-        <StatusBar backgroundColor="transparent" translucent={true} />
+    return (
+        <View>
+            <StatusBar backgroundColor="transparent" translucent={true} />
 
-        <View style={styles.overlay}>
-            <View style={styles.headerview}>
-                <BackArrow />
-                <View style={styles.backarrow}>
-                    <RNText style={styles.questionformatetext} type="navigationSize" font='MontserratSemiBold' colortype="white">Papaer Formate </RNText>
-                    <TouchableOpacity style={styles.uploadPromptIcon} >
-                        <Icon
-                            name="download-cloud"
-                            size={28}
-                            color={color.primaryRed}
-                        />
-                    </TouchableOpacity>
+            <View style={styles.overlay}>
+                <View style={styles.headerview}>
+                    <BackArrow />
+                    <View style={styles.backarrow}>
+                        <RNText style={styles.questionformatetext} type="navigationSize" font='MontserratSemiBold' colortype="white">Papaer Formate </RNText>
+                        <TouchableOpacity style={styles.uploadPromptIcon} >
+                            <Icon
+                                name="download-cloud"
+                                size={28}
+                                color={color.primaryRed}
+                            />
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
 
-            </View>
-
-            <ScrollView horizontal={true} style={styles.container} >
-                {
-                    loader === true ? <ActivityIndicator size={"large"} style={styles.loadercss} animating={true} color={color.primaryRed} />
-                        : <DataTable style={styles.datatable}>
-                            <DataTable.Header style={styles.headerRow}>
-                                {state?.tableHead?.map((headerData, index) => (
-                                    <DataTable.Title
-                                        key={index}
-                                        style={[
-                                            styles.cellWithBorder,
-                                            index === state.currentPageData.length - 1 ? { borderLeftWidth: 0 } : {},
-                                            { margin: rw(0.6) },
-                                            columnWidths[index] || {}
-                                        ]}
-                                    >
-                                        <View >
-                                            <RNText style={styles.conatinertextheader} font='MontserratBold' colortype="white">{headerData}</RNText>
-                                        </View>
-                                    </DataTable.Title>
-                                ))}
-                            </DataTable.Header>
-                            {state.currentPageData.map((rowData, rowIndex) => (
-                                <DataTable.Row key={rowIndex} style={[styles.rowWithBorder, rowIndex === state.currentPageData.length - 1 ? styles.lastRow : { borderRightWidth: 1, borderRightColor: color.white, }]}>
-                                    {rowData && rowData?.map((cellData, cellIndex) => (
-                                        <DataTable.Cell
-                                            key={cellIndex}
+                <ScrollView horizontal={true} style={styles.container} >
+                    {
+                        loader === true ? <ActivityIndicator size={"large"} style={styles.loadercss} animating={true} color={color.primaryRed} />
+                            : <DataTable style={styles.datatable}>
+                                <DataTable.Header style={styles.headerRow}>
+                                    {state?.tableHead?.map((headerData, index) => (
+                                        <DataTable.Title
+                                            key={index}
                                             style={[
                                                 styles.cellWithBorder,
-                                                cellWidths[cellIndex] || {}
+                                                index === state.currentPageData.length - 1 ? { borderLeftWidth: 0 } : {},
+                                                { margin: rw(0.6) },
+                                                columnWidths[index] || {}
                                             ]}
                                         >
-                                            <RNText style={styles.conatinertext} font='MontserratSemiBold' colortype="white">{cellData}</RNText>
-                                        </DataTable.Cell>
+                                            <View >
+                                                <RNText style={styles.conatinertextheader} font='MontserratBold' colortype="white">{headerData}</RNText>
+                                            </View>
+                                        </DataTable.Title>
                                     ))}
-                                </DataTable.Row>
-                            ))}
-                        </DataTable>
-                }
-            </ScrollView>
+                                </DataTable.Header>
+                                {state.currentPageData.map((rowData, rowIndex) => (
+                                    <DataTable.Row key={rowIndex} style={[styles.rowWithBorder, rowIndex === state.currentPageData.length - 1 ? styles.lastRow : { borderRightWidth: 1, borderRightColor: color.white, }]}>
+                                        {rowData && rowData?.map((cellData, cellIndex) => (
+                                            <DataTable.Cell
+                                                key={cellIndex}
+                                                style={[
+                                                    styles.cellWithBorder,
+                                                    cellWidths[cellIndex] || {}
+                                                ]}
+                                            >
+                                                <RNText style={styles.conatinertext} font='MontserratSemiBold' colortype="white">{cellData}</RNText>
+                                            </DataTable.Cell>
+                                        ))}
+                                    </DataTable.Row>
+                                ))}
+                            </DataTable>
+                    }
+                </ScrollView>
 
+            </View>
         </View>
-    </View>
-);
+    );
 }
 
 const styles = StyleSheet.create({
