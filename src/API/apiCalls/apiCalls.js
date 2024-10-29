@@ -1,4 +1,4 @@
-import fireAjax from '../axios/Api';
+import fireAjax from '../axios/api';
 import apiUrl from '../axios/Url';
 
 export const ApiService = {

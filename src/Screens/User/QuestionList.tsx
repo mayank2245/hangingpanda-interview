@@ -6,7 +6,6 @@ import {
     Pressable,
     StatusBar,
     StyleSheet,
-    Text,
     TouchableOpacity,
     View
 } from 'react-native'
@@ -28,6 +27,7 @@ import QuestionListSkeleton from '../../helpers/skeletonUserData';
 import LottieView from 'lottie-react-native';
 import { useSharedValue, withTiming } from 'react-native-reanimated';
 import { AddQues } from '../../assests/svg';
+import RNText from '../../components/RNText';
 
 export default function QuestionList({ route }: any) {
     const item = route.params;
@@ -195,25 +195,21 @@ export default function QuestionList({ route }: any) {
                 style={styles.lottieview}
                 autoPlay
             />
-            <Text style={styles.modalText}>
-                You cannot exit while the test is in progress
-            </Text>
+            <RNText style={styles.modalText} type="subHeading" font='MontserratSemiBold' colortype="red">You cannot exit while the test is in progress</RNText>
             <Pressable style={styles.modalboxOk} onPress={() => { setBackgoing(false) }}>
-                <Text style={styles.modalText2}>ok</Text>
+                <RNText style={styles.modalText2} type="subHeading" font='MontserratSemiBold' colortype="white">ok</RNText>
             </Pressable>
         </>
     );
 
     const modal = () => (
         <>
-            <Text style={styles.modalText}>
-                Are you sure you want to submit the exam?
-            </Text>
+            <RNText style={styles.modalText} type="subHeading" font='MontserratSemiBold' colortype="red">Are you sure you want to submit the exam?</RNText>
             <Pressable style={styles.modalbox} onPress={handlesubmitpaper}>
-                <Text style={styles.modalText2}>Yes</Text>
+                <RNText style={styles.modalText2} type="subHeading" font='MontserratSemiBold' colortype="white">Yes</RNText>
             </Pressable>
             <Pressable style={styles.modalbox} onPress={handleNotSubmit}>
-                <Text style={styles.modalText2}>No</Text>
+                <RNText style={styles.modalText2} type="subHeading" font='MontserratSemiBold' colortype="white">No</RNText>
             </Pressable>
         </>
     );
@@ -236,17 +232,15 @@ export default function QuestionList({ route }: any) {
                                     keyExtractor={(item) => item.sn.toString()}
                                     renderItem={({ item }) => (
                                         <TouchableOpacity onPress={() => handlepressques(item)}>
-                                            <Text style={styles.FlatListques}>
-                                                Q {item.sn}. {item.question}
-                                            </Text>
+                                            <RNText style={styles.FlatListques} font='MontserratSemiBold' colortype="red"> Q {item.sn}. {item.question}</RNText>
                                             {item.type === "Input" && (
-                                                item.userAnswer !== undefined && <Text style={styles.textanswer}>{item.userAnswer}</Text>
+                                                item.userAnswer !== undefined && <RNText style={styles.textanswer} font='MontserratSemiBold' colortype="green">{item.userAnswer}</RNText>
                                             )}
                                             {item.type === "MCQ" &&
                                                 <View style={styles.mcqstyle}>
                                                     {
                                                         Object.entries(item.options).map(([key, value], i) => (
-                                                            <Text key={i} style={[styles.textoption, item.userAnswer === key ? { color: color.green } : { color: color.white }]}>{key}. {value}</Text>
+                                                            <RNText key={i} style={[styles.textoption, item.userAnswer === key ? { color: color.green } : { color: color.white }]} type="subHeading" font='MontserratSemiBold' colortype="white">{key}. {value}</RNText>
                                                         ))
                                                     }
                                                 </View>
@@ -275,7 +269,7 @@ export default function QuestionList({ route }: any) {
                                 onPress={() => setVisibleModal(true)}
                             >
                                 <AddQues />
-                                <Text style={styles.submittext}>Submit</Text>
+                                <RNText type="subHeading" font='MontserratSemiBold' colortype="white">Submit</RNText>
                             </TouchableOpacity>
                         </>
                     }
@@ -304,9 +298,6 @@ const styles = StyleSheet.create({
         marginTop: rh(2)
     },
     FlatListques: {
-        color: color.primaryRed,
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: rf(1.8),
         marginTop: rh(1.8)
     },
     submitcss: {
@@ -318,11 +309,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         columnGap: 12,
     },
-    submittext: {
-        fontFamily: 'Montserrat-SemiBold',
-        color: color.white,
-        fontSize: rf(2.6),
-    },
+
     modalcss: {
         height: rh(25),
         justifyContent: 'center',
@@ -351,18 +338,12 @@ const styles = StyleSheet.create({
         height: rh(5),
     },
     modalText: {
-        fontFamily: 'Montserrat-SemiBold',
         textAlign: 'center',
-        fontSize: rf(2.4),
         paddingHorizontal: rw(4),
-        color: color.primaryRed,
         lineHeight: rh(3)
     },
     modalText2: {
-        fontFamily: 'Montserrat-SemiBold',
         textAlign: 'center',
-        fontSize: rf(2.2),
-        color: color.white,
     },
     modaloverlayCss: {
         justifyContent: 'center',
@@ -390,16 +371,10 @@ const styles = StyleSheet.create({
         marginLeft: 105
     },
     textanswer: {
-        fontFamily: 'Montserrat-SemiBold',
-        color: color.green,
-        fontSize: rf(1.9),
         marginLeft: rw(2.6),
         marginTop: rh(1)
     },
     textoption: {
-        fontFamily: 'Montserrat-SemiBold',
-        color: color.white,
-        fontSize: rf(1.9),
         marginLeft: rw(2.6)
     },
     timerbar: {

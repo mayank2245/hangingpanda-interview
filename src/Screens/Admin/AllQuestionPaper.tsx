@@ -1,4 +1,4 @@
-import { FlatList, ImageBackground, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, ImageBackground, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
@@ -12,6 +12,7 @@ import { ApiService } from '../../api/apiCalls/ApiCalls';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BackArrow from '../../components/BackArrow';
+import RNText from '../../components/RNText';
 
 export default function AllQuestionPaper() {
     const [questionList, setQuestionList] = useState<any>([]);
@@ -62,7 +63,7 @@ export default function AllQuestionPaper() {
                 <View style={styles.overlay}>
                     <View style={styles.backarrow}>
                         <BackArrow />
-                        <Text style={styles.paperList}>List of Question Paper</Text>
+                        <RNText style={styles.paperList} type="navigationSize" font='MontserratBold' colortype="white">List of Question Paper</RNText>
                     </View>
 
                     {isLoading ? (
@@ -87,10 +88,10 @@ export default function AllQuestionPaper() {
                             <View style={styles.headerbox}>
                                 <View style={styles.headerview}>
                                     <View style={styles.viewsubheaderbox}>
-                                        <Text style={styles.headertext}>Total</Text>
-                                        <Text style={styles.headertext}>Question</Text>
+                                        <RNText type="heading" font='MontserratSemiBold' colortype="white">Total</RNText>
+                                        <RNText type="heading" font='MontserratSemiBold' colortype="white">Question</RNText>
                                     </View>
-                                    <Text style={styles.headertextno}>{filteredQuestions.length}</Text>
+                                    <RNText style={styles.headertextno} font='MontserratSemiBold' colortype="white">{filteredQuestions.length}</RNText>
                                 </View>
                                 <View style={styles.headerboxflat}>
                                     <FlatList
@@ -107,7 +108,7 @@ export default function AllQuestionPaper() {
                                                         : { borderWidth: rw(0.4), borderColor: color.white }
                                                 ]}
                                             >
-                                                <Text style={[styles.textheaderbox, selectedtype === item ? { color: color.black, } : { color: color.white }]}>{item}</Text>
+                                                <RNText style={[styles.textheaderbox, selectedtype === item ? { color: color.black, } : { color: color.white }]} type="subHeading" font='MontserratSemiBold'>{item}</RNText>
                                             </TouchableOpacity>
                                         )}
                                     />
@@ -142,12 +143,9 @@ const styles = StyleSheet.create({
         opacity: 0.9,
     },
     paperList: {
-        marginTop: rh(3.4),
+        marginTop: rh(3.5),
         marginBottom: rh(1),
         marginLeft: rh(2),
-        color: color.white,
-        fontFamily: 'Montserrat-Bold',
-        fontSize: rf(3),
     },
     flatliststyle: {
         marginBottom: rh(6),
@@ -170,20 +168,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between'
     },
-    headertext: {
-        color: color.white,
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: rf(3),
-    },
     headertextno: {
-        color: color.white,
-        fontFamily: 'Montserrat-SemiBold',
         fontSize: rf(10),
     },
     itemtype: {
         marginRight: 10,
         borderRadius: 18,
-        padding: rw(0.8),
+        padding: rw(0.6),
     },
     viewheader: {
         backgroundColor: '#D9D9D930',
@@ -202,12 +193,11 @@ const styles = StyleSheet.create({
         marginTop: rh(2.4)
     },
     headerboxflat: {
-        marginTop: rh(0.8),
+        marginTop: rh(1.6),
 
     },
     textheaderbox: {
         paddingHorizontal: rh(0.8),
-        fontFamily: "Montserrat-SemiBold"
     },
     backarrow: {
         flexDirection: 'row',

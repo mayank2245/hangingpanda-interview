@@ -3,7 +3,6 @@ import {
   ImageBackground,
   SafeAreaView,
   StyleSheet,
-  Text,
   TextInput,
   TouchableOpacity,
   View,
@@ -25,6 +24,7 @@ import { rf, rh, rw } from '../../helpers/responsivedimention';
 import { Add, AddQues, CrossIcon, Upload } from '../../assests/svg';
 import BackArrow from '../../components/BackArrow';
 import CustomModal from '../../components/Modal';
+import RNText from '../../components/RNText';
 
 export default function Showdata({ route }: any) {
   const { data, data2, questionData } = route.params;
@@ -103,12 +103,12 @@ export default function Showdata({ route }: any) {
 
   const modalData = () => {
     return (
-      <View style={style.modalcss}>
-        <CrossIcon style={style.crosscut} onPress={() => { setOpenmodal(false) }} />
+      <View style={styles.modalcss}>
+        <CrossIcon style={styles.crosscut} onPress={() => { setOpenmodal(false) }} />
         {dataText?.map((ei, i) => {
           return (
-            <TouchableOpacity key={i} style={[index === i ? { backgroundColor: color.primaryRed } : '', style.modalbox]} onPress={() => handleCol(i)}>
-              <Text style={[style.modalText, index === i ? { color: color.white } : { color: color.primaryRed }]}>{ei.title}</Text>
+            <TouchableOpacity key={i} style={[index === i ? { backgroundColor: color.primaryRed } : '', styles.modalbox]} onPress={() => handleCol(i)}>
+              <RNText style={[styles.modalText, index === i ? { color: color.white } : { color: color.primaryRed }]} type="subHeading" font='MontserratSemiBold'>{ei.title}</RNText>
             </TouchableOpacity>
           )
         })}
@@ -118,11 +118,11 @@ export default function Showdata({ route }: any) {
 
   const renderItem = (item: any) => {
     return (
-      <View style={style.item}>
-        <Text style={[style.textItem, item.name === value ? { color: color.primaryRed } : { color: color.bacgroundlightblack }]}>{item.name ? String(item.name) : item.description}</Text>
+      <View style={styles.item}>
+        <RNText style={[styles.textItem, item.name === value ? { color: color.primaryRed } : { color: color.bacgroundlightblack }]} type="subHeading" font='MontserratSemiBold'>{item.name ? String(item.name) : item.description}</RNText>
         {item.name === value && (
           <Entypo
-            style={style.icon}
+            style={styles.icon}
             color={color.primaryRed}
             name="check"
             size={20}
@@ -136,22 +136,22 @@ export default function Showdata({ route }: any) {
     return (
       <KeyboardAwareScrollView
         enableOnAndroid={true}>
-        <Text style={style.headingstyle}>Enter Paper Duration & Type</Text>
-        <View style={style.viewmodal2}>
-          <Text style={style.modal2Text}>Enter the Time</Text>
-          <TextInput value={timeduration} cursorColor={color.primaryRed} onChangeText={setTimeduration} keyboardType="numeric" style={style.textinputmodal2} />
-          <Text style={style.modal2Text2}>min</Text>
+        <RNText style={styles.headingstyle} type="subHeading" font='MontserratBold' colortype="lightWhite">Enter Paper Duration & Type</RNText>
+        <View style={styles.viewmodal2}>
+          <RNText style={styles.modal2Text} type="subHeading" font='MontserratBold' colortype="red">Enter the Time</RNText>
+          <TextInput value={timeduration} cursorColor={color.primaryRed} onChangeText={setTimeduration} keyboardType="numeric" style={styles.textinputmodal2} />
+          <RNText style={styles.modal2Text2} type="subHeading" font='MontserratBold' colortype="red">min</RNText>
         </View>
-        <View style={style.papertypeview}>
+        <View style={styles.papertypeview}>
           <Dropdown
-            style={style.dropdown}
+            style={styles.dropdown}
             dropdownPosition='top'
-            placeholderStyle={style.placeholderStyle}
-            selectedTextStyle={style.selectedTextStyle}
-            iconStyle={style.iconStyle}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            iconStyle={styles.iconStyle}
             data={PaperTypeDropDown}
-            containerStyle={style.containerStyle}
-            itemContainerStyle={style.itemcontainer}
+            containerStyle={styles.containerStyle}
+            itemContainerStyle={styles.itemcontainer}
             maxHeight={300}
             labelField="name"
             valueField="name"
@@ -167,12 +167,12 @@ export default function Showdata({ route }: any) {
         </View>
         <TouchableOpacity
           activeOpacity={0.8}
-          style={[style.addquescss]}
+          style={[styles.addquescss]}
           onPress={handleAddmcq}
         >
-          <View style={style.viewaddmodal2}>
+          <View style={styles.viewaddmodal2}>
             <AddQues />
-            <Text style={style.addquesText}>Add</Text>
+            <RNText style={styles.addquesText} type="subHeading" font='MontserratBold' colortype="white">Add</RNText>
           </View>
         </TouchableOpacity>
       </KeyboardAwareScrollView>
@@ -183,29 +183,27 @@ export default function Showdata({ route }: any) {
   return (
     <SafeAreaView>
       <ImageBackground
-        style={style.backgroundImage}
+        style={styles.backgroundImage}
         source={BackgroundImage}
         resizeMode="cover">
-        <View style={style.overlay}>
-          <View style={style.headerview}>
+        <View style={styles.overlay}>
+          <View style={styles.headerview}>
             <BackArrow />
-            <Text style={style.paperList}>All Questions</Text>
+            <RNText style={styles.paperList} type="navigationSize" font='MontserratBold' colortype="white">All Questions</RNText>
           </View>
-          <View style={style.flatviewcss}>
-            <View style={style.flatviewcss2}>
+          <View style={styles.flatviewcss}>
+            <View style={styles.flatviewcss2}>
               <FlatList
                 data={quesData}
                 renderItem={({ item }) => (
                   <>
-                    <Text style={style.flatListques}>
-                      Q {item.sn}. {item.question}
-                    </Text>
+                    <RNText style={styles.flatListques} font='MontserratSemiBold' colortype="red">Q {item.sn}. {item.question}</RNText>
                     {
                       typeof (item.answer) === "string" ?
-                        <Text style={style.flatListans}>{item.answer}</Text>
+                        <RNText style={styles.flatListans} font='MontserratSemiBold' colortype="green">{item.answer}</RNText>
                         :
                         Object.entries(item.options).map(([key, value]) => (
-                          <Text style={[style.flatListans2, item.correctOption === key ? { color: color.green } : { color: color.white }]}>{key}. {value}</Text>
+                          <RNText style={[styles.flatListans2, item.correctOption === key ? { color: color.green } : { color: color.white }]} font='MontserratSemiBold'>{key}. {value}</RNText>
                         ))
                     }
                   </>
@@ -214,18 +212,18 @@ export default function Showdata({ route }: any) {
                 keyExtractor={item => item.sn}
               />
             </View>
-            <TouchableOpacity onPress={() => { setOpenmodal(true); setIndex(-1) }} style={style.addQues}>
-              <Add style={style.addQuesLogo} />
-              <Text style={[style.addQuesText]}>Add questions</Text>
+            <TouchableOpacity onPress={() => { setOpenmodal(true); setIndex(-1) }} style={styles.addQues}>
+              <Add style={styles.addQuesLogo} />
+              <RNText style={styles.addQuesText2} type="subHeading" font='MontserratSemiBold' colortype="white">Add questions</RNText>
             </TouchableOpacity>
           </View>
           <CustomModal content={modalData2()} visible={openmodal2} onClose={() => { setOpenmodal2(false); }} modaloverlaycss={{}} contentcss={{}} />
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={handleUpload}
-            style={style.uploadcss}>
+            style={styles.uploadcss}>
             <Upload />
-            <Text style={style.uploadText}>Upload</Text>
+            <RNText type="subHeading" font='MontserratSemiBold' colortype="white">Upload</RNText>
           </TouchableOpacity>
         </View>
       </ImageBackground>
@@ -233,7 +231,7 @@ export default function Showdata({ route }: any) {
     </SafeAreaView >
   );
 }
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   flatviewcss: {
     zIndex: 0,
     flex: 1,
@@ -245,16 +243,10 @@ const style = StyleSheet.create({
     alignItems: "center",
   },
   flatListques: {
-    color: color.primaryRed,
-    fontFamily: 'Montserrat-SemiBold',
-    fontSize: rf(1.9),
     marginBottom: rh(1.6),
     marginTop: rh(2.6)
   },
   flatListans: {
-    fontFamily: 'Montserrat-SemiBold',
-    color: color.green,
-    fontSize: rf(1.9),
     marginHorizontal: rw(2)
   },
   flatListans2: {
@@ -283,17 +275,12 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     columnGap: rw(2),
   },
-  uploadText: {
-    fontFamily: 'Montserrat-SemiBold',
-    color: color.white,
-    fontSize: rf(2.6),
-  },
   addQues: {
     position: 'absolute',
     elevation: 2,
     zIndex: 10,
     width: rw(7),
-    height: rh(15),
+    height: rh(16.4),
     marginTop: rh(35),
     marginLeft: rw(88),
     borderTopLeftRadius: 10,
@@ -336,9 +323,7 @@ const style = StyleSheet.create({
     marginBottom: rh(1),
   },
   modalText: {
-    fontFamily: 'Montserrat-SemiBold',
     textAlign: 'center',
-    fontSize: rf(2.7),
   },
   crosscut: {
     marginTop: rh(2.3),
@@ -354,12 +339,9 @@ const style = StyleSheet.create({
     borderRadius: 15,
   },
   paperList: {
-    marginTop: rh(3.4),
+    marginTop: rh(3.6),
     marginBottom: rh(1),
     marginLeft: rh(2),
-    color: color.white,
-    fontFamily: 'Montserrat-Bold',
-    fontSize: rf(3),
   },
   icon: {
     marginRight: rw(2),
@@ -372,8 +354,6 @@ const style = StyleSheet.create({
   },
   textItem: {
     flex: 1,
-    fontSize: rf(2),
-    fontFamily: 'Montserrat-SemiBold'
   },
   placeholderStyle: {
     fontSize: rf(2.2),
@@ -404,32 +384,28 @@ const style = StyleSheet.create({
     borderTopRightRadius: 25,
   },
   addquesText: {
-    fontFamily: 'Montserrat-Bold',
-    color: color.white,
-    fontSize: rf(2.4),
     textAlign: 'center',
+  },
+  addQuesText2: {
+    fontSize: rf(1.7),
+    width: rw(28),
+    marginTop: rh(5.8),
+    marginLeft: rh(-4.6),
+    textAlign: 'center',
+    transform: [{ rotate: '270deg' }],
   },
   headingstyle: {
     textAlign: 'center',
-    color: color.whitePlaceholder,
-    fontFamily: 'Montserrat-Bold',
     marginTop: rh(3),
-    fontSize: rf(2.4)
   },
   viewmodal2: {
     marginTop: rh(2),
   },
   modal2Text: {
-    fontFamily: 'Montserrat-Bold',
-    fontSize: rf(2.2),
-    color: color.primaryRed,
     marginTop: rh(2),
     marginLeft: rw(5)
   },
   modal2Text2: {
-    fontFamily: 'Montserrat-Bold',
-    fontSize: rf(2.2),
-    color: color.primaryRed,
     marginTop: rh(2),
     position: 'absolute',
     top: rh(6.2),

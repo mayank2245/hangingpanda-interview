@@ -1,12 +1,10 @@
 import {
     ImageBackground,
     StyleSheet,
-    Text,
     TextInput,
     TouchableOpacity,
     View,
     StatusBar,
-    Pressable
 } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -20,6 +18,7 @@ import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ShowToast } from "../../helpers/toast";
 import { Loader } from "../../components/Loader";
+import RNText from "../../components/RNText";
 
 export default function LoginUserPage({ }) {
     const [userId, setUserId] = useState("")
@@ -106,12 +105,11 @@ export default function LoginUserPage({ }) {
                             <Logo />
                         </View>
                         <View style={styles.textShowCss}>
-                            <Text style={styles.textShowCss}>Welcome at</Text>
-                            <Text style={styles.textShowCss2}>HangingPanda !</Text>
-                            <Text style={styles.textShowCss}>We believe in your
-                                talent.</Text>
+                            <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="logintextWhite">Welcome at</RNText>
+                            <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="red">HangingPanda !</RNText>
+                            <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="logintextWhite">we truly value your exceptional work,</RNText>
                         </View>
-                        <Text style={styles.discriptionText}>Pls Enter your Details here to enter in your interview process</Text>
+                        <RNText style={styles.discriptionText} font='MontserratBold' colortype="white">Pls Enter your Details here to enter in your interview process</RNText>
                         <TextInput keyboardType="numeric" onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="User Id" placeholderTextColor={color.primaryRed} cursorColor={color.primaryRed} />
                         <TextInput
                             style={styles.textQues}
@@ -173,12 +171,8 @@ const styles = StyleSheet.create({
         marginTop: rh(10.8),
     },
     textShowCss: {
-        fontFamily: 'Montserrat-Bold',
-        color: color.logintextWhite,
-        fontSize: rf(3.5),
         paddingLeft: rw(4),
         paddingTop: rh(1.7),
-        lineHeight: rh(3.4)
     },
     textShowCss2: {
         fontFamily: 'Montserrat-Bold',
@@ -210,7 +204,7 @@ const styles = StyleSheet.create({
         marginTop: rh(3),
     },
     ellipsisloading: {
-        marginLeft: rw(38.2),
+        marginLeft: rw(39.6),
         borderWidth: 2,
         borderColor: 'red',
         justifyContent: 'center',
@@ -222,8 +216,8 @@ const styles = StyleSheet.create({
     },
     loaderstyle: {
         position: 'absolute',
-        top: rh(87),
-        left: rw(45)
+        top: rh(86.5),
+        left: rw(45.8)
     },
 
 })

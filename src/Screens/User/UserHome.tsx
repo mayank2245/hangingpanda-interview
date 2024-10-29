@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { StatusBar, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 
 import { color } from "../../constant/color";
 import BackArrow from "../../components/BackArrow";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import TimeDuration from "../../components/TimeDuration";
 import { useSharedValue, withTiming } from "react-native-reanimated";
+import RNText from "../../components/RNText";
 
 export default function Home({ route }: any) {
     const { itemes, time, totalTime, progressWidth } = route.params;
@@ -27,7 +28,6 @@ export default function Home({ route }: any) {
             setCounter(itemes.timeTaken * 60)
         }
     }, [])
-
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -50,18 +50,19 @@ export default function Home({ route }: any) {
         const updatedData = { ...item, userAnswer: selectedOption, timeTaken: Math.floor(counter / 60), };
         setData(updatedData);
     };
+
     const progress = useSharedValue(progressWidth);
+
     useEffect(() => {
         if (!timeLeft) return;
         const intervalId = setInterval(() => {
-            setTimeLeft((prev) => {
+            setTimeLeft((prev: any) => {
                 const newTimeLeft = prev - 1;
                 const percentage = (newTimeLeft / Math.floor((timeLeft))) * progressWidth;
                 progress.value = withTiming(percentage, { duration: 1000 });
                 return newTimeLeft;
             });
         }, 1000);
-
         return () => clearInterval(intervalId);
     }, []);
 
@@ -70,12 +71,10 @@ export default function Home({ route }: any) {
             <StatusBar backgroundColor="transparent" translucent={true} />
             <View style={styles.backarrow}>
                 <BackArrow />
-                <Text style={styles.quesnumber}>Question No. {data.sn}</Text>
+                <RNText style={styles.quesnumber} type="navigationSize" font='MontserratSemiBold' colortype="white">Question No. {data.sn}</RNText>
             </View>
             <TimeDuration paperduration={totalTime} animationStart={true} initalHeight={2} timeLeft={timeLeft} progress={progress.value} />
-            <Text style={styles.quescss}>
-                Q{data.sn}. {data.question}
-            </Text>
+            <RNText style={styles.quescss} type="subHeading" font='MontserratSemiBold' colortype="white">Q{data.sn}. {data.question}</RNText>
             <KeyboardAwareScrollView style={styles.keybordScroller}>
                 {data.type === "Input" && (
                     <TextInput
@@ -96,16 +95,12 @@ export default function Home({ route }: any) {
                                 key={key}
                                 onPress={() => handlepressOption(data, key)}
                             >
-                                <Text
-                                    style={[
-                                        styles.textoption,
-                                        data.userAnswer === key
-                                            ? { color: color.green }
-                                            : { color: color.white },
-                                    ]}
-                                >
-                                    {key}. {value}
-                                </Text>
+                                <RNText style={[
+                                    styles.textoption,
+                                    data.userAnswer === key
+                                        ? { color: color.green }
+                                        : { color: color.white },
+                                ]} font='MontserratSemiBold' colortype="white">{key}. {value}</RNText>
                             </TouchableOpacity>
                         )
                         )}
@@ -116,7 +111,7 @@ export default function Home({ route }: any) {
                     style={styles.touchable}
                     onPress={() => handlesubmit(data)}
                 >
-                    <Text style={styles.submit}>Submit</Text>
+                    <RNText type="subHeading" font='MontserratSemiBold' colortype="white">Submit</RNText>
                 </TouchableOpacity>
             </KeyboardAwareScrollView>
         </View>
@@ -132,21 +127,15 @@ const styles = StyleSheet.create({
         paddingBottom: rh(2),
     },
     quesnumber: {
-        fontFamily: 'Montserrat-SemiBold',
-        color: color.primaryRed,
         width: '90%',
         marginBottom: rh(1),
-        fontSize: rf(2.4),
         marginHorizontal: rw(5),
-        marginTop: rh(3.8)
+        marginTop: rh(3.6)
     },
     quescss: {
-        fontFamily: 'Montserrat-SemiBold',
-        color: color.white,
         width: '90%',
         marginBottom: rh(1),
         marginTop: rh(1.5),
-        fontSize: rf(2.2),
         marginLeft: rw(6)
     },
     anscss: {
@@ -157,7 +146,7 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
         color: color.white,
         width: '90%',
-        height: rh(65),
+        height: rh(63),
         borderRadius: 15,
         borderWidth: 4,
         borderColor: color.primaryRed,
@@ -172,7 +161,7 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
         color: color.white,
         width: '90%',
-        height: rh(31),
+        height: rh(28),
         borderRadius: 15,
         borderWidth: 4,
         borderColor: color.primaryRed,
@@ -188,11 +177,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    submit: {
-        color: color.white,
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: rf(2.2),
     },
     touchableCss: {
         marginVertical: rh(0),
@@ -233,18 +217,7 @@ const styles = StyleSheet.create({
     timebar2: {
         justifyContent: 'center',
     },
-    timebar2Text: {
-        position: 'absolute',
-        marginTop: 35,
-        marginLeft: 105,
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: rf(1.6),
-        textAlign: 'center',
-    },
     textoption: {
-        fontFamily: 'Montserrat-SemiBold',
-        color: color.white,
-        fontSize: rf(1.9),
         marginLeft: rw(8),
         marginTop: rh(1),
     },

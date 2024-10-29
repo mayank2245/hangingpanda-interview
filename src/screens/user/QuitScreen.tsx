@@ -1,4 +1,4 @@
-import { ImageBackground, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { BackgroundImage } from '../../assests/images'
 import { color } from '../../constant/color'
@@ -7,6 +7,7 @@ import LottieView from 'lottie-react-native';
 import { Alert } from '../../assests/lottie';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
 import { ShowToast } from '../../helpers/toast';
+import RNText from '../../components/RNText';
 
 export default function QuitScreen() {
     const navigation = useNavigation();
@@ -26,11 +27,9 @@ export default function QuitScreen() {
                     style={styles.lottieview}
                     autoPlay
                 />
-                <Text style={styles.modalText}>
-                    You exit the screen {"\n"}Your paper is submited
-                </Text>
+                <RNText style={styles.modalText} type="subHeading" font='MontserratSemiBold' colortype="red">You exit the screen {"\n"}Your paper is submited</RNText>
                 <TouchableOpacity style={styles.modalbox} onPress={() => navigation.push("LoginUserPage")}>
-                    <Text style={styles.modalText2}>Go to Login</Text>
+                    <RNText style={styles.modalText2} type="subHeading" font='MontserratSemiBold' colortype="white">Go to Login</RNText>
                 </TouchableOpacity>
             </View>
         </View>
@@ -50,18 +49,12 @@ const styles = StyleSheet.create({
         height: "32%",
     },
     modalText: {
-        fontFamily: 'Montserrat-SemiBold',
         textAlign: 'center',
-        fontSize: rf(2.4),
         paddingHorizontal: rw(4),
-        color: color.primaryRed,
         lineHeight: rh(3)
     },
     modalText2: {
-        fontFamily: 'Montserrat-SemiBold',
         textAlign: 'center',
-        fontSize: rf(2.2),
-        color: color.white,
     },
     modalbox: {
         marginHorizontal: rw(28),
