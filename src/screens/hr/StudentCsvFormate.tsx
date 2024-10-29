@@ -119,7 +119,7 @@ export default function ModalScreen({ navigation }: any) {
                                 </DataTable.Header>
                                 {state.currentPageData.map((rowData, rowIndex) => (
                                     <DataTable.Row key={rowIndex} style={[styles.rowWithBorder, rowIndex === state.currentPageData.length - 1 ? styles.lastRow : { borderRightWidth: 1, borderRightColor: color.white, }]}>
-                                        {rowData && rowData?.map((cellData, cellIndex) => (
+                                        {rowData && rowData.map((cellData, cellIndex) => (
                                             <DataTable.Cell
                                                 key={cellIndex}
                                                 style={[
