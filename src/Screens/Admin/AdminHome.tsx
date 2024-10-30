@@ -104,7 +104,7 @@ export default function App(): React.JSX.Element {
               activeOpacity={0.8}
               style={styles.quesformatePress}
               onPress={() => navigation.navigate('QuesFormateModal')}>
-              <RNText style={styles.quesformate} font='MontserratSemiBold' colortype="white">Question Formate</RNText>
+              <RNText style={styles.quesformate} font='MontserratSemiBold' colortype="white">Question Format</RNText>
             </TouchableOpacity>
             <Pressable
               style={styles.filePickerContainer}

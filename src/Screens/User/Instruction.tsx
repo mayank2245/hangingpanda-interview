@@ -67,7 +67,7 @@ export default function Instruction({ route }) {
                             source={Checklist}
                             style={styles.lottieview}
                         />
-                        <RNText style={styles.instructionText3} type="subHeading" font='NunitoBold' colortype="red">
+                        <RNText style={styles.instructionText3} type="subHeading" font='NunitoSemiBold' colortype="red">
                             Carefully read and answer each question type as prompted. Your performance is monitored, and any disruptions will end the interview.
                         </RNText>
                     </View>

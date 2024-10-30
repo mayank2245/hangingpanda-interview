@@ -7,6 +7,7 @@ import {
     StatusBar,
     StyleSheet,
     TouchableOpacity,
+    Vibration,
     View
 } from 'react-native'
 import { useEffect, useState } from 'react'
@@ -28,6 +29,12 @@ import LottieView from 'lottie-react-native';
 import { useSharedValue, withTiming } from 'react-native-reanimated';
 import { AddQues } from '../../assests/svg';
 import RNText from '../../components/RNText';
+
+
+const Separator = () => {
+    return <View style={Platform.OS === 'android' ? styles.separator : null} />;
+};
+
 
 export default function QuestionList({ route }: any) {
     const item = route.params;
@@ -143,6 +150,7 @@ export default function QuestionList({ route }: any) {
         mutationFn: submitpaperhandle,
         onSuccess: async data => {
             ShowToast("success", "Submit Successfully")
+            Vibration.vibrate()
             navigation.push('LoginUserPage')
         },
         onError: (err) => {
@@ -152,6 +160,21 @@ export default function QuestionList({ route }: any) {
 
         }
     })
+
+
+    const ONE_SECOND_IN_MS = 1000;
+
+    const PATTERN = [
+        1 * ONE_SECOND_IN_MS,
+        2 * ONE_SECOND_IN_MS,
+        3 * ONE_SECOND_IN_MS,
+    ];
+
+    const PATTERN_DESC =
+        Platform.OS === 'android'
+            ? 'wait 1s, vibrate 2s, wait 3s'
+            : 'wait 1s, vibrate, wait 2s, vibrate, wait 3s';
+
 
     const handlesubmitpaper = () => {
         mutation.mutate()

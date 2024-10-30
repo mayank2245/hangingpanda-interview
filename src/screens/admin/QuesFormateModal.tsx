@@ -1,7 +1,7 @@
 import csv from 'csvtojson';
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, DataTable } from 'react-native-paper';
-import { ScrollView, StatusBar, StyleSheet, TouchableOpacity, View } from "react-native";
+import { ScrollView, StatusBar, StyleSheet, TouchableOpacity, Vibration, View } from "react-native";
 import { Platform, PermissionsAndroid } from 'react-native';
 import { color } from "../../constant/color";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
@@ -10,18 +10,35 @@ import Icon from 'react-native-vector-icons/Feather';
 import ReactNativeBlobUtil from 'react-native-blob-util'
 import RNText from '../../components/RNText';
 
+const Separator = () => {
+    return <View style={Platform.OS === 'android' ? styles.separator : null} />;
+};
+
 export default function ModalScreen({ navigation }: any) {
 
+    const ONE_SECOND_IN_MS = 1000;
+
+    const PATTERN = [
+        1 * ONE_SECOND_IN_MS,
+        2 * ONE_SECOND_IN_MS,
+        3 * ONE_SECOND_IN_MS,
+    ];
+
+    const PATTERN_DESC =
+        Platform.OS === 'android'
+            ? 'wait 1s, vibrate 2s, wait 3s'
+            : 'wait 1s, vibrate, wait 2s, vibrate, wait 3s';
+
     const columnWidths = {
-        0: { width: rw(13), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
-        1: { width: rw(29.4), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
-        2: { width: rw(43.4), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
-        3: { width: rw(45.5), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
-        4: { width: rw(29), height: rh(6.5) },
+        0: { width: rw(13.2), height: rh(6.2), borderRightWidth: 1, borderRightColor: color.white, paddingRight: rw(3.2), },
+        1: { width: rw(29.1), height: rh(6.2), borderRightWidth: 1, borderRightColor: color.white, },
+        2: { width: rw(42.9), height: rh(6.2), borderRightWidth: 1, borderRightColor: color.white, },
+        3: { width: rw(45.5), height: rh(6.2), borderRightWidth: 1, borderRightColor: color.white, },
+        4: { width: rw(29), height: rh(6) },
     };
 
     const cellWidths = {
-        0: { width: rw(12), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
+        0: { width: rw(13), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, paddingRight: rw(2.2), },
         1: { width: rw(29), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
         2: { width: rw(43), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
         3: { width: rw(45), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
@@ -76,13 +93,12 @@ export default function ModalScreen({ navigation }: any) {
     return (
         <View>
             <StatusBar backgroundColor="transparent" translucent={true} />
-
             <View style={styles.overlay}>
                 <View style={styles.headerview}>
                     <BackArrow />
                     <View style={styles.backarrow}>
-                        <RNText style={styles.questionformatetext} type="navigationSize" font='MontserratSemiBold' colortype="white">Papaer Formate </RNText>
-                        <TouchableOpacity style={styles.uploadPromptIcon} >
+                        <RNText style={styles.questionformatetext} type="navigationSize" font='MontserratSemiBold' colortype="white">Paper Format</RNText>
+                        <TouchableOpacity style={styles.uploadPromptIcon} onPress={() => Vibration.vibrate()}>
                             <Icon
                                 name="download-cloud"
                                 size={28}
@@ -103,9 +119,9 @@ export default function ModalScreen({ navigation }: any) {
                                             key={index}
                                             style={[
                                                 styles.cellWithBorder,
+
                                                 index === state.currentPageData.length - 1 ? { borderLeftWidth: 0 } : {},
-                                                { margin: rw(0.6) },
-                                                columnWidths[index] || {}
+                                                columnWidths[index] || {},
                                             ]}
                                         >
                                             <View >
@@ -148,7 +164,8 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     questionformatetext: {
-        marginTop: rh(3.6),
+        marginTop: rh(3.7),
+
         marginLeft: rw(2),
     },
     datatable: {
@@ -176,7 +193,7 @@ const styles = StyleSheet.create({
     conatinertextheader: {
         backgroundColor: '#FF385680',
         paddingHorizontal: rh(1.2),
-        paddingVertical: rh(0.5),
+        paddingBottom: rh(0.4),
         borderRadius: 12,
         textAlign: 'center',
     },
@@ -198,20 +215,21 @@ const styles = StyleSheet.create({
     lastRow: {
         borderRightWidth: 1,
         borderRightColor: color.white,
-        // borderBottomWidth: 1,
+        borderBottomWidth: 1,
         borderBottomRightRadius: 12,
         borderBottomLeftRadius: 12,
     },
     cellWithBorder: {
         justifyContent: 'center',
         alignItems: 'center',
+
     },
     lastCell: {
         borderRightWidth: 0,
     },
     uploadPromptIcon: {
         alignSelf: 'flex-end',
-        marginLeft: rw(22)
+        marginLeft: rw(34)
     },
     backarrow: {
         flexDirection: 'row',

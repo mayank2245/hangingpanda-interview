@@ -36,10 +36,10 @@ const getTextStyle = (type: string, font: string, colortype: string) => {
         case 'Montserrat':
             style = { ...style, fontFamily: 'Montserrat-Regular' };
             break;
-        case 'NunitoBold':
-            style = { ...style, fontFamily: 'NunitoSans_7pt-SemiBold' };
-
         case 'NunitoSemiBold':
+            style = { ...style, fontFamily: 'NunitoSans_7pt-SemiBold' };
+            break;
+        case 'NunitoBold':
             style = { ...style, fontFamily: 'NunitoSans_10pt-Bold' };
         default:
             style = styles.textregular;

@@ -10,8 +10,8 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Entypo from 'react-native-vector-icons/Entypo';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icons from 'react-native-vector-icons/Feather';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 
 import { color } from "../../constant/color";
@@ -188,8 +188,8 @@ export default function AddQuestion({ route }: any) {
                         <RNText style={styles.paperList} type="navigationSize" font='MontserratBold' colortype="white">Add Candidate</RNText>
                     </View>
                     <RNText style={styles.paperListSub} type="heading" font='MontserratBold' colortype="white">Candidate:</RNText>
-                    <TextInput onChangeText={setcandidateName} value={candidateName} onFocus={() => setQuestionfocus("Name")} onBlur={() => setQuestionfocus("")} style={[styles.textQues, questionfocus === "Name" ? { borderColor: color.timebarRed, } : { borderColor: color.primaryRed }]} placeholder="Candidate Name" placeholderTextColor={questionfocus === "Name" ? color.timebarRed : color.primaryRed} cursorColor="#FF3856"></TextInput>
-                    <TextInput onChangeText={setcandidateEmail} value={candidateEmail} onFocus={() => setQuestionfocus("Email")} onBlur={() => setQuestionfocus("")} style={[styles.textQues, questionfocus === "Email" ? { borderColor: color.timebarRed, } : { borderColor: color.primaryRed }]} placeholder="Candidate Email" placeholderTextColor={questionfocus === "Email" ? color.timebarRed : color.primaryRed} cursorColor="#FF3856"></TextInput>
+                    <TextInput onChangeText={setcandidateName} value={candidateName} onFocus={() => setQuestionfocus("Name")} onBlur={() => setQuestionfocus("")} style={[styles.textQues, questionfocus === "Name" ? { borderColor: color.timebarRed, } : { borderColor: color.primaryRed }]} placeholder="Candidate name" placeholderTextColor={questionfocus === "Name" ? color.timebarRed : color.primaryRed} cursorColor="#FF3856"></TextInput>
+                    <TextInput onChangeText={setcandidateEmail} value={candidateEmail} onFocus={() => setQuestionfocus("Email")} onBlur={() => setQuestionfocus("")} style={[styles.textQues, questionfocus === "Email" ? { borderColor: color.timebarRed, } : { borderColor: color.primaryRed }]} placeholder="Candidate email" placeholderTextColor={questionfocus === "Email" ? color.timebarRed : color.primaryRed} cursorColor="#FF3856"></TextInput>
                     <View style={styles.papertypeview}>
                         <Dropdown
                             onFocus={() => setQuestionfocus("PaperType")}
@@ -204,7 +204,7 @@ export default function AddQuestion({ route }: any) {
                             maxHeight={300}
                             labelField="name"
                             valueField="name"
-                            placeholder="Select Paper Type"
+                            placeholder="Select paper type"
                             iconColor={questionfocus === "PaperType" ? color.timebarRed : color.primaryRed}
                             value={value}
                             onChange={item => {
@@ -235,34 +235,34 @@ export default function AddQuestion({ route }: any) {
                     <View style={[styles.timepicker, questionfocus === "Date" ? { borderColor: color.timebarRed } : { borderColor: color.primaryRed }]}>
                         <View style={styles.timepickersub}>
                             {date.getTime() === new Date('2024-10-18T00:00:00').getTime() ?
-                                <RNText style={styles.ShowcandidateSub2} type="subHeading" font='MontserratBold' colortype="red">Interview Date</RNText>
+                                <RNText style={styles.ShowcandidateSub2} type="subHeading" font='MontserratBold' colortype="red">Interview date</RNText>
                                 :
                                 <RNText style={styles.ShowcandidateSub} type="subHeading" font='MontserratBold' colortype="lightWhite">{date?.toLocaleDateString()}</RNText>
                             }
                         </View>
                         <TouchableOpacity onPress={showDatepicker}>
-                            <EvilIcons
+                            <Icons
                                 style={styles.icon}
                                 color={questionfocus === "Date" ? color.timebarRed : color.primaryRed}
                                 name="calendar"
-                                size={35}
+                                size={30}
                             />
                         </TouchableOpacity>
                     </View>
                     <View style={[styles.timepicker, questionfocus === "Time" ? { borderColor: color.timebarRed } : { borderColor: color.primaryRed }]}>
                         <View style={styles.timepickersub}>
                             {time.getTime() === new Date('2024-10-18T00:00:00').getTime() ?
-                                <RNText style={styles.ShowcandidateSub2} type="subHeading" font='MontserratBold' colortype="red">Interview Time</RNText>
+                                <RNText style={styles.ShowcandidateSub2} type="subHeading" font='MontserratBold' colortype="red">Interview time</RNText>
                                 :
                                 <RNText style={styles.ShowcandidateSub} type="subHeading" font='MontserratBold' colortype="lightWhite">{time?.toLocaleTimeString()}</RNText>
                             }
                         </View>
                         <TouchableOpacity onPress={showTimepicker} >
-                            <MaterialCommunityIcons
+                            <Ionicons
                                 style={styles.icon2}
                                 color={questionfocus === 'Time' ? color.timebarRed : color.primaryRed}
-                                name="clock-time-nine-outline"
-                                size={27}
+                                name="time-outline"
+                                size={34}
                             />
                         </TouchableOpacity>
                     </View>
@@ -318,8 +318,7 @@ const styles = StyleSheet.create({
         marginLeft: rh(1),
     },
     ShowcandidateSub2: {
-        marginTop: rh(1.5),
-        marginBottom: rh(1),
+        marginTop: rh(1.3),
         marginLeft: rh(1),
     },
     textQues: {
@@ -402,9 +401,10 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginTop: rh(0.95),
+        marginRight: rw(0.4)
     },
     icon2: {
-        marginTop: rh(1.3),
+        marginTop: rh(0.9),
     },
     item: {
         padding: rh(2),
@@ -420,7 +420,7 @@ const styles = StyleSheet.create({
         marginTop: rh(2),
         height: rh(6.5),
         width: '85%',
-        paddingHorizontal: rw(5),
+        paddingHorizontal: rw(3),
         borderWidth: rh(0.3),
         borderRadius: 15,
         marginLeft: rw(8),
