@@ -15,7 +15,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import moment from 'moment';
 
 import { color } from "../../constant/color";
-import Addques from '../../assests/svg/addQues';
+
 import { BackgroundImage } from "../../assests/images";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import BackArrow from "../../components/BackArrow";
@@ -24,6 +24,7 @@ import { ShowToast } from "../../helpers/toast";
 import { useMutation } from "@tanstack/react-query";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ApiService } from "../../api/apiCalls/ApiCalls";
+import { AddQues } from "../../assests/svg";
 import RNText from "../../components/RNText";
 
 export default function AddQuestion({ route }: any) {
@@ -184,9 +185,9 @@ export default function AddQuestion({ route }: any) {
                 <View style={styles.safearea}>
                     <View style={styles.headerview}>
                         <BackArrow />
-                        <RNText style={styles.paperList} type="heading" font='MontserratBold' colortype="white">Add Candidate</RNText>
+                        <RNText style={styles.paperList} type="navigationSize" font='MontserratBold' colortype="white">Add Candidate</RNText>
                     </View>
-                    <RNText style={styles.paperListSub} type="subHeading" font='MontserratBold' colortype="white">Candidate:</RNText>
+                    <RNText style={styles.paperListSub} type="heading" font='MontserratBold' colortype="white">Candidate:</RNText>
                     <TextInput onChangeText={setcandidateName} value={candidateName} onFocus={() => setQuestionfocus("Name")} onBlur={() => setQuestionfocus("")} style={[styles.textQues, questionfocus === "Name" ? { borderColor: color.timebarRed, } : { borderColor: color.primaryRed }]} placeholder="Candidate Name" placeholderTextColor={questionfocus === "Name" ? color.timebarRed : color.primaryRed} cursorColor="#FF3856"></TextInput>
                     <TextInput onChangeText={setcandidateEmail} value={candidateEmail} onFocus={() => setQuestionfocus("Email")} onBlur={() => setQuestionfocus("")} style={[styles.textQues, questionfocus === "Email" ? { borderColor: color.timebarRed, } : { borderColor: color.primaryRed }]} placeholder="Candidate Email" placeholderTextColor={questionfocus === "Email" ? color.timebarRed : color.primaryRed} cursorColor="#FF3856"></TextInput>
                     <View style={styles.papertypeview}>
@@ -220,7 +221,6 @@ export default function AddQuestion({ route }: any) {
                         onCancel={hideDatePicker}
                         minimumDate={new Date()}
                         isDarkModeEnabled={true}
-
                         themeVariant="dark"
                     />
                     <DateTimePickerModal
@@ -252,7 +252,7 @@ export default function AddQuestion({ route }: any) {
                     <View style={[styles.timepicker, questionfocus === "Time" ? { borderColor: color.timebarRed } : { borderColor: color.primaryRed }]}>
                         <View style={styles.timepickersub}>
                             {time.getTime() === new Date('2024-10-18T00:00:00').getTime() ?
-                                <RNText style={styles.ShowcandidateSub2} type="subHeading" font='MontserratBold' colortype="red">Interview Tim</RNText>
+                                <RNText style={styles.ShowcandidateSub2} type="subHeading" font='MontserratBold' colortype="red">Interview Time</RNText>
                                 :
                                 <RNText style={styles.ShowcandidateSub} type="subHeading" font='MontserratBold' colortype="lightWhite">{time?.toLocaleTimeString()}</RNText>
                             }
@@ -273,7 +273,7 @@ export default function AddQuestion({ route }: any) {
                             onPress={handleadd}
                         >
                             <View style={styles.addquessubmit}>
-                                <Addques />
+                                <AddQues />
                                 <RNText style={styles.addquesText} type="subHeading" font='MontserratBold' colortype="white">Submit</RNText>
                             </View>
                         </TouchableOpacity>
@@ -302,9 +302,8 @@ const styles = StyleSheet.create({
         marginLeft: rh(2),
     },
     paperListSub: {
-        marginTop: rh(1.5),
-        marginBottom: rh(2),
-        marginLeft: rh(2),
+        marginTop: rh(2.5),
+        marginLeft: rh(3.8),
     },
     Showcandidate: {
         marginTop: rh(1.5),
@@ -330,7 +329,7 @@ const styles = StyleSheet.create({
         width: '85%',
         margin: 'auto',
         height: rh(6.5),
-        marginTop: rh(1.8),
+        marginTop: rh(2),
         borderRadius: 15,
         fontSize: rf(2.3),
         paddingHorizontal: rw(3.6),
@@ -371,16 +370,14 @@ const styles = StyleSheet.create({
     },
     papertypeview: {
         flexDirection: 'row',
-        marginVertical: rh(1.8),
         alignSelf: 'center',
-        marginTop: rh(1),
     },
     dropdown: {
         height: rh(6.5),
         width: '85%',
         paddingHorizontal: rw(5),
         borderWidth: rh(0.3),
-        marginTop: rh(1.8),
+        marginTop: rh(2),
         borderRadius: 15,
     },
     placeholderStyle: {
@@ -404,10 +401,10 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     icon: {
-        marginTop: rh(0.7),
+        marginTop: rh(0.95),
     },
     icon2: {
-        marginTop: rh(1),
+        marginTop: rh(1.3),
     },
     item: {
         padding: rh(2),
@@ -420,7 +417,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     timepicker: {
-        marginTop: rh(1.8),
+        marginTop: rh(2),
         height: rh(6.5),
         width: '85%',
         paddingHorizontal: rw(5),

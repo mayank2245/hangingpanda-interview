@@ -55,7 +55,7 @@ export default function AddAllCandidate({ route }: any) {
                 <View style={styles.safearea}>
                     <View style={styles.headerview}>
                         <BackArrow />
-                        <RNText style={styles.paperList} type="heading" font='MontserratBold' colortype="white">Add Candidate</RNText>
+                        <RNText style={styles.paperList} type="navigationSize" font='MontserratBold' colortype="white">Add Candidate</RNText>
                     </View>
                     <TouchableOpacity onPress={() => Navigation.navigate("AddStudent", { candidatedata: candidateData })} style={styles.addQues}>
                         <Add style={styles.addQuesLogo} />
@@ -64,7 +64,6 @@ export default function AddAllCandidate({ route }: any) {
                     <FlatList
                         style={styles.flatliststyle}
                         data={candidateData}
-
                         renderItem={({ item }) => (<>
                             <CandidateCard
                                 candidateName={item.name}
@@ -84,7 +83,7 @@ export default function AddAllCandidate({ route }: any) {
                         <TouchableOpacity
                             activeOpacity={0.8}
                             onPress={handleUpload}
-                            style={[styles.uploadcss, !loader ? {} : { opacity: 0.5 }]}>
+                            style={[styles.uploadcss, !loader ? "" : { opacity: 0.5 }]}>
                             <Upload />
                             <RNText type="subHeading" font='MontserratSemiBold' colortype="white">{!loader ? "Upload" : "Uploading"}</RNText>
                         </TouchableOpacity>
@@ -115,7 +114,7 @@ const styles = StyleSheet.create({
     uploadcss: {
         height: rh(8),
         backgroundColor: color.primaryRed,
-        borderTopRightRadius: 25,
+        borderTopRightRadius: 40,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
@@ -129,7 +128,7 @@ const styles = StyleSheet.create({
         elevation: 2,
         zIndex: 10,
         width: rw(7),
-        height: rh(15),
+        height: rh(17),
         marginTop: rh(40),
         marginLeft: rw(93),
         borderTopLeftRadius: 10,
@@ -140,12 +139,13 @@ const styles = StyleSheet.create({
         height: rh(4),
         width: rw(4),
         marginTop: rh(1),
-        marginLeft: rh(0.8),
+        marginLeft: rh(1),
     },
     addQuesText: {
+        fontSize: rf(1.7),
         width: rw(28),
-        marginTop: rh(4.8),
-        marginLeft: rh(-4.8),
+        marginTop: rh(5.8),
+        marginLeft: rh(-4.6),
         textAlign: 'center',
         transform: [{ rotate: '270deg' }],
     },

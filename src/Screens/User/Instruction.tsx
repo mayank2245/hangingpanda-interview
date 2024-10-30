@@ -67,7 +67,7 @@ export default function Instruction({ route }) {
                             source={Checklist}
                             style={styles.lottieview}
                         />
-                        <RNText style={styles.instructionText3} type="subHeading" font='NunitoSemiBold' colortype="red">
+                        <RNText style={styles.instructionText3} type="subHeading" font='NunitoBold' colortype="red">
                             Carefully read and answer each question type as prompted. Your performance is monitored, and any disruptions will end the interview.
                         </RNText>
                     </View>
@@ -92,7 +92,7 @@ export default function Instruction({ route }) {
                             autoPlay
                             loop
                         />
-                        <RNText style={styles.mustreadText} type="subHeading" font='MontserratSemiBold' colortype="red">Must Read Instruction</RNText>
+                        <RNText style={styles.mustreadText} font='MontserratSemiBold' colortype="red">Must Read Instruction</RNText>
                     </View>
                     {renderInstructionContent()}
                     <TouchableOpacity
@@ -126,6 +126,8 @@ const styles = StyleSheet.create({
         height: rh(110),
     },
     mustreadText: {
+        paddingTop: rh(0.4),
+        fontSize: rf(3),
         paddingBottom: rh(1),
         justifyContent: 'center',
         textAlign: 'center',
@@ -181,7 +183,7 @@ const styles = StyleSheet.create({
         backgroundColor: color.primaryRed,
         width: rw(93),
         height: rh(6),
-        marginTop: rh(93),
+        marginTop: rh(88),
         marginLeft: rh(1.5),
         borderRadius: 10,
         alignItems: 'center',

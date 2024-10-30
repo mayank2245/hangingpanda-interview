@@ -45,7 +45,7 @@ const CandidateCard: React.FC<CardProps> = ({ candidateName, candidateEmail, int
 
     const modal = () => (
         <>
-            <RNText style={styles.modalText} type="subHeading" font='MontserratSemiBold' colortype="red">Are you sure you want to delete this Question Paper?</RNText>
+            <RNText style={styles.modalText} font='MontserratSemiBold' colortype="red">Are you sure you want to delete this Question Paper?</RNText>
             <TouchableOpacity style={styles.modalbox} onPress={handledeleteCard}>
                 <RNText style={styles.modalText2} type="subHeading" font='MontserratSemiBold' colortype="white">Yes</RNText>
             </TouchableOpacity>
@@ -70,7 +70,7 @@ const CandidateCard: React.FC<CardProps> = ({ candidateName, candidateEmail, int
                     />
                 </TouchableOpacity>
             </View>
-            <RNText style={styles.cardEmail} font='MontserratBold' colortype="black">{candidateEmail}</RNText>
+            <RNText style={styles.cardEmail} font='MontserratSemiBold' colortype="black">{candidateEmail}</RNText>
             <View style={styles.row}>
                 <MaterialCommunityIcons
                     style={styles.icon}
@@ -79,7 +79,7 @@ const CandidateCard: React.FC<CardProps> = ({ candidateName, candidateEmail, int
                     size={18}
                 />
                 {isValidDate(interviewDate) ? (
-                    <RNText style={styles.cardtext3} type="subHeading" font='MontserratBold' colortype="black">{new Date(interviewDate).toISOString().split('T')[0]}{' '}
+                    <RNText style={styles.cardtext3} font='MontserratSemiBold' colortype="black">{new Date(interviewDate).toISOString().split('T')[0]}{' '}
                         {new Date(interviewDate).toLocaleTimeString('en-US', {
                             hour: '2-digit',
                             minute: '2-digit',
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
 
     },
     cardName: {
-        marginTop: rh(1),
+        marginTop: rh(1.4),
         marginLeft: rw(1)
 
     },
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: rh(1),
+        marginTop: rh(0.3),
     },
     icon: {
         marginTop: rh(1.3),
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     },
     cardtext3: {
         marginTop: rh(0.9),
-        marginLeft: rw(1.5),
+        marginLeft: rw(0.5),
     },
     modalbox: {
         marginHorizontal: rw(28),

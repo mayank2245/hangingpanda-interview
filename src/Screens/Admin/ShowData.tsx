@@ -136,10 +136,10 @@ export default function Showdata({ route }: any) {
     return (
       <KeyboardAwareScrollView
         enableOnAndroid={true}>
-        <RNText style={styles.headingstyle} type="subHeading" font='MontserratBold' colortype="whitePlaceholder">Enter Paper Duration & Type</RNText>
+        <RNText style={styles.headingstyle} type="subHeading" font='MontserratBold' colortype="lightWhite">Enter Paper Duration & Type</RNText>
         <View style={styles.viewmodal2}>
           <RNText style={styles.modal2Text} type="subHeading" font='MontserratBold' colortype="red">Enter the Time</RNText>
-          <TextInput value={timeduration} cursorColor={color.primaryRed} onChangeText={setTimeduration} keyboardType="numeric" style={style.textinputmodal2} />
+          <TextInput value={timeduration} cursorColor={color.primaryRed} onChangeText={setTimeduration} keyboardType="numeric" style={styles.textinputmodal2} />
           <RNText style={styles.modal2Text2} type="subHeading" font='MontserratBold' colortype="red">min</RNText>
         </View>
         <View style={styles.papertypeview}>
@@ -189,7 +189,7 @@ export default function Showdata({ route }: any) {
         <View style={styles.overlay}>
           <View style={styles.headerview}>
             <BackArrow />
-            <RNText style={styles.paperList} type="heading" font='MontserratBold' colortype="white">All Questions</RNText>
+            <RNText style={styles.paperList} type="navigationSize" font='MontserratBold' colortype="white">All Questions</RNText>
           </View>
           <View style={styles.flatviewcss}>
             <View style={styles.flatviewcss2}>
@@ -203,7 +203,7 @@ export default function Showdata({ route }: any) {
                         <RNText style={styles.flatListans} font='MontserratSemiBold' colortype="green">{item.answer}</RNText>
                         :
                         Object.entries(item.options).map(([key, value]) => (
-                          <RNText style={[styles.flatListans2, item.correctOption === key ? { color: color.green } : { color: color.white }]} font='NunitoSans'>{key}. {value}</RNText>
+                          <RNText style={[styles.flatListans2, item.correctOption === key ? { color: color.green } : { color: color.white }]} font='MontserratSemiBold'>{key}. {value}</RNText>
                         ))
                     }
                   </>
@@ -212,9 +212,9 @@ export default function Showdata({ route }: any) {
                 keyExtractor={item => item.sn}
               />
             </View>
-            <TouchableOpacity onPress={() => { setOpenmodal(true); setIndex(-1) }} style={style.addQues}>
+            <TouchableOpacity onPress={() => { setOpenmodal(true); setIndex(-1) }} style={styles.addQues}>
               <Add style={styles.addQuesLogo} />
-              <RNText style={styles.addquesText} type="subHeading" font='MontserratBold' colortype="white">Add questions</RNText>
+              <RNText style={styles.addQuesText2} type="subHeading" font='MontserratSemiBold' colortype="white">Add questions</RNText>
             </TouchableOpacity>
           </View>
           <CustomModal content={modalData2()} visible={openmodal2} onClose={() => { setOpenmodal2(false); }} modaloverlaycss={{}} contentcss={{}} />
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     zIndex: 10,
     width: rw(7),
-    height: rh(15),
+    height: rh(16.4),
     marginTop: rh(35),
     marginLeft: rw(88),
     borderTopLeftRadius: 10,
@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   paperList: {
-    marginTop: rh(3.4),
+    marginTop: rh(3.6),
     marginBottom: rh(1),
     marginLeft: rh(2),
   },
@@ -385,6 +385,14 @@ const styles = StyleSheet.create({
   },
   addquesText: {
     textAlign: 'center',
+  },
+  addQuesText2: {
+    fontSize: rf(1.7),
+    width: rw(28),
+    marginTop: rh(5.8),
+    marginLeft: rh(-4.6),
+    textAlign: 'center',
+    transform: [{ rotate: '270deg' }],
   },
   headingstyle: {
     textAlign: 'center',

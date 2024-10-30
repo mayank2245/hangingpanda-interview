@@ -63,7 +63,7 @@ export default function AllQuestionPaper() {
                 <View style={styles.overlay}>
                     <View style={styles.backarrow}>
                         <BackArrow />
-                        <RNText style={styles.paperList} type="subHeading" font='MontserratBold' colortype="white">List of Question Paper</RNText>
+                        <RNText style={styles.paperList} type="navigationSize" font='MontserratBold' colortype="white">List of Question Paper</RNText>
                     </View>
 
                     {isLoading ? (
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
         opacity: 0.9,
     },
     paperList: {
-        marginTop: rh(3.4),
+        marginTop: rh(3.5),
         marginBottom: rh(1),
         marginLeft: rh(2),
     },
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     itemtype: {
         marginRight: 10,
         borderRadius: 18,
-        padding: rw(1),
+        padding: rw(0.6),
     },
     viewheader: {
         backgroundColor: '#D9D9D930',
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
         marginTop: rh(2.4)
     },
     headerboxflat: {
-        marginTop: rh(1),
+        marginTop: rh(1.6),
 
     },
     textheaderbox: {

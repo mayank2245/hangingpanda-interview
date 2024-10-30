@@ -1,24 +1,34 @@
 import csv from 'csvtojson';
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ActivityIndicator, DataTable } from 'react-native-paper';
-import { Share, StatusBar, StyleSheet, TouchableOpacity, View, ScrollView, Alert } from "react-native";
+import { ScrollView, StatusBar, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Platform, PermissionsAndroid } from 'react-native';
 import { color } from "../../constant/color";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import BackArrow from '../../components/BackArrow';
 import Icon from 'react-native-vector-icons/Feather';
-import ReactNativeBlobUtil from 'react-native-blob-util';
+import ReactNativeBlobUtil from 'react-native-blob-util'
 import RNText from '../../components/RNText';
 
-export default function ModalScreen({ navigation }) {
+export default function ModalScreen({ navigation }: any) {
 
     const columnWidths = {
-        0: { width: rw(13.3), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white },
-        1: { width: rw(29.4), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white },
-        2: { width: rw(43.4), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white },
-        3: { width: rw(45.3), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white },
+        0: { width: rw(13), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
+        1: { width: rw(29.4), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
+        2: { width: rw(43.4), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
+        3: { width: rw(45.5), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
         4: { width: rw(29), height: rh(6.5) },
     };
+
+    const cellWidths = {
+        0: { width: rw(12), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
+        1: { width: rw(29), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
+        2: { width: rw(43), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
+        3: { width: rw(45), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
+        4: { width: rw(29), height: rh(6.3) },
+    };
+
+    const csvFileUrl = "https://docs.google.com/spreadsheets/d/1b8yY_OQYzJ5xBhys9k8FFl5yHZg-wbJJq7A2X4hBQPk/export?format=csv";
 
     const [state, setState] = useState({
         tableHead: [],
@@ -26,20 +36,19 @@ export default function ModalScreen({ navigation }) {
         currentPageData: [],
         numberOfPages: 1
     });
+
     const [page, setPage] = useState(0);
-    const [loader, setLoader] = useState(true);
+    const [loader, setLoader] = useState(true)
     const [numberOfItemsPerPage, setNumberOfItemsPerPage] = useState(10);
 
-    const csvFileUrl = "https://docs.google.com/spreadsheets/d/1b8yY_OQYzJ5xBhys9k8FFl5yHZg-wbJJq7A2X4hBQPk/export?format=csv&gid=402345587";
-
-    const setTableData = async (csvFileUrl) => {
+    const setTableData = async (csvFileUrl: string | URL | Request) => {
         try {
             const response = await fetch(csvFileUrl);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
             const resp = await response.text();
-            const csvRow = await csv().fromString(resp);
+            const csvRow = await csv({
+                noheader: false,
+                output: "csv"
+            }).fromString(resp);
 
             let pages = Math.ceil((csvRow.length - 1) / numberOfItemsPerPage);
             const currentPageData = csvRow.slice(
@@ -48,161 +57,98 @@ export default function ModalScreen({ navigation }) {
             );
 
             setState({
-                tableHead: csvRow[0] || [],
+                tableHead: csvRow[0],
                 tableData: csvRow.slice(1),
                 currentPageData,
                 numberOfPages: pages
             });
-            setLoader(false);
+            setLoader(false)
         } catch (error) {
             console.error("Error fetching the CSV data", error);
-            Alert.alert("Error", error.message); // Show alert on error
-            setLoader(false);
         }
     };
 
-
     useEffect(() => {
-        setLoader(true);
+        setLoader(true)
         setTableData(csvFileUrl);
     }, [page, numberOfItemsPerPage]);
 
-    const requestStoragePermission = async () => {
-        try {
-            if (Platform.OS === 'android' && Number(Platform.Version) < 33) {
-                const granted = await PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-                    {
-                        title: "Storage Permission",
-                        message: "This app needs access to your storage to download files.",
-                        buttonNeutral: "Ask Me Later",
-                        buttonNegative: "Cancel",
-                        buttonPositive: "OK",
-                    }
-                );
-                return granted === PermissionsAndroid.RESULTS.GRANTED;
-            }
-            return true;
-        } catch (err) {
-            console.error(err);
-            return false;
-        }
-    };
-
-    const onDownloadPress = useCallback(async ({ fileName, url }) => {
-        try {
-            if (Platform.OS === 'android') {
-                const hasPermission = await requestStoragePermission();
-                if (!hasPermission) return;
-            }
-            await downloadFile({ fileName, fileUrl: url });
-        } catch (error) {
-            console.error("Download error", error);
-        }
-    }, []);
-
-    const downloadFile = ({ fileName, fileUrl }) => {
-        return new Promise((resolve) => {
-            let dirs = ReactNativeBlobUtil.fs.dirs;
-            ReactNativeBlobUtil.config({
-                fileCache: true,
-                appendExt: 'pdf',
-                path: `${dirs.DocumentDir}/${fileName}`,
-                addAndroidDownloads: {
-                    useDownloadManager: true,
-                    notification: true,
-                    title: fileName,
-                    description: 'File downloaded by download manager.',
-                    mime: 'application/csv',
-                },
-            })
-                .fetch('GET', fileUrl)
-                .then((res) => {
-                    resolve('');
-                    if (Platform.OS === 'ios') {
-                        const filePath = res.path();
-                        let options = {
-                            type: 'application/csv',
-                            url: filePath,
-                            saveToFiles: true,
-                        };
-                        Share.open(options)
-                            .then((resp) => console.log(resp))
-                            .catch((err) => console.log(err));
-                    }
-                })
-                .catch((err) => {
-                    console.error('BLOB ERROR -> ', err);
-                    resolve('');
-                });
-        });
-    };
-
     return (
-        <View style={styles.overlay}>
+        <View>
             <StatusBar backgroundColor="transparent" translucent={true} />
 
-            <View style={styles.headerview}>
-                <BackArrow />
-                <RNText style={styles.questionformatetext} type="subHeading" font='MontserratSemiBold' colortype="red">Question paper format</RNText>
-                <TouchableOpacity
-                    style={styles.uploadPromptIcon}
-                    activeOpacity={0.8}
-                    onPress={() => onDownloadPress({
-                        fileName: 'QuestionFormate.csv',
-                        url: csvFileUrl
-                    })}
-                >
-                    <Icon name="download-cloud" size={28} color={color.lightRed} />
-                </TouchableOpacity>
-            </View>
+            <View style={styles.overlay}>
+                <View style={styles.headerview}>
+                    <BackArrow />
+                    <View style={styles.backarrow}>
+                        <RNText style={styles.questionformatetext} type="navigationSize" font='MontserratSemiBold' colortype="white">Papaer Formate </RNText>
+                        <TouchableOpacity style={styles.uploadPromptIcon} >
+                            <Icon
+                                name="download-cloud"
+                                size={28}
+                                color={color.primaryRed}
+                            />
+                        </TouchableOpacity>
+                    </View>
 
-            <ScrollView horizontal={true} style={styles.container}>
-                {loader ? (
-                    <ActivityIndicator size={"large"} style={styles.loadercss} animating={true} color={color.primaryRed} />
-                ) : (
-                    <DataTable style={styles.datatable}>
-                        <DataTable.Header style={styles.headerRow}>
-                            {Array.isArray(state.tableHead) && state.tableHead.map((headerData, index) => (
-                                <DataTable.Title
-                                    key={index}
-                                    style={[
-                                        styles.cellWithBorder,
-                                        index === state.currentPageData.length - 1 ? { borderLeftWidth: 0 } : {},
-                                        { margin: rw(0.6) },
-                                        columnWidths[index] || {}
-                                    ]}
-                                >
-                                    <RNText style={styles.conatinertextheader} font='MontserratBold' colortype="white">{headerData}</RNText>
-                                </DataTable.Title>
-                            ))}
-                        </DataTable.Header>
-                        {state.currentPageData.map((rowData, rowIndex) => (
-                            <DataTable.Row key={rowIndex} style={[styles.rowWithBorder, rowIndex === state.currentPageData.length - 1 ? styles.lastRow : {}]}>
-                                {rowData.map((cellData, cellIndex) => (
-                                    <DataTable.Cell
-                                        key={cellIndex}
-                                        style={[styles.cellWithBorder, columnWidths[cellIndex] || {}]}
-                                    >
-                                        <RNText style={styles.conatinertext} font='MontserratSemiBold' colortype="white">{cellData}</RNText>
-                                    </DataTable.Cell>
+                </View>
+
+                <ScrollView horizontal={true} style={styles.container} >
+                    {
+                        loader === true ? <ActivityIndicator size={"large"} style={styles.loadercss} animating={true} color={color.primaryRed} />
+                            : <DataTable style={styles.datatable}>
+                                <DataTable.Header style={styles.headerRow}>
+                                    {state?.tableHead?.map((headerData, index) => (
+                                        <DataTable.Title
+                                            key={index}
+                                            style={[
+                                                styles.cellWithBorder,
+                                                index === state.currentPageData.length - 1 ? { borderLeftWidth: 0 } : {},
+                                                { margin: rw(0.6) },
+                                                columnWidths[index] || {}
+                                            ]}
+                                        >
+                                            <View >
+                                                <RNText style={styles.conatinertextheader} font='MontserratBold' colortype="white">{headerData}</RNText>
+                                            </View>
+                                        </DataTable.Title>
+                                    ))}
+                                </DataTable.Header>
+                                {state.currentPageData.map((rowData, rowIndex) => (
+                                    <DataTable.Row key={rowIndex} style={[styles.rowWithBorder, rowIndex === state.currentPageData.length - 1 ? styles.lastRow : { borderRightWidth: 1, borderRightColor: color.white, }]}>
+                                        {rowData && rowData?.map((cellData, cellIndex) => (
+                                            <DataTable.Cell
+                                                key={cellIndex}
+                                                style={[
+                                                    styles.cellWithBorder,
+                                                    cellWidths[cellIndex] || {}
+                                                ]}
+                                            >
+                                                <RNText style={styles.conatinertext} font='MontserratSemiBold' colortype="white">{cellData}</RNText>
+                                            </DataTable.Cell>
+                                        ))}
+                                    </DataTable.Row>
                                 ))}
-                            </DataTable.Row>
-                        ))}
-                    </DataTable>
-                )}
-            </ScrollView>
+                            </DataTable>
+                    }
+                </ScrollView>
+
+            </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    backgroundImages: {
+        height: '100%',
+        width: '100%',
+    },
     overlay: {
         backgroundColor: color.black,
         height: '100%',
     },
     questionformatetext: {
-        marginTop: rh(4),
+        marginTop: rh(3.6),
         marginLeft: rw(2),
     },
     datatable: {
@@ -252,6 +198,7 @@ const styles = StyleSheet.create({
     lastRow: {
         borderRightWidth: 1,
         borderRightColor: color.white,
+        // borderBottomWidth: 1,
         borderBottomRightRadius: 12,
         borderBottomLeftRadius: 12,
     },
@@ -259,8 +206,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    lastCell: {
+        borderRightWidth: 0,
+    },
     uploadPromptIcon: {
         alignSelf: 'flex-end',
-        marginLeft: rw(17.5)
+        marginLeft: rw(22)
+    },
+    backarrow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     }
 });
+
+

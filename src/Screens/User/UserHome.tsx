@@ -29,7 +29,6 @@ export default function Home({ route }: any) {
         }
     }, [])
 
-
     useEffect(() => {
         const intervalId = setInterval(() => {
             setCounter((prev) => prev + 1);
@@ -51,18 +50,19 @@ export default function Home({ route }: any) {
         const updatedData = { ...item, userAnswer: selectedOption, timeTaken: Math.floor(counter / 60), };
         setData(updatedData);
     };
+
     const progress = useSharedValue(progressWidth);
+
     useEffect(() => {
         if (!timeLeft) return;
         const intervalId = setInterval(() => {
-            setTimeLeft((prev) => {
+            setTimeLeft((prev: any) => {
                 const newTimeLeft = prev - 1;
                 const percentage = (newTimeLeft / Math.floor((timeLeft))) * progressWidth;
                 progress.value = withTiming(percentage, { duration: 1000 });
                 return newTimeLeft;
             });
         }, 1000);
-
         return () => clearInterval(intervalId);
     }, []);
 
@@ -71,7 +71,8 @@ export default function Home({ route }: any) {
             <StatusBar backgroundColor="transparent" translucent={true} />
             <View style={styles.backarrow}>
                 <BackArrow />
-                <RNText style={styles.quesnumber} type="subHeading" font='MontserratSemiBold' colortype="red">Question No. {data.sn}</RNText>            </View>
+                <RNText style={styles.quesnumber} type="navigationSize" font='MontserratSemiBold' colortype="white">Question No. {data.sn}</RNText>
+            </View>
             <TimeDuration paperduration={totalTime} animationStart={true} initalHeight={2} timeLeft={timeLeft} progress={progress.value} />
             <RNText style={styles.quescss} type="subHeading" font='MontserratSemiBold' colortype="white">Q{data.sn}. {data.question}</RNText>
             <KeyboardAwareScrollView style={styles.keybordScroller}>
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
         width: '90%',
         marginBottom: rh(1),
         marginHorizontal: rw(5),
-        marginTop: rh(3.8)
+        marginTop: rh(3.6)
     },
     quescss: {
         width: '90%',
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
         color: color.white,
         width: '90%',
-        height: rh(65),
+        height: rh(63),
         borderRadius: 15,
         borderWidth: 4,
         borderColor: color.primaryRed,
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
         color: color.white,
         width: '90%',
-        height: rh(31),
+        height: rh(28),
         borderRadius: 15,
         borderWidth: 4,
         borderColor: color.primaryRed,
@@ -215,14 +216,6 @@ const styles = StyleSheet.create({
     },
     timebar2: {
         justifyContent: 'center',
-    },
-    timebar2Text: {
-        position: 'absolute',
-        marginTop: 35,
-        marginLeft: 105,
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: rf(1.6),
-        textAlign: 'center',
     },
     textoption: {
         marginLeft: rw(8),

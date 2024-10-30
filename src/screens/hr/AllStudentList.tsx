@@ -12,12 +12,13 @@ import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import { color } from "../../constant/color";
-import Addques from '../../assests/svg/addQues';
+
 import BackArrow from "../../components/BackArrow";
 import SkeletonCard from "../../helpers/skeletonData";
 import { BackgroundImage } from "../../assests/images";
 import CandidateCard from "../../components/CandidateCard";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
+import { AddQues } from "../../assests/svg";
 import RNText from "../../components/RNText";
 
 const questionType = ["All", "Javascript", "Python", "Java", "DSA"];
@@ -48,7 +49,7 @@ export default function AddQuestion() {
                 <View style={styles.safearea}>
                     <View style={styles.headerview}>
                         <BackArrow />
-                        <RNText style={styles.paperList} type="subHeading" font='MontserratSemiBold' colortype="white">Candidate's List</RNText>
+                        <RNText style={styles.paperList} type="navigationSize" font='MontserratBold' colortype="white">Candidate's List</RNText>
                     </View>
                     <View style={styles.allcandidate}>
                         {isLoading ? (
@@ -73,10 +74,10 @@ export default function AddQuestion() {
                                 <View style={styles.headerbox}>
                                     <View style={styles.viewheaderbox}>
                                         <View style={styles.viewsubheaderbox}>
-                                            <RNText type="Heading" font='MontserratSemiBold' colortype="white">Total</RNText>
-                                            <RNText type="Heading" font='MontserratSemiBold' colortype="white">Candidate</RNText>
+                                            <RNText type="heading" font='MontserratSemiBold' colortype="white">Total</RNText>
+                                            <RNText type="heading" font='MontserratSemiBold' colortype="white">Candidate</RNText>
                                         </View>
-                                        <RNText style={styles.headertext} type="subHeading" font='MontserratSemiBold' colortype="white">{questionList.length}</RNText>
+                                        <RNText style={styles.headertext} type="subHeading" font='MontserratSemiBold' colortype="white">{questionList.length - 1}</RNText>
                                     </View>
                                     <View style={styles.headerboxflat}>
                                         <FlatList
@@ -112,19 +113,6 @@ export default function AddQuestion() {
                             </>
                         )}
                     </View>
-                    <View style={styles.addstudent}>
-                        <TouchableOpacity
-                            activeOpacity={0.8}
-                            style={styles.addquescss}
-                            onPress={() => navigation.navigate("AddStudent", { candidatNo: questionList.length })}
-                        >
-                            <View style={styles.addquessubmit}>
-                                <Addques />
-                                <RNText style={styles.addquesText} type="subHeading" font='MontserratBold' colortype="white">Add Candidate</RNText>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-
                 </View>
             </ImageBackground>
         </View>
@@ -143,14 +131,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     paperList: {
-        marginTop: rh(3.5),
+        marginTop: rh(3.6),
         marginBottom: rh(1),
-        marginLeft: rh(2),
+        marginLeft: rh(1.6),
     },
     itemtype: {
+        marginTop: rh(1.8),
         marginRight: 10,
         borderRadius: 18,
-        padding: rw(1),
+        padding: rw(0.6),
     },
     viewflatlist: {
         marginBottom: rh(24),
@@ -199,7 +188,6 @@ const styles = StyleSheet.create({
     },
     headerboxflat: {
         marginLeft: rw(1),
-        marginTop: rh(1),
         width: rw(80)
     },
     textheaderbox: {

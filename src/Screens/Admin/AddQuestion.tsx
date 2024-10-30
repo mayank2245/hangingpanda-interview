@@ -11,15 +11,13 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import WheelPicker from '@quidone/react-native-wheel-picker';
 
-import Add from "../../assests/svg/add";
 import { color } from "../../constant/color";
-import Addques from '../../assests/svg/addQues';
-import CrossIcon from "../../assests/svg/crossIcon";
 import { BackgroundImage } from "../../assests/images";
 import { dataText, alphabet } from '../../constant/staticData'
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import BackArrow from "../../components/BackArrow";
 import CustomModal from "../../components/Modal";
+import { Add, AddQues, CrossIcon } from "../../assests/svg";
 import RNText from "../../components/RNText";
 
 
@@ -158,11 +156,11 @@ export default function AddQuestion({ route }: any) {
                 </View>
                 <TouchableOpacity
                     activeOpacity={0.8}
-                    style={[styles.addquescss]}
+                    style={styles.addquescss}
                     onPress={handleAddmcq}
                 >
                     <View style={styles.addquessubmit}>
-                        <Addques />
+                        <AddQues />
                         <RNText style={styles.addquesText} type="subHeading" font='MontserratBold' colortype="white">Add</RNText>
                     </View>
                 </TouchableOpacity>
@@ -189,7 +187,7 @@ export default function AddQuestion({ route }: any) {
                     onPress={handleselectmcq}
                 >
                     <View style={styles.addquessubmit}>
-                        <Addques />
+                        <AddQues />
                         <RNText style={styles.addquesText} type="subHeading" font='MontserratBold' colortype="white">Submit</RNText>
                     </View>
                 </TouchableOpacity>
@@ -207,7 +205,7 @@ export default function AddQuestion({ route }: any) {
                 <View style={styles.safearea}>
                     <View style={styles.headerview}>
                         <BackArrow />
-                        <RNText style={styles.paperList} type="heading" font='MontserratBold' colortype="white">Add Question</RNText>
+                        <RNText style={styles.paperList} type="navigationSize" font='MontserratBold' colortype="white">Add Question</RNText>
                     </View>
                     {
                         queswrite === true ?
@@ -220,7 +218,7 @@ export default function AddQuestion({ route }: any) {
                                     onPress={handleAddques}
                                 >
                                     <View style={styles.addquessubmit}>
-                                        <Addques />
+                                        <AddQues />
                                         <RNText style={styles.addquesText} type="subHeading" font='MontserratBold' colortype="white">Add</RNText>
                                     </View>
                                 </TouchableOpacity>
@@ -229,7 +227,7 @@ export default function AddQuestion({ route }: any) {
                             <>
                                 {Id === 0 ? (
                                     <>
-                                        <RNText style={styles.showques} type="heading" font='MontserratBold' colortype="white">Q{data.length + 1}. {ques}</RNText>
+                                        <RNText style={styles.showques} type="subHeading" font='MontserratBold' colortype="white">Q{data.length + 1}. {ques}</RNText>
                                         <TextInput onChangeText={setAnswer} value={answer} style={styles.textAns} placeholder="Enter Answer" placeholderTextColor="#06D001" cursorColor="#06D001"></TextInput>
                                         <TouchableOpacity
                                             activeOpacity={0.8}
@@ -237,7 +235,7 @@ export default function AddQuestion({ route }: any) {
                                             onPress={handleSubmit}
                                         >
                                             <View style={styles.viewsubmit}>
-                                                <Addques />
+                                                <AddQues />
                                                 <RNText style={styles.addquesText} type="subHeading" font='MontserratBold' colortype="white">Submit</RNText>
                                             </View>
                                         </TouchableOpacity>
@@ -271,7 +269,7 @@ export default function AddQuestion({ route }: any) {
                                                             disabled={nextOption}
                                                         >
                                                             <View style={styles.viewsubmit}>
-                                                                <Addques />
+                                                                <AddQues />
                                                                 <RNText style={styles.addquesText} type="subHeading" font='MontserratBold' colortype="white">Next</RNText>
                                                             </View>
                                                         </TouchableOpacity>
@@ -285,7 +283,7 @@ export default function AddQuestion({ route }: any) {
                                                                         onPress={handleSubmit2}
                                                                     >
                                                                         <View style={styles.viewsubmit}>
-                                                                            <Addques />
+                                                                            <AddQues />
                                                                             <RNText style={styles.addquesText} type="subHeading" font='MontserratBold' colortype="white">Submit</RNText>
                                                                         </View>
                                                                     </TouchableOpacity>
@@ -307,7 +305,7 @@ export default function AddQuestion({ route }: any) {
                         !openmodal && (
                             <TouchableOpacity onPress={() => { setOpenmodal(true) }} style={styles.addQues}>
                                 <Add style={styles.addQuesLogo} />
-                                <RNText style={styles.addquesText} type="subHeading" font='MontserratBold' colortype="white">Add questions</RNText>
+                                <RNText style={styles.addquesText2} font='MontserratSemiBold' colortype="white">Add questions</RNText>
                             </TouchableOpacity>
                         )
                     }
@@ -330,7 +328,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     paperList: {
-        marginTop: rh(3.5),
+        marginTop: rh(3.6),
         marginBottom: rh(1),
         marginLeft: rh(2),
     },
@@ -360,6 +358,14 @@ const styles = StyleSheet.create({
     },
     addquesText: {
         textAlign: 'center',
+    },
+    addquesText2: {
+        fontSize: rf(1.7),
+        width: rw(28),
+        marginTop: rh(5.8),
+        marginLeft: rh(-4.6),
+        textAlign: 'center',
+        transform: [{ rotate: '270deg' }],
     },
     showques: {
         marginTop: rh(2),
@@ -423,7 +429,7 @@ const styles = StyleSheet.create({
         elevation: 2,
         zIndex: 10,
         width: rw(7),
-        height: rh(15),
+        height: rh(16.5),
         marginTop: rh(38),
         marginLeft: rw(93),
         borderTopLeftRadius: 10,
@@ -431,15 +437,15 @@ const styles = StyleSheet.create({
         backgroundColor: color.primaryRed,
     },
     addQuesLogo: {
-        marginTop: rh(1.2),
-        marginLeft: rh(0.9),
+        marginTop: rh(1),
+        marginLeft: rh(0.8),
     },
     addQuesText: {
         fontFamily: "Montserrat-SemiBold",
         width: rw(28),
         marginTop: rh(4.8),
         color: color.lightWhite,
-        marginLeft: rh(-4.8),
+        marginLeft: rh(-5),
         fontSize: rf(1.5),
         textAlign: 'center',
         transform: [{ rotate: '270deg' }],
@@ -458,7 +464,7 @@ const styles = StyleSheet.create({
     viewenteroption: {
         flexDirection: 'row',
         borderRadius: 20,
-        columnGap: rw(2)
+        columnGap: rw(3)
     },
     enteroption: {
         marginTop: rh(12),

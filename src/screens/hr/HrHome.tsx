@@ -171,7 +171,7 @@ export default function App(): React.JSX.Element {
                             </TouchableOpacity>
                         )}
                         <Logo style={styles.logoImage} />
-                        <RNText style={styles.logoText} font='MontserratSemiBold' colortype="lightWhite">HANGING PANDA PRODUCTS</RNText>
+                        <RNText style={styles.logoText} font='MontserratBold' colortype="lightWhite">HANGING PANDA PRODUCTS</RNText>
                     </ScrollView>
                 </View>
             </ImageBackground>
@@ -259,15 +259,14 @@ const styles = StyleSheet.create({
         marginTop: rh(63),
         width: rw(3),
         height: rh(4),
-        marginLeft: rw(4)
+        marginLeft: rw(5)
     },
     logoText: {
         position: 'absolute',
         opacity: 0.7,
         fontSize: rf(4.4),
-        height: rh(18),
         width: rw(55),
-        marginTop: rh(78),
+        marginTop: rh(77),
         marginLeft: rw(5),
     },
     modalcss: {
@@ -333,8 +332,8 @@ const styles = StyleSheet.create({
     quesformatePress: {
         marginTop: rh(6),
         height: rh(2.5),
-        width: rw(36),
-        marginLeft: rw(59),
+        width: rw(38),
+        marginLeft: rw(56),
         backgroundColor: color.primaryRed,
         borderRadius: 8,
         justifyContent: 'center'

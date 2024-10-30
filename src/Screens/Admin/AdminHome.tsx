@@ -134,8 +134,8 @@ export default function App(): React.JSX.Element {
                       size={48}
                       color={color.lightRed}
                     />
-                    <RNText style={styles.uploadPromptTitle} type="subHeading" font='NunitoSemiBold' colortype="lightRed">Import questions Excel or CSV</RNText>
-                    <RNText style={styles.uploadPromptTitle2} font='NunitoSemiBold' colortype="lightBlue">Drag or click to upload</RNText>
+                    <RNText style={styles.uploadPromptTitle} type="subHeading" font='NunitoBold' colortype="lightRed">Import questions Excel or CSV</RNText>
+                    <RNText style={styles.uploadPromptTitle2} font='NunitoBold' colortype="lightBlue">Drag or click to upload</RNText>
                     <TouchableOpacity
                       activeOpacity={0.8}
                       style={[styles.addquestion]}
@@ -175,7 +175,7 @@ export default function App(): React.JSX.Element {
             )}
 
             <Logo style={styles.logoImage} />
-            <RNText style={styles.logoText} font='MontserratSemiBold' colortype="lightWhite">HANGING PANDA PRODUCTS</RNText>
+            <RNText style={styles.logoText} font='MontserratBold' colortype="lightWhite">HANGING PANDA PRODUCTS</RNText>
           </ScrollView>
         </View>
       </ImageBackground>
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
   },
   logoImage: {
     position: 'absolute',
-    marginTop: rh(65),
+    marginTop: rh(64),
     width: rw(3),
     height: rh(4),
     marginLeft: rw(4)
@@ -264,9 +264,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     opacity: 0.7,
     fontSize: rf(4.4),
-    height: rh(18),
     width: rw(55),
-    marginTop: rh(82),
+    marginTop: rh(78),
     marginLeft: rw(5),
   },
   modalcss: {
@@ -294,7 +293,7 @@ const styles = StyleSheet.create({
   },
   crosscut: {
     marginTop: rh(2.3),
-    marginLeft: rh(41),
+    marginLeft: rh(40),
     marginBottom: rh(1)
   },
   addquestion: {
@@ -331,8 +330,8 @@ const styles = StyleSheet.create({
   },
   quesformatePress: {
     marginTop: rh(6),
-    height: rh(2.5),
-    width: rw(36),
+    height: rh(2.6),
+    width: rw(38),
     marginLeft: rw(59),
     backgroundColor: color.primaryRed,
     borderRadius: 8,

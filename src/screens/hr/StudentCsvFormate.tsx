@@ -84,12 +84,12 @@ export default function ModalScreen({ navigation }: any) {
                 <View style={styles.headerview}>
                     <BackArrow />
                     <View style={styles.backarrow}>
-                        <RNText style={styles.questionformatetext} type="subHeading" font='MontserratSemiBold' colortype="red">Candidate format </RNText>
+                        <RNText style={styles.questionformatetext} type="navigationSize" font='MontserratSemiBold' colortype="white">Candidate format </RNText>
                         <TouchableOpacity style={styles.uploadPromptIcon} >
                             <Icon
                                 name="download-cloud"
                                 size={28}
-                                color={color.lightRed}
+                                color={color.primaryRed}
                             />
                         </TouchableOpacity>
                     </View>
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     questionformatetext: {
-        marginTop: rh(4),
+        marginTop: rh(3.6),
         marginLeft: rw(2),
     },
     datatable: {

@@ -99,7 +99,7 @@ export default function LoginUserPage() {
                             <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="logintextWhite">At</RNText>
                             <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="red">HangingPanda !</RNText>
                             <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="logintextWhite">we truly value your exceptional work,</RNText>
-                            <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="logintextWhite">Admin.</RNText>
+                            <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="logintextWhite">HR.</RNText>
                         </View>
                         <RNText style={styles.discriptionText} font='MontserratBold' colortype="white">Pls Enter your Details here to enter in your interview process</RNText>
                         <View style={styles.viewTextInp}>
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-Bold',
         fontSize: rf(2),
         paddingHorizontal: rw(8.6),
-        marginTop: rh(6),
+        marginTop: rh(2),
         marginBottom: rh(3)
     },
     ellipseCss: {
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
         marginTop: rh(3),
     },
     ellipsisloading: {
-        marginLeft: rw(38.2),
+        marginLeft: rw(39.5),
         borderWidth: 2,
         borderColor: 'red',
         justifyContent: 'center',
@@ -205,8 +205,8 @@ const styles = StyleSheet.create({
     },
     loaderstyle: {
         position: 'absolute',
-        top: rh(25),
-        left: rw(45)
+        top: rh(24.5),
+        left: rw(45.5)
     },
 })
 

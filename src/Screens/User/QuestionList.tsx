@@ -14,7 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { color } from '../../constant/color';
-import Addques from '../../assests/svg/addQues';
+
 import { ShowToast } from '../../helpers/toast';
 import CustomModal from '../../components/Modal';
 import { BackgroundImage } from '../../assests/images';
@@ -26,6 +26,7 @@ import React from 'react';
 import QuestionListSkeleton from '../../helpers/skeletonUserData';
 import LottieView from 'lottie-react-native';
 import { useSharedValue, withTiming } from 'react-native-reanimated';
+import { AddQues } from '../../assests/svg';
 import RNText from '../../components/RNText';
 
 export default function QuestionList({ route }: any) {
@@ -267,7 +268,7 @@ export default function QuestionList({ route }: any) {
                                 style={styles.submitcss}
                                 onPress={() => setVisibleModal(true)}
                             >
-                                <Addques />
+                                <AddQues />
                                 <RNText type="subHeading" font='MontserratSemiBold' colortype="white">Submit</RNText>
                             </TouchableOpacity>
                         </>

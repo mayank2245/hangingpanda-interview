@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
         marginTop: rh(3),
     },
     ellipsisloading: {
-        marginLeft: rw(38.2),
+        marginLeft: rw(39.6),
         borderWidth: 2,
         borderColor: 'red',
         justifyContent: 'center',
@@ -216,8 +216,8 @@ const styles = StyleSheet.create({
     },
     loaderstyle: {
         position: 'absolute',
-        top: rh(87),
-        left: rw(45)
+        top: rh(86.5),
+        left: rw(45.8)
     },
 
 })

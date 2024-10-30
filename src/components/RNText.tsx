@@ -20,6 +20,9 @@ const getTextStyle = (type: string, font: string, colortype: string) => {
         case 'subHeading':
             style = styles.sub_heading;
             break;
+        case 'navigationSize':
+            style = styles.navigationSize;
+            break;
         default:
             style = styles.textregular;
     }
@@ -30,11 +33,14 @@ const getTextStyle = (type: string, font: string, colortype: string) => {
         case 'MontserratSemiBold':
             style = { ...style, fontFamily: 'Montserrat-SemiBold' };
             break;
-        case 'NunitoSans':
-            style = { ...style, fontFamily: 'NunitoSans_7pt-Regular' };
+        case 'Montserrat':
+            style = { ...style, fontFamily: 'Montserrat-Regular' };
+            break;
+        case 'NunitoBold':
+            style = { ...style, fontFamily: 'NunitoSans_7pt-SemiBold' };
 
         case 'NunitoSemiBold':
-            style = { ...style, fontFamily: 'NunitoSans_7pt-SemiBold' };
+            style = { ...style, fontFamily: 'NunitoSans_10pt-Bold' };
         default:
             style = styles.textregular;
     }
@@ -76,5 +82,8 @@ const styles = StyleSheet.create({
     },
     textregular: {
         fontSize: rf(1.8),
+    },
+    navigationSize: {
+        fontSize: rf(2.8),
     },
 });

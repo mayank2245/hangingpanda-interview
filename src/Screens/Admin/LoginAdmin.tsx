@@ -24,7 +24,7 @@ import RNText from "../../components/RNText";
 export default function LoginUserPage() {
     const [userId, setUserId] = useState("")
     const [email, setEmail] = useState("")
-    const [callApi, setCallApi] = useState(false)
+    const [callApi, setCallApi] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
     const navigation = useNavigation();
 
@@ -44,7 +44,6 @@ export default function LoginUserPage() {
                 await AsyncStorage.setItem('MYtoken', data.data.token);
             }
             setIsLoading(false)
-
             navigation.navigate('AdminHome')
             setUserId("")
             setEmail("")
@@ -185,7 +184,7 @@ const styles = StyleSheet.create({
         marginTop: rh(3),
     },
     ellipsisloading: {
-        marginLeft: rw(38.2),
+        marginLeft: rw(39.8),
         borderWidth: 2,
         borderColor: 'red',
         justifyContent: 'center',
@@ -199,8 +198,8 @@ const styles = StyleSheet.create({
     },
     loaderstyle: {
         position: 'absolute',
-        top: rh(90),
-        left: rw(45)
+        top: rh(89),
+        left: rw(46)
     },
     discriptionText: {
         fontFamily: 'Montserrat-Bold',
@@ -208,7 +207,7 @@ const styles = StyleSheet.create({
         fontSize: rf(2),
         paddingHorizontal: rw(8.6),
         marginTop: rh(4),
-        marginBottom: rh(3)
+        marginBottom: rh(1)
     },
     ellipetouchable: {
         alignSelf: 'center'
