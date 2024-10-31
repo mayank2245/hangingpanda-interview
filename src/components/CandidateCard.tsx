@@ -17,13 +17,12 @@ import RNText from './RNText';
 interface CardProps {
     candidateName: string,
     interviewDate: any,
-    inteviewTime: any,
     candidateEmail: string,
     paperType: string
     onDelete: (email: string) => void;
 }
 
-const CandidateCard: React.FC<CardProps> = ({ candidateName, candidateEmail, interviewDate, paperType, onDelete, inteviewTime }) => {
+const CandidateCard: React.FC<CardProps> = ({ candidateName, candidateEmail, interviewDate, paperType, onDelete }) => {
     const [visibleModal, setVisibleModal] = useState<boolean>(false)
     const [assignedColor, setAssignedColor] = useState();
     if (!assignedColor) {
@@ -78,18 +77,20 @@ const CandidateCard: React.FC<CardProps> = ({ candidateName, candidateEmail, int
                     name="clock-time-nine-outline"
                     size={18}
                 />
-                {isValidDate(interviewDate) ? (
-                    <RNText style={styles.cardtext3} font='MontserratSemiBold' colortype="black">{new Date(interviewDate).toISOString().split('T')[0]}{' '}
-                        {new Date(interviewDate).toLocaleTimeString('en-US', {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: true
-                        })}</RNText>
-                ) : (
-                    <RNText style={styles.cardtext3} type="subHeading" font='MontserratBold' colortype="black">{interviewDate} {inteviewTime}</RNText>
-                )}
-
-
+                <RNText style={styles.cardtext3} font='MontserratSemiBold' colortype="black">
+                    {interviewDate && !isNaN(new Date(interviewDate)) ? (
+                        <>
+                            {new Date(interviewDate).toISOString().split('T')[0]}{' '}
+                            {new Date(interviewDate).toLocaleTimeString('en-US', {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                hour12: true
+                            })}
+                        </>
+                    ) : (
+                        'Invalid Date'
+                    )}
+                </RNText>
             </View>
             <RNText style={styles.cardtext} type="subHeading" font='MontserratBold' colortype="black">{paperType}</RNText>
             <CustomModal
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     cardtext: {
-        marginTop: rh(2),
+        marginTop: rh(1.4),
         marginLeft: rw(1)
 
     },
@@ -158,8 +159,8 @@ const styles = StyleSheet.create({
         marginTop: rh(0.8)
     },
     cardtext3: {
-        marginTop: rh(0.9),
-        marginLeft: rw(0.5),
+        marginTop: rh(1),
+        marginLeft: rw(0.2),
     },
     modalbox: {
         marginHorizontal: rw(28),

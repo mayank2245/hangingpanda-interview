@@ -44,6 +44,7 @@ export default function App(): React.JSX.Element {
             const fileContent = await RNFS.readFile(res[0].uri, 'utf8');
             const parsedResult = csvToJsonStudent(fileContent);
             setParsedData(parsedResult);
+
         } catch (err: any) {
             console.log('Error:', err.message);
         }
@@ -121,7 +122,7 @@ export default function App(): React.JSX.Element {
                                             color={color.lightBlue}
                                         />
                                         <RNText style={styles.uploadPromptTitle} type="subHeading" font='NunitoSemiBold' colortype="lightRed">{fileName}</RNText>
-                                        <RNText style={styles.uploadPromptTitle2} font='NunitoSemiBold' colortype="lightBlue">Click next button to preview</RNText>
+                                        <RNText style={styles.uploadPromptTitle2} type="subHeading" font='NunitoSemiBold' colortype="lightBlue">Click next button to preview</RNText>
                                     </>
                                 ) : (
                                     <>
@@ -132,7 +133,7 @@ export default function App(): React.JSX.Element {
                                             color={color.lightRed}
                                         />
                                         <RNText style={styles.uploadPromptTitle} type="subHeading" font='NunitoSemiBold' colortype="lightRed">Import questions Excel or CSV</RNText>
-                                        <RNText style={styles.uploadPromptTitle2} font='NunitoSemiBold' colortype="lightBlue">Drag or click to upload</RNText>
+                                        <RNText style={styles.uploadPromptTitle2} type="subHeading" font='NunitoSemiBold' colortype="lightBlue">Drag or click to upload</RNText>
                                         <TouchableOpacity
                                             activeOpacity={0.8}
                                             style={[styles.addquestion]}
@@ -244,7 +245,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: rw(2),
         paddingHorizontal: rh(3),
-        paddingTop: rh(1),
+        paddingTop: rh(0.7),
         flexDirection: 'row',
         marginTop: rh(4),
         marginLeft: rw(34)
@@ -256,17 +257,17 @@ const styles = StyleSheet.create({
     },
     logoImage: {
         position: 'absolute',
-        marginTop: rh(63),
+        marginTop: rh(64),
         width: rw(3),
         height: rh(4),
-        marginLeft: rw(5)
+        marginLeft: rw(4)
     },
     logoText: {
         position: 'absolute',
         opacity: 0.7,
         fontSize: rf(4.4),
         width: rw(55),
-        marginTop: rh(77),
+        marginTop: rh(78),
         marginLeft: rw(5),
     },
     modalcss: {

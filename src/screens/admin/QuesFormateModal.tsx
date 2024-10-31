@@ -2,47 +2,28 @@ import csv from 'csvtojson';
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, DataTable } from 'react-native-paper';
 import { ScrollView, StatusBar, StyleSheet, TouchableOpacity, Vibration, View } from "react-native";
-import { Platform, PermissionsAndroid } from 'react-native';
 import { color } from "../../constant/color";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import BackArrow from '../../components/BackArrow';
 import Icon from 'react-native-vector-icons/Feather';
-import ReactNativeBlobUtil from 'react-native-blob-util'
 import RNText from '../../components/RNText';
-
-const Separator = () => {
-    return <View style={Platform.OS === 'android' ? styles.separator : null} />;
-};
 
 export default function ModalScreen({ navigation }: any) {
 
-    const ONE_SECOND_IN_MS = 1000;
-
-    const PATTERN = [
-        1 * ONE_SECOND_IN_MS,
-        2 * ONE_SECOND_IN_MS,
-        3 * ONE_SECOND_IN_MS,
-    ];
-
-    const PATTERN_DESC =
-        Platform.OS === 'android'
-            ? 'wait 1s, vibrate 2s, wait 3s'
-            : 'wait 1s, vibrate, wait 2s, vibrate, wait 3s';
-
     const columnWidths = {
-        0: { width: rw(13.2), height: rh(6.2), borderRightWidth: 1, borderRightColor: color.white, paddingRight: rw(3.2), },
-        1: { width: rw(29.1), height: rh(6.2), borderRightWidth: 1, borderRightColor: color.white, },
-        2: { width: rw(42.9), height: rh(6.2), borderRightWidth: 1, borderRightColor: color.white, },
-        3: { width: rw(45.5), height: rh(6.2), borderRightWidth: 1, borderRightColor: color.white, },
-        4: { width: rw(29), height: rh(6) },
+        0: { width: rw(13.2), height: rh(6.2), borderRightWidth: 1, borderRightColor: color.white, paddingRight: rw(3.2) },
+        1: { width: rw(29.3), height: rh(6.2), borderRightWidth: 1, borderRightColor: color.white, },
+        2: { width: rw(43), height: rh(6.2), borderRightWidth: 1, borderRightColor: color.white, },
+        3: { width: rw(45), height: rh(6.2), borderRightWidth: 1, borderRightColor: color.white, },
+        4: { width: rw(49), height: rh(6) },
     };
 
     const cellWidths = {
-        0: { width: rw(13), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, paddingRight: rw(2.2), },
-        1: { width: rw(29), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
+        0: { width: rw(13.2), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, paddingRight: rw(2.2) },
+        1: { width: rw(29.2), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
         2: { width: rw(43), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
-        3: { width: rw(45), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
-        4: { width: rw(29), height: rh(6.3) },
+        3: { width: rw(45.1), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
+        4: { width: rw(49), height: rh(6.3) },
     };
 
     const csvFileUrl = "https://docs.google.com/spreadsheets/d/1b8yY_OQYzJ5xBhys9k8FFl5yHZg-wbJJq7A2X4hBQPk/export?format=csv";
