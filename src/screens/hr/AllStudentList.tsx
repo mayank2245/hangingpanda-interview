@@ -1,174 +1,217 @@
 import {
+    ActivityIndicator,
+    FlatList,
     ImageBackground,
     StatusBar,
     StyleSheet,
     TouchableOpacity,
-    View,
-    FlatList
-} from "react-native";
+    View
+} from 'react-native';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { Skeleton } from 'moti/skeleton';
+import { Switch } from 'react-native-switch';
 
-import { Skeleton } from "moti/skeleton";
-import { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { color } from '../../constant/color';
+import SkeletonCard from '../../helpers/skeletonData';
+import { BackgroundImage } from '../../assests/images';
+import { ApiService } from '../../api/apiCalls/ApiCalls';
+import { rf, rh, rw } from '../../helpers/responsivedimention';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import BackArrow from '../../components/BackArrow';
+import RNText from '../../components/RNText';
+import CandidateCard from '../../components/CandidateCard';
+import CustomSwitch from '../../components/CustomSwitch';
 
-import { color } from "../../constant/color";
-
-import BackArrow from "../../components/BackArrow";
-import SkeletonCard from "../../helpers/skeletonData";
-import { BackgroundImage } from "../../assests/images";
-import CandidateCard from "../../components/CandidateCard";
-import { rf, rh, rw } from "../../helpers/responsivedimention";
-import { AddQues } from "../../assests/svg";
-import RNText from "../../components/RNText";
-
-const questionType = ["All", "Javascript", "Python", "Java", "DSA"];
-
-export default function AddQuestion() {
+export default function AllQuestionPaper() {
+    const [questionList, setQuestionList] = useState<any[]>([]);
+    const [filteredQuestions, setFilteredQuestions] = useState<any[]>([]);
+    const [questiontype] = useState<string[]>(["All", "Javascript", "Python", "Java", "DSA"]);
+    const [selectedtype, setSelectedtype] = useState<string>('All');
+    const [isEnabled, setIsEnabled] = useState(false);
     const navigation = useNavigation();
-    const [isLoading, setIsLoading] = useState(false);
-    const [filteredQuestions, setFilteredQuestions] = useState<any[]>();
-    const [selectedType, setSelectedType] = useState<string>('All');
-    const [questionList, setQuestionList] = useState<any[]>([{ email: "Hanging@gmail.com", interviewDate: "2024-09-10T10:00:00Z", name: "Hanging", questionPaperType: "DSA" }]);
-
-    const handleSelectType = (item: string) => {
-        setSelectedType(item);
-    };
 
     const handleDeleteCard = (candidateEmail: string) => {
-        const updatedCandidate = filteredQuestions.filter((fli) => fli.email === candidateEmail)
-        setFilteredQuestions(updatedCandidate)
+        const updatedCandidate = filteredQuestions.filter((candidate) => candidate.email !== candidateEmail);
+        setFilteredQuestions(updatedCandidate);
     }
 
+    const handlegetallQues = async ({ pageParam = 1 }) => {
+        const token = await AsyncStorage.getItem('HrLogintoken');
+        if (token) {
+            const res = await ApiService.getAllCandidate(token, pageParam);
+            return res;
+        }
+    };
+
+    const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
+        queryKey: ['queryGetAllCandidate'],
+        queryFn: handlegetallQues,
+        getNextPageParam: (lastPage) => {
+            if (lastPage.next !== null) {
+                return lastPage.next;
+            }
+        }
+    });
+
+    useEffect(() => {
+        if (data) {
+            const questions = data.pages[0].data.candidates;
+            setQuestionList(questions);
+            let filtered = selectedtype === 'All'
+                ? questions
+                : questions.filter((q: any) =>
+                    q.questionPaperType.toLowerCase() === selectedtype.toLowerCase()
+                );
+
+            if (isEnabled) {
+                filtered = filtered.filter((q: any) => q.isGiven);
+            } else {
+                filtered = filtered.filter((q: any) => !q.isGiven);
+            }
+
+            setFilteredQuestions(filtered);
+        }
+    }, [data, selectedtype, isEnabled]);
+
+    const handleselecttype = (item: string) => {
+        setSelectedtype(item);
+    };
+
+    const loadMore = () => {
+        if (hasNextPage) {
+            fetchNextPage();
+        }
+    };
+
     return (
-        <View>
-            <StatusBar backgroundColor={'transparent'} translucent={true} />
-            <ImageBackground
-                style={styles.backgroundImage}
-                source={BackgroundImage}
-                resizeMode="cover">
-                <View style={styles.safearea}>
-                    <View style={styles.headerview}>
+        <>
+            <StatusBar backgroundColor="transparent" translucent={true} />
+            <ImageBackground style={styles.backgroundImages} source={BackgroundImage} resizeMode="cover">
+                <View style={styles.overlay}>
+                    <View style={styles.backarrow}>
                         <BackArrow />
                         <RNText style={styles.paperList} type="navigationSize" font='MontserratBold' colortype="white">Candidate's List</RNText>
                     </View>
-                    <View style={styles.allcandidate}>
-                        {isLoading ? (
-                            <>
-                                <View style={styles.viewheader}>
-                                    <View style={styles.viewsubheaders}>
-                                        <Skeleton colorMode="dark" colors={[color.white + '20', color.black + '20']} radius="round" height={rh(3)} width={rw(80)} />
-                                    </View>
-                                    <View style={styles.viewsubheader}>
-                                        <Skeleton colorMode="dark" colors={[color.white + '20', color.black + '20']} radius="round" height={rh(4)} width={rw(80)} />
-                                    </View>
+                    {isLoading ? (
+                        <>
+                            <View style={styles.viewheader}>
+                                <View style={styles.viewsubheaders}>
+                                    <Skeleton colorMode="dark" colors={[color.white + '20', color.black + '20']} radius="round" height={rh(3)} width={rw(80)} />
                                 </View>
-                                <FlatList
-                                    style={styles.flatliststyle}
-                                    data={[1, 2, 3, 4, 5, 6, 7, 8]}
-                                    renderItem={() => <SkeletonCard />}
-                                    numColumns={2}
-                                />
-                            </>
-                        ) : (
-                            <>
-                                <View style={styles.headerbox}>
-                                    <View style={styles.viewheaderbox}>
-                                        <View style={styles.viewsubheaderbox}>
-                                            <RNText type="heading" font='MontserratSemiBold' colortype="white">Total</RNText>
-                                            <RNText type="heading" font='MontserratSemiBold' colortype="white">Candidate</RNText>
-                                        </View>
-                                        <RNText style={styles.headertext} type="subHeading" font='MontserratSemiBold' colortype="white">{questionList.length - 1}</RNText>
-                                    </View>
-                                    <View style={styles.headerboxflat}>
-                                        <FlatList
-                                            data={questionType}
-                                            horizontal
-                                            showsHorizontalScrollIndicator={false}
-                                            renderItem={({ item }) => (
-                                                <TouchableOpacity
-                                                    onPress={() => handleSelectType(item)}
-                                                    style={[
-                                                        styles.itemtype,
-                                                        selectedType === item
-                                                            ? { backgroundColor: color.white }
-                                                            : { borderWidth: rw(0.4), borderColor: color.white }
-                                                    ]}
-                                                >
-                                                    <RNText style={[styles.textheaderbox, selectedType === item ? { color: color.black } : { color: color.white }]} font='MontserratSemiBold'>{item}</RNText>
-                                                </TouchableOpacity>
-                                            )}
-                                        />
-                                    </View>
+                                <View style={styles.viewsubheader}>
+                                    <Skeleton colorMode="dark" colors={[color.white + '20', color.black + '20']} radius="round" height={rh(4)} width={rw(80)} />
                                 </View>
-                                <View style={styles.viewflatlist}>
+                            </View>
+                            <FlatList
+                                style={styles.flatliststyle}
+                                data={[1, 2, 3, 4, 5, 6, 7, 8]}
+                                renderItem={() => <SkeletonCard />}
+                                numColumns={2}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <View style={styles.headerbox}>
+                                <View style={styles.headerview}>
+                                    <View style={styles.viewsubheaderbox}>
+                                        <RNText type="heading" font='MontserratSemiBold' colortype="white">Total</RNText>
+                                        <RNText type="heading" font='MontserratSemiBold' colortype="white">Candidate</RNText>
+                                    </View>
+                                    <RNText style={styles.headertextno} font='MontserratSemiBold' colortype="white">{filteredQuestions.length}</RNText>
+                                </View>
+                                <View style={styles.headerboxflat}>
                                     <FlatList
-                                        style={styles.flatliststyle}
-                                        data={filteredQuestions}
-                                        renderItem={({ item }: any) => (
-                                            <CandidateCard candidateName={item.name} interviewDate={item.interviewDate} candidateEmail={item.email} paperType={item.paperType} onDelete={handleDeleteCard} inteviewTime={item.inteviewTime} />
+                                        data={questiontype}
+                                        horizontal
+                                        showsHorizontalScrollIndicator={false}
+                                        renderItem={({ item }) => (
+                                            <TouchableOpacity
+                                                onPress={() => handleselecttype(item)}
+                                                style={[
+                                                    styles.itemtype,
+                                                    selectedtype === item
+                                                        ? { backgroundColor: color.white }
+                                                        : { borderWidth: rw(0.4), borderColor: color.white }
+                                                ]}
+                                            >
+                                                <RNText style={[styles.textheaderbox, selectedtype === item ? { color: color.black } : { color: color.white }]} font='MontserratSemiBold'>{item}</RNText>
+                                            </TouchableOpacity>
                                         )}
-                                        numColumns={2}
                                     />
                                 </View>
-                            </>
-                        )}
-                    </View>
+                                <CustomSwitch isEnable={setIsEnabled} />
+                            </View>
+                            <View style={styles.viewflatlist}>
+                                <FlatList
+                                    data={filteredQuestions}
+                                    onEndReached={loadMore}               // Trigger `loadMore` when reaching the end of the list
+                                    onEndReachedThreshold={0.5}           // Set threshold for when to load more (50% from bottom)
+                                    renderItem={({ item }) => (
+                                        <CandidateCard
+                                            candidateName={item.name}
+                                            interviewDate={item.interviewDate}
+                                            candidateEmail={item.email}
+                                            paperType={item.questionPaperType}
+                                            onDelete={() => handleDeleteCard(item.email)}
+                                        />
+                                    )}
+                                    ListFooterComponent={isFetchingNextPage ? <ActivityIndicator size="large" color={color.primaryRed} /> : null}  // Show loader during fetching
+                                    numColumns={2}
+                                />
+                            </View>
+                        </>
+                    )}
                 </View>
             </ImageBackground>
-        </View>
+        </>
     );
 }
 
 const styles = StyleSheet.create({
-    backgroundImage: {
-        height: '100%'
+    backgroundImages: {
+        height: '100%',
+        width: '100%',
     },
-    safearea: {
+    overlay: {
         flex: 1,
         backgroundColor: color.black,
-    },
-    headerview: {
-        flexDirection: 'row'
+        opacity: 0.9,
     },
     paperList: {
-        marginTop: rh(3.6),
+        marginTop: rh(3.5),
         marginBottom: rh(1),
-        marginLeft: rh(1.6),
+        marginLeft: rh(2),
+    },
+    flatliststyle: {
+        marginBottom: rh(6),
+    },
+    viewflatlist: {
+        marginBottom: rh(28),
+    },
+    headerbox: {
+        backgroundColor: color.primaryRed,
+        borderWidth: rw(0.3),
+        paddingHorizontal: rw(5),
+        marginHorizontal: rw(3.8),
+        height: rh(22),
+        borderRadius: 30,
+        marginTop: rh(1),
+        marginBottom: rh(0.8)
+    },
+    headerview: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    headertextno: {
+        fontSize: rf(10),
     },
     itemtype: {
-        marginTop: rh(1.8),
         marginRight: 10,
         borderRadius: 18,
         padding: rw(0.6),
-    },
-    viewflatlist: {
-        marginBottom: rh(24),
-    },
-    enterQues: {
-        fontFamily: 'Montserrat-Bold',
-        color: color.green,
-        fontSize: rf(2.3),
-        marginTop: rh(2),
-        marginHorizontal: rh(3.2)
-    },
-    addquessubmit: {
-        flexDirection: "row",
-        alignItems: "center",
-        columnGap: rw(2)
-    },
-    addquescss: {
-        justifyContent: 'center',
-        alignItems: "center",
-        height: rh(8),
-        backgroundColor: color.primaryRed,
-        borderTopRightRadius: 25,
-    },
-    addquesText: {
-        textAlign: 'center',
-    },
-    addstudent: {
-        flex: 1,
-        justifyContent: 'flex-end'
     },
     viewheader: {
         backgroundColor: '#D9D9D930',
@@ -187,35 +230,14 @@ const styles = StyleSheet.create({
         marginTop: rh(2.4)
     },
     headerboxflat: {
-        marginLeft: rw(1),
-        width: rw(80)
+        marginVertical: rh(0.6),
     },
     textheaderbox: {
         paddingHorizontal: rh(0.8),
     },
-    flatliststyle: {
-        marginBottom: rh(6),
-    },
-    headerbox: {
-        backgroundColor: color.primaryRed,
-        borderWidth: rw(0.3),
-        paddingHorizontal: rw(5),
-        marginHorizontal: 16,
-        height: rh(20),
-        borderRadius: 30,
-        marginTop: rh(1),
-        marginBottom: rh(0.8)
-    },
-    headertext: {
-        fontSize: rf(10),
-    },
-    allcandidate: {
-        height: rh(96)
-    },
-    viewheaderbox: {
+    backarrow: {
         flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between'
+        marginTop: rh(2.2)
     },
     viewsubheaderbox: {
         justifyContent: 'center'

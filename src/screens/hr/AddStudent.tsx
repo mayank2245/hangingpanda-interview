@@ -20,9 +20,11 @@ import { BackgroundImage } from "../../assests/images";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import BackArrow from "../../components/BackArrow";
 import { Dropdown } from "react-native-element-dropdown";
-import { ShowToast } from "../../helpers/toast";
+
 import { AddQues } from "../../assests/svg";
 import RNText from "../../components/RNText";
+import { useToast } from "react-native-toast-notifications";
+
 
 export default function AddQuestion({ route }: any) {
     const { candidatedata } = route.params;
@@ -37,6 +39,8 @@ export default function AddQuestion({ route }: any) {
     const [date, setDate] = useState<Date>(new Date('2024-10-18T00:00:00'));
     const [time, setTime] = useState<Date>(new Date('2024-10-18T00:00:00'));
     const [validEmail, setValidEmail] = useState(false)
+    const toast = useToast();
+
 
     const handleValidEmail = (text: any) => {
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -86,34 +90,28 @@ export default function AddQuestion({ route }: any) {
 
     const handleadd = () => {
         if (candidateName === "") {
-            const type = "error";
             const text1 = "Please fill the Candidate Name";
-            ShowToast(type, text1);
+            toast.show(text1)
         }
         else if (candidateEmail === "") {
-            const type = "error";
             const text1 = "Please fill the Candidate Email";
-            ShowToast(type, text1);
+            toast.show(text1)
         }
         else if (!validEmail) {
-            const type = "error";
             const text1 = "Please enter valid Email";
-            ShowToast(type, text1);
+            toast.show(text1)
         }
         else if (papertype === "") {
-            const type = "error";
             const text1 = "Please fill the Candidate Paper Type";
-            ShowToast(type, text1);
+            toast.show(text1)
         }
         else if (date.getTime() === new Date('2024-10-18T00:00:00').getTime()) {
-            const type = "error";
             const text1 = "Please fill the Candidate date";
-            ShowToast(type, text1);
+            toast.show(text1)
         }
         else if (time.getTime() === new Date('2024-10-18T00:00:00').getTime()) {
-            const type = "error";
             const text1 = "Please fill the Candidate time";
-            ShowToast(type, text1);
+            toast.show(text1)
         }
         else {
             let dateTimeString = `${moment(date).format('MM/DD/YYYY')} ${moment(time).format('h:mm:ss A')}`;

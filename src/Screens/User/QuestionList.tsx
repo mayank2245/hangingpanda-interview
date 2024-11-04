@@ -16,7 +16,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { color } from '../../constant/color';
 
-import { ShowToast } from '../../helpers/toast';
+
 import CustomModal from '../../components/Modal';
 import { BackgroundImage } from '../../assests/images';
 import TimeDuration from '../../components/TimeDuration';
@@ -29,6 +29,7 @@ import LottieView from 'lottie-react-native';
 import { useSharedValue, withTiming } from 'react-native-reanimated';
 import { AddQues } from '../../assests/svg';
 import RNText from '../../components/RNText';
+import { useToast } from 'react-native-toast-notifications';
 
 
 const Separator = () => {
@@ -47,6 +48,7 @@ export default function QuestionList({ route }: any) {
     const [time, setTime] = useState<number>();
     const [timeLeft, setTimeLeft] = useState(60 * time);
     const [candidateData, setCandidateData] = useState()
+    const toast = useToast();
 
     const queryClient = useQueryClient();
 
@@ -149,14 +151,14 @@ export default function QuestionList({ route }: any) {
         mutationKey: ["passingKeyPaperSubmit"],
         mutationFn: submitpaperhandle,
         onSuccess: async data => {
-            ShowToast("success", "Submit Successfully")
+            toast.show("Submit Successfully")
             Vibration.vibrate()
             navigation.push('LoginUserPage')
         },
         onError: (err) => {
             navigation.push('LoginUserPage')
             console.log(err)
-            ShowToast("error", `${err}`)
+            toast.show(`${err}`)
 
         }
     })

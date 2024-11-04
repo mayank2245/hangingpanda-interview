@@ -16,9 +16,9 @@ import { rf, rh, rw } from "../../helpers/responsivedimention";
 import { ApiService } from "../../api/apiCalls/ApiCalls";
 import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ShowToast } from "../../helpers/toast";
 import { Loader } from "../../components/Loader";
 import RNText from "../../components/RNText";
+import { useToast } from "react-native-toast-notifications";
 
 export default function LoginUserPage({ }) {
     const [userId, setUserId] = useState("")
@@ -26,6 +26,7 @@ export default function LoginUserPage({ }) {
     const [callApi, setCallApi] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const navigation = useNavigation();
+    const toast = useToast();
 
     const loginhandle = async () => {
         const payload = {
@@ -52,25 +53,24 @@ export default function LoginUserPage({ }) {
         },
         onError: () => {
             setIsLoading(false);
-            ShowToast("error", "Please Check your id and email");
+            toast.show("Please Check your id and email", { type: "danger" })
         }
     })
 
     const handlepress = () => {
         if (userId === "") {
-            const type = "error";
             const text1 = "Please fill the User Id";
-            ShowToast(type, text1);
+            toast.show(text1)
         }
         else if (email === "") {
-            const type = "error";
+
             const text1 = "Please fill the Email Id";
-            ShowToast(type, text1);
+            toast.show(text1)
         }
         else if (callApi === false) {
-            const type = "error";
+
             const text1 = "Please enter correct Email Id";
-            ShowToast(type, text1);
+            toast.show(text1)
         }
         else {
             setIsLoading(true)

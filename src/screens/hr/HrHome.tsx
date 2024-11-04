@@ -18,12 +18,12 @@ import IconCsv from 'react-native-vector-icons/FontAwesome5';
 
 import CustomModal from '../../components/Modal';
 import { color } from '../../constant/color';
-import { csvToJson, csvToJsonStudent } from '../../helpers/csvToJson';
 import { dataText } from '../../constant/staticData';
 import { BackgroundImage } from '../../assests/images';
 import { AddQues, CrossIcon, Logo } from '../../assests/svg';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
 import RNText from '../../components/RNText';
+import { csvToJsonStudent } from '../../helpers/csvToJson';
 
 
 export default function App(): React.JSX.Element {
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     },
     uploadPromptTitle2: {
         textAlign: 'center',
-        marginTop: rh(0.4),
+        marginTop: rh(0.4)
     },
     nextButton: {
         backgroundColor: color.primaryRed,

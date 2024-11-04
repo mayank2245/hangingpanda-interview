@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ApiService } from '../../api/apiCalls/ApiCalls';
 import { useMutation } from '@tanstack/react-query';
-import { ShowToast } from '../../helpers/toast';
+
 import { Add, Upload } from '../../assests/svg';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
 import { color } from '../../constant/color';
@@ -12,12 +12,15 @@ import { BackgroundImage } from '../../assests/images';
 import BackArrow from '../../components/BackArrow';
 import { useNavigation } from '@react-navigation/native';
 import RNText from '../../components/RNText';
+import { useToast } from 'react-native-toast-notifications';
+
 
 export default function AddAllCandidate({ route }: any) {
     const { candidateData } = route.params || {};
     const [candidateList, setCandidateList] = useState(candidateData)
     const Navigation = useNavigation();
     const [loader, setLoader] = useState(false)
+    const toast = useToast();
 
     useEffect(() => {
         setCandidateList(candidateData);
@@ -37,9 +40,8 @@ export default function AddAllCandidate({ route }: any) {
         mutationKey: ["handleaddCandidate"],
         mutationFn: handleaddCandidate,
         onSuccess: () => {
-            const type = "success";
             const text1 = "Upload Successfully";
-            ShowToast(type, text1);
+            toast.show(text1)
             setLoader(false)
         },
         onError: (err) => { setLoader(false), console.log(err) }

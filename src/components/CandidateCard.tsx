@@ -122,16 +122,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     cardtext: {
+        height: rh(2.7),
         marginTop: rh(1.4),
         marginLeft: rw(1)
 
     },
     cardEmail: {
+        height: rh(2.3),
         marginTop: rh(0.8),
         marginLeft: rw(1)
 
     },
     cardName: {
+        height: rh(2.7),
         marginTop: rh(1.4),
         marginLeft: rw(1)
 
@@ -159,6 +162,7 @@ const styles = StyleSheet.create({
         marginTop: rh(0.8)
     },
     cardtext3: {
+        height: rh(2.3),
         marginTop: rh(1),
         marginLeft: rw(0.2),
     },
