@@ -13,21 +13,21 @@ import RNText from '../../components/RNText';
 export default function ModalScreen({ navigation }: any) {
 
     const columnWidths = {
-        0: { width: rw(13), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
-        1: { width: rw(29.4), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
-        2: { width: rw(43.4), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
+        0: { width: rw(14.1), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, paddingRight: rw(3.2), },
+        1: { width: rw(29.2), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
+        2: { width: rw(43.5), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
         3: { width: rw(45.5), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
-        4: { width: rw(45.3), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
-        5: { width: rw(29), height: rh(6.5) },
+        4: { width: rw(45.2), height: rh(6.5), borderRightWidth: 1, borderRightColor: color.white, },
+        5: { width: rw(49.4), height: rh(6.5) },
     };
 
     const cellWidths = {
-        0: { width: rw(12), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
-        1: { width: rw(29), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
-        2: { width: rw(43), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
+        0: { width: rw(13.6), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, paddingRight: rw(2.2), },
+        1: { width: rw(28.8), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
+        2: { width: rw(42.9), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
         3: { width: rw(45), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
-        4: { width: rw(45), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
-        5: { width: rw(29), height: rh(6.3) },
+        4: { width: rw(44.4), height: rh(6.3), borderRightWidth: 1, borderRightColor: color.white, },
+        5: { width: rw(49), height: rh(6.3) },
     };
 
 
@@ -107,7 +107,6 @@ export default function ModalScreen({ navigation }: any) {
                                             style={[
                                                 styles.cellWithBorder,
                                                 index === state.currentPageData.length - 1 ? { borderLeftWidth: 0 } : {},
-                                                { margin: rw(0.6) },
                                                 columnWidths[index] || {}
                                             ]}
                                         >

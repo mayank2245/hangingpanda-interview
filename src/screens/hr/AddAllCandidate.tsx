@@ -1,9 +1,9 @@
 import { FlatList, ImageBackground, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ApiService } from '../../api/apiCalls/ApiCalls';
 import { useMutation } from '@tanstack/react-query';
-import { ShowToast } from '../../helpers/toast';
+
 import { Add, Upload } from '../../assests/svg';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
 import { color } from '../../constant/color';
@@ -12,16 +12,24 @@ import { BackgroundImage } from '../../assests/images';
 import BackArrow from '../../components/BackArrow';
 import { useNavigation } from '@react-navigation/native';
 import RNText from '../../components/RNText';
+import { useToast } from 'react-native-toast-notifications';
+
 
 export default function AddAllCandidate({ route }: any) {
     const { candidateData } = route.params || {};
+    const [candidateList, setCandidateList] = useState(candidateData)
     const Navigation = useNavigation();
-    const [payload, setPayload] = useState({ interviews: candidateData });
     const [loader, setLoader] = useState(false)
+    const toast = useToast();
+
+    useEffect(() => {
+        setCandidateList(candidateData);
+    }, [candidateData]);
 
     const handleaddCandidate = async () => {
         const token = await AsyncStorage.getItem('HrLogintoken');
-        if (token && payload) {
+        if (token && candidateList) {
+            const payload = { interviews: candidateList }
             const res = await ApiService.addCandidate(token, payload);
             return res;
         }
@@ -32,19 +40,20 @@ export default function AddAllCandidate({ route }: any) {
         mutationKey: ["handleaddCandidate"],
         mutationFn: handleaddCandidate,
         onSuccess: () => {
-            const type = "success";
             const text1 = "Upload Successfully";
-            ShowToast(type, text1);
+            toast.show(text1)
             setLoader(false)
         },
-        onError: () => { setLoader(false) }
+        onError: (err) => { setLoader(false), console.log(err) }
     })
 
     const handleUpload = () => {
         setLoader(true)
         mutation.mutate();
     }
-
+    const handleDelete = (email) => {
+        setCandidateList(prevData => prevData.filter(candidate => candidate.email !== email));
+    };
     return (
         <View>
             <StatusBar backgroundColor={'transparent'} translucent={true} />
@@ -57,21 +66,20 @@ export default function AddAllCandidate({ route }: any) {
                         <BackArrow />
                         <RNText style={styles.paperList} type="navigationSize" font='MontserratBold' colortype="white">Add Candidate</RNText>
                     </View>
-                    <TouchableOpacity onPress={() => Navigation.navigate("AddStudent", { candidatedata: candidateData })} style={styles.addQues}>
+                    <TouchableOpacity onPress={() => Navigation.navigate("AddStudent", { candidatedata: candidateList })} style={styles.addQues}>
                         <Add style={styles.addQuesLogo} />
                         <RNText style={styles.addQuesText} font='MontserratSemiBold' colortype="lightWhite">Add Candidate</RNText>
                     </TouchableOpacity>
                     <FlatList
                         style={styles.flatliststyle}
-                        data={candidateData}
+                        data={candidateList}
                         renderItem={({ item }) => (<>
                             <CandidateCard
                                 candidateName={item.name}
                                 interviewDate={item.interviewDate}
                                 candidateEmail={item.email}
                                 paperType={item.questionPaperType}
-                                inteviewTime={item.interviewTime}
-                                onDelete={(email: string) => {/* implement your onDelete functionality */ }}
+                                onDelete={(email: string) => { handleDelete(email) }}
                             />
                         </>
                         )}

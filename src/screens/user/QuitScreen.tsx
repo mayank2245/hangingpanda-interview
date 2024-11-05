@@ -6,11 +6,12 @@ import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import { Alert } from '../../assests/lottie';
 import { rf, rh, rw } from '../../helpers/responsivedimention';
-import { ShowToast } from '../../helpers/toast';
 import RNText from '../../components/RNText';
+import { useToast } from 'react-native-toast-notifications';
 
 export default function QuitScreen() {
     const navigation = useNavigation();
+    const toast = useToast();
     useEffect(() => {
         const unsubscribe = navigation.addListener('beforeRemove', (e) => {
             e.preventDefault();
@@ -21,7 +22,7 @@ export default function QuitScreen() {
         <View>
             <StatusBar backgroundColor={'transparent'} translucent={true} />
             <View style={styles.overlay}>
-                {ShowToast("success", "Paper Submitted")}
+                {toast.show("Paper Submitted")}
                 <LottieView
                     source={Alert}
                     style={styles.lottieview}

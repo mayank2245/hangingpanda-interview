@@ -16,7 +16,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { color } from '../../constant/color';
-import { ShowToast } from '../../helpers/toast';
 import { dataText } from '../../constant/staticData';
 import { BackgroundImage } from '../../assests/images';
 import { ApiService } from '../../api/apiCalls/ApiCalls';
@@ -25,6 +24,7 @@ import { Add, AddQues, CrossIcon, Upload } from '../../assests/svg';
 import BackArrow from '../../components/BackArrow';
 import CustomModal from '../../components/Modal';
 import RNText from '../../components/RNText';
+import { useToast } from 'react-native-toast-notifications'
 
 export default function Showdata({ route }: any) {
   const { data, data2, questionData } = route.params;
@@ -38,6 +38,7 @@ export default function Showdata({ route }: any) {
   const [PaperTypeDropDown, setPaperTypeDropDown] = useState([])
 
   const navigation = useNavigation();
+  const toast = useToast();
 
   const addquestypehandle = async () => {
     const res = await ApiService.QuestionPaperType()
@@ -78,9 +79,8 @@ export default function Showdata({ route }: any) {
   const mutation = useMutation({
     mutationFn: addqueshandle,
     onSuccess: () => {
-      const type = "success";
       const text1 = "Upload Successfully";
-      ShowToast(type, text1);
+      toast.show(text1)
       setOpenmodal2(false)
     }
   })

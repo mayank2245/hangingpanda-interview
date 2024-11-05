@@ -10,8 +10,8 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Entypo from 'react-native-vector-icons/Entypo';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icons from 'react-native-vector-icons/Feather';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 
 import { color } from "../../constant/color";
@@ -20,12 +20,11 @@ import { BackgroundImage } from "../../assests/images";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import BackArrow from "../../components/BackArrow";
 import { Dropdown } from "react-native-element-dropdown";
-import { ShowToast } from "../../helpers/toast";
-import { useMutation } from "@tanstack/react-query";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ApiService } from "../../api/apiCalls/ApiCalls";
+
 import { AddQues } from "../../assests/svg";
 import RNText from "../../components/RNText";
+import { useToast } from "react-native-toast-notifications";
+
 
 export default function AddQuestion({ route }: any) {
     const { candidatedata } = route.params;
@@ -39,6 +38,19 @@ export default function AddQuestion({ route }: any) {
     const [questionfocus, setQuestionfocus] = useState<"Name" | "Email" | "PaperType" | "Date" | "Time" | "">("")
     const [date, setDate] = useState<Date>(new Date('2024-10-18T00:00:00'));
     const [time, setTime] = useState<Date>(new Date('2024-10-18T00:00:00'));
+    const [validEmail, setValidEmail] = useState(false)
+    const toast = useToast();
+
+
+    const handleValidEmail = (text: any) => {
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if (reg.test(text) === false) {
+            setValidEmail(false)
+            return false;
+        } else {
+            setValidEmail(true)
+        }
+    }
 
     const PaperTypeDropDown = [
         {
@@ -78,29 +90,28 @@ export default function AddQuestion({ route }: any) {
 
     const handleadd = () => {
         if (candidateName === "") {
-            const type = "error";
             const text1 = "Please fill the Candidate Name";
-            ShowToast(type, text1);
+            toast.show(text1)
         }
         else if (candidateEmail === "") {
-            const type = "error";
             const text1 = "Please fill the Candidate Email";
-            ShowToast(type, text1);
+            toast.show(text1)
+        }
+        else if (!validEmail) {
+            const text1 = "Please enter valid Email";
+            toast.show(text1)
         }
         else if (papertype === "") {
-            const type = "error";
             const text1 = "Please fill the Candidate Paper Type";
-            ShowToast(type, text1);
+            toast.show(text1)
         }
         else if (date.getTime() === new Date('2024-10-18T00:00:00').getTime()) {
-            const type = "error";
             const text1 = "Please fill the Candidate date";
-            ShowToast(type, text1);
+            toast.show(text1)
         }
         else if (time.getTime() === new Date('2024-10-18T00:00:00').getTime()) {
-            const type = "error";
             const text1 = "Please fill the Candidate time";
-            ShowToast(type, text1);
+            toast.show(text1)
         }
         else {
             let dateTimeString = `${moment(date).format('MM/DD/YYYY')} ${moment(time).format('h:mm:ss A')}`;
@@ -187,84 +198,91 @@ export default function AddQuestion({ route }: any) {
                         <BackArrow />
                         <RNText style={styles.paperList} type="navigationSize" font='MontserratBold' colortype="white">Add Candidate</RNText>
                     </View>
-                    <RNText style={styles.paperListSub} type="heading" font='MontserratBold' colortype="white">Candidate:</RNText>
-                    <TextInput onChangeText={setcandidateName} value={candidateName} onFocus={() => setQuestionfocus("Name")} onBlur={() => setQuestionfocus("")} style={[styles.textQues, questionfocus === "Name" ? { borderColor: color.timebarRed, } : { borderColor: color.primaryRed }]} placeholder="Candidate Name" placeholderTextColor={questionfocus === "Name" ? color.timebarRed : color.primaryRed} cursorColor="#FF3856"></TextInput>
-                    <TextInput onChangeText={setcandidateEmail} value={candidateEmail} onFocus={() => setQuestionfocus("Email")} onBlur={() => setQuestionfocus("")} style={[styles.textQues, questionfocus === "Email" ? { borderColor: color.timebarRed, } : { borderColor: color.primaryRed }]} placeholder="Candidate Email" placeholderTextColor={questionfocus === "Email" ? color.timebarRed : color.primaryRed} cursorColor="#FF3856"></TextInput>
-                    <View style={styles.papertypeview}>
-                        <Dropdown
-                            onFocus={() => setQuestionfocus("PaperType")}
-                            style={[styles.dropdown, questionfocus === "PaperType" ? { borderColor: color.timebarRed } : { borderColor: color.primaryRed }]}
-                            dropdownPosition='bottom'
-                            placeholderStyle={[styles.placeholderStyle, questionfocus === "PaperType" ? { color: color.timebarRed } : { color: color.primaryRed }]}
-                            selectedTextStyle={styles.selectedTextStyle}
-                            iconStyle={styles.iconStyle}
-                            data={PaperTypeDropDown}
-                            containerStyle={styles.containerStyle}
-                            itemContainerStyle={styles.itemcontainer}
-                            maxHeight={300}
-                            labelField="name"
-                            valueField="name"
-                            placeholder="Select Paper Type"
-                            iconColor={questionfocus === "PaperType" ? color.timebarRed : color.primaryRed}
-                            value={value}
-                            onChange={item => {
-                                setPapertype(item.name);
-                                setValue(item.name)
-                            }}
-                            renderItem={renderItem}
+                    <View style={{}}>
+                        <RNText style={styles.paperListSub} type="heading" font='MontserratBold' colortype="white">Candidate:</RNText>
+                        <TextInput onChangeText={setcandidateName} value={candidateName} onFocus={() => setQuestionfocus("Name")} onBlur={() => setQuestionfocus("")} style={[styles.textQues, questionfocus === "Name" ? { borderColor: color.timebarRed, } : { borderColor: color.primaryRed }]} placeholder=" Candidate name" placeholderTextColor={questionfocus === "Name" ? color.timebarRed : color.primaryRed} cursorColor="#FF3856"></TextInput>
+                        <TextInput onChangeText={value => {
+                            setcandidateEmail(value.trim());
+                            handleValidEmail(value);
+                        }} value={candidateEmail} onFocus={() => setQuestionfocus("Email")} onBlur={() => setQuestionfocus("")} style={[styles.textQues, questionfocus === "Email" ? { borderColor: color.timebarRed, } : { borderColor: color.primaryRed }]} placeholder=" Candidate email" placeholderTextColor={questionfocus === "Email" ? color.timebarRed : color.primaryRed} cursorColor="#FF3856"
+                            autoCorrect={false}
+                            autoCapitalize="none"></TextInput>
+                        <View style={styles.papertypeview}>
+                            <Dropdown
+                                onFocus={() => setQuestionfocus("PaperType")}
+                                style={[styles.dropdown, questionfocus === "PaperType" ? { borderColor: color.timebarRed } : { borderColor: color.primaryRed }]}
+                                dropdownPosition='bottom'
+                                placeholderStyle={[styles.placeholderStyle, questionfocus === "PaperType" ? { color: color.timebarRed } : { color: color.primaryRed }]}
+                                selectedTextStyle={styles.selectedTextStyle}
+                                iconStyle={styles.iconStyle}
+                                data={PaperTypeDropDown}
+                                containerStyle={styles.containerStyle}
+                                itemContainerStyle={styles.itemcontainer}
+                                maxHeight={300}
+                                labelField="name"
+                                valueField="name"
+                                placeholder="Select paper type"
+                                iconColor={questionfocus === "PaperType" ? color.timebarRed : color.primaryRed}
+                                value={value}
+                                onChange={item => {
+                                    setPapertype(item.name);
+                                    setValue(item.name)
+                                }}
+                                renderItem={renderItem}
+                            />
+                        </View>
+                        <DateTimePickerModal
+                            isVisible={isDatePickerVisible}
+                            mode="date"
+                            onConfirm={handleConfirm}
+                            onCancel={hideDatePicker}
+                            minimumDate={new Date()}
+                            isDarkModeEnabled={true}
+                            themeVariant="dark"
                         />
-                    </View>
-                    <DateTimePickerModal
-                        isVisible={isDatePickerVisible}
-                        mode="date"
-                        onConfirm={handleConfirm}
-                        onCancel={hideDatePicker}
-                        minimumDate={new Date()}
-                        isDarkModeEnabled={true}
-                        themeVariant="dark"
-                    />
-                    <DateTimePickerModal
-                        isVisible={isTimePickerVisible}
-                        mode="time"
-                        onConfirm={handleConfirm2}
-                        onCancel={hideDatePicker}
-                        themeVariant={'dark'}
-                        is24Hour={false}
-                    />
+                        <DateTimePickerModal
+                            isVisible={isTimePickerVisible}
+                            mode="time"
+                            onConfirm={handleConfirm2}
+                            onCancel={hideDatePicker}
+                            themeVariant={'dark'}
+                            is24Hour={false}
+                        />
 
-                    <View style={[styles.timepicker, questionfocus === "Date" ? { borderColor: color.timebarRed } : { borderColor: color.primaryRed }]}>
-                        <View style={styles.timepickersub}>
-                            {date.getTime() === new Date('2024-10-18T00:00:00').getTime() ?
-                                <RNText style={styles.ShowcandidateSub2} type="subHeading" font='MontserratBold' colortype="red">Interview Date</RNText>
-                                :
-                                <RNText style={styles.ShowcandidateSub} type="subHeading" font='MontserratBold' colortype="lightWhite">{date?.toLocaleDateString()}</RNText>
-                            }
+                        <View style={[styles.timepicker, questionfocus === "Date" ? { borderColor: color.timebarRed } : { borderColor: color.primaryRed }]}>
+                            <View style={styles.timepickersub}>
+                                {date.getTime() === new Date('2024-10-18T00:00:00').getTime() ?
+                                    <RNText style={styles.ShowcandidateSub2} type="subHeading" font='MontserratBold' colortype="red">Interview date</RNText>
+                                    :
+                                    <RNText style={styles.ShowcandidateSub} type="subHeading" font='MontserratBold' colortype="lightWhite">{date?.toLocaleDateString()}</RNText>
+                                }
+                            </View>
+                            <TouchableOpacity onPress={showDatepicker}>
+                                <Icons
+                                    style={styles.icon}
+                                    color={questionfocus === "Date" ? color.timebarRed : color.primaryRed}
+                                    name="calendar"
+                                    size={30}
+                                />
+                            </TouchableOpacity>
                         </View>
-                        <TouchableOpacity onPress={showDatepicker}>
-                            <EvilIcons
-                                style={styles.icon}
-                                color={questionfocus === "Date" ? color.timebarRed : color.primaryRed}
-                                name="calendar"
-                                size={35}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                    <View style={[styles.timepicker, questionfocus === "Time" ? { borderColor: color.timebarRed } : { borderColor: color.primaryRed }]}>
-                        <View style={styles.timepickersub}>
-                            {time.getTime() === new Date('2024-10-18T00:00:00').getTime() ?
-                                <RNText style={styles.ShowcandidateSub2} type="subHeading" font='MontserratBold' colortype="red">Interview Time</RNText>
-                                :
-                                <RNText style={styles.ShowcandidateSub} type="subHeading" font='MontserratBold' colortype="lightWhite">{time?.toLocaleTimeString()}</RNText>
-                            }
+                        <View style={[styles.timepicker, questionfocus === "Time" ? { borderColor: color.timebarRed } : { borderColor: color.primaryRed }]}>
+                            <View style={styles.timepickersub}>
+                                {time.getTime() === new Date('2024-10-18T00:00:00').getTime() ?
+                                    <RNText style={styles.ShowcandidateSub2} type="subHeading" font='MontserratBold' colortype="red">Interview time</RNText>
+                                    :
+                                    <RNText style={styles.ShowcandidateSub} type="subHeading" font='MontserratBold' colortype="lightWhite">{time?.toLocaleTimeString()}</RNText>
+                                }
+                            </View>
+                            <TouchableOpacity onPress={showTimepicker} >
+                                <Ionicons
+                                    style={styles.icon2}
+                                    color={questionfocus === 'Time' ? color.timebarRed : color.primaryRed}
+                                    name="time-outline"
+                                    size={32}
+                                />
+                            </TouchableOpacity>
                         </View>
-                        <TouchableOpacity onPress={showTimepicker} >
-                            <MaterialCommunityIcons
-                                style={styles.icon2}
-                                color={questionfocus === 'Time' ? color.timebarRed : color.primaryRed}
-                                name="clock-time-nine-outline"
-                                size={27}
-                            />
-                        </TouchableOpacity>
                     </View>
                     <View style={styles.addbutton}>
                         <TouchableOpacity
@@ -278,6 +296,7 @@ export default function AddQuestion({ route }: any) {
                             </View>
                         </TouchableOpacity>
                     </View>
+
                 </View>
             </ImageBackground >
         </View >
@@ -297,13 +316,13 @@ const styles = StyleSheet.create({
         marginTop: rh(1.2)
     },
     paperList: {
-        marginTop: rh(3.5),
+        marginTop: rh(3.6),
         marginBottom: rh(1),
-        marginLeft: rh(2),
+        marginLeft: rh(1),
     },
     paperListSub: {
-        marginTop: rh(2.5),
-        marginLeft: rh(3.8),
+        marginTop: rh(3.5),
+        marginLeft: rh(3.3),
     },
     Showcandidate: {
         marginTop: rh(1.5),
@@ -315,12 +334,11 @@ const styles = StyleSheet.create({
     ShowcandidateSub: {
         marginTop: rh(1.5),
         marginBottom: rh(1),
-        marginLeft: rh(1),
+        marginLeft: rh(0.6),
     },
     ShowcandidateSub2: {
-        marginTop: rh(1.5),
-        marginBottom: rh(1),
-        marginLeft: rh(1),
+        marginTop: rh(1.3),
+        marginLeft: rh(0.6),
     },
     textQues: {
         fontFamily: 'Montserrat-Bold',
@@ -332,7 +350,7 @@ const styles = StyleSheet.create({
         marginTop: rh(2),
         borderRadius: 15,
         fontSize: rf(2.3),
-        paddingHorizontal: rw(3.6),
+        paddingLeft: rw(5.6),
     },
     enterQues: {
         fontFamily: 'Montserrat-SemiBold',
@@ -366,7 +384,7 @@ const styles = StyleSheet.create({
     },
     addbutton: {
         flex: 1,
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
     },
     papertypeview: {
         flexDirection: 'row',
@@ -402,9 +420,11 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginTop: rh(0.95),
+        marginRight: rw(0.5)
     },
     icon2: {
-        marginTop: rh(1.3),
+        marginTop: rh(1),
+        marginRight: rw(0.05)
     },
     item: {
         padding: rh(2),
@@ -420,7 +440,7 @@ const styles = StyleSheet.create({
         marginTop: rh(2),
         height: rh(6.5),
         width: '85%',
-        paddingHorizontal: rw(5),
+        paddingHorizontal: rw(3),
         borderWidth: rh(0.3),
         borderRadius: 15,
         marginLeft: rw(8),
