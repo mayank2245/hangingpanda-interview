@@ -30,6 +30,8 @@ export default function AllQuestionPaper() {
     const [questiontype] = useState<string[]>(["All", "Javascript", "Python", "Java", "DSA"]);
     const [selectedtype, setSelectedtype] = useState<string>('All');
     const [isEnabled, setIsEnabled] = useState(false);
+    const [nextPage, setNextPage] = useState<number>(1)
+    const [totalPages, setTotalPages] = useState<number>()
     const navigation = useNavigation();
 
     const handleDeleteCard = (candidateEmail: string) => {
@@ -37,27 +39,33 @@ export default function AllQuestionPaper() {
         setFilteredQuestions(updatedCandidate);
     }
 
-    const handlegetallQues = async ({ pageParam = 1 }) => {
+    const handlegetallQues = async () => {
         const token = await AsyncStorage.getItem('HrLogintoken');
         if (token) {
-            const res = await ApiService.getAllCandidate(token, pageParam);
+            console.log(nextPage, "next page")
+            const res = await ApiService.getAllCandidate(token, nextPage);
             return res;
         }
     };
 
-    const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+    } = useInfiniteQuery({
         queryKey: ['queryGetAllCandidate'],
         queryFn: handlegetallQues,
-        getNextPageParam: (lastPage) => {
-            if (lastPage.next !== null) {
-                return lastPage.next;
-            }
-        }
+        initialPageParam: 1,
+        getNextPageParam: (lastPage, pages) => lastPage.nextCursor ?? false,
     });
 
     useEffect(() => {
         if (data) {
-            const questions = data.pages[0].data.candidates;
+            const questions = data.pages.flatMap(page => page.data.candidates);
+            if (totalPages === undefined) {
+                setTotalPages(data.pages[0]?.data.totalPages)
+            }
             setQuestionList(questions);
             let filtered = selectedtype === 'All'
                 ? questions
@@ -79,9 +87,13 @@ export default function AllQuestionPaper() {
         setSelectedtype(item);
     };
 
+    console.log(nextPage, "next page")
     const loadMore = () => {
-        if (hasNextPage) {
-            fetchNextPage();
+        if (hasNextPage && !isFetchingNextPage && (nextPage <= totalPages)) {
+            setNextPage(nextPage + 1)
+            if (nextPage !== 1) {
+                fetchNextPage();
+            }
         }
     };
 
@@ -94,7 +106,7 @@ export default function AllQuestionPaper() {
                         <BackArrow />
                         <RNText style={styles.paperList} type="navigationSize" font='MontserratBold' colortype="white">Candidate's List</RNText>
                     </View>
-                    {isLoading ? (
+                    {false ? (
                         <>
                             <View style={styles.viewheader}>
                                 <View style={styles.viewsubheaders}>
@@ -146,8 +158,7 @@ export default function AllQuestionPaper() {
                             <View style={styles.viewflatlist}>
                                 <FlatList
                                     data={filteredQuestions}
-                                    onEndReached={loadMore}               // Trigger `loadMore` when reaching the end of the list
-                                    onEndReachedThreshold={0.5}           // Set threshold for when to load more (50% from bottom)
+                                    onEndReached={loadMore}
                                     renderItem={({ item }) => (
                                         <CandidateCard
                                             candidateName={item.name}
@@ -157,7 +168,7 @@ export default function AllQuestionPaper() {
                                             onDelete={() => handleDeleteCard(item.email)}
                                         />
                                     )}
-                                    ListFooterComponent={isFetchingNextPage ? <ActivityIndicator size="large" color={color.primaryRed} /> : null}  // Show loader during fetching
+                                    ListFooterComponent={isFetchingNextPage ? <ActivityIndicator size="large" color={color.primaryRed} /> : null}
                                     numColumns={2}
                                 />
                             </View>
@@ -188,7 +199,7 @@ const styles = StyleSheet.create({
         marginBottom: rh(6),
     },
     viewflatlist: {
-        marginBottom: rh(28),
+        marginBottom: rh(34),
     },
     headerbox: {
         backgroundColor: color.primaryRed,
