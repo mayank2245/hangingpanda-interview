@@ -9,9 +9,9 @@ export default function Root(): React.ReactElement {
   return (
     <>
       <DeveloperStack />
-      <TouchableOpacity onPress={handleNav}>
+      {/* <TouchableOpacity onPress={handleNav}>
         <Text>NetworkLogger</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </>
   );
 }
