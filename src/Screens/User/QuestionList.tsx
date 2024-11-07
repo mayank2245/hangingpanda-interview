@@ -93,12 +93,10 @@ export default function QuestionList({ route }: any) {
                 handlesubmitpaper();
                 setBackgoing(false)
                 navigation.navigate("QuitScreen");
-                setBackgoing(false)
             }
             if (nextAppState === 'inactive') {
                 // Add any additional logic you want to execute in the inactive state here
             }
-
             setAppState(nextAppState);
         });
 
@@ -115,23 +113,6 @@ export default function QuestionList({ route }: any) {
         return unsubscribe;
     }, [navigation]);
 
-    const getquestionhandle = async () => {
-        const res = await ApiService.getinterview(email, interviewId)
-        return res
-    }
-
-    const { data: getinterviewpaper, isSuccess } = useQuery({
-        queryKey: ['getinterview'],
-        queryFn: getquestionhandle,
-        enabled: true,
-    });
-
-    useEffect(() => {
-        if (isSuccess) {
-            setPaperduration(getinterviewpaper?.data?.timeLimit)
-            setdata(getinterviewpaper?.data?.questions)
-        }
-    }, [isSuccess])
 
     const submitpaperhandle = async () => {
         const payload = {
@@ -156,10 +137,9 @@ export default function QuestionList({ route }: any) {
             navigation.push('LoginUserPage')
         },
         onError: (err) => {
-            navigation.push('LoginUserPage')
+            // navigation.push('LoginUserPage')
             console.log(err)
             toast.show(`${err}`)
-
         }
     })
 
@@ -190,6 +170,7 @@ export default function QuestionList({ route }: any) {
         setVisibleModal(false)
         setBackgoing(false)
     }
+
     const progress = useSharedValue(rw(93));
     useEffect(() => {
         if (!timeLeft) return;

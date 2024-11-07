@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 export default function App() {
 
   return (
-    <ToastProvider placement='top' dangerColor="red" duration={2000} animationType='slide-in' type='Normal' >
+    <ToastProvider placement='top' dangerColor="red" duration={500} animationType='slide-in' type='Normal' >
       <NavigationContainer>
         <QueryClientProvider client={queryClient}>
           <Root />

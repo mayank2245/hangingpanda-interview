@@ -54,38 +54,20 @@ export default function AddQuestion({ route }: any) {
 
     const PaperTypeDropDown = [
         {
-            "_id": "66f16a96cc05fc10bc3a62d7",
-            "name": "python",
-            "__v": 0,
-            "description": "null"
+            "name": "Aptitude",
         },
         {
-            "_id": "66f16b61cc05fc10bc3a62de",
             "name": "DSA",
-            "__v": 0
         },
         {
-            "_id": "66f16c72efea085790d68af5",
-            "name": "java",
-            "__v": 0
+            "name": "React",
         },
         {
-            "_id": "66f2c22d0b7580006f846246",
-            "name": null,
-            "__v": 0,
-            "description": "aptitude type"
+            "name": "PHP",
         },
         {
-            "_id": "66f3dea4e9bb4c005d03abe7",
-            "name": "javascript",
-            "__v": 0
+            "name": "Laravel",
         },
-        {
-            "_id": "66f67c9f957ecd2660e4ce37",
-            "name": "python1",
-            "description": null,
-            "__v": 0
-        }
     ]
 
     const handleadd = () => {

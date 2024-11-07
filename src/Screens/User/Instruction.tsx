@@ -31,6 +31,13 @@ export default function Instruction({ route }) {
         nextButton === 3 && navigation.navigate("QuestionList", { ans: "", serial: -1 })
     };
 
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+            e.preventDefault();
+        });
+        return unsubscribe;
+    }, [navigation]);
+
     const renderInstructionContent = () => {
         switch (nextButton) {
             case 1:

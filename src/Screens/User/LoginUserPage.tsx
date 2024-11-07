@@ -110,7 +110,7 @@ export default function LoginUserPage({ }) {
                             <RNText style={styles.textShowCss} type="heading" font='MontserratBold' colortype="logintextWhite">we truly value your exceptional work,</RNText>
                         </View>
                         <RNText style={styles.discriptionText} font='MontserratBold' colortype="white">Pls Enter your Details here to enter in your interview process</RNText>
-                        <TextInput keyboardType="numeric" onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="User Id" placeholderTextColor={color.primaryRed} cursorColor={color.primaryRed} />
+                        <TextInput onChangeText={setUserId} value={userId} style={styles.textQues} placeholder="User Id" placeholderTextColor={color.primaryRed} cursorColor={color.primaryRed} />
                         <TextInput
                             style={styles.textQues}
                             placeholder="Email Id"

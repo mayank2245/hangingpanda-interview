@@ -17,7 +17,7 @@ import RNText from '../../components/RNText';
 export default function AllQuestionPaper() {
     const [questionList, setQuestionList] = useState<any>([]);
     const [filteredQuestions, setFilteredQuestions] = useState<any>([]);
-    const [questiontype] = useState<string[]>(["All", "Javascript", "Python", "Java", "DSA"]);
+    const [questiontype] = useState<string[]>(["All", "Aptitude", "DSA", "React", "PHP", "Laravel"]);
     const [selectedtype, setSelectedtype] = useState<string>('All');
     const navigation = useNavigation();
 
