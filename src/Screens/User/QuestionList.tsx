@@ -113,6 +113,20 @@ export default function QuestionList({ route }: any) {
         return unsubscribe;
     }, [navigation]);
 
+    const questionLeft = (itemes) => {
+        console.log(itemes, "itemssss")
+        if (itemes.type === "Input") {
+            if (!itemes.userAnswer) {
+                itemes.userAnswer = "null";
+                itemes.timeTaken = 0;
+            }
+        } else if (itemes.type === "MCQ") {
+            if (!itemes.userAnswer) {
+                itemes.userAnswer = "null";
+                itemes.timeTaken = 0
+            }
+        };
+    }
 
     const submitpaperhandle = async () => {
         const payload = {
@@ -124,6 +138,7 @@ export default function QuestionList({ route }: any) {
             interviewDate: new Date(),
             answers: data,
         }
+        console.log(payload, "-------Paytload ")
         const res = await ApiService.submitAnswers(payload)
         return res
     }
@@ -159,6 +174,9 @@ export default function QuestionList({ route }: any) {
 
 
     const handlesubmitpaper = () => {
+        data?.map((ei: any, i: number) => {
+            questionLeft(ei)
+        })
         mutation.mutate()
     }
 
@@ -301,7 +319,7 @@ const styles = StyleSheet.create({
         zIndex: 0,
         flex: 1,
         marginLeft: rw(5),
-        marginTop: rh(2)
+        marginVertical: rh(2),
     },
     FlatListques: {
         marginTop: rh(1.8)

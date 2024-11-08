@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
         fontSize: rf(2.2),
         color: color.white,
         width: '90%',
-        height: rh(63),
+        height: rh(58),
         borderRadius: 15,
         borderWidth: 4,
         borderColor: color.primaryRed,
