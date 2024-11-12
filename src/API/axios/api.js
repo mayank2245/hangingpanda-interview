@@ -20,8 +20,6 @@ export default async function fireAjax({
 
     let headers = { ...headerData };
 
-    console.log(token, "tokens");
-
     if (method === 'POST') {
         if (token) {
             console.log("Adding token to headers");

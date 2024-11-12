@@ -1192,7 +1192,7 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
-"@babel/runtime@^7.26.0":
+"@babel/runtime@^7.18.6", "@babel/runtime@^7.26.0":
   version "7.26.0"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.26.0.tgz"
   integrity sha512-FDSOghenHTiToteC/QRlv2q3DhPZ/oOXTBoirfWNx1Cx3TMVcGWQtMMmQcSvb/JjpNeGzx8Pq/b4fKEJuWm1sw==
@@ -1790,6 +1790,16 @@
     execa "^5.0.0"
     fast-glob "^3.3.2"
 
+"@react-native-community/cli-config-android@15.1.2":
+  version "15.1.2"
+  resolved "https://registry.npmjs.org/@react-native-community/cli-config-android/-/cli-config-android-15.1.2.tgz"
+  integrity sha512-A6YQPl+0pTG0vuTcYLHJODkLy8qgZ2YIfy5XiZEAyxAbkSFbyOf7XR7hzjTw6S0BUJzF+eizHeAsKQ2b1bO75A==
+  dependencies:
+    "@react-native-community/cli-tools" "15.1.2"
+    chalk "^4.1.2"
+    fast-glob "^3.3.2"
+    fast-xml-parser "^4.4.1"
+
 "@react-native-community/cli-config@14.0.0":
   version "14.0.0"
   resolved "https://registry.npmjs.org/@react-native-community/cli-config/-/cli-config-14.0.0.tgz"
@@ -1848,6 +1858,17 @@
     execa "^5.0.0"
     fast-glob "^3.3.2"
     fast-xml-parser "^4.2.4"
+    logkitty "^0.7.1"
+
+"@react-native-community/cli-platform-android@^15.1.2":
+  version "15.1.2"
+  resolved "https://registry.yarnpkg.com/@react-native-community/cli-platform-android/-/cli-platform-android-15.1.2.tgz#46fe2541e1ff7fd08e2c5af41fb8670ba341db91"
+  integrity sha512-LZ+0g7iQ8iniTJmogNe0yrvy03Jh07S02ISrW8rDI/ttdlZgK8Kq+UDoz+isV2Ayjnpj85N1z2PotWlDbLmvAg==
+  dependencies:
+    "@react-native-community/cli-config-android" "15.1.2"
+    "@react-native-community/cli-tools" "15.1.2"
+    chalk "^4.1.2"
+    execa "^5.0.0"
     logkitty "^0.7.1"
 
 "@react-native-community/cli-platform-apple@14.0.0":
@@ -1927,6 +1948,23 @@
     mime "^2.4.1"
     open "^6.2.0"
     ora "^5.4.1"
+    semver "^7.5.2"
+    shell-quote "^1.7.3"
+    sudo-prompt "^9.0.0"
+
+"@react-native-community/cli-tools@15.1.2":
+  version "15.1.2"
+  resolved "https://registry.npmjs.org/@react-native-community/cli-tools/-/cli-tools-15.1.2.tgz"
+  integrity sha512-eShBHf/K1e2xJTumiy7CF/akh0DiKfW3YSJ/jpp0RVBgwaXPK6JMrVdGRdbSVad6VqaXVFVtPOe3gSDRa5GDKg==
+  dependencies:
+    appdirsjs "^1.2.4"
+    chalk "^4.1.2"
+    execa "^5.0.0"
+    find-up "^5.0.0"
+    mime "^2.4.1"
+    open "^6.2.0"
+    ora "^5.4.1"
+    prompts "^2.4.2"
     semver "^7.5.2"
     shell-quote "^1.7.3"
     sudo-prompt "^9.0.0"
@@ -2147,6 +2185,11 @@
   version "0.75.2"
   resolved "https://registry.npmjs.org/@react-native/normalize-colors/-/normalize-colors-0.75.2.tgz"
   integrity sha512-nPwWJFtsqNFS/qSG9yDOiSJ64mjG7RCP4X/HXFfyWzCM1jq49h/DYBdr+c3e7AvTKGIdy0gGT3vgaRUHZFVdUQ==
+
+"@react-native/normalize-colors@^0.74.1":
+  version "0.74.88"
+  resolved "https://registry.npmjs.org/@react-native/normalize-colors/-/normalize-colors-0.74.88.tgz"
+  integrity sha512-He5oTwPBxvXrxJ91dZzpxR7P+VYmc9IkJfhuH8zUiU50ckrt+xWNjtVugPdUv4LuVjmZ36Vk2EX8bl1gVn2dVA==
 
 "@react-native/typescript-config@0.75.2":
   version "0.75.2"
@@ -2850,7 +2893,7 @@ arraybuffer.prototype.slice@^1.0.3:
     is-array-buffer "^3.0.4"
     is-shared-array-buffer "^1.0.2"
 
-asap@~2.0.6:
+asap@~2.0.3, asap@~2.0.6:
   version "2.0.6"
   resolved "https://registry.npmjs.org/asap/-/asap-2.0.6.tgz"
   integrity sha512-BSHWgDSAiKs50o2Re8ppvp3seVHXSRM44cdSsT9FfNEUUZLOGWVCsiWaRPWM1Znn+mqZ1OfVZ3z3DWEzSp7hRA==
@@ -3521,6 +3564,13 @@ create-jest@^29.7.0:
     jest-util "^29.7.0"
     prompts "^2.0.1"
 
+cross-fetch@^3.1.5:
+  version "3.1.8"
+  resolved "https://registry.npmjs.org/cross-fetch/-/cross-fetch-3.1.8.tgz"
+  integrity sha512-cvA+JwZoU0Xq+h6WkMvAUqPEYy92Obet6UdKLfW60qn99ftItKjB5T+BkyWOFWe2pUyfQ+IJHmpOTznqk1M6Kg==
+  dependencies:
+    node-fetch "^2.6.12"
+
 cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.3"
   resolved "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.3.tgz"
@@ -3529,6 +3579,13 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
+
+css-in-js-utils@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.npmjs.org/css-in-js-utils/-/css-in-js-utils-3.1.0.tgz"
+  integrity sha512-fJAcud6B3rRu+KHYk+Bwf+WFL2MDCJJ1XG9x137tJQ0xYxor7XziQtuGFbWNdqrvF4Tk26O3H73nfVqXt/fW1A==
+  dependencies:
+    hyphenate-style-name "^1.0.3"
 
 css-select@^5.1.0:
   version "5.1.0"
@@ -4292,7 +4349,12 @@ fast-levenshtein@^2.0.6:
   resolved "https://registry.npmjs.org/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz"
   integrity sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==
 
-fast-xml-parser@^4.2.4:
+fast-loops@^1.1.3:
+  version "1.1.4"
+  resolved "https://registry.npmjs.org/fast-loops/-/fast-loops-1.1.4.tgz"
+  integrity sha512-8dbd3XWoKCTms18ize6JmQF1SFnnfj5s0B7rRry22EofgMu7B6LKHVh+XfFqFGsqnbH54xgeO83PzpKI+ODhlg==
+
+fast-xml-parser@^4.2.4, fast-xml-parser@^4.4.1:
   version "4.4.1"
   resolved "https://registry.npmjs.org/fast-xml-parser/-/fast-xml-parser-4.4.1.tgz"
   integrity sha512-xkjOecfnKGkSsOwtZ5Pz7Us/T6mrbPQrq0nh+aCO5V9nk5NLWmasAHumTKjiPJPWANe+kAZ84Jc8ooJkzZ88Sw==
@@ -4312,6 +4374,24 @@ fb-watchman@^2.0.0:
   integrity sha512-p5161BqbuCaSnB8jIbzQHOlpgsPmK5rJVDfDKO91Axs5NC1uu3HRQm6wt9cd9/+GtQQIO53JdGXXoyDpTAsgYA==
   dependencies:
     bser "2.1.1"
+
+fbjs-css-vars@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/fbjs-css-vars/-/fbjs-css-vars-1.0.2.tgz"
+  integrity sha512-b2XGFAFdWZWg0phtAWLHCk836A1Xann+I+Dgd3Gk64MHKZO44FfoD1KxyvbSh0qZsIoXQGGlVztIY+oitJPpRQ==
+
+fbjs@^3.0.4:
+  version "3.0.5"
+  resolved "https://registry.npmjs.org/fbjs/-/fbjs-3.0.5.tgz"
+  integrity sha512-ztsSx77JBtkuMrEypfhgc3cI0+0h+svqeie7xHbh1k/IKdcydnvadp/mUaGgjAOXQmQSxsqgaRhS3q9fy+1kxg==
+  dependencies:
+    cross-fetch "^3.1.5"
+    fbjs-css-vars "^1.0.0"
+    loose-envify "^1.0.0"
+    object-assign "^4.1.0"
+    promise "^7.1.1"
+    setimmediate "^1.0.5"
+    ua-parser-js "^1.0.35"
 
 file-entry-cache@^6.0.1:
   version "6.0.1"
@@ -4783,6 +4863,11 @@ human-signals@^2.1.0:
   resolved "https://registry.npmjs.org/human-signals/-/human-signals-2.1.0.tgz"
   integrity sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==
 
+hyphenate-style-name@^1.0.3:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/hyphenate-style-name/-/hyphenate-style-name-1.1.0.tgz"
+  integrity sha512-WDC/ui2VVRrz3jOVi+XtjqkDjiVjTtFaAGiW37k6b+ohyQ5wYDOGkvCZa8+H0nx3gyvv0+BST9xuOgIyGQ00gw==
+
 ieee754@^1.1.13, ieee754@^1.2.1:
   version "1.2.1"
   resolved "https://registry.npmjs.org/ieee754/-/ieee754-1.2.1.tgz"
@@ -4851,6 +4936,14 @@ ini@~1.3.0:
   version "1.3.8"
   resolved "https://registry.npmjs.org/ini/-/ini-1.3.8.tgz"
   integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
+
+inline-style-prefixer@^6.0.1:
+  version "6.0.4"
+  resolved "https://registry.npmjs.org/inline-style-prefixer/-/inline-style-prefixer-6.0.4.tgz"
+  integrity sha512-FwXmZC2zbeeS7NzGjJ6pAiqRhXR0ugUShSNb6GApMl6da0/XGc4MOJsoWAywia52EEWbXNSy0pzkwz/+Y+swSg==
+  dependencies:
+    css-in-js-utils "^3.1.0"
+    fast-loops "^1.1.3"
 
 internal-slot@^1.0.7:
   version "1.0.7"
@@ -5895,6 +5988,11 @@ memoize-one@^5.0.0:
   resolved "https://registry.npmjs.org/memoize-one/-/memoize-one-5.2.1.tgz"
   integrity sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==
 
+memoize-one@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.npmjs.org/memoize-one/-/memoize-one-6.0.0.tgz"
+  integrity sha512-rkpe71W0N0c0Xz6QD0eJETuWAJGnJ9afsl1srmwPrI+yBCkge5EycXXbYRyvL29zZVUWQCY7InPRCv3GDXuZNw==
+
 merge-options@^3.0.4:
   version "3.0.4"
   resolved "https://registry.npmjs.org/merge-options/-/merge-options-3.0.4.tgz"
@@ -6338,7 +6436,7 @@ node-dir@^0.1.17:
   dependencies:
     minimatch "^3.0.2"
 
-node-fetch@^2.2.0:
+node-fetch@^2.2.0, node-fetch@^2.6.12:
   version "2.7.0"
   resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.7.0.tgz"
   integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==
@@ -6404,7 +6502,7 @@ ob1@0.80.10:
   dependencies:
     flow-enums-runtime "^0.0.6"
 
-object-assign@^4.1.1:
+object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz"
   integrity sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==
@@ -6720,6 +6818,11 @@ possible-typed-array-names@^1.0.0:
   resolved "https://registry.npmjs.org/possible-typed-array-names/-/possible-typed-array-names-1.0.0.tgz"
   integrity sha512-d7Uw+eZoloe0EHDIYoe+bQ5WXnGMOpmiZFTuMWCwpjzzkL2nTjcKiAk4hh8TjnGye2TwWOk3UXucZ+3rbmBa8Q==
 
+postcss-value-parser@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.npmjs.org/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz"
+  integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
+
 prebuild-install@^7.1.1:
   version "7.1.2"
   resolved "https://registry.npmjs.org/prebuild-install/-/prebuild-install-7.1.2.tgz"
@@ -6776,6 +6879,13 @@ process-nextick-args@~2.0.0:
   version "2.0.1"
   resolved "https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-2.0.1.tgz"
   integrity sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
+
+promise@^7.1.1:
+  version "7.3.1"
+  resolved "https://registry.npmjs.org/promise/-/promise-7.3.1.tgz"
+  integrity sha512-nolQXZ/4L+bP/UGlkfaIujX9BKxGwmQ9OT4mOt5yvy8iK1h3wqTEJCijzGANTCCl9nWjY41juyAn2K3Q1hLLTg==
+  dependencies:
+    asap "~2.0.3"
 
 promise@^8.3.0:
   version "8.3.0"
@@ -7128,6 +7238,20 @@ react-native-vector-icons@^10.1.0:
   dependencies:
     prop-types "^15.7.2"
     yargs "^16.1.1"
+
+react-native-web@^0.19.13:
+  version "0.19.13"
+  resolved "https://registry.npmjs.org/react-native-web/-/react-native-web-0.19.13.tgz"
+  integrity sha512-etv3bN8rJglrRCp/uL4p7l8QvUNUC++QwDbdZ8CB7BvZiMvsxfFIRM1j04vxNldG3uo2puRd6OSWR3ibtmc29A==
+  dependencies:
+    "@babel/runtime" "^7.18.6"
+    "@react-native/normalize-colors" "^0.74.1"
+    fbjs "^3.0.4"
+    inline-style-prefixer "^6.0.1"
+    memoize-one "^6.0.0"
+    nullthrows "^1.1.1"
+    postcss-value-parser "^4.2.0"
+    styleq "^0.1.3"
 
 react-native@0.75.2:
   version "0.75.2"
@@ -7541,6 +7665,11 @@ set-function-name@^2.0.1, set-function-name@^2.0.2:
     functions-have-names "^1.2.3"
     has-property-descriptors "^1.0.2"
 
+setimmediate@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.npmjs.org/setimmediate/-/setimmediate-1.0.5.tgz"
+  integrity sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==
+
 setprototypeof@1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.2.0.tgz"
@@ -7933,6 +8062,11 @@ style-value-types@5.0.0:
     hey-listen "^1.0.8"
     tslib "^2.1.0"
 
+styleq@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.npmjs.org/styleq/-/styleq-0.1.3.tgz"
+  integrity sha512-3ZUifmCDCQanjeej1f6kyl/BeP/Vae5EYkQ9iJfUm/QwZvlgnZzyflqAsAWYURdtea8Vkvswu2GrC57h3qffcA==
+
 sudo-prompt@^9.0.0:
   version "9.2.1"
   resolved "https://registry.npmjs.org/sudo-prompt/-/sudo-prompt-9.2.1.tgz"
@@ -8208,6 +8342,11 @@ typescript@5.0.4:
   version "5.0.4"
   resolved "https://registry.npmjs.org/typescript/-/typescript-5.0.4.tgz"
   integrity sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==
+
+ua-parser-js@^1.0.35:
+  version "1.0.39"
+  resolved "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-1.0.39.tgz"
+  integrity sha512-k24RCVWlEcjkdOxYmVJgeD/0a1TiSpqLg+ZalVGV9lsnr4yqu0w7tX/x2xX6G4zpkgQnRf89lxuZ1wsbjXM8lw==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"

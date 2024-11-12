@@ -19,6 +19,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Loader } from "../../components/Loader";
 import RNText from "../../components/RNText";
 import { useToast } from "react-native-toast-notifications";
+import moment from "moment";
+import BackArrow from "../../components/BackArrow";
 
 export default function LoginUserPage({ }) {
     const [userId, setUserId] = useState("")
@@ -26,6 +28,7 @@ export default function LoginUserPage({ }) {
     const [callApi, setCallApi] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const navigation = useNavigation();
+    const [paperTime, setPaperTime] = useState(null)
     const toast = useToast();
 
     const loginhandle = async () => {
@@ -36,7 +39,7 @@ export default function LoginUserPage({ }) {
         const res = await ApiService.getinterview(payload)
         return res
     }
-    const queryClient = useQueryClient(); // Use the same instance from the provider
+    const queryClient = useQueryClient();
 
     const mutation = useMutation({
         mutationKey: ["passingKeyLoginUser"],
@@ -45,8 +48,23 @@ export default function LoginUserPage({ }) {
             if (data?.data.questions) {
                 await AsyncStorage.setItem("PaperDuration", JSON.stringify(data.data.timeLimit));
                 queryClient.setQueryData(['passingKeyLoginUser'], data);
+                setPaperTime(data?.data.interviewDate)
             }
-            navigation.navigate('Instruction', { paperTime: JSON.stringify(data?.data.timeLimit) });
+            navigation.navigate('Instruction', { paperTiming: JSON.stringify(data?.data.timeLimit), paperTime: paperTime });
+            console.log(new Date(Date.now() - 3000 * 60), "timing")
+            console.log(new Date(data?.data.interviewDate).toLocaleString(undefined, { timeZone: 'Asia/Kolkata' }), "paper time")
+
+            if (data?.data.interviewDate >= new Date(Date.now() - 30000 * 60)) {
+                // navigation.navigate('Instruction', { paperTiming: JSON.stringify(data?.data.timeLimit), paperTime: paperTime });
+            } else if (data?.data.interviewDate < moment().format('YYYY-MM-DD')) {
+                const text1 = "You don't attempted at time";
+                toast.show(text1)
+            }
+            else {
+                const text1 = "Please Login before 30 Min from you schedule time";
+                toast.show(text1)
+            }
+
             setIsLoading(false);
             setUserId("");
             setEmail("");
@@ -97,6 +115,9 @@ export default function LoginUserPage({ }) {
                 source={BackgroundImage}
                 resizeMode="cover">
                 <View style={styles.container}>
+                    <View style={styles.backarrow}>
+                        <BackArrow />
+                    </View>
                     <KeyboardAwareScrollView
                         enableOnAndroid={true}
                         extraScrollHeight={169}
@@ -168,7 +189,6 @@ const styles = StyleSheet.create({
     logoCss: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: rh(10.8),
     },
     textShowCss: {
         paddingLeft: rw(4),
@@ -219,6 +239,9 @@ const styles = StyleSheet.create({
         top: rh(86.5),
         left: rw(45.8)
     },
-
+    backarrow: {
+        flexDirection: 'row',
+        marginTop: rh(2.2)
+    },
 })
 

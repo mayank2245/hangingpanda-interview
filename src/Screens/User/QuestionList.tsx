@@ -138,7 +138,7 @@ export default function QuestionList({ route }: any) {
             interviewDate: new Date(),
             answers: data,
         }
-        console.log(payload, "-------Paytload ")
+        console.log(payload, "paylodad")
         const res = await ApiService.submitAnswers(payload)
         return res
     }
@@ -149,7 +149,7 @@ export default function QuestionList({ route }: any) {
         onSuccess: async data => {
             toast.show("Submit Successfully")
             Vibration.vibrate()
-            navigation.push('LoginUserPage')
+            navigation.reset('LoginUserPage')
         },
         onError: (err) => {
             // navigation.push('LoginUserPage')
