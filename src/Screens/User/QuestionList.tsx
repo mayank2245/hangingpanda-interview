@@ -93,12 +93,10 @@ export default function QuestionList({ route }: any) {
                 handlesubmitpaper();
                 setBackgoing(false)
                 navigation.navigate("QuitScreen");
-                setBackgoing(false)
             }
             if (nextAppState === 'inactive') {
                 // Add any additional logic you want to execute in the inactive state here
             }
-
             setAppState(nextAppState);
         });
 
@@ -115,23 +113,20 @@ export default function QuestionList({ route }: any) {
         return unsubscribe;
     }, [navigation]);
 
-    const getquestionhandle = async () => {
-        const res = await ApiService.getinterview(email, interviewId)
-        return res
+    const questionLeft = (itemes) => {
+        console.log(itemes, "itemssss")
+        if (itemes.type === "Input") {
+            if (!itemes.userAnswer) {
+                itemes.userAnswer = "null";
+                itemes.timeTaken = 0;
+            }
+        } else if (itemes.type === "MCQ") {
+            if (!itemes.userAnswer) {
+                itemes.userAnswer = "null";
+                itemes.timeTaken = 0
+            }
+        };
     }
-
-    const { data: getinterviewpaper, isSuccess } = useQuery({
-        queryKey: ['getinterview'],
-        queryFn: getquestionhandle,
-        enabled: true,
-    });
-
-    useEffect(() => {
-        if (isSuccess) {
-            setPaperduration(getinterviewpaper?.data?.timeLimit)
-            setdata(getinterviewpaper?.data?.questions)
-        }
-    }, [isSuccess])
 
     const submitpaperhandle = async () => {
         const payload = {
@@ -143,6 +138,7 @@ export default function QuestionList({ route }: any) {
             interviewDate: new Date(),
             answers: data,
         }
+        console.log(payload, "paylodad")
         const res = await ApiService.submitAnswers(payload)
         return res
     }
@@ -153,13 +149,12 @@ export default function QuestionList({ route }: any) {
         onSuccess: async data => {
             toast.show("Submit Successfully")
             Vibration.vibrate()
-            navigation.push('LoginUserPage')
+            navigation.reset('LoginUserPage')
         },
         onError: (err) => {
-            navigation.push('LoginUserPage')
+            // navigation.push('LoginUserPage')
             console.log(err)
             toast.show(`${err}`)
-
         }
     })
 
@@ -179,6 +174,9 @@ export default function QuestionList({ route }: any) {
 
 
     const handlesubmitpaper = () => {
+        data?.map((ei: any, i: number) => {
+            questionLeft(ei)
+        })
         mutation.mutate()
     }
 
@@ -190,6 +188,7 @@ export default function QuestionList({ route }: any) {
         setVisibleModal(false)
         setBackgoing(false)
     }
+
     const progress = useSharedValue(rw(93));
     useEffect(() => {
         if (!timeLeft) return;
@@ -320,7 +319,7 @@ const styles = StyleSheet.create({
         zIndex: 0,
         flex: 1,
         marginLeft: rw(5),
-        marginTop: rh(2)
+        marginVertical: rh(2),
     },
     FlatListques: {
         marginTop: rh(1.8)

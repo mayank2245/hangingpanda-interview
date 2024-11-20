@@ -19,8 +19,10 @@ export default async function fireAjax({
     URL = config.BaseURL + URL;
 
     let headers = { ...headerData };
+
     if (method === 'POST') {
         if (token) {
+            console.log("Adding token to headers");
             headers = {
                 headers: {
                     ...headers,
@@ -28,19 +30,23 @@ export default async function fireAjax({
                 },
             };
         }
-        return axios.post(URL, data).then(
+        return axios.post(URL, data, headers).then(
             res => {
+                console.log("Request successful");
                 return res;
             },
             error => {
-                if (error.response.status === 401) {
+                if (error.response && error.response.status === 401) {
+                    console.log("Token expired or invalid, retrying request");
                     return axios.post(URL, data, headers);
                 } else {
-                    return axios.post(URL, data, headers);
+                    console.log("Request failed with error", error);
+                    return Promise.reject(error);
                 }
             }
         );
-    } else if (method === 'GET') {
+    }
+    else if (method === 'GET') {
         if (token) {
             headers = {
                 headers: {

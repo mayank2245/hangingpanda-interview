@@ -59,7 +59,6 @@ export const ApiService = {
         })
     },
     getAllCandidate: async (token, page) => {
-        console.log(page, "page")
         return fireAjax({
             method: 'GET',
             URL: `${apiUrl.getAllCandidate}?page=${page}`,

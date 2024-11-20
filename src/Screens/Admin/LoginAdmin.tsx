@@ -21,6 +21,7 @@ import { ApiService } from '../../api/apiCalls/ApiCalls'
 import { Ellipse, Loginellips, Logo } from "../../assests/svg";
 import { rf, rh, rw } from "../../helpers/responsivedimention";
 import RNText from "../../components/RNText";
+import BackArrow from "../../components/BackArrow";
 
 export default function LoginUserPage() {
     const [userId, setUserId] = useState("")
@@ -91,6 +92,9 @@ export default function LoginUserPage() {
                 source={BackgroundImage}
                 resizeMode="cover">
                 <View style={styles.container}>
+                    <View style={styles.backarrow}>
+                        <BackArrow />
+                    </View>
                     <KeyboardAwareScrollView
                         enableOnAndroid={true}
                         extraScrollHeight={169}
@@ -161,7 +165,6 @@ const styles = StyleSheet.create({
     logoCss: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: rh(10.8),
     },
     textShowCss: {
         paddingLeft: rw(4),
@@ -210,5 +213,9 @@ const styles = StyleSheet.create({
     },
     ellipetouchable: {
         alignSelf: 'center'
-    }
+    },
+    backarrow: {
+        flexDirection: 'row',
+        marginTop: rh(2.2)
+    },
 })

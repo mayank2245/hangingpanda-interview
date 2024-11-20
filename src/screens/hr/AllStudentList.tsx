@@ -42,7 +42,6 @@ export default function AllQuestionPaper() {
     const handlegetallQues = async () => {
         const token = await AsyncStorage.getItem('HrLogintoken');
         if (token) {
-            console.log(nextPage, "next page")
             const res = await ApiService.getAllCandidate(token, nextPage);
             return res;
         }
@@ -86,8 +85,6 @@ export default function AllQuestionPaper() {
     const handleselecttype = (item: string) => {
         setSelectedtype(item);
     };
-
-    console.log(nextPage, "next page")
     const loadMore = () => {
         if (hasNextPage && !isFetchingNextPage && (nextPage <= totalPages)) {
             setNextPage(nextPage + 1)

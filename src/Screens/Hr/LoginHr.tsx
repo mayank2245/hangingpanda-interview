@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Loader } from "../../components/Loader";
 import RNText from "../../components/RNText";
 import { useToast } from "react-native-toast-notifications";
+import BackArrow from "../../components/BackArrow";
 
 export default function LoginUserPage() {
     const [userId, setUserId] = useState("")
@@ -86,6 +87,9 @@ export default function LoginUserPage() {
                 source={BackgroundImage}
                 resizeMode="cover">
                 <View style={styles.container}>
+                    <View style={styles.backarrow}>
+                        <BackArrow />
+                    </View>
                     <KeyboardAwareScrollView
                         enableOnAndroid={true}
                         extraScrollHeight={169}
@@ -161,7 +165,6 @@ const styles = StyleSheet.create({
     logoCss: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: rh(10.8),
     },
     textShowCss: {
         paddingLeft: rw(4),
@@ -205,6 +208,10 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: rh(24.5),
         left: rw(45.5)
+    },
+    backarrow: {
+        flexDirection: 'row',
+        marginTop: rh(2.2)
     },
 })
 

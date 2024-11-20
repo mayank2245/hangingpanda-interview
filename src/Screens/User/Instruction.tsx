@@ -19,10 +19,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNText from '../../components/RNText';
 
 export default function Instruction({ route }) {
-    const { paperTime } = route.params;
+    const { paperTiming, paperTime } = route.params;
     const navigation = useNavigation();
     const [nextButton, setNextButton] = useState<number>(1);
-    const [paperduration, setPaperduration] = useState<number>(paperTime)
+    const [paperduration, setPaperduration] = useState<number>(paperTiming)
 
     const handleNextButton = () => {
         if (nextButton < 3) {
@@ -30,6 +30,13 @@ export default function Instruction({ route }) {
         }
         nextButton === 3 && navigation.navigate("QuestionList", { ans: "", serial: -1 })
     };
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+            e.preventDefault();
+        });
+        return unsubscribe;
+    }, [navigation]);
 
     const renderInstructionContent = () => {
         switch (nextButton) {
